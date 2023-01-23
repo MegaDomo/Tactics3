@@ -13,12 +13,11 @@ public class BehaviorManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField]
     List<Behavior> behaviors;
 
     void Start()
     {
         // Adds every kind of Behavior into a list
-        behaviors.Add(new Reckless());
-        behaviors.Add(new BasicRanged());
     }
 }

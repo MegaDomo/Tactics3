@@ -96,7 +96,6 @@ public class MapManager : MonoBehaviour
                 edgeCount++;
                 // Finds Cost of current path
                 int newCost = cost_so_far[current] + current.movementCost;
-                Debug.Log("New Cost: " + newCost);
                 // New Cost of next node is too far from selected's movement
                 if (newCost > selected.stats.movement - selected.stats.moved)
                     continue;

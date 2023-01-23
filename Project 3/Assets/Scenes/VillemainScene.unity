@@ -161,6 +161,7 @@ MonoBehaviour:
     moved: 0
   type: 
   behavior: {fileID: 0}
+  abilities: []
   node: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
 --- !u!65 &110603876
@@ -966,6 +967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535e4ad64c0bf174d8fe1cd9196fdb64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  behaviors:
+  - {fileID: 11400000, guid: 8feeec2a5c7b1f146b73cd0cb864a58a, type: 2}
+  - {fileID: 11400000, guid: 6a136e7b72c36704484e690f466c445b, type: 2}
 --- !u!1 &1495416274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,6 +1173,7 @@ MonoBehaviour:
     moved: 0
   type: 
   behavior: {fileID: 0}
+  abilities: []
   node: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
 --- !u!136 &1803906857
