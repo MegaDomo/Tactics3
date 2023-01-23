@@ -2,23 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicRanged : MonoBehaviour, IBehavior
+[CreateAssetMenu(fileName = "BasicRanged", menuName = "Behaviors/Basic Ranged")]
+public class BasicRanged : Behavior
 {
-    private string name;
-    private Unit self;
-    private Unit target;
-
-    #region Interface Implementation
-    public new string Name { get => name; set => name = value; }
-    public Unit Self { get => self; set => self = value; }
-    public Unit Target { get => target; set => target = value; }
-
-    public void TakeTurn()
+    #region Scriptable Obejct Implementation
+    public override void TakeTurn()
     {
 
     }
 
-    public void FindTarget()
+    public override void FindTarget()
     {
         /*
          * "Player"
@@ -99,7 +92,7 @@ public class BasicRanged : MonoBehaviour, IBehavior
     }
 
 
-    public void Move()
+    public override void Move()
     {
         // Find Tile that puts target in range, if no tile is within this unit's movement
         // Check the list of tiles that was found, if any are shrub (Defense boost) pick that one
@@ -108,14 +101,9 @@ public class BasicRanged : MonoBehaviour, IBehavior
         // Defensive - Take Cover
     }
 
-    public void Attack()
+    public override void Attack()
     {
 
     }
-    #endregion
-    
-    void Start()
-    {
-        BehaviorManager.instance.AddBehavior(this);
-    }
+    #endregion    
 }

@@ -10,8 +10,10 @@ public class Unit : MonoBehaviour
     public UnitStats stats;
 
     [Header("Attributes")]
-    public string type; // "Player"
-    public IBehavior behavior;
+    public string type; // "Player", "Enemy"
+    public Behavior behavior;
+
+    public List<Ability> abilities;
 
     [HideInInspector] public Node node;
     [HideInInspector] public Vector3 offset;

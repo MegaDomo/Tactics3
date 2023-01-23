@@ -13,10 +13,12 @@ public class BehaviorManager : MonoBehaviour
     }
     #endregion
 
-    public List<IBehavior> behaviors = new List<IBehavior>();
+    List<Behavior> behaviors;
 
-    public void AddBehavior(IBehavior _behavior)
+    void Start()
     {
-        behaviors.Add(_behavior);
+        // Adds every kind of Behavior into a list
+        behaviors.Add(new Reckless());
+        behaviors.Add(new BasicRanged());
     }
 }

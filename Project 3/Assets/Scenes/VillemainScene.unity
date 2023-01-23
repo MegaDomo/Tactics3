@@ -157,9 +157,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ground: {fileID: 1921959412}
   stats:
-    movement: 3
+    movement: 7
     moved: 0
   type: 
+  behavior: {fileID: 0}
   node: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
 --- !u!65 &110603876
@@ -931,8 +932,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1062189713}
   - component: {fileID: 1062189714}
-  - component: {fileID: 1062189716}
-  - component: {fileID: 1062189715}
   m_Layer: 0
   m_Name: BehaviorManager
   m_TagString: Untagged
@@ -965,30 +964,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 535e4ad64c0bf174d8fe1cd9196fdb64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1062189715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1062189712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1b09f2bf5e0f9349a1b30b5f4f1ae6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1062189716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1062189712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d28fedbf9b2774599fd03a4bd7cc43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1495416274
@@ -1190,9 +1165,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ground: {fileID: 1582132003}
   stats:
-    movement: 5
+    movement: 12
     moved: 0
   type: 
+  behavior: {fileID: 0}
   node: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
 --- !u!136 &1803906857
