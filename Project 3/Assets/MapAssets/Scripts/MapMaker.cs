@@ -20,7 +20,7 @@ public class MapMaker : MonoBehaviour
 
     private int size;
 
-    void Start()
+    public void Setup()
     {
         // Initializers
         GetMapSize();
@@ -182,8 +182,9 @@ public class MapMaker : MonoBehaviour
     // Put the Units in the spawn Positions
     private void PlaceUnits()
     {
-        MapManager.instance.Place(BattleSystem.instance.players[0], map[0][0]);
-        MapManager.instance.Place(BattleSystem.instance.players[1], map[2][2]);
+        MapManager.instance.Place(BattleSystem.instance.units[0], map[0][0]);
+        MapManager.instance.Place(BattleSystem.instance.units[1], map[2][2]);
+        MapManager.instance.Place(BattleSystem.instance.units[2], map[4][4]);
     }
 
     public Vector3 GetCoordinates(Node node)

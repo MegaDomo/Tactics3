@@ -64,22 +64,35 @@ public class Node : MonoBehaviour
     // Moves the Player On a Mouse Click
     void OnMouseDown()
     {
+        // TODO : Inspect Nodes get details
+
         // Gives the BattleSystem the Destination
-        MapManager.instance.Move(this);
+        PlayerTurn.instance.PlayerMove(this);
     }
 
     // When Mouse Enters Node
     void OnMouseEnter()
     {
+        Highlight();
+        // TODO : Tool tip for tile stats
+    }
+
+    private void Highlight()
+    {
+        // If players turn
+        if (CombatState.state != BattleState.PLAYERTURN)
+            return;
+
         // Check if in Reach to determine green or red
         if (!passable)
         {
             mat.color = outOfReach;
             return;
         }
-            
+
         // Can move to, Turn Green
-        if (MapManager.instance.CanMove(MapManager.instance.selected.node, this))
+        Unit unit = PlayerTurn.instance.selected;
+        if (MapManager.instance.CanMove(unit, unit.node, this))
             mat.color = withinReach;
         // Can't move to, Turn Red
         else

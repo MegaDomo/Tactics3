@@ -15,10 +15,12 @@ public static class CombatState
     public static void MakeStatePlayerTurn()
     {
         state = BattleState.PLAYERTURN;
+        Debug.Log("Player Turn");
     }
     public static void MakeStateEnemyTurn()
     {
         state = BattleState.ENEMYTURN;
+        Debug.Log("Enemy Turn");
     }
     public static void MakeStateWon()
     {

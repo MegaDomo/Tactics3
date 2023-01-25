@@ -13,25 +13,22 @@ public class MapManager : MonoBehaviour
     }
     #endregion
 
-    [Header("Unity References")]
-    public Unit selected;
-
     [Header("Attributes")]
     public float pathingSpeed;
 
     [HideInInspector] public Node[][] map;
 
     // Unit is unit to move, and node is destination
-    public void Move(Node destination)
+    public void Move(Unit selected, Node destination)
     {
         // Base Case : If Can't move return
-        if (!destination.passable || !CanMove(selected.node, destination))
+        if (!destination.passable || !CanMove(selected, selected.node, destination))
             return;
 
         Node start = selected.node;
 
         // Moves the Player along the Queue
-        StartCoroutine(MoveAlongPath(destination));
+        StartCoroutine(MoveAlongPath(selected, destination));
 
         // Updates the Nodes
         start.OnUnitExit();
@@ -39,9 +36,9 @@ public class MapManager : MonoBehaviour
     }
 
     #region PathFinding
-    IEnumerator MoveAlongPath(Node end)
+    IEnumerator MoveAlongPath(Unit selected, Node end)
     {
-        List<Node> path = AStar(selected.node, end);
+        List<Node> path = Dijkstra(selected, selected.node, end);
 
         // This uses the Length of the Path in relation to how far the player can move
         // Moves Player
@@ -61,7 +58,7 @@ public class MapManager : MonoBehaviour
 
     // ===== Breadth First / Dijkstra / A* =====
 
-    private List<Node> AStar(Node start, Node end)
+    private List<Node> Dijkstra(Unit selected, Node start, Node end)
     {
         List<Node> path = new List<Node>();
 
@@ -127,21 +124,19 @@ public class MapManager : MonoBehaviour
         path.Reverse();
         return path;
     }
-
-    
     #endregion
 
     // ===== Utility Methods =====
     #region Utility Methods
     // This Method will be called by the Move Command, and it needs to be called by mouse hovering
-    public bool CanMove(Node start, Node end)
+    public bool CanMove(Unit selected, Node start, Node end)
     {
         // Efficiency Check
         if (GetDistance(start, end) > selected.stats.movement)
             return false;
 
         // Get Path
-        List<Node> path = AStar(start, end);
+        List<Node> path = Dijkstra(selected, start, end);
 
         // No Path
         if (path.Count == 0)
@@ -149,10 +144,6 @@ public class MapManager : MonoBehaviour
 
         // If Attempted Movement is too much, Return False
         if (path.Count > selected.stats.movement - selected.stats.moved)
-            return false;
-
-        // If Path is nothing
-        if (path.Count == 0)
             return false;
 
         return true;
@@ -190,7 +181,7 @@ public class MapManager : MonoBehaviour
         return new Vector3(-1, 0, -1);
     }
 
-    // Actually Moves the Object
+    // Actually Moves the GameObjectObject
     public void Place(Unit unit, Node destination)
     {
         // Moves the Player

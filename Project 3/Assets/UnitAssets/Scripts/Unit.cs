@@ -21,12 +21,20 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         offset = transform.position - ground.position;
+
+        if (type == "Enemy")
+            behavior.self = this;
     }
 
     public void StartTurn()
     {
         // Resets how far he moved
         stats.moved = 0;
+
+
+
+
+        // TODO : Handle Status Effects / Tile Effects
 
     }
 
