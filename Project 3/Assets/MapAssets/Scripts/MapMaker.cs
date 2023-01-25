@@ -182,9 +182,11 @@ public class MapMaker : MonoBehaviour
     // Put the Units in the spawn Positions
     private void PlaceUnits()
     {
-        MapManager.instance.Place(BattleSystem.instance.units[0], map[0][0]);
-        MapManager.instance.Place(BattleSystem.instance.units[1], map[2][2]);
-        MapManager.instance.Place(BattleSystem.instance.units[2], map[4][4]);
+        for (int i = 0; i < BattleSystem.instance.units.Count; i++)
+        {
+            MapManager.instance.Place(BattleSystem.instance.units[i], map[i][i]);
+        }
+        
     }
 
     public Vector3 GetCoordinates(Node node)
