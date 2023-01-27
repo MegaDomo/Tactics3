@@ -9,32 +9,24 @@ public class Node : MonoBehaviour
     public GameObject vfx;
 
     [Header("Attributes")]
+    public int movementCost;
     [SerializeField] private Color def;
     [SerializeField] private Color withinReach;
     [SerializeField] private Color outOfReach;
 
-    [HideInInspector] public List<Node> edges = new List<Node>();
-
-    #region Node Stats
+    [HideInInspector] public bool passable;
+    [HideInInspector] public int x;
+    [HideInInspector] public int y;    
     [HideInInspector] public Unit unit;
+    [HideInInspector] public List<Node> edges = new List<Node>();
 
     private Material mat;
 
-    public int movementCost;
-    public bool passable;
-
-
-    
-    #endregion
-
-    #region Pathing Stats
-    [HideInInspector] public int flag; // 0 is no flag, 1 is flag
-    #endregion
-
     // Constructor
-    public Node()
+    public Node(int x, int y)
     {
-        
+        this.x = x;
+        this.y = y;
     }
 
     void Awake()

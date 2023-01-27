@@ -10,21 +10,20 @@ public class MapMaker : MonoBehaviour
     public MapManager manager;
 
     [Header("Attributes")]
-    [SerializeField] private Vector3 offset;
+    [SerializeField] private int cellSize;
     [SerializeField] private int minMapSize;
     [SerializeField] private int maxMapSize;
+    [SerializeField] private Vector3 offset;
 
-    [HideInInspector] public Node[][] map;
-    [HideInInspector] public int[][] graph;
-    [HideInInspector] public List<Node> adj = new List<Node>();
+    [HideInInspector] public Grid map;
 
     private int size;
 
     public void Setup()
     {
         // Initializers
-        GetMapSize();
-        CreateMap();
+        int size = Random.Range(minMapSize, maxMapSize);
+        map = new Grid(size, cellSize, startingPoint.position);
         CreateGraph();
         PlaceUnits();
 
@@ -34,39 +33,11 @@ public class MapMaker : MonoBehaviour
     
     #region Create Map
     // Methods that Picks a random size for the map
-    private void GetMapSize()
-    {
-        // Uses Random.Range to get a Random number
-        size = Random.Range(minMapSize, maxMapSize);
-
-        // Initializes the map
-        map = new Node[size][];
-        for (int i = 0; i < map.Length; i++)
-            map[i] = new Node[size];
-
-        // Initializes the Graph
-        graph = new int[size * size][];
-        for (int i = 0; i < graph.Length; i++)
-            graph[i] = new int[size * size];
-    }
-
-    // Creates the Map
-    private void CreateMap()
-    {
-        // Starting Point
-        Vector3 rowPoint = startingPoint.position;
-
-        // Creates Each Row
-        for (int i = 0; i < map.Length; i++)
-        {
-            CreateRow(rowPoint, i);
-            rowPoint += new Vector3(offset.z, 0, 0);
-        }
-    }
+    
 
     private void CreateRow(Vector3 spawn, int row)
     {
-        for (int i = 0; i < map.Length; i++)
+        for (int i = 0; i < size; i++)
         {
             GameObject temp;
             int z = Random.Range(0, 5);
@@ -100,7 +71,7 @@ public class MapMaker : MonoBehaviour
     // Stores the Node on the Coordinate Map
     private void StoreNodeInCoordinate(int x, int y, Node node)
     {
-        map[x][y] = node;
+        map.SetNode(x, y, node);
     }
     #endregion
 
@@ -109,48 +80,34 @@ public class MapMaker : MonoBehaviour
     private void CreateGraph()
     {
         CreateEdgesInNodes();
-        CreateAdjacencyMatrix();
     }
 
     private void CreateEdgesInNodes()
     {
-        for (int i = 0; i < map.Length; i++)
+        for (int i = 0; i < size; i++)
         {
-            for (int j = 0; j < map[i].Length; j++)
+            for (int j = 0; j < size; j++)
             {
                 // Up
                 if (CanAdd(i + 1, j))
                 {
-                    map[i][j].AddEdge(map[i + 1][j]);
+                    map.AddBranchToRoot(i, j, map.GetNode(i + 1, j));
                 }
                 // Right
                 if (CanAdd(i, j + 1))
                 {
-                    map[i][j].AddEdge(map[i][j + 1]);
+                    map.AddBranchToRoot(i, j, map.GetNode(i, j + 1));
                 }
                 // Down
                 if (CanAdd(i - 1, j))
                 {
-                    map[i][j].AddEdge(map[i - 1][j]);
+                    map.AddBranchToRoot(i, j, map.GetNode(i - 1, j));
                 }
                 // Left
                 if (CanAdd(i, j - 1))
                 {
-                    map[i][j].AddEdge(map[i][j - 1]);
+                    map.AddBranchToRoot(i, j, map.GetNode(i, j - 1));
                 }
-            }
-        }
-    }
-
-    private void CreateAdjacencyMatrix()
-    {
-        // Rows of the Map
-        for (int i = 0; i < map.Length; i++)
-        {
-            // Columns of the Map
-            for (int j = 0; j < map[i].Length; j++)
-            {
-                adj.Add(map[i][j]);
             }
         }
     }
@@ -164,19 +121,6 @@ public class MapMaker : MonoBehaviour
         return true;
     }
 
-    private void PrintGraph()
-    {
-        string matrix = "";
-        for (int i = 0; i < graph.Length; i++)
-        {
-            for (int j = 0; j < graph[i].Length; j++)
-            {
-                matrix += graph[i][j].ToString() + ", ";
-            }
-            matrix += "\n";
-        }
-        Debug.Log(matrix);
-    }
     #endregion
 
     // Put the Units in the spawn Positions
@@ -184,7 +128,7 @@ public class MapMaker : MonoBehaviour
     {
         for (int i = 0; i < BattleSystem.instance.units.Count; i++)
         {
-            MapManager.instance.Place(BattleSystem.instance.units[i], map[i][i]);
+            MapManager.instance.Place(BattleSystem.instance.units[i], map.GetNode(i, i));
         }
         
     }
@@ -196,12 +140,12 @@ public class MapMaker : MonoBehaviour
             return new Vector3(-1, 0, -1);
 
         // Traversal
-        for (int i = 0; i < map.Length; i++)
+        for (int i = 0; i < map.GetSize(); i++)
         {
-            for (int j = 0; j < map[i].Length; j++)
+            for (int j = 0; j < map.GetSize(); j++)
             {
                 // Compare
-                if (map[i][j] == node)
+                if (map.GetNode(i, j) == node)
                     return new Vector3(i, 0, j);
             }
         }

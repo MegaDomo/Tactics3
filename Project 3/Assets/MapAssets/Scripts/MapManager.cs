@@ -16,7 +16,12 @@ public class MapManager : MonoBehaviour
     [Header("Attributes")]
     public float pathingSpeed;
 
-    [HideInInspector] public Node[][] map;
+    [HideInInspector] public Grid map;
+
+    void Start()
+    {
+        
+    }
 
     // Unit is unit to move, and node is destination
     public void Move(Unit selected, Node destination)
@@ -167,12 +172,12 @@ public class MapManager : MonoBehaviour
             return new Vector3(-1, 0, -1);
 
         // Traversal
-        for (int i = 0; i < map.Length; i++)
+        for (int i = 0; i < map.GetSize(); i++)
         {
-            for (int j = 0; j < map[i].Length; j++)
+            for (int j = 0; j < map.GetSize(); j++)
             {
                 // Compare
-                if (map[i][j] == node)
+                if (map.GetNode(i, j) == node)
                     return new Vector3(i, 0, j);
             }
         }
