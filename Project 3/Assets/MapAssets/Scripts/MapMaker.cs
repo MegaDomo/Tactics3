@@ -22,8 +22,9 @@ public class MapMaker : MonoBehaviour
     public void Setup()
     {
         // Initializers
-        int size = Random.Range(minMapSize, maxMapSize);
+        size = Random.Range(minMapSize, maxMapSize);
         map = new Grid(size, cellSize, startingPoint.position);
+        CreateMap();
         CreateGraph();
         PlaceUnits();
 
@@ -33,38 +34,28 @@ public class MapMaker : MonoBehaviour
     
     #region Create Map
     // Methods that Picks a random size for the map
-    
-
-    private void CreateRow(Vector3 spawn, int row)
+    private void CreateMap()
     {
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < map.GetSize(); i++)
         {
-            GameObject temp;
-            int z = Random.Range(0, 5);
+            for (int j = 0; j < map.GetSize(); j++)
+            {/*
+                GameObject temp;
+                int z = Random.Range(0, 5);
 
-            // Obstacle 20%
-            if (z == 0)
-                temp = nodes[1];
-            // Swamp 40%
-            else if (z == 1 || z == 2)
-                temp = nodes[2];
-            // Plains 40%
-            else
-                temp = nodes[0];
-
-            // Methods That will determine which Node Prefab to make
-
-            // Create the Node
-            Node clone = Instantiate(temp, spawn, Quaternion.identity).GetComponent<Node>();
-            spawn += offset;
-
-            int x, y;
-
-            x = row;
-            y = i;
-
-            // Store the Coordinantes
-            StoreNodeInCoordinate(x, y, clone);
+                // Obstacle 20%
+                if (z == 0)
+                    temp = nodes[1];
+                // Swamp 40%
+                else if (z == 1 || z == 2)
+                    temp = nodes[2];
+                // Plains 40%
+                else
+                    temp = nodes[0];
+*/
+                GameObject clone = Instantiate(nodes[0], map.GetWorldPosition(i, j), Quaternion.identity);
+                StoreNodeInCoordinate(i, j, clone.GetComponent<Node>());
+            }
         }
     }
 

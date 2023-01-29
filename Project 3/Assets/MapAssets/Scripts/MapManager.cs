@@ -34,7 +34,7 @@ public class MapManager : MonoBehaviour
 
         // Moves the Player along the Queue
         StartCoroutine(MoveAlongPath(selected, destination));
-
+        
         // Updates the Nodes
         start.OnUnitExit();
         destination.OnUnitEnter();
@@ -139,14 +139,14 @@ public class MapManager : MonoBehaviour
         // Efficiency Check
         if (GetDistance(start, end) > selected.stats.movement)
             return false;
-
+        Debug.Log("Got through Get Distnace");
         // Get Path
         List<Node> path = Dijkstra(selected, start, end);
-
+        
         // No Path
         if (path.Count == 0)
             return false;
-
+        
         // If Attempted Movement is too much, Return False
         if (path.Count > selected.stats.movement - selected.stats.moved)
             return false;

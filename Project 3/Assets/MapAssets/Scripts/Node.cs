@@ -16,17 +16,17 @@ public class Node : MonoBehaviour
 
     [HideInInspector] public bool passable;
     [HideInInspector] public int x;
-    [HideInInspector] public int y;    
+    [HideInInspector] public int z;    
     [HideInInspector] public Unit unit;
     [HideInInspector] public List<Node> edges = new List<Node>();
 
     private Material mat;
 
     // Constructor
-    public Node(int x, int y)
+    public Node(int x, int z)
     {
         this.x = x;
-        this.y = y;
+        this.z = z;
     }
 
     void Awake()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Data Structure
 public class Grid 
 {
     private int width;
@@ -10,6 +11,7 @@ public class Grid
     private Vector3 origin;
     private Node[,] gridArray;
 
+    // Constructor
     public Grid(int size, int cellSize, Vector3 origin)
     {
         width = size;
@@ -19,16 +21,17 @@ public class Grid
 
         gridArray = new Node[width, height];
 
+        // Shows Grid in Space
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int z = 0; z < gridArray.GetLength(1); z++)
             {
-                Utils.CreateWorldText(new Vector3(0, 0, 0), gridArray[x, z].x.ToString() + ", " + gridArray[x, z].x.ToString(), 30);
+                //Utils.CreateWorldText(new Vector3(0, 0, 0), gridArray[x, z].x.ToString() + ", " + gridArray[x, z].x.ToString(), 30);
             }
         }
     }
 
-    public void AddBranchToRoot(Node branch, Node root)
+    public void AddBranchToRoot(Node root, Node branch)
     {
         root.AddEdge(branch);
     }

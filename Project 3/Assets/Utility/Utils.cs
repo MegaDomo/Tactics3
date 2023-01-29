@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Utils
 {
-    public static TextMesh CreateWorldText(Vector3 localPosition, string text, int fontSize)
+    public static void CreateWorldText(Vector3 localPosition, string text, int fontSize)
     {
         GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
         Transform transform = gameObject.transform;
@@ -13,6 +13,6 @@ public static class Utils
         textMesh.text = text;
         textMesh.fontSize = fontSize;
         textMesh.color = Color.white;
-        return textMesh;
+        //return textMesh;
     }
 }
