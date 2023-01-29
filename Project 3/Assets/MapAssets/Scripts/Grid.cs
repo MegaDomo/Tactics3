@@ -26,9 +26,13 @@ public class Grid
         {
             for (int z = 0; z < gridArray.GetLength(1); z++)
             {
-                //Utils.CreateWorldText(new Vector3(0, 0, 0), gridArray[x, z].x.ToString() + ", " + gridArray[x, z].x.ToString(), 30);
+                Utils.CreateWorldText(GetWorldPosition(x, z) + new Vector3(cellSize, cellSize) * 0.5f, x.ToString() + ", " + z.ToString(), 30, TextAnchor.MiddleCenter);
+                Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), Color.white, 100f);
+                Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), Color.white, 100f);
             }
         }
+        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
+        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
     }
 
     public void AddBranchToRoot(Node root, Node branch)
