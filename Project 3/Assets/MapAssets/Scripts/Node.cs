@@ -23,6 +23,10 @@ public class Node : MonoBehaviour
     private Material mat;
 
     // Constructor
+    public Node()
+    {
+        // Debug Constructor
+    }
     public Node(int x, int z)
     {
         this.x = x;

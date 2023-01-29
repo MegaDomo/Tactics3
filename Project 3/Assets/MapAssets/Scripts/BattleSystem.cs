@@ -15,6 +15,8 @@ public class BattleSystem : MonoBehaviour
     #endregion
     [Header("Unity References")]
     public MapMaker maker;
+    public SpawnManager spawner;
+
     [Header("Fill Players")]
     public List<Unit> units;
     public Queue<Unit> initiative = new Queue<Unit>();
@@ -27,7 +29,7 @@ public class BattleSystem : MonoBehaviour
         maker.Setup();
 
         // Spawn Unit on the Map : When units are spawned add to list
-        // TODO :
+        spawner.SpawnUnits(maker.map, units);
 
         // Get Initiatives
         QueueUp();
@@ -36,14 +38,7 @@ public class BattleSystem : MonoBehaviour
         StartBattle();
     }
 
-    private void SpawnUnits()
-    {
-        //MapManager.instance.Place(units[2], MapManager.instance.map[4][4]);
-        // TODO : Call 2 Scripts/Methods
-        // - is the player handler - which is holding onto the loudouts that the player chose for their units
-        // it then creates those units maybe in a Create Unit Script
-        // - Enemy Spawn Manager/ Creater, maybe pulls from a pool of units and adds them to the list
-    }
+    
 
 
     private void QueueUp()
