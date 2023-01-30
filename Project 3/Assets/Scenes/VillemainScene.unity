@@ -442,6 +442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maker: {fileID: 345424373}
+  mapManager: {fileID: 2120947107}
   spawner: {fileID: 1641815416}
   units:
   - {fileID: 1803906856}
