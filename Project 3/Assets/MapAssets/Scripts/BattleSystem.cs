@@ -15,6 +15,7 @@ public class BattleSystem : MonoBehaviour
     #endregion
     [Header("Unity References")]
     public MapMaker maker;
+    public MapManager mapManager;
     public SpawnManager spawner;
 
     [Header("Fill Players")]
@@ -26,7 +27,8 @@ public class BattleSystem : MonoBehaviour
     {
         // Creates the Map
         // TODO : Determine if Static Map or RNG Map
-        maker.Setup();
+        maker.SetUp();
+        mapManager.SetUp();
 
         // Spawn Unit on the Map : When units are spawned add to list
         spawner.SpawnUnits(maker.map, units);

@@ -19,7 +19,6 @@ public class Node : MonoBehaviour
     [HideInInspector] public int z;
     [HideInInspector] public Unit unit;
     [HideInInspector] public Grid<Node> grid;
-    [HideInInspector] public List<Node> edges = new List<Node>();
 
     private Material mat;
 
@@ -116,16 +115,6 @@ public class Node : MonoBehaviour
     public void SetIsPassable(bool value)
     {
         passable = value;
-    }
-
-    public void AddEdge(Node node)
-    {
-        // Already Has Node
-        if (edges.Contains(node))
-            return;
-         
-        // Adds Node
-        edges.Add(node);
     }
     #endregion
 }

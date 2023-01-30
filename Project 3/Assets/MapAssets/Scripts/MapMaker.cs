@@ -19,13 +19,12 @@ public class MapMaker : MonoBehaviour
 
     private int size;
 
-    public void Setup()
+    public void SetUp()
     {
         // Initializers
         size = Random.Range(minMapSize, maxMapSize);
         map = new Grid<Node>(size, cellSize, startingPoint.position, () => new Node());
         CreateMap();
-        CreateGraph();
         PlaceUnits();
 
         // When Finishes, Performs Handoff
@@ -65,54 +64,6 @@ public class MapMaker : MonoBehaviour
         node.SetNode(map, x, y);
         map.SetGridObject(x, y, node);
     }
-    #endregion
-
-    #region Create Graph
-    // Creates the Graph
-    private void CreateGraph()
-    {
-        CreateEdgesInNodes();
-    }
-
-    private void CreateEdgesInNodes()
-    {
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                // Up
-                if (CanAdd(i + 1, j))
-                {
-                    map.GetGridObject(i, j).AddEdge(map.GetGridObject(i + 1, j));
-                }
-                // Right
-                if (CanAdd(i, j + 1))
-                {
-                    map.GetGridObject(i, j).AddEdge(map.GetGridObject(i, j + 1));
-                }
-                // Down
-                if (CanAdd(i - 1, j))
-                {
-                    map.GetGridObject(i, j).AddEdge(map.GetGridObject(i - 1, j));
-                }
-                // Left
-                if (CanAdd(i, j - 1))
-                {
-                    map.GetGridObject(i, j).AddEdge(map.GetGridObject(i, j - 1));
-                }
-            }
-        }
-    }
-
-    private bool CanAdd(int x, int y)
-    {
-        // Out of Bounds
-        if (x < 0 || y < 0 || x >= size || y >= size)
-            return false;
-        
-        return true;
-    }
-
     #endregion
 
     // Put the Units in the spawn Positions

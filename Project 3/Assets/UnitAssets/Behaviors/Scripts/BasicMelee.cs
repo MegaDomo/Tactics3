@@ -9,7 +9,7 @@ public class BasicMelee : Behavior
     public override void FindTarget() { }
     public override void Move() 
     {
-        MapManager.instance.Move(self, self.node.edges[0]);
+        MapManager.instance.Move(self, MapManager.instance.pathing.GetNeighbors(self.node)[0]);
     }
     public override void Attack() { }
 }

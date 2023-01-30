@@ -77,7 +77,7 @@ public class SpawnManager : MonoBehaviour
 
         adjNodes.Add(parent);
 
-        foreach (Node node in parent.edges)
+        foreach (Node node in MapManager.instance.pathing.GetNeighbors(parent))
         {
             adjNodes.Add(node);
         }
