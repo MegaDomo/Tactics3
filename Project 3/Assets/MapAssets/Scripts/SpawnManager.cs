@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    Grid map;
+    Grid<Node> map;
 
     List<Unit> players = new List<Unit>();
     List<Unit> enemies = new List<Unit>();
 
-    public void SpawnUnits(Grid map, List<Unit> units)
+    public void SpawnUnits(Grid<Node> map, List<Unit> units)
     {
         // TODO : Instantiate the Units()
 
@@ -61,14 +61,14 @@ public class SpawnManager : MonoBehaviour
 
     public Node GetPlayerParentSpawnLocation()
     {
-        return map.GetNode(0, Random.Range(0, map.GetSize()));
+        return map.GetGridObject(0, Random.Range(0, map.GetSize()));
         // Hard part
         // Randoms w/ Weights
     }
 
     private Node GetEnemyParentSpawnLocation()
     {
-        return map.GetNode(Random.Range(0, map.GetSize()), Random.Range(0, map.GetSize()));
+        return map.GetGridObject(Random.Range(0, map.GetSize()), Random.Range(0, map.GetSize()));
     }
 
     public List<Node> GetAdjacentSpawnLocation(Node parent, int numOfUnits)
@@ -99,11 +99,16 @@ public class SpawnManager : MonoBehaviour
         return adjNodes;
     }
 
-    private void SpawnList(List<Node> adjNodes, List<Unit> unitsToSpawn)
+    private void SpawnList(List<Node> spawnPoints, List<Unit> unitsToSpawn)
     {
-        for (int i = 0; i < unitsToSpawn.Count; i++)
+        int index;
+        if (spawnPoints.Count < unitsToSpawn.Count)
+            index = spawnPoints.Count;
+        else
+            index = unitsToSpawn.Count;
+        for (int i = 0; i < index; i++)
         {
-            Spawn(unitsToSpawn[i], adjNodes[i]);
+            Spawn(unitsToSpawn[i], spawnPoints[i]);
         }
     }
 

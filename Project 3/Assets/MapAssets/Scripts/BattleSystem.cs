@@ -38,9 +38,6 @@ public class BattleSystem : MonoBehaviour
         StartBattle();
     }
 
-    
-
-
     private void QueueUp()
     {
         // TODO : Incorporate current speed stat

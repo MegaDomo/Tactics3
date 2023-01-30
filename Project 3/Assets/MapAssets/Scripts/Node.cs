@@ -16,8 +16,9 @@ public class Node : MonoBehaviour
 
     [HideInInspector] public bool passable;
     [HideInInspector] public int x;
-    [HideInInspector] public int z;    
+    [HideInInspector] public int z;
     [HideInInspector] public Unit unit;
+    [HideInInspector] public Grid<Node> grid;
     [HideInInspector] public List<Node> edges = new List<Node>();
 
     private Material mat;
@@ -27,8 +28,9 @@ public class Node : MonoBehaviour
     {
         // Debug Constructor
     }
-    public Node(int x, int z)
+    public Node(Grid<Node> grid, int x, int z)
     {
+        this.grid = grid;
         this.x = x;
         this.z = z;
     }
@@ -38,6 +40,13 @@ public class Node : MonoBehaviour
         // Sets Default Color
         mat = vfx.GetComponent<MeshRenderer>().material;
         mat.color = def;
+    }
+
+    public void SetNode(Grid<Node> grid, int x, int z)
+    {
+        this.grid = grid;
+        this.x = x;
+        this.z = z;
     }
 
     // Called when a Unit enters this Node

@@ -15,7 +15,7 @@ public class MapMaker : MonoBehaviour
     [SerializeField] private int maxMapSize;
     [SerializeField] private Vector3 offset;
 
-    [HideInInspector] public Grid map;
+    [HideInInspector] public Grid<Node> map;
 
     private int size;
 
@@ -23,7 +23,7 @@ public class MapMaker : MonoBehaviour
     {
         // Initializers
         size = Random.Range(minMapSize, maxMapSize);
-        map = new Grid(size, cellSize, startingPoint.position);
+        map = new Grid<Node>(size, cellSize, startingPoint.position, () => new Node());
         CreateMap();
         CreateGraph();
         PlaceUnits();
@@ -53,8 +53,8 @@ public class MapMaker : MonoBehaviour
                 else
                     temp = nodes[0];
 */
-                GameObject clone = Instantiate(nodes[0], map.GetWorldPosition(i, j), Quaternion.identity);
-                StoreNodeInCoordinate(i, j, clone.GetComponent<Node>());
+                Node clone = Instantiate(nodes[0], map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<Node>();
+                StoreNodeInCoordinate(i, j, clone);
             }
         }
     }
@@ -62,7 +62,8 @@ public class MapMaker : MonoBehaviour
     // Stores the Node on the Coordinate Map
     private void StoreNodeInCoordinate(int x, int y, Node node)
     {
-        map.SetNode(x, y, node);
+        node.SetNode(map, x, y);
+        map.SetGridObject(x, y, node);
     }
     #endregion
 
@@ -82,22 +83,22 @@ public class MapMaker : MonoBehaviour
                 // Up
                 if (CanAdd(i + 1, j))
                 {
-                    map.AddBranchToRoot(i, j, map.GetNode(i + 1, j));
+                    map.GetGridObject(i, j).AddEdge(map.GetGridObject(i + 1, j));
                 }
                 // Right
                 if (CanAdd(i, j + 1))
                 {
-                    map.AddBranchToRoot(i, j, map.GetNode(i, j + 1));
+                    map.GetGridObject(i, j).AddEdge(map.GetGridObject(i, j + 1));
                 }
                 // Down
                 if (CanAdd(i - 1, j))
                 {
-                    map.AddBranchToRoot(i, j, map.GetNode(i - 1, j));
+                    map.GetGridObject(i, j).AddEdge(map.GetGridObject(i - 1, j));
                 }
                 // Left
                 if (CanAdd(i, j - 1))
                 {
-                    map.AddBranchToRoot(i, j, map.GetNode(i, j - 1));
+                    map.GetGridObject(i, j).AddEdge(map.GetGridObject(i, j - 1));
                 }
             }
         }
@@ -119,7 +120,7 @@ public class MapMaker : MonoBehaviour
     {
         for (int i = 0; i < BattleSystem.instance.units.Count; i++)
         {
-            MapManager.instance.Place(BattleSystem.instance.units[i], map.GetNode(i, i));
+            MapManager.instance.Place(BattleSystem.instance.units[i], map.GetGridObject(i, i));
         }
         
     }
@@ -136,7 +137,7 @@ public class MapMaker : MonoBehaviour
             for (int j = 0; j < map.GetSize(); j++)
             {
                 // Compare
-                if (map.GetNode(i, j) == node)
+                if (map.GetGridObject(i, j) == node)
                     return new Vector3(i, 0, j);
             }
         }

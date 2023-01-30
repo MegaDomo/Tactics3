@@ -16,7 +16,7 @@ public class MapManager : MonoBehaviour
     [Header("Attributes")]
     public float pathingSpeed;
 
-    [HideInInspector] public Grid map;
+    [HideInInspector] public Grid<Node> map;
 
     void Start()
     {
@@ -136,10 +136,10 @@ public class MapManager : MonoBehaviour
     // This Method will be called by the Move Command, and it needs to be called by mouse hovering
     public bool CanMove(Unit selected, Node start, Node end)
     {
-        // Efficiency Check
-        if (GetDistance(start, end) > selected.stats.movement)
+        // Objective Distance
+        if (GetDistance(start, end) > selected.stats.movement - selected.stats.moved)
             return false;
-        Debug.Log("Got through Get Distnace");
+        
         // Get Path
         List<Node> path = Dijkstra(selected, start, end);
         
@@ -147,7 +147,7 @@ public class MapManager : MonoBehaviour
         if (path.Count == 0)
             return false;
         
-        // If Attempted Movement is too much, Return False
+        // Path is too long
         if (path.Count > selected.stats.movement - selected.stats.moved)
             return false;
 
@@ -177,7 +177,7 @@ public class MapManager : MonoBehaviour
             for (int j = 0; j < map.GetSize(); j++)
             {
                 // Compare
-                if (map.GetNode(i, j) == node)
+                if (map.GetGridObject(i, j) == node)
                     return new Vector3(i, 0, j);
             }
         }
