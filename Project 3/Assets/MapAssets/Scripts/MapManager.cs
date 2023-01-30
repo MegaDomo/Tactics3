@@ -43,27 +43,22 @@ public class MapManager : MonoBehaviour
     #region PathFinding
     IEnumerator MoveAlongPath(Unit selected, Node end)
     {
-        List<Node> path = Dijkstra(selected, selected.node, end);
+        List<Node> path = AStar(selected, selected.node, end, out int pathCost);
 
         // This uses the Length of the Path in relation to how far the player can move
         // Moves Player
-        int i;
-        for (i = 0; i < path.Count; i++)
+        for (int i = 0; i < path.Count; i++)
         {
-            // If not enough movement break
-            if (i >= selected.stats.movement - selected.stats.moved)
-                break;
-            
             Place(selected, path[i]);
             yield return new WaitForSeconds(pathingSpeed);
         }
-        selected.stats.moved += i;
+        selected.stats.moved += pathCost;
     }
 
 
-    // ===== Breadth First / Dijkstra / A* =====
+    // ===== Breadth First / AStar / A* =====
 
-    private List<Node> Dijkstra(Unit selected, Node start, Node end)
+    private List<Node> AStar(Unit selected, Node start, Node end, out int pathCost)
     {
         List<Node> path = new List<Node>();
 
@@ -75,9 +70,7 @@ public class MapManager : MonoBehaviour
         came_from.Add(start, null);
         cost_so_far.Add(start, 0);
 
-        Node current;
-        int frontierCount = 0;
-        int edgeCount = 0;
+        Node current;        
         // Performs the Search
         while (frontier.Count != 0)
         {
@@ -87,7 +80,6 @@ public class MapManager : MonoBehaviour
             if (current == end)
                 break;
 
-            frontierCount++;
             // Adds Adjacent Edges
             foreach (Node next in current.edges)
             {
@@ -95,36 +87,35 @@ public class MapManager : MonoBehaviour
                 if (!next.passable)
                     continue;
 
-                edgeCount++;
                 // Finds Cost of current path
-                int newCost = cost_so_far[current] + current.movementCost;
-                // New Cost of next node is too far from selected's movement
-                if (newCost > selected.stats.movement - selected.stats.moved)
-                    continue;
-
+                int newCost = cost_so_far[current] + current.movementCost;                
                 if (!cost_so_far.ContainsKey(next) || newCost < cost_so_far[next])
                 {
-                    cost_so_far[next] = newCost;
+                    cost_so_far[next] = newCost + GetDistance(next, end);
                     frontier.Enqueue(next, newCost);
                     came_from[next] = current;
                 }
             }
         }
-        //Debug.Log("Frontiers: " + frontierCount + " --- Edges: " + edgeCount);
+
         // Defines the Path, following the Breadcrumbs
         current = end;
+        pathCost = 0;
 
         // If no Path found
         if (!came_from.ContainsKey(current))
             return path;
-
+        
         while (current != start)
         {
             // Adds current node
-            path.Add(current);
+            path.Add(current);            
             // Updates current node with next in Breadcrumb trail
             current = came_from[current];
-        }
+            // Adds up Path Cost
+            pathCost += current.movementCost;
+        }        
+        Debug.Log(pathCost);
         // Note : Will not include start Node
         path.Reverse();
         return path;
@@ -139,16 +130,16 @@ public class MapManager : MonoBehaviour
         // Objective Distance
         if (GetDistance(start, end) > selected.stats.movement - selected.stats.moved)
             return false;
-        
-        // Get Path
-        List<Node> path = Dijkstra(selected, start, end);
+
+        // Get Path        
+        List<Node> path = AStar(selected, start, end, out int pathCost);
         
         // No Path
         if (path.Count == 0)
             return false;
         
         // Path is too long
-        if (path.Count > selected.stats.movement - selected.stats.moved)
+        if (pathCost > selected.stats.movement - selected.stats.moved)
             return false;
 
         return true;

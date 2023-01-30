@@ -39,7 +39,7 @@ public class MapMaker : MonoBehaviour
         for (int i = 0; i < map.GetSize(); i++)
         {
             for (int j = 0; j < map.GetSize(); j++)
-            {/*
+            {
                 GameObject temp;
                 int z = Random.Range(0, 5);
 
@@ -52,8 +52,8 @@ public class MapMaker : MonoBehaviour
                 // Plains 40%
                 else
                     temp = nodes[0];
-*/
-                Node clone = Instantiate(nodes[0], map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<Node>();
+
+                Node clone = Instantiate(temp, map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<Node>();
                 StoreNodeInCoordinate(i, j, clone);
             }
         }

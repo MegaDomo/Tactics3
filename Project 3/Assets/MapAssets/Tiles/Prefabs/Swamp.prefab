@@ -545,7 +545,7 @@ Transform:
   m_GameObject: {fileID: 7874995504434772323}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.054365158, y: 0.5, z: -8.167814}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3796874835226433353}
@@ -635,14 +635,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standingPoint: {fileID: 3796874835226433353}
   vfx: {fileID: 7874995504434772323}
+  movementCost: 2
   def: {r: 0.18458524, g: 0.6415094, b: 0.26556107, a: 1}
   withinReach: {r: 0.16083908, g: 1, b: 0, a: 1}
   outOfReach: {r: 1, g: 0, b: 0, a: 1}
-  edges: []
-  unit: {fileID: 0}
-  movementCost: 2
   passable: 1
-  flag: 0
+  x: 0
+  z: 0
+  unit: {fileID: 0}
+  edges: []
 --- !u!1 &9100608962913969264
 GameObject:
   m_ObjectHideFlags: 0
