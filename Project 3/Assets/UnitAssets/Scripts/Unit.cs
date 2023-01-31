@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    //public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
+
     [Header("Unity References")]
     public Transform ground;
 
-    public UnitStats stats;
-
     [Header("Attributes")]
-    public string type; // "Player", "Enemy"
-    public Behavior behavior;
-
+    //public UnitType unitType;
+    public UnitStats stats;
+    public string type; // "Player", "Enemy"    
     public List<Ability> abilities;
+
+    [Header("Debugging")]
+    public Behavior behavior;
 
     [HideInInspector] public Node node;
     [HideInInspector] public Vector3 offset;

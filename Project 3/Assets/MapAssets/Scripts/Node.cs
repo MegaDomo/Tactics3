@@ -14,7 +14,7 @@ public class Node : MonoBehaviour
     [SerializeField] private Color withinReach;
     [SerializeField] private Color outOfReach;
 
-    [HideInInspector] public bool passable;
+    public bool passable;
     [HideInInspector] public int x;
     [HideInInspector] public int z;
     [HideInInspector] public Unit unit;
