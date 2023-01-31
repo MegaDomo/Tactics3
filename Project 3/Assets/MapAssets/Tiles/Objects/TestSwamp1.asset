@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69366a2fc5b121547940dbad9e922444, type: 3}
-  m_Name: StoneBrick1
+  m_Name: TestSwamp1
   m_EditorClassIdentifier: 
   passable: 1
   width: 1
   height: 1
-  movementCost: 1
-  nameString: StoneBrick1
-  prefab: {fileID: 4430461343600393198, guid: 944361dfad6515c409dfdc8d0b01b6f2, type: 3}
+  movementCost: 2
+  nameString: TestSwamp
+  prefab: {fileID: 8135324763817621301, guid: 996dc6e2741e2634ba672043943d6295, type: 3}

@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node : MonoBehaviour
+public class Block : MonoBehaviour
 {
     [Header("Unity References")]
+    public TileObject tileObject;
     public Transform standingPoint;
     public GameObject vfx;
 
@@ -15,25 +16,15 @@ public class Node : MonoBehaviour
     [SerializeField] private Color outOfReach;
 
     public bool passable = true;
-    [HideInInspector] public int x;
-    [HideInInspector] public int z;
-    [HideInInspector] public Transform block;
-    [HideInInspector] public Unit unit;
-    [HideInInspector] public Grid<Node> grid;
 
     private Material mat;
 
     // Constructor
-    public Node()
+    public Block()
     {
         // Debug Constructor
     }
-    public Node(Grid<Node> grid, int x, int z)
-    {
-        this.grid = grid;
-        this.x = x;
-        this.z = z;
-    }
+    
 
     void Awake()
     {
@@ -58,32 +49,11 @@ public class Node : MonoBehaviour
 
     }
 
-    public void SetBlock(Transform prefab)
-    {
-        block = prefab;
-    }
-
-    public void ClearBlock()
-    {
-        block = null;
-    }
-
-    public bool CanBuild()
-    {
-        return block == null;
-    }
-    public void SetNode(Grid<Node> grid, int x, int z)
-    {
-        this.grid = grid;
-        this.x = x;
-        this.z = z;
-    }
-
     public void SetIsPassable(bool value)
     {
         passable = value;
     }
-
+    /*
     #region OnMouse Methods
     // Moves the Player On a Mouse Click
     void OnMouseDown()
@@ -130,4 +100,5 @@ public class Node : MonoBehaviour
         mat.color = def;
     }
     #endregion
+    */
 }

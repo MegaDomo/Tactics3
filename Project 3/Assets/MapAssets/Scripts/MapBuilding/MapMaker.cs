@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MapMaker : MonoBehaviour
 {
-    [Header("Level Editor")]
-    public bool makeRandomMap;
-
     [Header("Unity References")]
     public List<TileObject> blocks;
     public Transform startingPoint;
@@ -16,23 +13,32 @@ public class MapMaker : MonoBehaviour
     [SerializeField] private int cellSize;
     [SerializeField] private int minMapSize;
     [SerializeField] private int maxMapSize;
-    [SerializeField] private Vector3 offset;
 
     [HideInInspector] public Grid<Node> map;
 
+    private bool makeRandomMap;
     private int size;
 
-    public void SetUp()
+    public void SetUp(bool makeRandomMap)
     {
+        this.makeRandomMap = makeRandomMap;
+
         // Initializers
         size = Random.Range(minMapSize, maxMapSize);
         map = new Grid<Node>(size, cellSize, startingPoint.position, () => new Node());
 
-        if (makeRandomMap)
+        for (int i = 0; i < map.GetSize(); i++)
         {
-            CreateMap();
-            PlaceUnits();
+            for (int j = 0; j < map.GetSize(); j++)
+            {
+                map.GetGridObject(i, j).x = i;
+                map.GetGridObject(i, j).z = j;
+            }
         }
+
+
+        if (makeRandomMap)
+            CreateMap();
         
 
         // When Finishes, Performs Handoff
@@ -61,10 +67,18 @@ public class MapMaker : MonoBehaviour
                     temp = blocks[1].prefab;
 
 
-                //Node clone = Instantiate(temp, map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<Node>();
-                //StoreNodeInCoordinate(i, j, clone);
+                Transform block = Instantiate(temp, map.GetWorldPosition(i, j), Quaternion.identity);
+                StoreDataInGrid(i, j, block);                
             }
         }
+    }
+
+    private void StoreDataInGrid(int x, int z, Transform block)
+    {
+        map.GetGridObject(x, z).SetBlock(block);
+        Node node = block.GetComponent<Node>();
+        node.SetNode(map, x, z);
+        map.SetGridObject(x, z, node);
     }
 
     // Stores the Node on the Coordinate Map

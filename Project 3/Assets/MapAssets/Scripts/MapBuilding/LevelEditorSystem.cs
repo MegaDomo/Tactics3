@@ -5,21 +5,24 @@ using UnityEngine;
 public class LevelEditorSystem : MonoBehaviour
 {
     public TileObject block;
+
+    private bool canEdit;
     private Grid<Node> grid;
 
     // Start is called before the first frame update
-    void Start()
+    public void SetUp(bool canEdit)
     {
+        this.canEdit = canEdit;
         grid = MapManager.instance.map;    
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canEdit)
         {
             grid.GetXZ(Utils.GetMouseWorldPosition(), out int x, out int z);
-
+            Debug.Log(x + " : " + z);
             Node node = grid.GetGridObject(x, z);
             if (node.CanBuild())
             {

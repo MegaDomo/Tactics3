@@ -13,6 +13,7 @@ public class BattleSystem : MonoBehaviour
         instance = this;
     }
     #endregion
+
     [Header("Unity References")]
     public MapMaker maker;
     public MapManager mapManager;
@@ -25,22 +26,9 @@ public class BattleSystem : MonoBehaviour
     // TODO : called different
     void Start()
     {
-        // Creates the Map
-        // TODO : Determine if Static Map or RNG Map
-        maker.SetUp();
-        mapManager.SetUp();
-
-        // Spawn Unit on the Map : When units are spawned add to list
-        spawner.SpawnUnits(maker.map, units);
-
-        // Get Initiatives
-        QueueUp();
-
-        // Start the Battle
-        StartBattle();
     }
 
-    private void QueueUp()
+    public void QueueUp()
     {
         // TODO : Incorporate current speed stat
         // Enqueues
@@ -50,7 +38,12 @@ public class BattleSystem : MonoBehaviour
 
     public void GetNextInitiative()
     {
-        Unit next = initiative.Dequeue();
+        Unit next;
+        if (!initiative.TryPeek(out next))
+            return;
+
+        next = initiative.Dequeue();
+
 
         // Gives the Unit to the Respected AI
         switch (next.type)
@@ -76,7 +69,7 @@ public class BattleSystem : MonoBehaviour
     }
 
 
-    private void StartBattle()
+    public void StartBattle()
     {
         GetNextInitiative();
     }

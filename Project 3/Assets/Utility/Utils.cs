@@ -6,7 +6,12 @@ public static class Utils
 {
     public static Vector3 GetMouseWorldPosition()
     {
-        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, LayerMask.GetMask("MouseTesting")))
+            return raycastHit.point;
+        else
+            return Vector3.zero;
     }
     public static void CreateWorldText(Vector3 localPosition, string text, int fontSize, TextAnchor textAnchor)
     {

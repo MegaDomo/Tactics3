@@ -73,15 +73,6 @@ public class SpawnManager : MonoBehaviour
 
     public List<Node> GetAdjacentSpawnLocation(Node parent, int numOfUnits)
     {
-        List<Node> adjNodes = new List<Node>();
-
-        adjNodes.Add(parent);
-
-        foreach (Node node in MapManager.instance.pathing.GetNeighbors(parent))
-        {
-            adjNodes.Add(node);
-        }
-
 /*
         int index = 0;
         Node current = parent;
@@ -96,20 +87,13 @@ public class SpawnManager : MonoBehaviour
             adjNodes.Add(parent.edges[index]);
             index++;
         }*/
-        return adjNodes;
+        return MapManager.instance.pathing.GetNeighbors(parent);
     }
 
     private void SpawnList(List<Node> spawnPoints, List<Unit> unitsToSpawn)
     {
-        int index;
-        if (spawnPoints.Count < unitsToSpawn.Count)
-            index = spawnPoints.Count;
-        else
-            index = unitsToSpawn.Count;
-        for (int i = 0; i < index; i++)
-        {
+        for (int i = 0; i < unitsToSpawn.Count; i++)
             Spawn(unitsToSpawn[i], spawnPoints[i]);
-        }
     }
 
     public void Spawn(Unit unit, Node spawnPoint)
