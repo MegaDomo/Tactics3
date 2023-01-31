@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class MapMaker : MonoBehaviour
 {
+    [Header("Level Editor")]
+    public bool makeRandomMap;
+
     [Header("Unity References")]
-    public List<GameObject> nodes;
+    public List<TileObject> blocks;
     public Transform startingPoint;
     public MapManager manager;
 
@@ -24,8 +27,13 @@ public class MapMaker : MonoBehaviour
         // Initializers
         size = Random.Range(minMapSize, maxMapSize);
         map = new Grid<Node>(size, cellSize, startingPoint.position, () => new Node());
-        CreateMap();
-        PlaceUnits();
+
+        if (makeRandomMap)
+        {
+            CreateMap();
+            PlaceUnits();
+        }
+        
 
         // When Finishes, Performs Handoff
         manager.map = map;
@@ -39,21 +47,22 @@ public class MapMaker : MonoBehaviour
         {
             for (int j = 0; j < map.GetSize(); j++)
             {
-                GameObject temp;
+                Transform temp;
                 int z = Random.Range(0, 5);
 
                 // Obstacle 20%
                 if (z == 0)
-                    temp = nodes[1];
+                    temp = blocks[2].prefab;
                 // Swamp 40%
                 else if (z == 1 || z == 2)
-                    temp = nodes[2];
+                    temp = blocks[0].prefab;
                 // Plains 40%
                 else
-                    temp = nodes[0];
+                    temp = blocks[1].prefab;
 
-                Node clone = Instantiate(temp, map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<Node>();
-                StoreNodeInCoordinate(i, j, clone);
+
+                //Node clone = Instantiate(temp, map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<Node>();
+                //StoreNodeInCoordinate(i, j, clone);
             }
         }
     }
@@ -73,7 +82,6 @@ public class MapMaker : MonoBehaviour
         {
             MapManager.instance.Place(BattleSystem.instance.units[i], map.GetGridObject(i, i));
         }
-        
     }
 
     public Vector3 GetCoordinates(Node node)

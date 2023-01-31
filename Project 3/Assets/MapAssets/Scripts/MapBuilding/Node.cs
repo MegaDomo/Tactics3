@@ -17,6 +17,7 @@ public class Node : MonoBehaviour
     public bool passable;
     [HideInInspector] public int x;
     [HideInInspector] public int z;
+    [HideInInspector] public Transform block;
     [HideInInspector] public Unit unit;
     [HideInInspector] public Grid<Node> grid;
 
@@ -41,13 +42,6 @@ public class Node : MonoBehaviour
         mat.color = def;
     }
 
-    public void SetNode(Grid<Node> grid, int x, int z)
-    {
-        this.grid = grid;
-        this.x = x;
-        this.z = z;
-    }
-
     // Called when a Unit enters this Node
     public void OnUnitEnter()
     {
@@ -62,6 +56,33 @@ public class Node : MonoBehaviour
     public void UpdateValues()
     {
 
+    }
+
+    
+    public void SetBlock(Transform prefab)
+    {
+        block = prefab;
+    }
+
+    public void ClearBlock()
+    {
+        block = null;
+    }
+
+    public bool CanBuild()
+    {
+        return block == null;
+    }
+    public void SetNode(Grid<Node> grid, int x, int z)
+    {
+        this.grid = grid;
+        this.x = x;
+        this.z = z;
+    }
+
+    public void SetIsPassable(bool value)
+    {
+        passable = value;
     }
 
     #region OnMouse Methods
@@ -108,13 +129,6 @@ public class Node : MonoBehaviour
     {
         // Change back to default Color
         mat.color = def;
-    }
-    #endregion
-
-    #region Setters
-    public void SetIsPassable(bool value)
-    {
-        passable = value;
     }
     #endregion
 }
