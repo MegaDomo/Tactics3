@@ -46,16 +46,16 @@ public class SpawnManager : MonoBehaviour
     public void HandlePlayerSpawnPoints(List<Unit> players) // 3 - 6
     {
         Node parent = GetPlayerParentSpawnLocation();
-        List<Node> adjNodes = GetAdjacentSpawnLocation(parent, players.Count);
-
+        List<Node> adjNodes = GetSpawnLocations(parent, players.Count);
+        
         SpawnList(adjNodes, players);
     }
 
     public void HandleEnemySpawnPoints(List<Unit> enemies)
     {
         Node parent = GetEnemyParentSpawnLocation();
-        List<Node> adjNodes = GetAdjacentSpawnLocation(parent, players.Count);
-
+        List<Node> adjNodes = GetSpawnLocations(parent, enemies.Count);
+        
         SpawnList(adjNodes, enemies);
     }
 
@@ -71,29 +71,43 @@ public class SpawnManager : MonoBehaviour
         return map.GetGridObject(Random.Range(0, map.GetSize()), Random.Range(0, map.GetSize()));
     }
 
-    public List<Node> GetAdjacentSpawnLocation(Node parent, int numOfUnits)
+    public List<Node> GetSpawnLocations(Node parent, int numOfUnits)
     {
-/*
-        int index = 0;
-        Node current = parent;
-
-
+        List<Node> adjNodes = new List<Node>();
+        adjNodes.Add(parent);
+        Node current;
+        int index = -1;
         while (adjNodes.Count < numOfUnits)
         {
-            if (index > parent.edges.Count)
-            {
-                current = parent.edges[]
-            }
-            adjNodes.Add(parent.edges[index]);
             index++;
-        }*/
-        return MapManager.instance.pathing.GetNeighbors(parent);
+            current = adjNodes[index];
+            //Debug.Log(MapManager.instance.pathing.GetNeighbors(current).Count);
+            foreach (Node node in MapManager.instance.pathing.GetNeighbors(current))
+            {
+                if (adjNodes.Count >= numOfUnits)
+                    break;
+                    
+                if (adjNodes.Contains(node))
+                    continue;
+                adjNodes.Add(node);
+            }
+        }
+
+        return adjNodes;
+    }
+
+    private bool idk()
+    {
+        return false;
     }
 
     private void SpawnList(List<Node> spawnPoints, List<Unit> unitsToSpawn)
     {
         for (int i = 0; i < unitsToSpawn.Count; i++)
+        {
             Spawn(unitsToSpawn[i], spawnPoints[i]);
+        }
+            
     }
 
     public void Spawn(Unit unit, Node spawnPoint)

@@ -30,12 +30,17 @@ public class TileObject : ScriptableObject
         Left
     }
 
-    public bool passable;
+    public bool passable = true;
     public int width;
     public int height;
     public int movementCost;
     public string nameString;
     public Transform prefab;
+
+    public Vector3 GetStandingPoint()
+    {
+        return prefab.GetComponent<Block>().standingPoint.position;
+    }
 
     public int GetRotationAngle(Dir dir)
     {

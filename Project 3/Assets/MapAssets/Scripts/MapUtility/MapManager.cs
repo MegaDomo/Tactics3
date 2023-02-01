@@ -109,11 +109,11 @@ public class MapManager : MonoBehaviour
         return new Vector3(-1, 0, -1);
     }
 
-    // Actually Moves the GameObjectObject
+    // Actually Moves the GameObject
     public void Place(Unit unit, Node destination)
     {
-        // Moves the Player
-        unit.gameObject.transform.position = destination.standingPoint.position + unit.offset;
+        Vector3 newPosition = destination.GetStandingPoint() + unit.offset;
+        unit.gameObject.transform.position = newPosition;
         // This Sets node Data in Unit Script
         unit.node = destination;
     }

@@ -5,7 +5,8 @@ using UnityEngine;
 public class MapMaker : MonoBehaviour
 {
     [Header("Unity References")]
-    public List<TileObject> blocks;
+    public List<TileObject> tileObjects;
+    public GameObject forecastTile;
     public Transform startingPoint;
     public MapManager manager;
 
@@ -28,18 +29,11 @@ public class MapMaker : MonoBehaviour
         map = new Grid<Node>(size, cellSize, startingPoint.position, () => new Node());
 
         for (int i = 0; i < map.GetSize(); i++)
-        {
             for (int j = 0; j < map.GetSize(); j++)
-            {
-                map.GetGridObject(i, j).x = i;
-                map.GetGridObject(i, j).z = j;
-            }
-        }
-
+                map.GetGridObject(i, j).SetCoordinates(i, j);
 
         if (makeRandomMap)
             CreateMap();
-        
 
         // When Finishes, Performs Handoff
         manager.map = map;
@@ -53,50 +47,35 @@ public class MapMaker : MonoBehaviour
         {
             for (int j = 0; j < map.GetSize(); j++)
             {
-                Transform temp;
+                TileObject temp;
                 int z = Random.Range(0, 5);
 
                 // Obstacle 20%
                 if (z == 0)
-                    temp = blocks[2].prefab;
+                    temp = tileObjects[2];
                 // Swamp 40%
                 else if (z == 1 || z == 2)
-                    temp = blocks[0].prefab;
+                    temp = tileObjects[0];
                 // Plains 40%
                 else
-                    temp = blocks[1].prefab;
+                    temp = tileObjects[1];
 
 
-                Transform block = Instantiate(temp, map.GetWorldPosition(i, j), Quaternion.identity);
-                StoreDataInGrid(i, j, block);                
+                Transform block = Instantiate(temp.prefab, map.GetWorldPosition(i, j), Quaternion.identity);
+                ForecastTile tile = Instantiate(forecastTile, map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<ForecastTile>();
+                StoreDataInGrid(i, j, block, temp, tile);
             }
         }
     }
 
-    private void StoreDataInGrid(int x, int z, Transform block)
+    private void StoreDataInGrid(int x, int z, Transform block, TileObject tileObject, ForecastTile tile)
     {
-        map.GetGridObject(x, z).SetBlock(block);
-        Node node = block.GetComponent<Node>();
-        node.SetNode(map, x, z);
+        Node node = new Node(x, z, map);
+        node.SetTileObject(block, tileObject);
+        node.SetForecastTile(tile);
         map.SetGridObject(x, z, node);
     }
-
-    // Stores the Node on the Coordinate Map
-    private void StoreNodeInCoordinate(int x, int y, Node node)
-    {
-        node.SetNode(map, x, y);
-        map.SetGridObject(x, y, node);
-    }
     #endregion
-
-    // Put the Units in the spawn Positions
-    private void PlaceUnits()
-    {
-        for (int i = 0; i < BattleSystem.instance.units.Count; i++)
-        {
-            MapManager.instance.Place(BattleSystem.instance.units[i], map.GetGridObject(i, i));
-        }
-    }
 
     public Vector3 GetCoordinates(Node node)
     {
@@ -118,5 +97,4 @@ public class MapMaker : MonoBehaviour
         // Base Case : Out of Bounds
         return new Vector3(-1, 0, -1);
     }
-
 }

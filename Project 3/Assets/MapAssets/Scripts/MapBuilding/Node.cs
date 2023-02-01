@@ -2,47 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node : MonoBehaviour
+public class Node
 {
-    [Header("Unity References")]
-    public Transform standingPoint;
-    public GameObject vfx;
-
-    [Header("Attributes")]
-    public int movementCost;
-    [SerializeField] private Color def;
-    [SerializeField] private Color withinReach;
-    [SerializeField] private Color outOfReach;
-
     public bool passable = true;
-    [HideInInspector] public int x;
-    [HideInInspector] public int z;
-    [HideInInspector] public Transform block;
-    [HideInInspector] public Unit unit;
-    [HideInInspector] public Grid<Node> grid;
-
-    private Material mat;
+    public int x;
+    public int z;
+    public int movementCost;
+    public Transform vfx;
+    public TileObject tileObject;
+    public ForecastTile forecastTile;
+    public Unit unit;
+    public Grid<Node> grid;
 
     // Constructor
     public Node()
     {
         // Debug Constructor
     }
-    public Node(Grid<Node> grid, int x, int z)
+
+    public Node(int x, int z, Grid<Node> grid)
     {
-        this.grid = grid;
         this.x = x;
         this.z = z;
+        this.grid = grid;
     }
 
-    void Awake()
-    {
-        // Sets Default Color
-        mat = vfx.GetComponent<MeshRenderer>().material;
-        mat.color = def;
-    }
-
-    // Called when a Unit enters this Node
     public void OnUnitEnter()
     {
         passable = false;
@@ -52,82 +36,49 @@ public class Node : MonoBehaviour
     {
         passable = true;
     }
-
-    public void UpdateValues()
+    
+    public void UpdatePathingValues()
     {
-
+        passable = tileObject.passable;
+        movementCost = tileObject.movementCost;
     }
 
-    public void SetBlock(Transform prefab)
+    public Vector3 GetStandingPoint()
     {
-        block = prefab;
+        return vfx.gameObject.GetComponent<Block>().standingPoint.position;
     }
 
-    public void ClearBlock()
+    public void SetCoordinates(int x, int z)
     {
-        block = null;
-    }
-
-    public bool CanBuild()
-    {
-        return block == null;
-    }
-    public void SetNode(Grid<Node> grid, int x, int z)
-    {
-        this.grid = grid;
         this.x = x;
         this.z = z;
     }
 
-    public void SetIsPassable(bool value)
+    public void SetMoveCost(int movementCost)
     {
-        passable = value;
+        this.movementCost = movementCost;
     }
 
-    #region OnMouse Methods
-    // Moves the Player On a Mouse Click
-    void OnMouseDown()
+    public void SetTileObject(Transform block, TileObject tileObject)
     {
-        // TODO : Inspect Nodes get details
-
-        // Gives the BattleSystem the Destination
-        PlayerTurn.instance.PlayerMove(this);
+        this.vfx = block;
+        this.tileObject = tileObject;
+        UpdatePathingValues();
     }
 
-    // When Mouse Enters Node
-    void OnMouseEnter()
+    public void ClearTileObject()
     {
-        Highlight();
-        // TODO : Tool tip for tile stats
+        tileObject = null;
     }
 
-    private void Highlight()
+    public bool CanBuild()
     {
-        // If players turn
-        if (CombatState.state != BattleState.PLAYERTURN)
-            return;
-
-        // Check if in Reach to determine green or red
-        if (!passable)
-        {
-            mat.color = outOfReach;
-            return;
-        }
-
-        // Can move to, Turn Green
-        Unit unit = PlayerTurn.instance.selected;
-        if (MapManager.instance.CanMove(unit, unit.node, this))
-            mat.color = withinReach;
-        // Can't move to, Turn Red
-        else
-            mat.color = outOfReach;
+        return tileObject == null;
     }
 
-    // When Mouse Exits Node
-    void OnMouseExit()
+    public void SetForecastTile(ForecastTile tile)
     {
-        // Change back to default Color
-        mat.color = def;
+        forecastTile = tile;
+        tile.SetNode(this);
     }
-    #endregion
 }

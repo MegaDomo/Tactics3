@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelEditorSystem : MonoBehaviour
 {
-    public TileObject block;
+    public TileObject tileObject;
 
     private bool canEdit;
     private Grid<Node> grid;
@@ -22,12 +22,11 @@ public class LevelEditorSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && canEdit)
         {
             grid.GetXZ(Utils.GetMouseWorldPosition(), out int x, out int z);
-            Debug.Log(x + " : " + z);
             Node node = grid.GetGridObject(x, z);
             if (node.CanBuild())
             {
-                Transform blockFab = Instantiate(block.prefab, grid.GetWorldPosition(x, z), Quaternion.identity);
-                node.SetBlock(blockFab);
+                Transform blockFab = Instantiate(tileObject.prefab, grid.GetWorldPosition(x, z), Quaternion.identity);
+                node.SetTileObject(blockFab, tileObject);
             }
             else
             {
