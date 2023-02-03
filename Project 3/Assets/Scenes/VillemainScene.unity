@@ -635,7 +635,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!156049354 &67452264
 Grid:
   m_ObjectHideFlags: 0
@@ -2801,9 +2801,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cade0a6b0346d4f9344a3f314d0823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  makeRandomMap: 1
-  spawnUnits: 1
-  haveCombat: 1
+  makeRandomMap: 0
+  spawnUnits: 0
+  haveCombat: 0
   editLevelOnRunTime: 0
   maker: {fileID: 345424373}
   mapManager: {fileID: 2120947107}
@@ -11286,7 +11286,7 @@ GameObject:
   - component: {fileID: 1519812147}
   m_Layer: 0
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11334,37 +11334,33 @@ Transform:
   - {fileID: 1063119347}
   - {fileID: 1366580086}
   - {fileID: 1092828734}
-  - {fileID: 1921358213}
   - {fileID: 1523085008}
-  - {fileID: 733137395}
   - {fileID: 607739847}
   - {fileID: 470915783}
   - {fileID: 2125249425}
+  - {fileID: 866874948}
   - {fileID: 718969525}
   - {fileID: 732067413}
   - {fileID: 1641050595}
-  - {fileID: 1462756213}
   - {fileID: 2127908602}
-  - {fileID: 1291431941}
   - {fileID: 805576587}
-  - {fileID: 1684392896}
   - {fileID: 1492480954}
   - {fileID: 1955427052}
-  - {fileID: 1998907836}
-  - {fileID: 866874948}
   - {fileID: 880441033}
   - {fileID: 127312156}
-  - {fileID: 2066389661}
   - {fileID: 364561657}
   - {fileID: 450080959}
   - {fileID: 18426385}
+  - {fileID: 1998907836}
   - {fileID: 128789106}
   - {fileID: 2091809038}
   - {fileID: 1611627463}
+  - {fileID: 2066389661}
   - {fileID: 446923303}
   - {fileID: 152980686}
   - {fileID: 795245434}
   - {fileID: 1840442521}
+  - {fileID: 1684392896}
   - {fileID: 719796538}
   - {fileID: 2092649653}
   - {fileID: 1144046796}
@@ -11372,6 +11368,7 @@ Transform:
   - {fileID: 999137515}
   - {fileID: 1403872203}
   - {fileID: 1596467365}
+  - {fileID: 1291431941}
   - {fileID: 960168583}
   - {fileID: 2109907285}
   - {fileID: 306436419}
@@ -11383,6 +11380,7 @@ Transform:
   - {fileID: 693028326}
   - {fileID: 1613951470}
   - {fileID: 2054545990}
+  - {fileID: 1462756213}
   - {fileID: 757431089}
   - {fileID: 622691604}
   - {fileID: 1024784680}
@@ -11488,46 +11486,48 @@ Transform:
   - {fileID: 515554171}
   - {fileID: 2027148807}
   - {fileID: 1463289797}
+  - {fileID: 861235994}
   - {fileID: 266804914}
+  - {fileID: 1123247036}
   - {fileID: 1604793612}
   - {fileID: 1639571371}
   - {fileID: 629128967}
   - {fileID: 1788297471}
+  - {fileID: 1110542262}
   - {fileID: 739395153}
   - {fileID: 1257365110}
   - {fileID: 776744320}
+  - {fileID: 1592343481}
   - {fileID: 1136701565}
   - {fileID: 1902308592}
   - {fileID: 1990352765}
   - {fileID: 1627495456}
-  - {fileID: 804772754}
+  - {fileID: 1505244872}
   - {fileID: 792967790}
   - {fileID: 936772142}
-  - {fileID: 1123247036}
-  - {fileID: 1592343481}
   - {fileID: 473112156}
-  - {fileID: 1110542262}
-  - {fileID: 69541399}
-  - {fileID: 51294281}
-  - {fileID: 1954985803}
-  - {fileID: 861235994}
-  - {fileID: 135975047}
-  - {fileID: 1442288701}
-  - {fileID: 1505244872}
-  - {fileID: 889534508}
   - {fileID: 1702011945}
-  - {fileID: 875083706}
+  - {fileID: 69541399}
+  - {fileID: 733137395}
+  - {fileID: 1954985803}
   - {fileID: 1846697562}
-  - {fileID: 231567675}
+  - {fileID: 135975047}
   - {fileID: 1468059257}
-  - {fileID: 1980940304}
-  - {fileID: 561225898}
-  - {fileID: 679814435}
-  - {fileID: 2085549248}
-  - {fileID: 365265714}
-  - {fileID: 1017164129}
+  - {fileID: 1442288701}
   - {fileID: 83884909}
+  - {fileID: 889534508}
+  - {fileID: 1921358213}
+  - {fileID: 875083706}
+  - {fileID: 1980940304}
+  - {fileID: 231567675}
+  - {fileID: 804772754}
+  - {fileID: 561225898}
+  - {fileID: 2085549248}
+  - {fileID: 679814435}
+  - {fileID: 1017164129}
+  - {fileID: 365265714}
   - {fileID: 503148305}
+  - {fileID: 51294281}
   m_Father: {fileID: 67452265}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

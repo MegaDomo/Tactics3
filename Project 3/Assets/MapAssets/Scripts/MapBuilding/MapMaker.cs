@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MapMaker : MonoBehaviour
 {
@@ -34,6 +35,9 @@ public class MapMaker : MonoBehaviour
 
         if (makeRandomMap)
             CreateMap();
+
+        if (!makeRandomMap)
+            GetMap();
 
         // When Finishes, Performs Handoff
         manager.map = map;
@@ -77,6 +81,45 @@ public class MapMaker : MonoBehaviour
     }
     #endregion
 
+    #region Get Map
+    private void GetMap()
+    {
+        Tilemap tilemap = GameObject.FindGameObjectWithTag("Map").GetComponent<Tilemap>();
+        
+        for (int i = 0; i < map.GetSize(); i++)
+        {
+            for (int j = 0; j < map.GetSize(); j++)
+            {
+                // Tile Map uses x and y whereas our Grid<T> uses x and z
+                Vector3Int vec = FindPositionFromTileMap(i, j);
+                GameObject clone = tilemap.GetInstantiatedObject(vec);
+                Node node = CreateNode(i, j, clone);
+                map.SetGridObject(i, j, node);
+            }
+        }
+    }
+
+    private Vector3Int FindPositionFromTileMap(int x, int z)
+    {
+        Vector3 temp = map.GetWorldPosition(x, z);
+        Vector3Int vec = new Vector3Int((int)temp.x + 5, (int)temp.z + 5);        
+        return vec;
+    }
+
+    private Node CreateNode(int x, int z, GameObject clone)
+    {
+        Node node = new Node(x, z, map);
+        
+        TileObject tileObject = clone.GetComponent<Block>().tileObject;
+        node.SetTileObject(clone.transform, tileObject);
+
+        ForecastTile tile = Instantiate(forecastTile, map.GetWorldPosition(x, z), Quaternion.identity).GetComponent<ForecastTile>();
+        node.SetForecastTile(tile);
+        return node;
+    }
+    #endregion
+
+    #region Utility Methods
     public Vector3 GetCoordinates(Node node)
     {
         // Base Case : No Data
@@ -97,4 +140,5 @@ public class MapMaker : MonoBehaviour
         // Base Case : Out of Bounds
         return new Vector3(-1, 0, -1);
     }
+    #endregion
 }
