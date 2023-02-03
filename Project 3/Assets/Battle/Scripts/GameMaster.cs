@@ -17,6 +17,7 @@ public class GameMaster : MonoBehaviour
     public bool makeRandomMap;
     public bool spawnUnits;
     public bool haveCombat;
+    public bool editLevelOnRunTime;
 
     [Header("References")]
     public MapMaker maker;
@@ -46,6 +47,7 @@ public class GameMaster : MonoBehaviour
             battleSystem.StartBattle();
         }
 
-        editor.SetUp(!makeRandomMap);
+        if (editLevelOnRunTime)
+            editor.SetUp(!makeRandomMap);
     }
 }

@@ -34,7 +34,6 @@ public class ForecastTile : MonoBehaviour
     void OnMouseDown()
     {
         // TODO : Inspect Nodes get details
-        Debug.Log("Down");
         // Gives the BattleSystem the Destination
         PlayerTurn.instance.PlayerMove(node);
     }
