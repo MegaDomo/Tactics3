@@ -143,10 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3dbd715b5fa83142ab96b91b499412a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileObject: {fileID: 11400000, guid: 22b8451edf15f874b9a9fc1f4e2b7842, type: 2}
+  blockObject: {fileID: 11400000, guid: 22b8451edf15f874b9a9fc1f4e2b7842, type: 2}
   standingPoint: {fileID: 5308626490308691236}
   vfx: {fileID: 3612235859453321493}
-  movementCost: 0
 --- !u!1 &7918139099305647638
 GameObject:
   m_ObjectHideFlags: 0

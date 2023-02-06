@@ -8,7 +8,8 @@ public class Node
     public int x;
     public int z;
     public int movementCost;
-    public Transform vfx;
+    public Transform blockVFX;
+    public BlockObject blockObject;
     public TileObject tileObject;
     public ForecastTile forecastTile;
     public Unit unit;
@@ -39,13 +40,30 @@ public class Node
     
     public void UpdatePathingValues()
     {
-        passable = tileObject.passable;
-        movementCost = tileObject.movementCost;
+        if (blockObject == null)
+            return;
+
+        // Passable
+        if (tileObject != null)
+        {
+            if (!blockObject.passable || !tileObject.passable)
+                passable = false;
+            else
+                passable = true;
+        }
+        else
+            passable = blockObject.passable;
+
+        // Movement Cost
+        if (tileObject != null)
+            movementCost = blockObject.movementCost + tileObject.movementCost;
+        else
+            movementCost = blockObject.movementCost;
     }
 
     public Vector3 GetStandingPoint()
     {
-        return vfx.gameObject.GetComponent<Block>().standingPoint.position;
+        return blockVFX.gameObject.GetComponent<Block>().standingPoint.position;
     }
 
     public void SetCoordinates(int x, int z)
@@ -59,9 +77,25 @@ public class Node
         this.movementCost = movementCost;
     }
 
-    public void SetTileObject(Transform block, TileObject tileObject)
+    public void SetBlockObject(Transform block, BlockObject blockObject)
     {
-        this.vfx = block;
+        this.blockVFX = block;
+        this.blockObject = blockObject;
+        UpdatePathingValues();
+    }
+
+    public void ClearBlockObject()
+    {
+        blockObject = null;
+    }
+
+    public bool CanBuild()
+    {
+        return blockObject == null;
+    }
+
+    public void SetTileObject(TileObject tileObject)
+    {
         this.tileObject = tileObject;
         UpdatePathingValues();
     }
@@ -69,16 +103,28 @@ public class Node
     public void ClearTileObject()
     {
         tileObject = null;
-    }
-
-    public bool CanBuild()
-    {
-        return tileObject == null;
+        UpdatePathingValues();
     }
 
     public void SetForecastTile(ForecastTile tile)
     {
         forecastTile = tile;
         tile.SetNode(this);
+    }
+
+    public void ClearForecastTile()
+    {
+        forecastTile.SetNode(null);
+        forecastTile = null;
+    }
+
+    public void SetNodeData(Transform block, BlockObject blockObject, TileObject tileObject, ForecastTile forecastTile)
+    {
+        this.blockVFX = block;
+        this.blockObject = blockObject;
+        this.tileObject = tileObject;
+        this.forecastTile = forecastTile;
+        forecastTile.SetNode(this);
+        UpdatePathingValues();
     }
 }

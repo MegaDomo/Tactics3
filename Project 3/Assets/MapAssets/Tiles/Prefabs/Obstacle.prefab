@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3dbd715b5fa83142ab96b91b499412a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileObject: {fileID: 11400000, guid: a36dbcd222d083c469463b967c8b40fb, type: 2}
+  blockObject: {fileID: 11400000, guid: a36dbcd222d083c469463b967c8b40fb, type: 2}
   standingPoint: {fileID: 6601148754773217311}
   vfx: {fileID: 2312254381412955182}
 --- !u!1 &9211299351097215789

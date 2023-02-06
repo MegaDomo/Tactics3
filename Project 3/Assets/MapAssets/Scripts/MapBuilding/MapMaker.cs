@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class MapMaker : MonoBehaviour
 {
     [Header("Unity References")]
-    public List<TileObject> tileObjects;
+    public List<BlockObject> blockObjects;
     public GameObject forecastTile;
     public Transform startingPoint;
     public MapManager manager;
@@ -51,18 +51,18 @@ public class MapMaker : MonoBehaviour
         {
             for (int j = 0; j < map.GetSize(); j++)
             {
-                TileObject temp;
+                BlockObject temp;
                 int z = Random.Range(0, 5);
 
                 // Obstacle 20%
                 if (z == 0)
-                    temp = tileObjects[2];
+                    temp = blockObjects[2];
                 // Swamp 40%
                 else if (z == 1 || z == 2)
-                    temp = tileObjects[0];
+                    temp = blockObjects[0];
                 // Plains 40%
                 else
-                    temp = tileObjects[1];
+                    temp = blockObjects[1];
 
 
                 Transform block = Instantiate(temp.prefab, map.GetWorldPosition(i, j), Quaternion.identity);
@@ -72,10 +72,10 @@ public class MapMaker : MonoBehaviour
         }
     }
 
-    private void StoreDataInGrid(int x, int z, Transform block, TileObject tileObject, ForecastTile tile)
+    private void StoreDataInGrid(int x, int z, Transform block, BlockObject blockObject, ForecastTile tile)
     {
         Node node = new Node(x, z, map);
-        node.SetTileObject(block, tileObject);
+        node.SetBlockObject(block, blockObject);
         node.SetForecastTile(tile);
         map.SetGridObject(x, z, node);
     }
@@ -84,38 +84,58 @@ public class MapMaker : MonoBehaviour
     #region Get Map
     private void GetMap()
     {
-        Tilemap tilemap = GameObject.FindGameObjectWithTag("Map").GetComponent<Tilemap>();
-        
-        for (int i = 0; i < map.GetSize(); i++)
-        {
-            for (int j = 0; j < map.GetSize(); j++)
-            {
-                // Tile Map uses x and y whereas our Grid<T> uses x and z
-                Vector3Int vec = FindPositionFromTileMap(i, j);
-                GameObject clone = tilemap.GetInstantiatedObject(vec);
-                Node node = CreateNode(i, j, clone);
-                map.SetGridObject(i, j, node);
-            }
-        }
+        Transform layer1 = GameObject.FindGameObjectWithTag("Ground").transform;
+        Transform layer2 = GameObject.FindGameObjectWithTag("ObstacleDecor").transform;
+
+        GetGroundLayer(layer1);
+        GetObstacleLayer(layer2);
     }
 
-    private Vector3Int FindPositionFromTileMap(int x, int z)
+    private void GetGroundLayer(Transform tilemap)
     {
-        Vector3 temp = map.GetWorldPosition(x, z);
-        Vector3Int vec = new Vector3Int((int)temp.x + 5, (int)temp.z + 5);        
-        return vec;
+        for (int i = 0; i < tilemap.childCount; i++)
+        {
+            map.GetXZ(tilemap.GetChild(i).position, out int x, out int z);
+            Node node = CreateNode(x, z, tilemap.GetChild(i).gameObject);
+            map.SetGridObject(x, z, node);
+        }
     }
 
     private Node CreateNode(int x, int z, GameObject clone)
     {
         Node node = new Node(x, z, map);
-        
-        TileObject tileObject = clone.GetComponent<Block>().tileObject;
-        node.SetTileObject(clone.transform, tileObject);
+
+        BlockObject blockObject = clone.GetComponent<Block>().blockObject;
+        node.SetBlockObject(clone.transform, blockObject);
 
         ForecastTile tile = Instantiate(forecastTile, map.GetWorldPosition(x, z), Quaternion.identity).GetComponent<ForecastTile>();
         node.SetForecastTile(tile);
         return node;
+    }
+
+    private void GetObstacleLayer(Transform tilemap)
+    {
+        for (int i = 0; i < tilemap.childCount; i++)
+        {
+            TileObject tileObject = tilemap.GetChild(i).GetComponent<Tile>().tileObject;
+            if (Decor(tileObject))
+                continue;
+
+            map.GetXZ(tilemap.GetChild(i).position, out int x, out int z);
+            List<Vector2Int> positionList = tileObject.GetGridPositionList(x, z);
+            SetAffectedNodes(positionList, tileObject);
+        }
+    }
+
+    private void SetAffectedNodes(List<Vector2Int> list, TileObject tileObject)
+    {
+        foreach (Vector2Int vector in list)
+            map.GetGridObject(vector.x, vector.y).SetTileObject(tileObject);
+    }
+
+    private bool Decor(TileObject tileObject)
+    {
+        return tileObject.isDecor;
     }
     #endregion
 

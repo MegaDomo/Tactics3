@@ -29,7 +29,7 @@ public class Grid<T>
                 gridArray[i, j] = createGridObject();
             }
         }
-        bool debug = true;
+        bool debug = false;
         if (debug)
         {
             // Shows Grid in Space

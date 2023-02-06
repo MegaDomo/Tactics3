@@ -123,14 +123,12 @@ public class Pathfinding
     #endregion
 
     #region Utility Methods
-    // This Method will be called by the Move Command, and it needs to be called by mouse hovering
     public bool CanMove(Unit selected, Node start, Node end)
     {
-        // Objective Distance
+        // Heuristic
         if (GetDistance(start, end) > selected.stats.movement - selected.stats.moved)
             return false;
 
-        // Get Path        
         int pathCost = GetPathCost(start, end);
         Debug.Log(pathCost);
         // No Path

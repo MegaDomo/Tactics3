@@ -2,88 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewTileObject", menuName = "Map/Block")]
+[CreateAssetMenu(fileName = "NewTileObject", menuName = "Map/TileObject")]
 public class TileObject : ScriptableObject
 {
-    public static Dir GetNextDir(Dir dir)
-    {
-        switch (dir)
-        {
-            default:
-            case Dir.Down:
-                return Dir.Left;
-            case Dir.Left:
-                return Dir.Up;
-            case Dir.Up:
-                return Dir.Right;
-            case Dir.Right:
-                return Dir.Down;
-        }
-
-    }
-
-    public enum Dir 
-    { 
-        Up, 
-        Right, 
-        Down, 
-        Left
-    }
-
+    public bool isDecor = false;
+    public bool obstacle = false;
     public bool passable = true;
     public int width;
     public int height;
-    public int movementCost;
+    public int movementCost = 0;
     public string nameString;
     public Transform prefab;
 
-    public Vector3 GetStandingPoint()
-    {
-        return prefab.GetComponent<Block>().standingPoint.position;
-    }
-
-    public int GetRotationAngle(Dir dir)
-    {
-        switch (dir)
-        {
-            default:
-            case Dir.Down:
-                return 0;
-            case Dir.Left:
-                return 90;
-            case Dir.Up:
-                return 180;
-            case Dir.Right:
-                return 270;
-        }
-    }
-    public List<Vector2Int> GetGridPositionList(Vector2Int offset, Dir dir)
+    public List<Vector2Int> GetGridPositionList(int x, int z)
     {
         List<Vector2Int> positionList = new List<Vector2Int>();
-        switch (dir)
-        {
-            default:
-            case Dir.Down:
-            case Dir.Up:
-                for (int x = 0; x < width; x++)
-                {
-                    for (int z = 0; z < height; z++)
-                    {
-                        positionList.Add(offset + new Vector2Int(x, z));
-                    }
-                }
-                break;
-            case Dir.Left:
-            case Dir.Right:
-                for (int x = 0; x < height; x++)
-                {
-                    for (int z = 0; z < width; z++)
-                    {
-                        positionList.Add(offset + new Vector2Int(x, z));
-                    }
-                }
-                break;
-        }
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                positionList.Add(new Vector2Int(x + i, z + j));
         return positionList;
     }
 }

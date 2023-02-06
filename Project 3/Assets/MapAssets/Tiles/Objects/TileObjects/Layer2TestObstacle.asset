@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28405f5e590216d48a5a7db2a0068e93, type: 3}
+  m_Name: Layer2TestObstacle
+  m_EditorClassIdentifier: 
+  isDecor: 0
+  obstacle: 1
+  passable: 0
+  width: 1
+  height: 1
+  movementCost: 0
+  nameString: TestObstacle
+  prefab: {fileID: 5172321955938713982, guid: 7420dbc61c8def8489a76f6ba8421d16, type: 3}
