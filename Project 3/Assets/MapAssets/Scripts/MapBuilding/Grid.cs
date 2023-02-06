@@ -71,6 +71,21 @@ public class Grid<T>
         return width;
     }
 
+    public int GetWidth()
+    {
+        return width;
+    }
+
+    public int GetHeight()
+    {
+        return height;
+    }
+
+    public float GetCellSize()
+    {
+        return cellSize;
+    }
+
     public void SetGridObject(Vector3 worldPosition, T newGridObject)
     {
         int x, z;

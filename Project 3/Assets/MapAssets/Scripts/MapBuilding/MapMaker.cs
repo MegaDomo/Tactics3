@@ -115,27 +115,33 @@ public class MapMaker : MonoBehaviour
 
     private void GetObstacleLayer(Transform tilemap)
     {
-        for (int i = 0; i < tilemap.childCount; i++)
+        for (int x = 0; x < map.GetWidth(); x++)
         {
-            TileObject tileObject = tilemap.GetChild(i).GetComponent<Tile>().tileObject;
-            if (Decor(tileObject))
-                continue;
+            for (int z = 0; z < map.GetHeight(); z++)
+            {
+                Vector3 origin = map.GetWorldPosition(x, z) + new Vector3(map.GetCellSize(), -5, map.GetCellSize()) * 0.5f;
+                Ray ray = new Ray(origin, Vector3.up);
+                Physics.Raycast(ray, out RaycastHit hit);
 
-            map.GetXZ(tilemap.GetChild(i).position, out int x, out int z);
-            List<Vector2Int> positionList = tileObject.GetGridPositionList(x, z);
-            SetAffectedNodes(positionList, tileObject);
+                if (hit.collider == null)
+                    continue;
+                if (hit.transform.gameObject.layer != LayerMask.GetMask("Obstacle"))
+                    continue;
+
+                Tile tile = hit.collider.GetComponent<Tile>();
+                TileObject tileObject = tile.tileObject;
+                if (tileObject.isDecor)
+                    continue;
+
+                Node nodeToUpdate = map.GetGridObject((int)hit.transform.position.x, (int)hit.transform.position.z);
+                nodeToUpdate.SetTileObject(tileObject);
+            }
         }
     }
 
-    private void SetAffectedNodes(List<Vector2Int> list, TileObject tileObject)
+    private void AmendNode(Node node, TileObject tileObject)
     {
-        foreach (Vector2Int vector in list)
-            map.GetGridObject(vector.x, vector.y).SetTileObject(tileObject);
-    }
-
-    private bool Decor(TileObject tileObject)
-    {
-        return tileObject.isDecor;
+        node.SetTileObject(tileObject);
     }
     #endregion
 
