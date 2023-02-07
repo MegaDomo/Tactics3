@@ -108,7 +108,9 @@ public class MapMaker : MonoBehaviour
         BlockObject blockObject = clone.GetComponent<Block>().blockObject;
         node.SetBlockObject(clone.transform, blockObject);
 
-        ForecastTile tile = Instantiate(forecastTile, map.GetWorldPosition(x, z), Quaternion.identity).GetComponent<ForecastTile>();
+        float y = node.GetStandingPoint().y;
+        Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(0, y, 0);
+        ForecastTile tile = Instantiate(forecastTile, spawnPoint, Quaternion.identity).GetComponent<ForecastTile>();
         node.SetForecastTile(tile);
         return node;
     }

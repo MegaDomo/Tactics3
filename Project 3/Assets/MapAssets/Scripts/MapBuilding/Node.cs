@@ -41,7 +41,11 @@ public class Node
     public void UpdatePathingValues()
     {
         if (blockObject == null)
+        {
+            passable = false;
             return;
+        }
+            
 
         // Passable
         if (tileObject != null)
