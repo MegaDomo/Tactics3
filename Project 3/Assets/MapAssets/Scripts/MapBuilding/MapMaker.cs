@@ -119,29 +119,21 @@ public class MapMaker : MonoBehaviour
         {
             for (int z = 0; z < map.GetHeight(); z++)
             {
-                Vector3 origin = map.GetWorldPosition(x, z) + new Vector3(map.GetCellSize(), -5, map.GetCellSize()) * 0.5f;
+                Vector3 origin = map.GetWorldPosition(x, z) + new Vector3(map.GetCellSize(), -50, map.GetCellSize()) * 0.5f;
                 Ray ray = new Ray(origin, Vector3.up);
-                Physics.Raycast(ray, out RaycastHit hit);
-
+                Physics.Raycast(ray, out RaycastHit hit, 1000f, 256);
                 if (hit.collider == null)
-                    continue;
-                if (hit.transform.gameObject.layer != LayerMask.GetMask("Obstacle"))
-                    continue;
-
-                Tile tile = hit.collider.GetComponent<Tile>();
-                TileObject tileObject = tile.tileObject;
-                if (tileObject.isDecor)
-                    continue;
-
-                Node nodeToUpdate = map.GetGridObject((int)hit.transform.position.x, (int)hit.transform.position.z);
-                nodeToUpdate.SetTileObject(tileObject);
+                        continue;
+                AmendNode(x, z, hit);
             }
         }
     }
 
-    private void AmendNode(Node node, TileObject tileObject)
+    private void AmendNode(int x, int z, RaycastHit hit)
     {
-        node.SetTileObject(tileObject);
+        Node nodeToUpdate = map.GetGridObject(x, z);
+        TileObject tileObject = hit.collider.gameObject.GetComponent<Tile>().tileObject;
+        nodeToUpdate.SetTileObject(tileObject);
     }
     #endregion
 
