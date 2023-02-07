@@ -3138,6 +3138,7 @@ MonoBehaviour:
   forecastTile: {fileID: 2049764188928731931, guid: 4bd73d927e9359d45ad9319ced1ad30c, type: 3}
   startingPoint: {fileID: 162432791}
   manager: {fileID: 2120947107}
+  stepSize: 5
   cellSize: 10
   minMapSize: 15
   maxMapSize: 15
@@ -16501,6 +16502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathingSpeed: 0.3
+  stepSize: 0
 --- !u!4 &2121009726 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5172321955938713982, guid: 7420dbc61c8def8489a76f6ba8421d16, type: 3}

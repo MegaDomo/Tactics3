@@ -6,6 +6,7 @@ public class Node
 {
     public bool passable = true;
     public int x;
+    public int y;
     public int z;
     public int movementCost;
     public Transform blockVFX;
@@ -24,6 +25,14 @@ public class Node
     public Node(int x, int z, Grid<Node> grid)
     {
         this.x = x;
+        this.y = 0;
+        this.z = z;
+        this.grid = grid;
+    }
+    public Node(int x, int y, int z, Grid<Node> grid)
+    {
+        this.x = x;
+        this.y = y;
         this.z = z;
         this.grid = grid;
     }
@@ -45,8 +54,7 @@ public class Node
             passable = false;
             return;
         }
-            
-
+        
         // Passable
         if (tileObject != null)
         {
@@ -67,7 +75,7 @@ public class Node
 
     public Vector3 GetStandingPoint()
     {
-        return blockVFX.gameObject.GetComponent<Block>().standingPoint.position;
+        return blockVFX.GetComponent<Block>().standingPoint.position;
     }
 
     public void SetCoordinates(int x, int z)

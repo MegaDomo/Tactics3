@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Pathfinding
 {
-    Grid<Node> grid;
+    int stepSize;
+    private Grid<Node> grid;
 
-    public Pathfinding(Grid<Node> grid)
+    public Pathfinding(Grid<Node> grid, int stepSize)
     {
         this.grid = grid;
+        this.stepSize = stepSize;
     }
 
     #region Pathing
@@ -38,6 +40,9 @@ public class Pathfinding
             // Adds Adjacent Edges
             foreach (Node next in GetNeighbors(current))
             {
+                if (Mathf.Abs(next.y - current.y) > stepSize)
+                    continue;
+
                 // Finds Cost of current path
                 int newCost = cost_so_far[current] + next.movementCost;
                 if (!cost_so_far.ContainsKey(next) || newCost < cost_so_far[next])
@@ -97,6 +102,7 @@ public class Pathfinding
 
     private bool isSafe(Node neighbor)
     {
+        // Obstructed
         if (!neighbor.passable)
             return false;
         return true;

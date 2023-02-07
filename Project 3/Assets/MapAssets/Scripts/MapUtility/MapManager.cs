@@ -16,12 +16,19 @@ public class MapManager : MonoBehaviour
     [Header("Attributes")]
     public float pathingSpeed;
 
+    [HideInInspector] public int stepSize;
     [HideInInspector] public Grid<Node> map;
     [HideInInspector] public Pathfinding pathing;
 
     public void SetUp()
     {
-        pathing = new Pathfinding(map);
+        pathing = new Pathfinding(map, stepSize);
+    }
+
+    public void GetMapData(Grid<Node> map, int stepSize)
+    {
+        this.map = map;
+        this.stepSize = stepSize;
     }
 
     // Unit is unit to move, and node is destination

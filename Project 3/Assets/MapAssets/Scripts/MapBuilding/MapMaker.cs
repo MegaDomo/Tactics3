@@ -12,6 +12,7 @@ public class MapMaker : MonoBehaviour
     public MapManager manager;
 
     [Header("Attributes")]
+    [SerializeField] private int stepSize = 5;
     [SerializeField] private int cellSize;
     [SerializeField] private int minMapSize;
     [SerializeField] private int maxMapSize;
@@ -40,7 +41,7 @@ public class MapMaker : MonoBehaviour
             GetMap();
 
         // When Finishes, Performs Handoff
-        manager.map = map;
+        manager.GetMapData(map, stepSize);
     }
     
     #region Create Map
@@ -93,26 +94,36 @@ public class MapMaker : MonoBehaviour
 
     private void GetGroundLayer(Transform tilemap)
     {
-        for (int i = 0; i < tilemap.childCount; i++)
+        for (int x = 0; x < map.GetWidth(); x++)
         {
-            map.GetXZ(tilemap.GetChild(i).position, out int x, out int z);
-            Node node = CreateNode(x, z, tilemap.GetChild(i).gameObject);
-            map.SetGridObject(x, z, node);
+            for (int z = 0; z < map.GetHeight(); z++)
+            {
+                RaycastHit hit = GetRaycastData(x, z, LayerMask.GetMask("Ground"));
+                if (hit.collider == null)
+                    continue;
+                CreateNode(x, z, hit);
+            }
         }
     }
 
-    private Node CreateNode(int x, int z, GameObject clone)
+    private void CreateNode(int x, int z, RaycastHit hit)
     {
-        Node node = new Node(x, z, map);
+        // Coordinates
+        int y = (int)hit.transform.position.y;
+        Node node = new Node(x, y, z, map);
 
-        BlockObject blockObject = clone.GetComponent<Block>().blockObject;
-        node.SetBlockObject(clone.transform, blockObject);
+        // Block Object
+        Transform block = hit.transform;        
+        BlockObject blockObject = block.GetComponent<Block>().blockObject;
+        node.SetBlockObject(block, blockObject);
 
-        float y = node.GetStandingPoint().y;
-        Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(0, y, 0);
+        // Forecast Object
+        float y2 = node.GetStandingPoint().y;
+        Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(0, y2, 0);
         ForecastTile tile = Instantiate(forecastTile, spawnPoint, Quaternion.identity).GetComponent<ForecastTile>();
         node.SetForecastTile(tile);
-        return node;
+
+        map.SetGridObject(x, z, node);
     }
 
     private void GetObstacleLayer(Transform tilemap)
@@ -121,9 +132,7 @@ public class MapMaker : MonoBehaviour
         {
             for (int z = 0; z < map.GetHeight(); z++)
             {
-                Vector3 origin = map.GetWorldPosition(x, z) + new Vector3(map.GetCellSize(), -50, map.GetCellSize()) * 0.5f;
-                Ray ray = new Ray(origin, Vector3.up);
-                Physics.Raycast(ray, out RaycastHit hit, 1000f, 256);
+                RaycastHit hit = GetRaycastData(x, z, LayerMask.GetMask("Obstacle"));
                 if (hit.collider == null)
                         continue;
                 AmendNode(x, z, hit);
@@ -136,6 +145,14 @@ public class MapMaker : MonoBehaviour
         Node nodeToUpdate = map.GetGridObject(x, z);
         TileObject tileObject = hit.collider.gameObject.GetComponent<Tile>().tileObject;
         nodeToUpdate.SetTileObject(tileObject);
+    }
+
+    private RaycastHit GetRaycastData(int x, int z, LayerMask mask)
+    {
+        Vector3 origin = map.GetWorldPosition(x, z) + new Vector3(map.GetCellSize(), -50, map.GetCellSize()) * 0.5f;
+        Ray ray = new Ray(origin, Vector3.up);
+        Physics.Raycast(ray, out RaycastHit hit, 1000f, mask);
+        return hit;
     }
     #endregion
 
