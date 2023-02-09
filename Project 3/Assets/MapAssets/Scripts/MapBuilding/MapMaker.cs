@@ -52,23 +52,10 @@ public class MapMaker : MonoBehaviour
         {
             for (int j = 0; j < map.GetSize(); j++)
             {
-                BlockObject temp;
-                int z = Random.Range(0, 5);
-
-                // Obstacle 20%
-                if (z == 0)
-                    temp = blockObjects[2];
-                // Swamp 40%
-                else if (z == 1 || z == 2)
-                    temp = blockObjects[0];
-                // Plains 40%
-                else
-                    temp = blockObjects[1];
-
-
-                Transform block = Instantiate(temp.prefab, map.GetWorldPosition(i, j), Quaternion.identity);
+                BlockObject blockObject = GetRandomBlockObject();
+                Transform block = Instantiate(blockObject.prefab, map.GetWorldPosition(i, j), Quaternion.identity);
                 ForecastTile tile = Instantiate(forecastTile, map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<ForecastTile>();
-                StoreDataInGrid(i, j, block, temp, tile);
+                StoreDataInGrid(i, j, block, blockObject, tile);
             }
         }
     }
@@ -79,6 +66,24 @@ public class MapMaker : MonoBehaviour
         node.SetBlockObject(block, blockObject);
         node.SetForecastTile(tile);
         map.SetGridObject(x, z, node);
+    }
+
+    private BlockObject GetRandomBlockObject()
+    {
+        BlockObject temp;
+        int z = Random.Range(0, 5);
+
+        // Obstacle 20%
+        if (z == 0)
+            temp = blockObjects[2];
+        // Swamp 40%
+        else if (z == 1 || z == 2)
+            temp = blockObjects[0];
+        // Plains 40%
+        else
+            temp = blockObjects[1];
+
+        return temp;
     }
     #endregion
 
