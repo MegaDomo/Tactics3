@@ -12,5 +12,7 @@ public class Behavior : ScriptableObject
     public virtual void TakeTurn() { }
     public virtual void FindTarget() { }
     public virtual void Move() { }
-    public virtual void Attack() { }    
+    public virtual void Attack() { }
+    
+    // public virtual void GetBlackBoard() { }
 }
