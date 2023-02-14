@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ForecastTile : MonoBehaviour
 {
@@ -55,6 +54,8 @@ public class ForecastTile : MonoBehaviour
 
     private void Highlight()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
         // If players turn
         if (CombatState.state != BattleState.PLAYERTURN && player.actionState != ActionState.MoveAction)
             return;

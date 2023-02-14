@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ObjectClicker : MonoBehaviour
 {
@@ -39,7 +38,7 @@ public class ObjectClicker : MonoBehaviour
     private RaycastHit GetClickData()
     {
         RaycastHit hit = new RaycastHit();
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit, 1000f);
