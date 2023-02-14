@@ -10,6 +10,7 @@ public class MapMaker : MonoBehaviour
     public GameObject forecastTile;
     public Transform startingPoint;
     public MapManager manager;
+    public TileObject tileObject;
 
     [Header("Attributes")]
     [SerializeField] private int stepSize = 5;
@@ -54,18 +55,30 @@ public class MapMaker : MonoBehaviour
             {
                 BlockObject blockObject = GetRandomBlockObject();
                 Transform block = Instantiate(blockObject.prefab, map.GetWorldPosition(i, j), Quaternion.identity);
-                ForecastTile tile = Instantiate(forecastTile, map.GetWorldPosition(i, j), Quaternion.identity).GetComponent<ForecastTile>();
-                StoreDataInGrid(i, j, block, blockObject, tile);
+                
+                StoreDataInGrid(i, j, block, blockObject);
             }
         }
     }
 
-    private void StoreDataInGrid(int x, int z, Transform block, BlockObject blockObject, ForecastTile tile)
+    private void StoreDataInGrid(int x, int z, Transform block, BlockObject blockObject)
     {
         Node node = new Node(x, z, map);
         node.SetBlockObject(block, blockObject);
+        if (Obstacle())
+        {
+            Instantiate(tileObject.prefab, map.GetWorldPosition(x, z) + new Vector3(0, cellSize, 0), Quaternion.identity);
+            node.SetTileObject(tileObject);
+        }
+        
+        ForecastTile tile = Instantiate(forecastTile, node.GetStandingPoint(), Quaternion.identity).GetComponent<ForecastTile>();
         node.SetForecastTile(tile);
         map.SetGridObject(x, z, node);
+    }
+    private bool Obstacle()
+    {
+        // short hand, computer picks a number between the range of 0 and 5, 0-4, or 20% to determine true or false.
+        return (Random.Range(0, 5) == 0);
     }
 
     private BlockObject GetRandomBlockObject()
