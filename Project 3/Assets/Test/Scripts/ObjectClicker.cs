@@ -14,7 +14,13 @@ public class ObjectClicker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CombatState.state != BattleState.PLAYERTURN || PlayerTurn.instance.actionState == ActionState.CannotChoose)
+        CheckForNodeSelection();
+        CheckForDeselection();
+    }
+
+    private void CheckForNodeSelection()
+    {
+        if (CombatState.state != BattleState.PLAYERTURN && player.actionState != ActionState.MoveAction)
             return;
 
         RaycastHit hit = GetClickData();
@@ -24,7 +30,7 @@ public class ObjectClicker : MonoBehaviour
         if (hit.transform.gameObject.tag != "ForecastTile")
             return;
 
-        ForecastTile fTile= hit.transform.GetComponent<ForecastTile>();
+        ForecastTile fTile = hit.transform.GetComponent<ForecastTile>();
         Node node = fTile.GetNode();
         player.ChooseNode(node);
         Debug.Log("Hit Forecast tile : " + hit.transform.gameObject.name);
@@ -41,5 +47,11 @@ public class ObjectClicker : MonoBehaviour
                 Debug.Log("No Hit on Click");
         }
         return hit;
+    }
+
+    private void CheckForDeselection()
+    {
+        if (Input.GetMouseButtonDown(1))
+            player.ClearNode();
     }
 }

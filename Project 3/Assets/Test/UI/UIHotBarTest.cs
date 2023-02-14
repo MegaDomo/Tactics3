@@ -12,21 +12,20 @@ public class UIHotBarTest : MonoBehaviour
     private void Start()
     {
         player = PlayerTurn.instance;
+        TurnOffHotBar();
     }
 
     private void Update()
     {
         if (CanPlayerChooseAction())
-        {
             TurnOnHotBar();
-            return;
-        }
-        TurnOffHotBar();
+        else
+            TurnOffHotBar();
     }
 
     private bool CanPlayerChooseAction()
     {
-        if (CombatState.state == BattleState.PLAYERTURN || player.actionState == ActionState.ChoosingAction)
+        if (CombatState.state == BattleState.PLAYERTURN && player.actionState == ActionState.ChoosingAction)
             return true;
         return false;
     }
@@ -43,7 +42,8 @@ public class UIHotBarTest : MonoBehaviour
             return;
         hotBar.SetActive(true);
     }
-    // Event Handler
+
+    #region Event Handler
     public void WeaponStrike()
     {
         /*if (player.actionState == ActionState.ChoosingAction)
@@ -51,4 +51,10 @@ public class UIHotBarTest : MonoBehaviour
             player.actionState = ActionState.ChoosingTarget;
         }*/
     }
+
+    public void Wait()
+    {
+        player.PlayerMove();
+    }
+    #endregion
 }

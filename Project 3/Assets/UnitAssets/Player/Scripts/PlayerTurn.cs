@@ -47,14 +47,14 @@ public class PlayerTurn : MonoBehaviour
     #endregion
 
     #region Player Functions
-    public void PlayerMove(Node destination)
+    public void PlayerMove()
     {
         // If players turn
         if (CombatState.state != BattleState.PLAYERTURN)
             return;
-
-        // TODO : Open up a Something / confirm window, then the Event handler of the "Yes" Button will call the Method Below
-        MapManager.instance.Move(selected, destination);
+        if (selected == null) Debug.Log("Selected");
+        if (targetNode == null) Debug.Log("Node");
+        MapManager.instance.Move(selected, targetNode);
     }
     #endregion
 
@@ -62,6 +62,16 @@ public class PlayerTurn : MonoBehaviour
     public Unit GetSelected()
     {
         return selected;
+    }
+    public Unit GetTargeted()
+    {
+        return targeted;
+    }
+
+
+    public Node GetTargetedNode()
+    {
+        return targetNode;
     }
 
     public void SetSelected(Unit _selected)
@@ -72,6 +82,11 @@ public class PlayerTurn : MonoBehaviour
     public void SetTargeted(Unit _targeted)
     {
         targeted = _targeted;
+    }
+
+    public void SetTargetedNode(Node _node)
+    {
+        targetNode = _node;
     }
     #endregion
 }

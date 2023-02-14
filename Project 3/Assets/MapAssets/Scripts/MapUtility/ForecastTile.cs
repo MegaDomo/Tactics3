@@ -17,6 +17,7 @@ public class ForecastTile : MonoBehaviour
     [HideInInspector] public Node node;
 
     private Material mat;
+    private PlayerTurn player;
 
     private void Awake()
     {
@@ -24,7 +25,18 @@ public class ForecastTile : MonoBehaviour
         mat.color = def;
     }
 
-    
+    private void Start()
+    {
+        player = PlayerTurn.instance;
+    }
+
+    private void Update()
+    {/*
+        if (player.actionState == ActionState.ChoosingAction)
+            if (player.GetTargetedNode() == node)
+                mat.color = withinReach;*/
+    }
+
     #region OnMouse Methods
     // Moves the Player On a Mouse Click
     void OnMouseDown()
@@ -44,7 +56,7 @@ public class ForecastTile : MonoBehaviour
     private void Highlight()
     {
         // If players turn
-        if (CombatState.state != BattleState.PLAYERTURN)
+        if (CombatState.state != BattleState.PLAYERTURN && player.actionState != ActionState.MoveAction)
             return;
 
         // Check if in Reach to determine green or red
@@ -67,9 +79,14 @@ public class ForecastTile : MonoBehaviour
     void OnMouseExit()
     {
         // Change back to default Color
-        mat.color = def;
+        HideTile();
     }
     #endregion
+
+    public void HideTile()
+    {
+        mat.color = def;
+    }
 
     #region Getters & Setters
     public Node GetNode()
