@@ -137,7 +137,8 @@ public class MapMaker : MonoBehaviour
 
         // Forecast Object
         float y2 = node.GetStandingPoint().y;
-        Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(0, y2, 0);
+        float cellSize = map.GetCellSize() / 2;
+        Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(cellSize, y2, cellSize);
         ForecastTile tile = Instantiate(forecastTile, spawnPoint, Quaternion.identity).GetComponent<ForecastTile>();
         node.SetForecastTile(tile);
 

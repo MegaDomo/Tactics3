@@ -24,18 +24,14 @@ public class ForecastTile : MonoBehaviour
         mat.color = def;
     }
 
-    public void SetNode(Node node)
-    {
-        this.node = node;
-    }
-
+    
     #region OnMouse Methods
     // Moves the Player On a Mouse Click
     void OnMouseDown()
     {
         // TODO : Inspect Nodes get details
         // Gives the BattleSystem the Destination
-        PlayerTurn.instance.PlayerMove(node);
+        //PlayerTurn.instance.PlayerMove(node);
     }
 
     // When Mouse Enters Node
@@ -59,7 +55,7 @@ public class ForecastTile : MonoBehaviour
         }
 
         // Can move to, Turn Green
-        Unit unit = PlayerTurn.instance.selected;
+        Unit unit = PlayerTurn.instance.GetSelected();
         if (MapManager.instance.CanMove(unit, unit.node, node))
             mat.color = withinReach;
         // Can't move to, Turn Red
@@ -72,6 +68,17 @@ public class ForecastTile : MonoBehaviour
     {
         // Change back to default Color
         mat.color = def;
+    }
+    #endregion
+
+    #region Getters & Setters
+    public Node GetNode()
+    {
+        return node;
+    }
+    public void SetNode(Node node)
+    {
+        this.node = node;
     }
     #endregion
 }

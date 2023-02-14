@@ -51,6 +51,7 @@ public class BattleSystem : MonoBehaviour
             case "Player":
                 CombatState.MakeStatePlayerTurn();
                 PlayerTurn.instance.SetSelected(next);
+                PlayerTurn.instance.StartTurn();
                 break;
             case "Enemy":
                 CombatState.MakeStateEnemyTurn();

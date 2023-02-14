@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ActionState { MoveAction, ChoosingAction, CannotChoose }
+
 public class PlayerTurn : MonoBehaviour
 {
     #region Singleton
@@ -13,7 +15,36 @@ public class PlayerTurn : MonoBehaviour
     }
     #endregion
 
-    [HideInInspector] public Unit selected;
+    private Unit selected;
+    private Unit targeted;
+    private Node targetNode;
+
+    public ActionState actionState;
+
+    #region ActionStateMethods
+    public void StartTurn()
+    {
+        actionState = ActionState.MoveAction;
+    }
+
+    public void EndTurn()
+    {
+        actionState = ActionState.CannotChoose;
+    }
+
+    public void ChooseNode(Node node)
+    {
+        targetNode = node;
+        actionState = ActionState.ChoosingAction;
+    }
+
+    public void ClearNode()
+    {
+        targetNode = null;
+        actionState = ActionState.MoveAction;
+    }
+    
+    #endregion
 
     #region Player Functions
     public void PlayerMove(Node destination)
@@ -27,12 +58,20 @@ public class PlayerTurn : MonoBehaviour
     }
     #endregion
 
+    #region Getters & Setters
+    public Unit GetSelected()
+    {
+        return selected;
+    }
 
-
-    #region Setters
     public void SetSelected(Unit _selected)
     {
         selected = _selected;
+    }
+
+    public void SetTargeted(Unit _targeted)
+    {
+        targeted = _targeted;
     }
     #endregion
 }

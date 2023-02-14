@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8743973764081222232}
   m_Layer: 0
   m_Name: Goblin
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8743973764081222233}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.83, y: 5.17, z: -7.36}
-  m_LocalScale: {x: 1.2795447, y: 1.2795447, z: 1.2795447}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8743973765613314812}
@@ -99,12 +99,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ground: {fileID: 8743973765613314812}
   stats:
+    maxHealth: 0
+    curHealth: 0
     movement: 5
+    speed: 0
+    vision: 0
+    attack: 0
+    spAttack: 0
+    defense: 0
+    spDefense: 0
+    accuracy: 0
+    avoidance: 0
+    critChance: 0
+    critDamage: 0
+    inflictionChance: 0
+    inflictionResist: 0
     moved: 0
   type: Enemy
-  behavior: {fileID: 11400000, guid: 030259bb7c45cd34eba8033a7ce32cad, type: 2}
   abilities: []
-  node: {fileID: 0}
+  behavior: {fileID: 11400000, guid: 030259bb7c45cd34eba8033a7ce32cad, type: 2}
   offset: {x: 0, y: 0, z: 0}
 --- !u!1 &8743973765613314813
 GameObject:

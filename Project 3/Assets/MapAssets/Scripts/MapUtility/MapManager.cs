@@ -41,14 +41,14 @@ public class MapManager : MonoBehaviour
         Node start = selected.node;
 
         // Moves the Player along the Queue
-        StartCoroutine(MoveAlongPath(selected, destination));
+        StartCoroutine(TraversePath(selected, destination));
         
         // Updates the Nodes
         start.OnUnitExit();
         destination.OnUnitEnter();
     }
 
-    IEnumerator MoveAlongPath(Unit selected, Node end)
+    IEnumerator TraversePath(Unit selected, Node end)
     {
         List<Node> path = pathing.AStar(selected.node, end);
         int pathCost = pathing.GetPathCost(path);
