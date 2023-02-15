@@ -123,6 +123,7 @@ public class MapManager : MonoBehaviour
         unit.gameObject.transform.position = newPosition;
         // This Sets node Data in Unit Script
         unit.node = destination;
+        destination.unit = unit;
     }
     #endregion
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1347,7 +1347,7 @@ GameObject:
   - component: {fileID: 110603875}
   m_Layer: 0
   m_Name: Player2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16124,7 +16124,7 @@ GameObject:
   - component: {fileID: 1803906856}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18511,6 +18511,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8743973764081222232, guid: dfa2c24a9129c7642987f63ae0f010af, type: 3}
+      propertyPath: behavior
+      value: 
+      objectReference: {fileID: 11400000, guid: 30372b8d7d4e1354ab3e6ad719feec84, type: 2}
+    - target: {fileID: 8743973764081222232, guid: dfa2c24a9129c7642987f63ae0f010af, type: 3}
+      propertyPath: stats.movement
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 8743973764081222233, guid: dfa2c24a9129c7642987f63ae0f010af, type: 3}
       propertyPath: m_Name
       value: Goblin
