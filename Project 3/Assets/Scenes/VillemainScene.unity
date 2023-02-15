@@ -18517,7 +18517,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 30372b8d7d4e1354ab3e6ad719feec84, type: 2}
     - target: {fileID: 8743973764081222232, guid: dfa2c24a9129c7642987f63ae0f010af, type: 3}
       propertyPath: stats.movement
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8743973764081222233, guid: dfa2c24a9129c7642987f63ae0f010af, type: 3}
       propertyPath: m_Name

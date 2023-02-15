@@ -118,6 +118,22 @@ public class Pathfinding
         return pathCost;
     }
 
+    public int GetPartialPathCost(List<Node> path, Unit unit)
+    {
+        int pathCost = 0;
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            pathCost += path[i].movementCost;
+
+            if (pathCost > MapManager.instance.MovementLeft(unit))
+            {
+                pathCost -= path[i].movementCost;
+                break;
+            }
+        }
+        return pathCost;
+    }
+
     // Returns -1 if no path found
     public int GetPathCost(Node start, Node end)
     {

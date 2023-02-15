@@ -40,18 +40,38 @@ public class MapManager : MonoBehaviour
 
         Node start = selected.node;
 
+        List<Node> path = pathing.AStar(selected.node, destination);
+        int pathCost = pathing.GetPathCost(path);
+
         // Moves the Player along the Queue
-        StartCoroutine(TraversePath(selected, destination));
+        StartCoroutine(TraversePath(pathCost, selected, path));
         
         // Updates the Nodes
         start.OnUnitExit();
         destination.OnUnitEnter();
     }
 
-    IEnumerator TraversePath(Unit selected, Node end)
+    public void MoveAsCloseAsPossible(Unit selected, Node destination)
     {
-        List<Node> path = pathing.AStar(selected.node, end);
-        int pathCost = pathing.GetPathCost(path);
+        // Base Case : If Can't move return
+        if (!destination.passable || !CanMove(selected, selected.node, destination))
+            return;
+
+        Node start = selected.node;
+
+        List<Node> path = pathing.AStar(selected.node, destination);
+        int pathCost = pathing.GetPartialPathCost(path, selected);
+
+        // Moves the Player along the Queue
+        StartCoroutine(TraversePath(pathCost, selected, path));
+
+        // Updates the Nodes
+        start.OnUnitExit();
+        destination.OnUnitEnter();
+    }
+
+    IEnumerator TraversePath(int pathCost, Unit selected, List<Node> path)
+    {
         // Moves Player
         for (int i = 1; i < path.Count; i++)
         {
@@ -124,6 +144,11 @@ public class MapManager : MonoBehaviour
         // This Sets node Data in Unit Script
         unit.node = destination;
         destination.unit = unit;
+    }
+
+    public int MovementLeft(Unit unit)
+    {
+        return unit.stats.movement - unit.stats.moved;
     }
     #endregion
 
