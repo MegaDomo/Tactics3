@@ -39,4 +39,19 @@ public static class Utils
         
         Object.Destroy(gameObject, 1.3f);
     }
+
+    public static void CreateWorldTextPopup(Vector3 localPosition, float duration, string text, int fontSize, TextAnchor textAnchor)
+    {
+        GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
+        Transform transform = gameObject.transform;
+        transform.localPosition = localPosition;
+        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
+        textMesh.text = text;
+        textMesh.fontSize = fontSize;
+        textMesh.color = Color.white;
+        textMesh.anchor = textAnchor;
+        //return textMesh;
+
+        Object.Destroy(gameObject, duration);
+    }
 }

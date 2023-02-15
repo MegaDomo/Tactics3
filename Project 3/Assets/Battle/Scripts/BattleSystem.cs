@@ -44,6 +44,7 @@ public class BattleSystem : MonoBehaviour
 
         next = initiative.Dequeue();
 
+        next.StartTurn();
 
         // Gives the Unit to the Respected AI
         switch (next.type)
@@ -61,8 +62,6 @@ public class BattleSystem : MonoBehaviour
             default:
                 break;
         }
-
-        next.StartTurn();
 
         // Check if the queue ran out
         if (initiative.Count == 0)

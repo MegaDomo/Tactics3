@@ -108,28 +108,25 @@ public class Pathfinding
         return true;
     }
 
+    public List<Node> GetClosestPath(Node start, Node end, Unit unit)
+    {
+        List<Node> path = AStar(start, end);
+
+        int nodeCost = GetNodeCostFromMovement(path, MapManager.instance.MovementLeft(unit));
+        Debug.Log(nodeCost);
+        path.RemoveRange(nodeCost, path.Count - nodeCost);
+        Debug.Log(path.Count);
+
+
+        return path;
+    }
+
     public int GetPathCost(List<Node> path)
     {
         int pathCost = 0;
-        for (int i = 0; i < path.Count - 1; i++)
+        foreach (Node node in path)
         {
-            pathCost += path[i].movementCost;
-        }
-        return pathCost;
-    }
-
-    public int GetPartialPathCost(List<Node> path, Unit unit)
-    {
-        int pathCost = 0;
-        for (int i = 0; i < path.Count - 1; i++)
-        {
-            pathCost += path[i].movementCost;
-
-            if (pathCost > MapManager.instance.MovementLeft(unit))
-            {
-                pathCost -= path[i].movementCost;
-                break;
-            }
+            pathCost += node.movementCost;
         }
         return pathCost;
     }
@@ -141,6 +138,20 @@ public class Pathfinding
         if (path.Count == 0)
             return -1;
         return GetPathCost(path);
+    }
+
+    public int GetNodeCostFromMovement(List<Node> path, int movement)
+    {
+        int nodeCost = 0;
+        int pathCost = 0;
+        foreach (Node node in path)
+        {
+            pathCost += node.movementCost;
+            if (pathCost > movement)
+                break;
+            nodeCost++;
+        }
+        return nodeCost;
     }
     #endregion
 

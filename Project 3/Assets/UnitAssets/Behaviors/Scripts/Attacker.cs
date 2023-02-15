@@ -66,7 +66,11 @@ public class Attacker : Behavior
 
     public override void Move()
     {
-        MapManager.instance.Move(self, destination);
+        Grid<Node> map = MapManager.instance.map;
+        Utils.CreateWorldTextPopup(map.GetWorldPosition(destination.x, destination.z) + 
+                                   new Vector3(map.GetCellSize()/2, 8, map.GetCellSize()/2),
+                                   10f, "Moving Here", 30, TextAnchor.MiddleCenter);
+        MapManager.instance.MoveAsCloseAsPossible(self, destination);
     }
     public override void Attack() { }
 

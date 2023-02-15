@@ -52,8 +52,6 @@ public class PlayerTurn : MonoBehaviour
         // If players turn
         if (CombatState.state != BattleState.PLAYERTURN)
             return;
-        if (selected == null) Debug.Log("Selected");
-        if (targetNode == null) Debug.Log("Node");
         MapManager.instance.Move(selected, targetNode);
     }
     #endregion

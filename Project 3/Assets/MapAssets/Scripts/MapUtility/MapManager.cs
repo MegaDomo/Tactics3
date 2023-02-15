@@ -54,14 +54,14 @@ public class MapManager : MonoBehaviour
     public void MoveAsCloseAsPossible(Unit selected, Node destination)
     {
         // Base Case : If Can't move return
-        if (!destination.passable || !CanMove(selected, selected.node, destination))
+        if (!destination.passable)
             return;
 
         Node start = selected.node;
 
-        List<Node> path = pathing.AStar(selected.node, destination);
-        int pathCost = pathing.GetPartialPathCost(path, selected);
-
+        List<Node> path = pathing.GetClosestPath(start, destination, selected);
+        int pathCost = pathing.GetPathCost(path);
+        Debug.Log("PathingCost; " + pathCost + " --- Count: " + path.Count);
         // Moves the Player along the Queue
         StartCoroutine(TraversePath(pathCost, selected, path));
 
@@ -87,7 +87,7 @@ public class MapManager : MonoBehaviour
     public bool CanMove(Unit selected, Node start, Node end)
     {
         // Objective Distance
-        if (GetDistance(start, end) > selected.stats.movement - selected.stats.moved)
+        if (GetDistance(start, end) > MovementLeft(selected))
             return false;
 
         // Get Path
@@ -98,7 +98,7 @@ public class MapManager : MonoBehaviour
             return false;
         
         // Path is too long
-        if (pathCost > selected.stats.movement - selected.stats.moved)
+        if (pathCost > MovementLeft(selected))
             return false;
 
         return true;
@@ -141,7 +141,7 @@ public class MapManager : MonoBehaviour
     {
         Vector3 newPosition = destination.GetStandingPoint() + unit.offset;
         unit.gameObject.transform.position = newPosition;
-        // This Sets node Data in Unit Script
+        // This Sets Node and Unit data
         unit.node = destination;
         destination.unit = unit;
     }
