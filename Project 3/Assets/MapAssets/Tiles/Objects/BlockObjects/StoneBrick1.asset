@@ -17,4 +17,4 @@ MonoBehaviour:
   height: 1
   movementCost: 1
   nameString: StoneBrick1
-  prefab: {fileID: 4430461343600393198, guid: 944361dfad6515c409dfdc8d0b01b6f2, type: 3}
+  prefab: {fileID: 687485106843842281, guid: 3de74248e20725a45a7155c2ee948d6e, type: 3}
