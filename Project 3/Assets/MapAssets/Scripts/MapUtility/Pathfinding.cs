@@ -13,7 +13,7 @@ public class Pathfinding
         this.stepSize = stepSize;
     }
 
-    #region Pathing
+    #region AStar Pathing
     // Finds the Path and also returns the pathCost
     public List<Node> AStar(Node start, Node end)
     {
@@ -107,7 +107,9 @@ public class Pathfinding
             return false;
         return true;
     }
+    #endregion
 
+    #region Path Variants
     public List<Node> GetClosestPath(Node start, Node end, Unit unit)
     {
         List<Node> path = AStar(start, end);

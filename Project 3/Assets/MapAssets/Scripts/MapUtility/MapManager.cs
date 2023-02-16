@@ -31,6 +31,7 @@ public class MapManager : MonoBehaviour
         this.stepSize = stepSize;
     }
 
+    #region Move Methods
     // Unit is unit to move, and node is destination
     public void Move(Unit selected, Node destination)
     {
@@ -62,19 +63,22 @@ public class MapManager : MonoBehaviour
         List<Node> path = pathing.GetClosestPath(start, destination, selected);
         int pathCost = pathing.GetPathCost(path);
 
-        Utils.CreateWorldTextPopupOnGrid(path[path.Count - 1], 10f, "Closest Move", 30, map);
+        destination = path[path.Count - 1];
+        Utils.CreateWorldTextPopupOnGrid(destination, 10f, "Closest Move", 30, map);
 
         // Moves the Player along the Queue
         StartCoroutine(TraversePath(pathCost, selected, path));
 
         // Updates the Nodes
         start.OnUnitExit();
-        path[path.Count - 1].OnUnitEnter(selected);
+        destination.OnUnitEnter(selected);
     }
 
     IEnumerator TraversePath(int pathCost, Unit selected, List<Node> path)
     {
         // Moves Player
+        // Note : i = 1 because the path includes the Node the unit is already standing on;
+        // therefore it is skipped
         for (int i = 1; i < path.Count; i++)
         {
             Place(selected, path[i]);
@@ -82,6 +86,7 @@ public class MapManager : MonoBehaviour
         }
         selected.stats.moved += pathCost;
     }
+    #endregion
 
     // ===== Utility Methods =====
     #region Utility Methods
@@ -143,6 +148,7 @@ public class MapManager : MonoBehaviour
     {
         Vector3 newPosition = destination.GetStandingPoint() + unit.offset;
         unit.gameObject.transform.position = newPosition;
+
         // This Sets Node and Unit data
         unit.node = destination;
         destination.unit = unit;
