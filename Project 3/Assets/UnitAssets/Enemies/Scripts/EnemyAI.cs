@@ -17,9 +17,10 @@ public class EnemyAI : MonoBehaviour
     private Unit selected;
     public IEnumerator StartTurn()
     {
-        selected.behavior.FindTarget();
+        if (selected.behavior.FindTarget())
+            yield return null;
 
-        selected.behavior.FindNodeToTarget();
+        selected.behavior.FindNode();
 
         selected.behavior.Move();
 

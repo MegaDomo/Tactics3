@@ -39,13 +39,7 @@ public class GameMaster : MonoBehaviour
             spawner.SpawnUnits(maker.map, battleSystem.units);
 
         if (haveCombat)
-        {
-            // Get Initiatives
-            battleSystem.QueueUp();
-
-            // Start the Battle
-            battleSystem.StartBattle();
-        }
+            battleSystem.SetUp();
 
         if (editLevelOnRunTime)
             editor.SetUp(!makeRandomMap);

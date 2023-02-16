@@ -54,4 +54,31 @@ public static class Utils
 
         Object.Destroy(gameObject, duration);
     }
+
+    public static void CreateWorldTextPopupOnGrid(int x, int z, float duration, string text, int fontSize, Grid<Node> grid)
+    {
+        GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
+        Transform transform = gameObject.transform;
+        transform.localPosition = grid.GetWorldPosition(x, z) +
+                                   new Vector3(grid.GetCellSize() / 2, 8, grid.GetCellSize() / 2);
+        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
+        textMesh.text = text;
+        textMesh.fontSize = fontSize;
+        textMesh.color = Color.white;
+        textMesh.anchor = TextAnchor.MiddleCenter;        
+        Object.Destroy(gameObject, duration);
+    }
+    public static void CreateWorldTextPopupOnGrid(Node node, float duration, string text, int fontSize, Grid<Node> grid)
+    {
+        GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
+        Transform transform = gameObject.transform;
+        transform.localPosition = grid.GetWorldPosition(node.x, node.z) +
+                                   new Vector3(grid.GetCellSize() / 2, 8, grid.GetCellSize() / 2);
+        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
+        textMesh.text = text;
+        textMesh.fontSize = fontSize;
+        textMesh.color = Color.white;
+        textMesh.anchor = TextAnchor.MiddleCenter;
+        Object.Destroy(gameObject, duration);
+    }
 }

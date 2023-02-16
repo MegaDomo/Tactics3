@@ -23,9 +23,19 @@ public class BattleSystem : MonoBehaviour
     public List<Unit> units;
     public Queue<Unit> initiative = new Queue<Unit>();
 
-    // TODO : called different
-    void Start()
+    [HideInInspector] public List<Unit> players;
+    [HideInInspector] public List<Unit> enemies;
+
+    public void SetUp()
     {
+        GetPlayersAndEnemies();
+        QueueUp();
+        StartBattle();
+    }
+
+    public void StartBattle()
+    {
+        GetNextInitiative();
     }
 
     public void QueueUp()
@@ -68,9 +78,17 @@ public class BattleSystem : MonoBehaviour
             QueueUp();
     }
 
-
-    public void StartBattle()
+    private void GetPlayersAndEnemies()
     {
-        GetNextInitiative();
+        players = new List<Unit>();
+        enemies = new List<Unit>();
+
+        foreach (Unit unit in units)
+        {
+            if (unit.type == "Player")
+                players.Add(unit);
+            if (unit.type == "Enemy")
+                enemies.Add(unit);
+        }
     }
 }

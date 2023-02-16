@@ -62,6 +62,7 @@ public class MapManager : MonoBehaviour
         List<Node> path = pathing.GetClosestPath(start, destination, selected);
         int pathCost = pathing.GetPathCost(path);
         Debug.Log("PathingCost; " + pathCost + " --- Count: " + path.Count);
+        Utils.CreateWorldTextPopupOnGrid(path[path.Count - 1], 10f, "Closest Move", 30, map);
         // Moves the Player along the Queue
         StartCoroutine(TraversePath(pathCost, selected, path));
 

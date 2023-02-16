@@ -11,23 +11,37 @@ public class Attacker : Behavior
 
     }
     public override void TakeTurn() { }
-    
-    public override void FindTarget() 
+
+    // ==== TEMP : This Code finds the Closted Target - No Weights are used here =====
+    public override bool FindTarget() 
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        List<Unit> players = BattleSystem.instance.players;
 
-        List<Node> targets = new List<Node>();
+        List<Node> playerNodes = new List<Node>();
+        foreach (Unit player in players)
+            playerNodes.Add(player.node);
 
-        for (int i = 0; i < players.Length; i++)
+        target = FindClosestNode(playerNodes).unit;
+
+        List<Node> targetNodes = new List<Node>();
+        foreach (Node node1 in playerNodes)
+            foreach (Node node2 in MapManager.instance.pathing.GetNeighbors(node1))
+                targetNodes.Add(node2);
+
+        destination = FindClosestNode(targetNodes);
+
+
+
+        if (target == null)
         {
-            targets.Add(players[i].GetComponent<Unit>().node);
+            Debug.Log("Enemy Could NOT Find Target");
+            return false;
         }
-
-        target = FindClosestNode(targets).unit;
+        return true;
     }
 
-    public override void FindNodeToTarget()
-    {
+    public override void FindNode()
+    {/*
         if (target == null)
             return;
 
@@ -41,7 +55,7 @@ public class Attacker : Behavior
         if (nodes.Count == 0)
             return;
 
-        destination = FindClosestNode(nodes);
+        destination = FindClosestNode(nodes);*/
     }
 
     public override Node FindClosestNode(List<Node> nodes)
@@ -53,6 +67,25 @@ public class Attacker : Behavior
         foreach (Node item in nodes)
         {
             temp = MapManager.instance.GetDistance(self.node, item);
+
+            if (temp < close)
+            {
+                close = temp;
+                node = item;
+            }
+        }
+
+        return node;
+    }
+    public Node FindShortestPath(List<Node> nodes)
+    {
+        Node node = new Node();
+        int close = int.MaxValue;
+        int temp;
+
+        foreach (Node item in nodes)
+        {
+            temp = MapManager.instance.pathing.GetPathCost(self.node, item);
 
             if (temp < close)
             {

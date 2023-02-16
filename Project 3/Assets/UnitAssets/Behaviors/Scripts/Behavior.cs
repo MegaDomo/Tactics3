@@ -11,8 +11,8 @@ public class Behavior : ScriptableObject
     [HideInInspector] public Node destination;
 
     public virtual void TakeTurn() { }
-    public virtual void FindTarget() { }
-    public virtual void FindNodeToTarget() { }
+    public virtual bool FindTarget() { return false; }
+    public virtual void FindNode() { }
     public virtual void Move() { }
     public virtual void Attack() { }
     public virtual Node FindClosestNode(List<Node> nodes) { return null; }
