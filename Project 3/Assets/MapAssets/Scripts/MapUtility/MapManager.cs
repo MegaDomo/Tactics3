@@ -48,7 +48,7 @@ public class MapManager : MonoBehaviour
         
         // Updates the Nodes
         start.OnUnitExit();
-        destination.OnUnitEnter();
+        destination.OnUnitEnter(selected);
     }
 
     public void MoveAsCloseAsPossible(Unit selected, Node destination)
@@ -61,14 +61,15 @@ public class MapManager : MonoBehaviour
 
         List<Node> path = pathing.GetClosestPath(start, destination, selected);
         int pathCost = pathing.GetPathCost(path);
-        Debug.Log("PathingCost; " + pathCost + " --- Count: " + path.Count);
+
         Utils.CreateWorldTextPopupOnGrid(path[path.Count - 1], 10f, "Closest Move", 30, map);
+
         // Moves the Player along the Queue
         StartCoroutine(TraversePath(pathCost, selected, path));
 
         // Updates the Nodes
         start.OnUnitExit();
-        destination.OnUnitEnter();
+        path[path.Count - 1].OnUnitEnter(selected);
     }
 
     IEnumerator TraversePath(int pathCost, Unit selected, List<Node> path)

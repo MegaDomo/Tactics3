@@ -146,10 +146,11 @@ public class Pathfinding
         int pathCost = 0;
         foreach (Node node in path)
         {
+            nodeCost++;
             pathCost += node.movementCost;
             if (pathCost > movement)
                 break;
-            nodeCost++;
+            
         }
         return nodeCost;
     }

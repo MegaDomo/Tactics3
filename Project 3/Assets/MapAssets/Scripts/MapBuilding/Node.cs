@@ -37,8 +37,9 @@ public class Node
         this.grid = grid;
     }
 
-    public void OnUnitEnter()
+    public void OnUnitEnter(Unit unit)
     {
+        this.unit = unit;
         passable = false;
     }
 
