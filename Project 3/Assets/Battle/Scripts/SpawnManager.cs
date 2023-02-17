@@ -11,6 +11,11 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnUnits(Grid<Node> map, List<Unit> units)
     {
+        if (units.Count == 0)
+        {
+            Debug.Log("No Units in List");
+            return;
+        }
         // TODO : Instantiate the Units()
 
         this.map = map;
@@ -31,12 +36,12 @@ public class SpawnManager : MonoBehaviour
     {
         foreach (Unit unit in units)
         {
-            if (unit.type == "Player")
+            if (unit.type == Unit.UnitType.Player)
             {
                 players.Add(unit);
             }
 
-            if (unit.type == "Enemy")
+            if (unit.type == Unit.UnitType.Enemy)
             {
                 enemies.Add(unit);
             }

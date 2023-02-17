@@ -66,7 +66,7 @@ public class Attacker : Behavior
 
         foreach (Node item in nodes)
         {
-            temp = MapManager.instance.GetDistance(self.node, item);
+            temp = MapManager.instance.pathing.GetPathCost(self.node, item);
 
             if (temp < close)
             {

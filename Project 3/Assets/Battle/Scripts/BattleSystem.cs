@@ -59,12 +59,12 @@ public class BattleSystem : MonoBehaviour
         // Gives the Unit to the Respected AI
         switch (next.type)
         {
-            case "Player":
+            case Unit.UnitType.Player:
                 CombatState.MakeStatePlayerTurn();
                 PlayerTurn.instance.SetSelected(next);
                 PlayerTurn.instance.StartTurn();
                 break;
-            case "Enemy":
+            case Unit.UnitType.Enemy:
                 CombatState.MakeStateEnemyTurn();
                 EnemyAI.instance.SetSelected(next);
                 StartCoroutine(EnemyAI.instance.StartTurn());
@@ -85,9 +85,9 @@ public class BattleSystem : MonoBehaviour
 
         foreach (Unit unit in units)
         {
-            if (unit.type == "Player")
+            if (unit.type == Unit.UnitType.Player)
                 players.Add(unit);
-            if (unit.type == "Enemy")
+            if (unit.type == Unit.UnitType.Enemy)
                 enemies.Add(unit);
         }
     }

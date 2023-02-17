@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    //public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
+    public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
 
     [Header("Unity References")]
     public Transform ground;
+    public Transform weaponPoint;
 
     [Header("Attributes")]
-    //public UnitType unitType;
+    public UnitType type;
     public UnitStats stats;
-    public string type; // "Player", "Enemy"    
+    public Weapon weapon;
     public List<Ability> abilities;
 
     [Header("Debugging")]
@@ -21,12 +22,17 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Node node;
     [HideInInspector] public Vector3 offset;
 
+    private GameObject weaponPrefab;
+
     void Awake()
     {
         offset = transform.position - ground.position;
+    }
 
-        if (type == "Enemy")
-            behavior.self = this;
+    private void Start()
+    {
+        SetSelf();
+        SetWeapon(weapon);
     }
 
     public void StartTurn()
@@ -43,6 +49,28 @@ public class Unit : MonoBehaviour
 
     public void EndTurn()
     {
+
+    }
+
+    public void SetWeapon(Weapon _weapon)
+    {
+        weapon = _weapon;
+        weaponPrefab = Instantiate(weapon.prefab, weaponPoint.position, Quaternion.identity);
+        weaponPrefab.transform.SetParent(gameObject.transform);
+    }
+
+    private void SetSelf()
+    {
+        if (type == Unit.UnitType.Enemy)
+        {
+            gameObject.tag = "Enemy";
+            behavior.self = this;
+        }
+
+        if (type == Unit.UnitType.Player)
+        {
+            gameObject.tag = "Player";
+        }
 
     }
 

@@ -20,6 +20,7 @@ public class MapManager : MonoBehaviour
     [HideInInspector] public Grid<Node> map;
     [HideInInspector] public Pathfinding pathing;
 
+    private bool unitIsMoving = false;
     public void SetUp()
     {
         pathing = new Pathfinding(map, stepSize);
@@ -54,7 +55,8 @@ public class MapManager : MonoBehaviour
 
     public void MoveAsCloseAsPossible(Unit selected, Node destination)
     {
-        // Base Case : If Can't move return
+        if (unitIsMoving)
+            return;
         if (!destination.passable)
             return;
 
@@ -67,6 +69,7 @@ public class MapManager : MonoBehaviour
         Utils.CreateWorldTextPopupOnGrid(destination, 10f, "Closest Move", 30, map);
 
         // Moves the Player along the Queue
+        unitIsMoving = true;
         StartCoroutine(TraversePath(pathCost, selected, path));
 
         // Updates the Nodes
@@ -85,6 +88,8 @@ public class MapManager : MonoBehaviour
             yield return new WaitForSeconds(pathingSpeed);
         }
         selected.stats.moved += pathCost;
+
+        unitIsMoving = false;
     }
     #endregion
 
