@@ -5,6 +5,37 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewBlockObject", menuName = "Map/Block")]
 public class BlockObject : ScriptableObject
 {
+    public enum BlockType { Neutral, Difficult, Cluster, Line}
+
+    public bool passable = true;
+    public int width;
+    public int height;
+    public int movementCost;
+    public string nameString;
+    public Transform prefab;
+    public BlockType blockType;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static Dir GetNextDir(Dir dir)
     {
         switch (dir)
@@ -22,21 +53,13 @@ public class BlockObject : ScriptableObject
 
     }
 
-    public enum Dir 
-    { 
-        Up, 
-        Right, 
-        Down, 
+    public enum Dir
+    {
+        Up,
+        Right,
+        Down,
         Left
     }
-
-    public bool passable = true;
-    public int width;
-    public int height;
-    public int movementCost;
-    public string nameString;
-    public Transform prefab;
-
 
     public int GetRotationAngle(Dir dir)
     {

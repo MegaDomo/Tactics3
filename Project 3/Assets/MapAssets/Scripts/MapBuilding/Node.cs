@@ -99,6 +99,7 @@ public class Node
 
     public void ClearBlockObject()
     {
+
         blockObject = null;
     }
 

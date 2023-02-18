@@ -8,6 +8,10 @@ public class MapMaker : MonoBehaviour
     [Header("Testing")]
     public List<BlockSet> blockSets;
     public List<TileSet> tileSets;
+    public int lowSaturationPercentage;
+    public int mediumSaturationPercentage;
+    public int highSaturationPercentage;
+    public string whichTerrain;
 
     [Header("Unity References")]
     public List<BlockObject> blockObjects;
@@ -26,6 +30,7 @@ public class MapMaker : MonoBehaviour
 
     private bool makeRandomMap;
     private int size;
+    private List<int> saturation = new List<int>();
 
     public void SetUp(bool makeRandomMap)
     {
@@ -41,8 +46,11 @@ public class MapMaker : MonoBehaviour
 
         if (makeRandomMap)
         {
-            MapGeneration gen = new MapGeneration(map, blockSets, tileSets, forecastTile);
-            CreateMap();
+            saturation.Add(lowSaturationPercentage);
+            saturation.Add(mediumSaturationPercentage);
+            saturation.Add(highSaturationPercentage);
+            MapGeneration gen = new MapGeneration(whichTerrain, map, blockSets, tileSets, forecastTile, saturation);
+            //CreateMap();
         }
             
 
