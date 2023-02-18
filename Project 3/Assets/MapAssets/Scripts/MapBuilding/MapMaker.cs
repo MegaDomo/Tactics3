@@ -5,6 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class MapMaker : MonoBehaviour
 {
+    [Header("Testing")]
+    public List<BlockSet> blockSets;
+    public List<TileSet> tileSets;
+
     [Header("Unity References")]
     public List<BlockObject> blockObjects;
     public GameObject forecastTile;
@@ -36,7 +40,11 @@ public class MapMaker : MonoBehaviour
                 map.GetGridObject(i, j).SetCoordinates(i, j);
 
         if (makeRandomMap)
+        {
+            MapGeneration gen = new MapGeneration(map, blockSets, tileSets, forecastTile);
             CreateMap();
+        }
+            
 
         if (!makeRandomMap)
             GetMap();
@@ -44,7 +52,7 @@ public class MapMaker : MonoBehaviour
         // When Finishes, Performs Handoff
         manager.GetMapData(map, stepSize);
     }
-    
+
     #region Create Map
     // Methods that Picks a random size for the map
     private void CreateMap()
@@ -55,7 +63,7 @@ public class MapMaker : MonoBehaviour
             {
                 BlockObject blockObject = GetRandomBlockObject();
                 Transform block = Instantiate(blockObject.prefab, map.GetWorldPosition(i, j), Quaternion.identity);
-                
+
                 StoreDataInGrid(i, j, block, blockObject);
             }
         }
@@ -70,7 +78,7 @@ public class MapMaker : MonoBehaviour
             Instantiate(tileObject.prefab, map.GetWorldPosition(x, z) + new Vector3(0, cellSize, 0), Quaternion.identity);
             node.SetTileObject(tileObject);
         }
-        
+
         ForecastTile tile = Instantiate(forecastTile, node.GetStandingPoint(), Quaternion.identity).GetComponent<ForecastTile>();
         node.SetForecastTile(tile);
         map.SetGridObject(x, z, node);

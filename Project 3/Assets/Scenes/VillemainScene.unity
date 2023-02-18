@@ -3715,6 +3715,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c79df396a351b44b242f2ae0483890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockSets:
+  - blockObjects:
+    - {fileID: 11400000, guid: 22b8451edf15f874b9a9fc1f4e2b7842, type: 2}
+  - blockObjects:
+    - {fileID: 11400000, guid: a58466789517ca84ba1c3c967c29a1cb, type: 2}
   blockObjects:
   - {fileID: 11400000, guid: 22b8451edf15f874b9a9fc1f4e2b7842, type: 2}
   - {fileID: 11400000, guid: a58466789517ca84ba1c3c967c29a1cb, type: 2}
