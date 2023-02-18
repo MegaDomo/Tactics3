@@ -3717,7 +3717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockSets:
   - terrain: Forest
-    difficultTerrainSaturation: 2
+    difficultTerrainSaturation: 0
     blockObjects:
     - {fileID: 11400000, guid: 22b8451edf15f874b9a9fc1f4e2b7842, type: 2}
     - {fileID: 11400000, guid: a58466789517ca84ba1c3c967c29a1cb, type: 2}
@@ -17280,6 +17280,10 @@ PrefabInstance:
     - target: {fileID: 8769162474166777818, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769162474166777822, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
+      propertyPath: type
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
