@@ -102,17 +102,15 @@ public class MapGeneration
         }
 
         for (int x = 0; x < map.GetSize(); x++)
-        {
             for (int z = 0; z < map.GetSize(); z++)
-            {
-                if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.difficultTerrainSaturation)]) continue;
                 CreateDifficultTerrain(x, z, GetRandomBlockObjectFromList(difficultBlocks));
-            }
-        }
     }
 
     private void CreateDifficultTerrain(int x, int z, BlockObject difficultBlock)
     {
+        if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.difficultTerrainSaturation)])
+            return;
+
         Node node = map.GetGridObject(x, z);
         Transform block = Object.Instantiate(difficultBlock.prefab, map.GetWorldPosition(x, z), Quaternion.identity);
         node.ClearBlockObject();
@@ -160,23 +158,21 @@ public class MapGeneration
         }
 
         for (int x = 0; x < map.GetSize(); x++)
-        {
             for (int z = 0; z < map.GetSize(); z++)
-            {
-                if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.obstacleSaturation)]) continue;
                 CreateObstacle(x, z, obstacleTile);
-            }
-        }
     }
 
     private void CreateObstacle(int x, int z, TileObject obstacleTile)
     {
+        if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.obstacleSaturation)])
+            return; 
+
         Node node = map.GetGridObject(x, z);
 
         if (!IsObstacleSafe(x, z, node, obstacleTile))
             return;
 
-        Transform obstacle = Object.Instantiate(obstacleTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), Quaternion.identity);
+        Transform obstacle = Object.Instantiate(obstacleTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), GetRandomZAngle());
         node.SetTileObject(obstacle, obstacleTile);
     }
 
@@ -205,17 +201,15 @@ public class MapGeneration
         }
 
         for (int x = 0; x < map.GetSize(); x++)
-        {
             for (int z = 0; z < map.GetSize(); z++)
-            {
-                if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.decorSaturation)]) continue;
                 CreateDecor(x, z, decorTile);
-            }
-        }
     }
 
     private void CreateDecor(int x, int z, TileObject decorTile)
     {
+        if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.decorSaturation)])
+            return;
+
         Node node = map.GetGridObject(x, z);
 
         if (!IsDecorSafe(x, z, node, decorTile))
@@ -224,6 +218,7 @@ public class MapGeneration
         Transform decor = Object.Instantiate(decorTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), Quaternion.identity);
         node.SetTileObject(decor, decorTile);
     }
+
     private bool IsDecorSafe(int x, int z, Node node, TileObject tileObject)
     {
         // TEMP :
@@ -281,6 +276,30 @@ public class MapGeneration
                 return 2;
         }
         return level;
+    }
+
+    private Quaternion GetRandomZAngle()
+    {
+        Quaternion rotation = Quaternion.identity;
+        int angle = 0;
+        switch (Random.Range(0, 4))
+        {
+            case 0:
+                angle = 0;
+                break;
+            case 1:
+                angle = 90;
+                break;
+            case 2:
+                angle = 180;
+                break;
+            case 3:
+                angle = 270;
+                break;
+        }
+        rotation.eulerAngles = new Vector3(0, angle, 0);
+
+        return rotation;
     }
     #endregion
     #endregion
