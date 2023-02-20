@@ -100,7 +100,7 @@ public class Grid<T>
         gridArray[x, z] = newGridObject;
     }
 
-    private bool isCoordinatesSafe(int x, int z)
+    public bool isCoordinatesSafe(int x, int z)
     {
         if (x < 0 || z < 0 || x >= width || z >= height)
             return false;

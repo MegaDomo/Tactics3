@@ -9,8 +9,9 @@ public class Node
     public int y;
     public int z;
     public int movementCost;
-    public Transform blockVFX;
+    public Transform blockPrefab;
     public BlockObject blockObject;
+    public Transform tilePrefab;
     public TileObject tileObject;
     public ForecastTile forecastTile;
     public Unit unit;
@@ -76,7 +77,7 @@ public class Node
 
     public Vector3 GetStandingPoint()
     {
-        return blockVFX.GetComponent<Block>().standingPoint.position;
+        return blockPrefab.GetComponent<Block>().standingPoint.position;
     }
 
     public void SetCoordinates(int x, int z)
@@ -90,16 +91,16 @@ public class Node
         this.movementCost = movementCost;
     }
 
-    public void SetBlockObject(Transform block, BlockObject blockObject)
+    public void SetBlockObject(Transform blockPrefab, BlockObject blockObject)
     {
-        this.blockVFX = block;
+        this.blockPrefab = blockPrefab;
         this.blockObject = blockObject;
         UpdatePathingValues();
     }
 
     public void ClearBlockObject()
     {
-
+        Object.Destroy(blockPrefab.gameObject);
         blockObject = null;
     }
 
@@ -108,14 +109,16 @@ public class Node
         return blockObject == null;
     }
 
-    public void SetTileObject(TileObject tileObject)
+    public void SetTileObject(Transform tilePrefab, TileObject tileObject)
     {
+        this.tilePrefab = tilePrefab;
         this.tileObject = tileObject;
         UpdatePathingValues();
     }
 
     public void ClearTileObject()
     {
+        Object.Destroy(tilePrefab.gameObject);
         tileObject = null;
         UpdatePathingValues();
     }
@@ -134,7 +137,7 @@ public class Node
 
     public void SetNodeData(Transform block, BlockObject blockObject, TileObject tileObject, ForecastTile forecastTile)
     {
-        this.blockVFX = block;
+        this.blockPrefab = block;
         this.blockObject = blockObject;
         this.tileObject = tileObject;
         this.forecastTile = forecastTile;

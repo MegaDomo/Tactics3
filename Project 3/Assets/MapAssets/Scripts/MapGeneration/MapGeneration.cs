@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class MapGeneration
 {
-    Grid<Node> map;
+    private Grid<Node> map;
 
-    List<BlockSet> blockSets;
-    List<TileSet> tileSets;
-    GameObject forecastTile;
-    List<int> saturation;
-    
+    private List<TerrainKit> terrains;
+    private GameObject forecastTile;
+    private List<int> saturation;
 
-    BlockSet blockSet;
-    List<BlockObject> blockObjects;
+    private TerrainKit blockSet;
+    private List<BlockObject> blockObjects;
+    private List<TileObject> tileObjects;
 
-    public MapGeneration(string whichTerrain, Grid<Node> map, List<BlockSet> blockSets, 
-                         List<TileSet> tileSets, GameObject forecastTile, List<int> saturation)
+    public MapGeneration(string whichTerrain, Grid<Node> map, List<TerrainKit> terrains, GameObject forecastTile, List<int> saturation)
     {
         this.map = map;
-        this.blockSets = blockSets;
-        this.tileSets = tileSets;
+        this.terrains = terrains;
         this.forecastTile = forecastTile;
         this.saturation = saturation;
         DetermineTerrain(whichTerrain);
@@ -29,38 +26,35 @@ public class MapGeneration
 
     private void DetermineTerrain(string whichTerrain)
     {
-        foreach (BlockSet set in blockSets)
+        foreach (TerrainKit set in terrains)
         {
             if (whichTerrain == set.terrain)
             {
                 blockSet = set;
                 blockObjects = set.blockObjects;
+                tileObjects = set.tileObjects;
             }
-                
         }
     }
 
     #region Create Map
     private void CreateMap()
     {
+        // Initialize Pass
         NodePass();
+
+        // Block Object Pass
         NeutralPass();
         DifficultTerrainPass();
         ClusterPass();
         LinePass();
+
+        // Tile Object Pass
+        ObstaclePass();
+        DecorPass();
+
+        // Forecast Pass
         ForecastTilePass();
-
-        
-
-
-
-        for (int i = 0; i < map.GetSize(); i++)
-        {
-            for (int j = 0; j < map.GetSize(); j++)
-            {
-
-            }
-        }
     }
 
     private void NodePass()
@@ -70,6 +64,7 @@ public class MapGeneration
                 map.SetGridObject(map.GetWorldPosition(i, j), new Node(i, j, map));
     }
 
+    #region BlockObject Passes
     private void NeutralPass()
     {
         BlockObject neutralBlock;
@@ -83,12 +78,12 @@ public class MapGeneration
             return;
         }
 
-        for (int i = 0; i < map.GetSize(); i++)
+        for (int x = 0; x < map.GetSize(); x++)
         {
-            for (int j = 0; j < map.GetSize(); j++)
+            for (int z = 0; z < map.GetSize(); z++)
             {
-                Transform block = Object.Instantiate(neutralBlock.prefab, map.GetWorldPosition(i, j), Quaternion.identity);
-                map.GetGridObject(i, j).SetBlockObject(block, neutralBlock);
+                Transform block = Object.Instantiate(neutralBlock.prefab, map.GetWorldPosition(x, z), Quaternion.identity);
+                map.GetGridObject(x, z).SetBlockObject(block, neutralBlock);
             }
         }
     }
@@ -102,16 +97,16 @@ public class MapGeneration
 
         if (difficultBlock == null)
         {
-            Debug.Log("No Neutral Block Detected");
+            Debug.Log("No Difficult Terrain Block Detected");
             return;
         }
 
-        for (int i = 0; i < map.GetSize(); i++)
+        for (int x = 0; x < map.GetSize(); x++)
         {
-            for (int j = 0; j < map.GetSize(); j++)
+            for (int z = 0; z < map.GetSize(); z++)
             {
                 if (Random.Range(0, 100) > saturation[GetTerrainSaturation()]) continue;
-                CreateDifficultTerrain(i, j, difficultBlock);
+                CreateDifficultTerrain(z, z, difficultBlock);
             }
         }
     }
@@ -120,24 +115,11 @@ public class MapGeneration
     {
         Transform block = Object.Instantiate(difficultBlock.prefab, map.GetWorldPosition(x, z), Quaternion.identity);
         Node node = map.GetGridObject(x, z);
-        Object.Destroy(node.blockVFX.gameObject);
+        node.ClearBlockObject();
         node.SetBlockObject(block, difficultBlock);
     }
 
-    private int GetTerrainSaturation()
-    {
-        int level = 1;
-        switch (blockSet.difficultTerrainSaturation)
-        {
-            case BlockSet.TerrainSaturation.Low:
-                return 0;
-            case BlockSet.TerrainSaturation.Medium:
-                return 1;
-            case BlockSet.TerrainSaturation.High:
-                return 2;
-        }
-        return level;
-    }
+    
 
     private void ClusterPass()
     {
@@ -147,25 +129,6 @@ public class MapGeneration
     private void LinePass()
     {
         // TODO : Figure out how to make Line - likely use List<Node> as target
-    }
-
-    private void ForecastTilePass()
-    {
-        for (int i = 0; i < map.GetSize(); i++)
-        {
-            for (int j = 0; j < map.GetSize(); j++)
-            {
-                CreateForecastTile(i, j);
-            }
-        }
-    }
-
-    private void CreateForecastTile(int x, int z)
-    {
-        Node node = map.GetGridObject(x, z);
-        ForecastTile tile = Object.Instantiate(forecastTile, node.GetStandingPoint(), Quaternion.identity).GetComponent<ForecastTile>();
-        node.SetForecastTile(tile);
-        map.SetGridObject(x, z, node);
     }
 
     private BlockObject FindBlock(BlockObject.BlockType type)
@@ -179,6 +142,117 @@ public class MapGeneration
         }
         return null;
     }
+    #endregion
 
+    #region TileObject Passes
+    private void ObstaclePass()
+    {
+        TileObject obstacleTile = FindTile(TileObject.TileType.Obstacle);
+
+        if (obstacleTile == null)
+        {
+            Debug.Log("No Obstacle Tile Found");
+            return;
+        }
+
+        for (int x = 0; x < map.GetSize(); x++)
+        {
+            for (int z = 0; z < map.GetSize(); z++)
+            {
+                if (Random.Range(0, 100) > saturation[GetTerrainSaturation()]) continue;
+                CreateObstacle(x, z, obstacleTile);
+            }
+        }
+    }
+
+    private void CreateObstacle(int x, int z, TileObject obstacleTile)
+    {
+        Node node = map.GetGridObject(x, z);
+
+        if (!IsTileObjectSafe(x, z, node, obstacleTile))
+            return;
+
+        Transform obstacle = Object.Instantiate(obstacleTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), Quaternion.identity);
+        node.SetTileObject(obstacle, obstacleTile);
+    }
+
+    private bool IsTileObjectSafe(int x, int z, Node node, TileObject tileObject)
+    {
+        if (node.movementCost > 1)
+            return false;
+
+        List<Vector2Int> positionList = tileObject.GetGridPositionList(x, z);
+        foreach (Vector2Int vec in positionList)
+            if (!map.isCoordinatesSafe(vec.x, vec.y))
+                return false;
+        return true;
+    }
+
+    private void DecorPass()
+    {
+
+        TileObject decorTile = FindTile(TileObject.TileType.Decor);
+
+        if (decorTile == null)
+        {
+            Debug.Log("No Decor Tile Found");
+            return;
+        }
+
+        for (int x = 0; x < map.GetSize(); x++)
+        {
+            for (int z = 0; z < map.GetSize(); z++)
+            {
+                Transform decor = Object.Instantiate(decorTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), Quaternion.identity);
+                map.GetGridObject(x, z).SetTileObject(decor, decorTile);
+            }
+        }
+    }
+    private TileObject FindTile(TileObject.TileType type)
+    {
+        foreach (TileObject tile in tileObjects)
+        {
+            if (tile.tileType == type)
+            {
+                return tile;
+            }
+        }
+        return null;
+    }
+    #endregion
+
+    #region Forecast Passes
+    private void ForecastTilePass()
+    {
+        for (int i = 0; i < map.GetSize(); i++)
+            for (int j = 0; j < map.GetSize(); j++)
+                CreateForecastTile(i, j);
+    }
+
+    private void CreateForecastTile(int x, int z)
+    {
+        Node node = map.GetGridObject(x, z);
+        ForecastTile tile = Object.Instantiate(forecastTile, node.GetStandingPoint(), Quaternion.identity).GetComponent<ForecastTile>();
+        node.SetForecastTile(tile);
+        map.SetGridObject(x, z, node);
+    }
+    #endregion
+
+    #region Utility
+    private int GetTerrainSaturation()
+    {
+        int level = 1;
+        switch (blockSet.difficultTerrainSaturation)
+        {
+            case TerrainKit.TerrainSaturation.Low:
+                return 0;
+            case TerrainKit.TerrainSaturation.Medium:
+                return 1;
+            case TerrainKit.TerrainSaturation.High:
+                return 2;
+        }
+        return level;
+    }
+    #endregion
     #endregion
 }

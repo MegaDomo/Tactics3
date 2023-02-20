@@ -5,14 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewTileObject", menuName = "Map/TileObject")]
 public class TileObject : ScriptableObject
 {
-    public bool isDecor = false;
-    public bool obstacle = false;
+    public enum TileType { Decor, Obstacle }
+
     public bool passable = true;
     public int width;
     public int height;
     public int movementCost = 0;
     public string nameString;
     public Transform prefab;
+    public TileType tileType;
 
     public List<Vector2Int> GetGridPositionList(int x, int z)
     {

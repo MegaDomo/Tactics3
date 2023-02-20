@@ -6,19 +6,16 @@ using UnityEngine.Tilemaps;
 public class MapMaker : MonoBehaviour
 {
     [Header("Testing")]
-    public List<BlockSet> blockSets;
-    public List<TileSet> tileSets;
+    public List<TerrainKit> terrains;
     public int lowSaturationPercentage;
     public int mediumSaturationPercentage;
     public int highSaturationPercentage;
     public string whichTerrain;
 
     [Header("Unity References")]
-    public List<BlockObject> blockObjects;
     public GameObject forecastTile;
     public Transform startingPoint;
     public MapManager manager;
-    public TileObject tileObject;
 
     [Header("Attributes")]
     [SerializeField] private int stepSize = 5;
@@ -49,7 +46,7 @@ public class MapMaker : MonoBehaviour
             saturation.Add(lowSaturationPercentage);
             saturation.Add(mediumSaturationPercentage);
             saturation.Add(highSaturationPercentage);
-            MapGeneration gen = new MapGeneration(whichTerrain, map, blockSets, tileSets, forecastTile, saturation);
+            MapGeneration gen = new MapGeneration(whichTerrain, map, terrains, forecastTile, saturation);
             //CreateMap();
         }
             
@@ -60,61 +57,6 @@ public class MapMaker : MonoBehaviour
         // When Finishes, Performs Handoff
         manager.GetMapData(map, stepSize);
     }
-
-    #region Create Map
-    // Methods that Picks a random size for the map
-    private void CreateMap()
-    {
-        for (int i = 0; i < map.GetSize(); i++)
-        {
-            for (int j = 0; j < map.GetSize(); j++)
-            {
-                BlockObject blockObject = GetRandomBlockObject();
-                Transform block = Instantiate(blockObject.prefab, map.GetWorldPosition(i, j), Quaternion.identity);
-
-                StoreDataInGrid(i, j, block, blockObject);
-            }
-        }
-    }
-
-    private void StoreDataInGrid(int x, int z, Transform block, BlockObject blockObject)
-    {
-        Node node = new Node(x, z, map);
-        node.SetBlockObject(block, blockObject);
-        if (Obstacle())
-        {
-            Instantiate(tileObject.prefab, map.GetWorldPosition(x, z) + new Vector3(0, cellSize, 0), Quaternion.identity);
-            node.SetTileObject(tileObject);
-        }
-
-        ForecastTile tile = Instantiate(forecastTile, node.GetStandingPoint(), Quaternion.identity).GetComponent<ForecastTile>();
-        node.SetForecastTile(tile);
-        map.SetGridObject(x, z, node);
-    }
-    private bool Obstacle()
-    {
-        // short hand, computer picks a number between the range of 0 and 5, 0-4, or 20% to determine true or false.
-        return (Random.Range(0, 5) == 0);
-    }
-
-    private BlockObject GetRandomBlockObject()
-    {
-        BlockObject temp;
-        int z = Random.Range(0, 5);
-
-        // Obstacle 20%
-        if (z == 0)
-            temp = blockObjects[2];
-        // Swamp 40%
-        else if (z == 1 || z == 2)
-            temp = blockObjects[0];
-        // Plains 40%
-        else
-            temp = blockObjects[1];
-
-        return temp;
-    }
-    #endregion
 
     #region Get Map
     private void GetMap()
@@ -170,16 +112,17 @@ public class MapMaker : MonoBehaviour
                 RaycastHit hit = GetRaycastData(x, z, LayerMask.GetMask("Obstacle"));
                 if (hit.collider == null)
                         continue;
-                AmendNode(x, z, hit);
+                AmendNodeWithTileObject(x, z, hit);
             }
         }
     }
 
-    private void AmendNode(int x, int z, RaycastHit hit)
+    private void AmendNodeWithTileObject(int x, int z, RaycastHit hit)
     {
         Node nodeToUpdate = map.GetGridObject(x, z);
         TileObject tileObject = hit.collider.gameObject.GetComponent<Tile>().tileObject;
-        nodeToUpdate.SetTileObject(tileObject);
+        Transform tile = hit.transform;
+        nodeToUpdate.SetTileObject(tile, tileObject);
     }
 
     private RaycastHit GetRaycastData(int x, int z, LayerMask mask)
