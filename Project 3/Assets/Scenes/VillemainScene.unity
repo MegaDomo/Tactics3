@@ -3717,11 +3717,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrains:
   - terrain: Forest
-    difficultTerrainSaturation: 1
+    difficultTerrainSaturation: 2
     blockObjects:
     - {fileID: 11400000, guid: d11d2a2f2e8a99e4db4a55bb4062f8cc, type: 2}
     - {fileID: 11400000, guid: 2e51d373398452c48a7c6770aced6939, type: 2}
     obstacleSaturation: 0
+    decorSaturation: 0
     tileObjects:
     - {fileID: 11400000, guid: 6d2f1613fce395a408e293d9b17712ad, type: 2}
   lowSaturationPercentage: 10

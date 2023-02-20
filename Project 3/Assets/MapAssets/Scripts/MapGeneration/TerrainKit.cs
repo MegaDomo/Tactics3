@@ -11,6 +11,7 @@ public class TerrainKit
     public TerrainSaturation difficultTerrainSaturation;
     public List<BlockObject> blockObjects;
     public TerrainSaturation obstacleSaturation;
+    public TerrainSaturation decorSaturation;
     public List<TileObject> tileObjects;
 
 

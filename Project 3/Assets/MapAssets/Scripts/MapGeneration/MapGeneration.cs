@@ -67,12 +67,9 @@ public class MapGeneration
     #region BlockObject Passes
     private void NeutralPass()
     {
-        BlockObject neutralBlock;
-        // TEMP
-        // Note : Assuming we have 1 Neutral Block
-        neutralBlock = FindBlock(BlockObject.BlockType.Neutral);
+        List<BlockObject> neutralBlocks = FindBlock(BlockObject.BlockType.Neutral);
 
-        if (neutralBlock == null)
+        if (neutralBlocks == null)
         {
             Debug.Log("No Neutral Block Detected");
             return;
@@ -82,20 +79,23 @@ public class MapGeneration
         {
             for (int z = 0; z < map.GetSize(); z++)
             {
-                Transform block = Object.Instantiate(neutralBlock.prefab, map.GetWorldPosition(x, z), Quaternion.identity);
-                map.GetGridObject(x, z).SetBlockObject(block, neutralBlock);
+                CreateNeutralBlock(x, z, GetRandomBlockObjectFromList(neutralBlocks));   
             }
         }
     }
 
+    private void CreateNeutralBlock(int x, int z, BlockObject neutralBlock)
+    {
+        Node node = map.GetGridObject(x, z);
+        Transform block = Object.Instantiate(neutralBlock.prefab, map.GetWorldPosition(x, z), Quaternion.identity);
+        node.SetBlockObject(block, neutralBlock);
+    }
+
     private void DifficultTerrainPass()
     {
-        BlockObject difficultBlock;
-        // TEMP
-        // Note : Assuming we have 1 Neutral Block
-        difficultBlock = FindBlock(BlockObject.BlockType.Difficult);
+        List<BlockObject> difficultBlocks = FindBlock(BlockObject.BlockType.Difficult);
 
-        if (difficultBlock == null)
+        if (difficultBlocks == null)
         {
             Debug.Log("No Difficult Terrain Block Detected");
             return;
@@ -105,21 +105,19 @@ public class MapGeneration
         {
             for (int z = 0; z < map.GetSize(); z++)
             {
-                if (Random.Range(0, 100) > saturation[GetTerrainSaturation()]) continue;
-                CreateDifficultTerrain(z, z, difficultBlock);
+                if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.difficultTerrainSaturation)]) continue;
+                CreateDifficultTerrain(x, z, GetRandomBlockObjectFromList(difficultBlocks));
             }
         }
     }
 
     private void CreateDifficultTerrain(int x, int z, BlockObject difficultBlock)
     {
-        Transform block = Object.Instantiate(difficultBlock.prefab, map.GetWorldPosition(x, z), Quaternion.identity);
         Node node = map.GetGridObject(x, z);
+        Transform block = Object.Instantiate(difficultBlock.prefab, map.GetWorldPosition(x, z), Quaternion.identity);
         node.ClearBlockObject();
         node.SetBlockObject(block, difficultBlock);
     }
-
-    
 
     private void ClusterPass()
     {
@@ -131,16 +129,22 @@ public class MapGeneration
         // TODO : Figure out how to make Line - likely use List<Node> as target
     }
 
-    private BlockObject FindBlock(BlockObject.BlockType type)
+    private List<BlockObject> FindBlock(BlockObject.BlockType type)
     {
+        List<BlockObject> blocksToFind = new List<BlockObject>();
+
         foreach (BlockObject block in blockObjects)
-        {
             if (block.blockType == type)
-            {
-                return block;
-            }
-        }
-        return null;
+                blocksToFind.Add(block);
+
+        if (blocksToFind.Count == 0) return null;
+        return blocksToFind;
+    }
+
+    private BlockObject GetRandomBlockObjectFromList(List<BlockObject> blocks)
+    {
+        int index = Random.Range(0, blocks.Count);
+        return blocks[index];
     }
     #endregion
 
@@ -159,7 +163,7 @@ public class MapGeneration
         {
             for (int z = 0; z < map.GetSize(); z++)
             {
-                if (Random.Range(0, 100) > saturation[GetTerrainSaturation()]) continue;
+                if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.obstacleSaturation)]) continue;
                 CreateObstacle(x, z, obstacleTile);
             }
         }
@@ -169,15 +173,16 @@ public class MapGeneration
     {
         Node node = map.GetGridObject(x, z);
 
-        if (!IsTileObjectSafe(x, z, node, obstacleTile))
+        if (!IsObstacleSafe(x, z, node, obstacleTile))
             return;
 
         Transform obstacle = Object.Instantiate(obstacleTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), Quaternion.identity);
         node.SetTileObject(obstacle, obstacleTile);
     }
 
-    private bool IsTileObjectSafe(int x, int z, Node node, TileObject tileObject)
+    private bool IsObstacleSafe(int x, int z, Node node, TileObject tileObject)
     {
+        // TEMP :
         if (node.movementCost > 1)
             return false;
 
@@ -203,11 +208,35 @@ public class MapGeneration
         {
             for (int z = 0; z < map.GetSize(); z++)
             {
-                Transform decor = Object.Instantiate(decorTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), Quaternion.identity);
-                map.GetGridObject(x, z).SetTileObject(decor, decorTile);
+                if (Random.Range(0, 100) > saturation[GetTerrainSaturation(blockSet.decorSaturation)]) continue;
+                CreateDecor(x, z, decorTile);
             }
         }
     }
+
+    private void CreateDecor(int x, int z, TileObject decorTile)
+    {
+        Node node = map.GetGridObject(x, z);
+
+        if (!IsDecorSafe(x, z, node, decorTile))
+            return;
+
+        Transform decor = Object.Instantiate(decorTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), Quaternion.identity);
+        node.SetTileObject(decor, decorTile);
+    }
+    private bool IsDecorSafe(int x, int z, Node node, TileObject tileObject)
+    {
+        // TEMP :
+        if (node.movementCost > 1)
+            return false;
+
+        List<Vector2Int> positionList = tileObject.GetGridPositionList(x, z);
+        foreach (Vector2Int vec in positionList)
+            if (!map.isCoordinatesSafe(vec.x, vec.y))
+                return false;
+        return true;
+    }
+
     private TileObject FindTile(TileObject.TileType type)
     {
         foreach (TileObject tile in tileObjects)
@@ -239,10 +268,10 @@ public class MapGeneration
     #endregion
 
     #region Utility
-    private int GetTerrainSaturation()
+    private int GetTerrainSaturation(TerrainKit.TerrainSaturation saturation)
     {
         int level = 1;
-        switch (blockSet.difficultTerrainSaturation)
+        switch (saturation)
         {
             case TerrainKit.TerrainSaturation.Low:
                 return 0;
