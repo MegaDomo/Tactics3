@@ -61,29 +61,42 @@ public class MapMaker : MonoBehaviour
     #region Get Map
     private void GetMap()
     {
-        Transform layer1 = GameObject.FindGameObjectWithTag("Ground").transform;
-        Transform layer2 = GameObject.FindGameObjectWithTag("ObstacleDecor").transform;
-
-        GetGroundLayer(layer1);
-        GetObstacleLayer(layer2);
+        GetGroundLayer();
+        GetObstacleLayer();
     }
 
-    private void GetGroundLayer(Transform tilemap)
+    private void GetGroundLayer()
     {
+        bool debug = false;
+        if (debug)
+        {
+            for (int x = 0; x < map.GetWidth(); x++)
+            {
+                for (int z = 0; z < map.GetHeight(); z++)
+                {
+                    Vector3 position = map.GetWorldPosition(x, z);
+                    Debug.DrawLine(position, position + new Vector3(0, 100, 0), Color.red, 100f);
+                }
+            }
+        }
+
         for (int x = 0; x < map.GetWidth(); x++)
         {
             for (int z = 0; z < map.GetHeight(); z++)
             {
-                RaycastHit hit = GetRaycastData(x, z, LayerMask.GetMask("Ground"));
-                if (hit.collider == null)
+                RaycastHit[] hits = GetRaycastData(x, z, LayerMask.GetMask("Ground"));
+                if (hits.Length == 0)
                     continue;
-                CreateNode(x, z, hit);
+                Debug.Log(hits[0].transform.gameObject.name);
+                CreateNode(x, z, hits);
             }
         }
     }
 
-    private void CreateNode(int x, int z, RaycastHit hit)
+    private void CreateNode(int x, int z, RaycastHit[] hits)
     {
+        RaycastHit hit = hits[0];
+        
         // Coordinates
         int y = (int)hit.transform.position.y;
         Node node = new Node(x, y, z, map);
@@ -103,34 +116,52 @@ public class MapMaker : MonoBehaviour
         map.SetGridObject(x, z, node);
     }
 
-    private void GetObstacleLayer(Transform tilemap)
+    private void GetObstacleLayer()
     {
+        bool debug = true;
+        if (debug)
+        {
+            for (int x = 0; x < map.GetWidth(); x++)
+            {
+                for (int z = 0; z < map.GetHeight(); z++)
+                {
+                    Vector3 position = map.GetWorldPosition(x, z);
+                    Debug.DrawLine(position, position + new Vector3(0, 100, 0), Color.red, 100f);
+                }
+            }
+        }
+
         for (int x = 0; x < map.GetWidth(); x++)
         {
             for (int z = 0; z < map.GetHeight(); z++)
             {
-                RaycastHit hit = GetRaycastData(x, z, LayerMask.GetMask("Obstacle"));
-                if (hit.collider == null)
+                RaycastHit[] hits = GetRaycastData(x, z, LayerMask.GetMask("Obstacle"));
+                if (hits.Length == 0)
                         continue;
-                AmendNodeWithTileObject(x, z, hit);
+                Debug.Log("Hit something apparently" + " : " + hits.Length);
+                Debug.Log(hits[0].transform.gameObject.name + " : " + hits[1].transform.gameObject.name);
+                AmendNodeWithTileObject(x, z, hits);
             }
         }
     }
 
-    private void AmendNodeWithTileObject(int x, int z, RaycastHit hit)
+    private void AmendNodeWithTileObject(int x, int z, RaycastHit[] hits)
     {
+        RaycastHit hit = hits[0];
+        if (hit.collider == null) return;
         Node nodeToUpdate = map.GetGridObject(x, z);
         TileObject tileObject = hit.collider.gameObject.GetComponent<Tile>().tileObject;
         Transform tile = hit.transform;
         nodeToUpdate.SetTileObject(tile, tileObject);
     }
 
-    private RaycastHit GetRaycastData(int x, int z, LayerMask mask)
+    private RaycastHit[] GetRaycastData(int x, int z, LayerMask mask)
     {
-        Vector3 origin = map.GetWorldPosition(x, z) + new Vector3(map.GetCellSize(), -50, map.GetCellSize()) * 0.5f;
+        Vector3 origin = map.GetWorldPosition(x, z) + new Vector3(0, -50, 0);
         Ray ray = new Ray(origin, Vector3.up);
-        Physics.Raycast(ray, out RaycastHit hit, 1000f, mask);
-        return hit;
+        
+        RaycastHit[] hits = Physics.RaycastAll(ray, 1000f, mask);
+        return hits;
     }
     #endregion
 

@@ -60,7 +60,7 @@ public static class Utils
         GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
         Transform transform = gameObject.transform;
         transform.localPosition = grid.GetWorldPosition(x, z) +
-                                   new Vector3(grid.GetCellSize() / 2, 8, grid.GetCellSize() / 2);
+                                   new Vector3(0, 8, 0);
         TextMesh textMesh = gameObject.GetComponent<TextMesh>();
         textMesh.text = text;
         textMesh.fontSize = fontSize;
@@ -73,7 +73,7 @@ public static class Utils
         GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
         Transform transform = gameObject.transform;
         transform.localPosition = grid.GetWorldPosition(node.x, node.z) +
-                                   new Vector3(grid.GetCellSize() / 2, 8, grid.GetCellSize() / 2);
+                                   new Vector3(0, 8, 0);
         TextMesh textMesh = gameObject.GetComponent<TextMesh>();
         textMesh.text = text;
         textMesh.fontSize = fontSize;

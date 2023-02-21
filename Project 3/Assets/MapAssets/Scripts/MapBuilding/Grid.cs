@@ -8,6 +8,7 @@ public class Grid<T>
 {
     private int width;
     private int height;
+    private int length;
     private float cellSize;
     private Vector3 origin;
     private T[,] gridArray;
@@ -23,12 +24,9 @@ public class Grid<T>
         gridArray = new T[width, height];
 
         for (int i = 0; i < width; i++)
-        {
             for (int j = 0; j < height; j++)
-            {
                 gridArray[i, j] = createGridObject();
-            }
-        }
+
         bool debug = false;
         if (debug)
         {
@@ -60,9 +58,21 @@ public class Grid<T>
         return new Vector3(x, 0, z) * cellSize;
     }
 
+    public Vector3 GetWorldPosition(int x, int y, int z)
+    {
+        return new Vector3(x, y, z) * cellSize;
+    }
+
     public void GetXZ(Vector3 worldPosition, out int x, out int z)
     {
         x = Mathf.FloorToInt(worldPosition.x / cellSize);
+        z = Mathf.FloorToInt(worldPosition.z / cellSize);
+    }
+
+    public void GetXYZ(Vector3 worldPosition, out int x, out int y, out int z)
+    {
+        x = Mathf.FloorToInt(worldPosition.x / cellSize);
+        y = Mathf.FloorToInt(worldPosition.y / cellSize);
         z = Mathf.FloorToInt(worldPosition.z / cellSize);
     }
 
@@ -79,6 +89,11 @@ public class Grid<T>
     public int GetHeight()
     {
         return height;
+    }
+
+    public int GetLength()
+    {
+        return length;
     }
 
     public float GetCellSize()

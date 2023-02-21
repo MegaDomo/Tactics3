@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8812712681081185525}
   - component: {fileID: 4557883546389341107}
   - component: {fileID: 6878233156477858191}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mud1.0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 1252029521332804027}
   - component: {fileID: 8991667448034632239}
   - component: {fileID: 2169960117668761196}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6955360821042608016}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: StandingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 8956855231680046243}
   - component: {fileID: 5468214329388854022}
   - component: {fileID: 7783918609922564044}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mud1.0VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
