@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockObject: {fileID: 11400000, guid: 22b8451edf15f874b9a9fc1f4e2b7842, type: 2}
   standingPoint: {fileID: 5147960852164264218}
-  vfx: {fileID: 0}
+  vfx: {fileID: 4570849792570074505}
 --- !u!1 &7151677979145591336
 GameObject:
   m_ObjectHideFlags: 0

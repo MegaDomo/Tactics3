@@ -94,7 +94,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5604539269314155553, guid: 64fe0e91d613d2a4288e172eb51b9160, type: 3}
+  - {fileID: 2100000, guid: 02cd765851dfd6149ac143c20febc5a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockObject: {fileID: 11400000, guid: 2e51d373398452c48a7c6770aced6939, type: 2}
   standingPoint: {fileID: 4845008363059022500}
-  vfx: {fileID: 0}
+  vfx: {fileID: 954338643657583552}
 --- !u!1 &5442764732389326060
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +271,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5604539269314155553, guid: 64fe0e91d613d2a4288e172eb51b9160, type: 3}
+  - {fileID: 2100000, guid: 02cd765851dfd6149ac143c20febc5a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
