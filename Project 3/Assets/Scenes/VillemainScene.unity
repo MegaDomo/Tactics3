@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18313767, g: 0.22880451, b: 0.30658612, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8756,10 +8756,14 @@ MonoBehaviour:
     blockObjects:
     - {fileID: 11400000, guid: d11d2a2f2e8a99e4db4a55bb4062f8cc, type: 2}
     - {fileID: 11400000, guid: 2e51d373398452c48a7c6770aced6939, type: 2}
+    - {fileID: 11400000, guid: 93d26275091ed0f44be02dc5a0799bae, type: 2}
+    - {fileID: 11400000, guid: c21300b8f4ca270418a8e39a0a922bb0, type: 2}
+    - {fileID: 11400000, guid: d7df5a2e553d40d44ba5367bafa00233, type: 2}
     obstacleSaturation: 0
     decorSaturation: 0
     tileObjects:
     - {fileID: 11400000, guid: 6d2f1613fce395a408e293d9b17712ad, type: 2}
+    - {fileID: 11400000, guid: 372bae64b57d7214fb841ffca1a605a6, type: 2}
   - terrain: Volcano
     difficultTerrainSaturation: 1
     blockObjects:
@@ -18093,14 +18097,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: -6.86, y: 3, z: -3.96}
+  m_LocalRotation: {x: 0.19548404, y: 0.5215214, z: -0.2879367, w: 0.7790339}
+  m_LocalPosition: {x: -33, y: 36.8, z: 27.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 37.222, y: 61.529, z: -17.898}
 --- !u!1 &707627902
 GameObject:
   m_ObjectHideFlags: 0

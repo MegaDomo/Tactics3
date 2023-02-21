@@ -172,7 +172,7 @@ public class MapGeneration
         if (!IsObstacleSafe(x, z, node, obstacleTile))
             return;
 
-        Transform obstacle = Object.Instantiate(obstacleTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), GetRandomZAngle());
+        Transform obstacle = Object.Instantiate(obstacleTile.prefab, GetTileObjectSpawnPosition(x, z), GetRandomZAngle());
         node.SetTileObject(obstacle, obstacleTile);
     }
 
@@ -215,7 +215,7 @@ public class MapGeneration
         if (!IsDecorSafe(x, z, node, decorTile))
             return;
 
-        Transform decor = Object.Instantiate(decorTile.prefab, map.GetGridObject(x, z).GetStandingPoint(), Quaternion.identity);
+        Transform decor = Object.Instantiate(decorTile.prefab, GetTileObjectSpawnPosition(x, z), Quaternion.identity);
         node.SetTileObject(decor, decorTile);
     }
 
@@ -300,6 +300,11 @@ public class MapGeneration
         rotation.eulerAngles = new Vector3(0, angle, 0);
 
         return rotation;
+    }
+
+    private Vector3 GetTileObjectSpawnPosition(int x, int z)
+    {
+        return map.GetGridObject(x, z).GetStandingPoint() + new Vector3(0, map.GetCellSize(), 0);
     }
     #endregion
     #endregion
