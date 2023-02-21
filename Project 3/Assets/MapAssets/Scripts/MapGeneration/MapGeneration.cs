@@ -304,7 +304,7 @@ public class MapGeneration
 
     private Vector3 GetTileObjectSpawnPosition(int x, int z)
     {
-        return map.GetGridObject(x, z).GetStandingPoint() + new Vector3(0, map.GetCellSize(), 0);
+        return map.GetWorldPosition(x, z) + new Vector3(0, map.GetCellSize(), 0);
     }
     #endregion
     #endregion
