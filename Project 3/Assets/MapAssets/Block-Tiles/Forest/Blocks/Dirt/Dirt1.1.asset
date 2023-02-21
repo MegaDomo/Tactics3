@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69366a2fc5b121547940dbad9e922444, type: 3}
-  m_Name: Grass
+  m_Name: Dirt1.1
   m_EditorClassIdentifier: 
   passable: 1
   width: 1
   height: 1
   movementCost: 1
-  nameString: Grass
-  prefab: {fileID: 3720278588393324496, guid: 80b5239571c625e49826b9eef00a5deb, type: 3}
+  nameString: Dirt
+  prefab: {fileID: 3528180746485441591, guid: e98521cc53437d64aa129fef965d1d91, type: 3}
   blockType: 0
