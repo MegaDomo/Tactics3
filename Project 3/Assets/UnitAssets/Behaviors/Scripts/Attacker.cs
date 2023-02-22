@@ -14,8 +14,12 @@ public class Attacker : Behavior
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
         FindTarget(players, weapons);
+
+        // Move
+        MoveToTarget();
     }
 
+    #region Find Target
     private void FindTarget(List<Unit> players, List<Weapon> weapons)
     {
         // Need to find Target(Unit), Weapon, destination(Node)
@@ -32,8 +36,6 @@ public class Attacker : Behavior
         }
 
         target = bestSet.Item3;
-
-        // if not bestWeapon set, then now player is in range therefore no target, find target different way
     }
 
     private Tuple<Weapon, int, Unit> CompareWeaponSets(Tuple<Weapon, int, Unit> bestSet, Tuple<Weapon, int> set, Unit nextPlayer)
@@ -49,7 +51,6 @@ public class Attacker : Behavior
         return bestSet;
     }
 
-    #region Compare Weapons against 1 Player
     private Tuple<Weapon, int> GetBestWeaponAgainstPlayer(List<Weapon> weapons, Unit player)
     {
         int bestDamage = Int32.MinValue;
@@ -98,8 +99,41 @@ public class Attacker : Behavior
     }
     #endregion
 
+    #region Moving
+    private void MoveToTarget()
+    {
+        List<Node> adjNodes = pathfinding.GetNeighbors(target.node);
+        Move(FindClosestNode(adjNodes));
+    }
 
+    public Node FindClosestNode(List<Node> nodes)
+    {
+        Node node = new Node();
+        int close = int.MaxValue;
+        int temp;
 
+        foreach (Node item in nodes)
+        {
+            temp = MapManager.instance.pathing.GetPathCost(self.node, item);
+
+            if (temp < close)
+            {
+                close = temp;
+                node = item;
+            }
+        }
+
+        return node;
+    }
+
+    public void Move(Node destination)
+    {
+        Grid<Node> map = MapManager.instance.map;
+        Utils.CreateWorldTextPopupOnGrid(destination.x, destination.z,
+                                   10f, "Moving Here", 30, map);
+        MapManager.instance.MoveAsCloseAsPossible(self, destination);
+    }
+    #endregion
 
 
 
@@ -119,28 +153,7 @@ public class Attacker : Behavior
         //
     }
 
-    public Node FindClosestNodeInMovementRange(List<Node> nodes, int movement)
-    {
-        Node node = null;
-        int close = int.MaxValue;
-        int temp;
-
-        foreach (Node item in nodes)
-        {
-            temp = MapManager.instance.pathing.GetPathCost(self.node, item);
-
-            if (temp > movement)
-                continue;
-
-            if (temp < close)
-            {
-                close = temp;
-                node = item;
-            }
-        }
-
-        return node;
-    }
+    
 
 
 
