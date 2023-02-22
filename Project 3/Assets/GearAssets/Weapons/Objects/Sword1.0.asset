@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895c7c2dbfaddf5449fc3ae4e6eecdc2, type: 3}
   m_Name: Sword1.0
   m_EditorClassIdentifier: 
-  damage: 2
-  maxRange: 1
+  damage: 3
+  range: 1
   minRange: 1
   charges: 0
   prefab: {fileID: 7800691829840014551, guid: 2b08ce4679064974dbc6dd333878865e, type: 3}
