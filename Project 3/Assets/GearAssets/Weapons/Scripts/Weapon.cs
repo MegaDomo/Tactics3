@@ -5,6 +5,7 @@ public class Weapon : ScriptableObject
 {
     public int damage;
     public int range;
+    public int minRange;
     public int charges;
 
     public GameObject prefab;

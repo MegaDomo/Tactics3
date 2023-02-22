@@ -119,7 +119,6 @@ public class Pathfinding
         path.RemoveRange(nodeCost, path.Count - nodeCost);
         Debug.Log(path.Count);
 
-
         return path;
     }
 
@@ -142,6 +141,7 @@ public class Pathfinding
         return GetPathCost(path);
     }
 
+    // Note : Used for Getting Closest Path
     public int GetNodeCostFromMovement(List<Node> path, int movement)
     {
         int nodeCost = 0;
@@ -157,6 +157,61 @@ public class Pathfinding
         return nodeCost;
     }
     #endregion
+
+    // Methods to get various shapes of Nodes in the form of Lists
+    #region Getting to know your neighbors
+    public List<Node> GetDiamond(Node target, int radius)
+    {
+        List<Node> diamond = new List<Node>();
+        List<Vector2Int> coor = GetCoordinateList(radius);
+
+        foreach (Vector2Int vector in coor)
+        {
+            if (isSafe(vector.x, vector.y))
+                diamond.Add(grid.GetGridObject(vector.x, vector.y));
+        }
+        return diamond;
+    }
+
+    public List<Node> GetSquare(int radius)
+    {
+        return new List<Node>();
+    }
+
+    public List<Node> GetPlus(int radius)
+    {
+        return new List<Node>();
+    }
+
+    public List<Node> GetLine(int radius)
+    {
+        return new List<Node>();
+    }
+
+    private bool IsSafe(int x, int z)
+    {
+        return grid.isCoordinatesSafe(x, z);
+    }
+
+    private List<Vector2Int> GetCoordinateList(int radius)
+    {
+        List<Vector2Int> coordinates = new List<Vector2Int>();
+        
+        for (int x = -radius; x < radius; x++)
+        {
+            for (int z = -radius; z < radius; z++)
+            {
+                int dis = Mathf.Abs(x) + Mathf.Abs(z);
+                if (dis <= radius && dis != 0)
+                    coordinates.Add(new Vector2Int(x, z));
+            }
+        }
+        return coordinates;
+    }
+
+    #endregion
+
+
 
     #region Utility Methods
     public bool CanMove(Unit selected, Node start, Node end)

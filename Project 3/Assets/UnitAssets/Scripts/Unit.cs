@@ -13,7 +13,8 @@ public class Unit : MonoBehaviour
     [Header("Attributes")]
     public UnitType type;
     public UnitStats stats;
-    public Weapon weapon;
+    public Weapon equippedWeapon;
+    public List<Weapon> weapons;
     public List<Ability> abilities;
 
     [Header("Debugging")]
@@ -32,7 +33,7 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         SetSelf();
-        SetWeapon(weapon);
+        SetWeapon(weapons[0]);
     }
 
     public void StartTurn()
@@ -54,8 +55,7 @@ public class Unit : MonoBehaviour
 
     public void SetWeapon(Weapon _weapon)
     {
-        weapon = _weapon;
-        weaponPrefab = Instantiate(weapon.prefab, weaponPoint.position, Quaternion.identity);
+        weaponPrefab = Instantiate(_weapon.prefab, weaponPoint.position, Quaternion.identity);
         weaponPrefab.transform.SetParent(gameObject.transform);
     }
 
@@ -72,6 +72,11 @@ public class Unit : MonoBehaviour
             gameObject.tag = "Player";
         }
 
+    }
+
+    public int MovementLeft()
+    {
+        return stats.movement - stats.moved;
     }
 
 }
