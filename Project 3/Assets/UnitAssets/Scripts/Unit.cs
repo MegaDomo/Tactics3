@@ -57,23 +57,22 @@ public class Unit : MonoBehaviour
     public void TakePhysicalDamage(int damage)
     {
         // TODO : If health < 0 Death()
-        stats.curHealth -= damage - stats.defense < 0 ? damage - stats.defense : 0;
+        stats.curHealth -= damage - stats.defense < 0 ? 0 : damage - stats.defense;
     }
 
     public void TakeMagicalDamage(int damage)
     {
-        // TODO : If health < 0 Death()
-        stats.curHealth -= damage - stats.spDefense < 0 ? damage - stats.spDefense : 0;
+        stats.curHealth -= damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense;
     }
 
     public int ForecastPhysicalDamage(int damage)
     {
-        return damage - stats.defense < 0 ? damage - stats.defense : 0;
+        return damage - stats.defense < 0 ? 0 : damage - stats.defense;
     }
 
     public int ForecastMagicalDamage(int damage)
     {
-        return damage - stats.spDefense < 0 ? damage - stats.spDefense : 0;
+        return damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense;
     }
     #endregion
 

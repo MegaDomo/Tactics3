@@ -17,7 +17,7 @@ public class Attacker : Behavior
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
         FindTargetInWeaponRange(players, weapons);
-        if (self.equippedWeapon != null) Debug.Log("weapon is Not Null" + target.name);
+        
         if (target == null || self.equippedWeapon == null)
         {
             if (FindClosestTarget(players))
@@ -57,35 +57,31 @@ public class Attacker : Behavior
     #region Find Target
     private void FindTargetInWeaponRange(List<Unit> players, List<Weapon> weapons)
     {
-        // Need to find Target(Unit), Weapon, destination(Node)
-        Tuple<Weapon, int, Unit> bestSet = Tuple.Create<Weapon, int, Unit>(null, 0, null);
+        Tuple<Weapon, int, Unit> bestPlayerSet = Tuple.Create<Weapon, int, Unit>(null, 0, null);
 
         foreach (Unit player in players)
         {
             // Apply all weapons to a player
             Tuple<Weapon, int> set = GetBestWeaponAgainstPlayer(weapons, player);
-            if (set.Item2 == Int32.MinValue)
-                continue;
 
-            bestSet = CompareWeaponSets(bestSet, set, player);
+            bestPlayerSet = CompareWeaponSets(bestPlayerSet, set, player);            
         }
 
-        target = bestSet.Item3;
-        self.equippedWeapon = bestSet.Item1;
+        target = bestPlayerSet.Item3;
+        self.equippedWeapon = bestPlayerSet.Item1;
     }
 
     private Tuple<Weapon, int> GetBestWeaponAgainstPlayer(List<Weapon> weapons, Unit player)
     {
-        Tuple<Weapon, int> bestSet = Tuple.Create<Weapon, int>(null, 0);
+        Tuple<Weapon, int> bestWeaponSet = Tuple.Create<Weapon, int>(null, 0);
 
         foreach (Weapon weapon in weapons)
         {
             if (!InRange(player, weapon))
                 continue;
-            Debug.Log("In Range");
-            bestSet = CompareWeapons(bestSet, weapon, player);
+            bestWeaponSet = CompareWeapons(bestWeaponSet, weapon, player);
         }
-        return bestSet;
+        return bestWeaponSet;
     }
 
     private bool InRange(Unit player, Weapon weapon)
@@ -106,7 +102,7 @@ public class Attacker : Behavior
         return false;
     }
 
-    private Tuple<Weapon, int> CompareWeapons(Tuple<Weapon, int> bestSet, Weapon incomingWeapon, Unit player)
+    private Tuple<Weapon, int> CompareWeapons(Tuple<Weapon, int> bestWeaponSet, Weapon incomingWeapon, Unit player)
     {
         int damage = -1;
         if (incomingWeapon.weaponType == Weapon.WeaponType.Physical)
@@ -114,13 +110,13 @@ public class Attacker : Behavior
         if (incomingWeapon.weaponType == Weapon.WeaponType.Magical)
             damage = player.ForecastMagicalDamage(incomingWeapon.damage + self.stats.spAttack);
 
-        if (bestSet.Item2 < damage)
+        if (bestWeaponSet.Item2 < damage)
         {
             Tuple<Weapon, int> newBestSet = Tuple.Create<Weapon, int>(incomingWeapon, damage);
             return newBestSet;
         }
 
-        return bestSet;
+        return bestWeaponSet;
     }
 
     private Tuple<Weapon, int, Unit> CompareWeaponSets(Tuple<Weapon, int, Unit> bestSet, Tuple<Weapon, int> set, Unit nextPlayer)
@@ -141,7 +137,7 @@ public class Attacker : Behavior
     #region Attacking
     private void Attack()
     {
-        int damage = GetPhysicalDamage();
+        int damage = self.stats.attack + self.equippedWeapon.damage;
         // TODO : Figure out whether physical or magical damage
         target.TakePhysicalDamage(damage);
     }
@@ -149,7 +145,6 @@ public class Attacker : Behavior
     {
         // TODO : Filter nodes for minimum Range
         List<Node> potentialAttackNodes = pathfinding.GetDiamond(target.node, self.equippedWeapon.range);
-        //Debug.Log("Node Length in MoveToAttack() =    " + potentialAttackNodes.Count);
         Move(FindClosestNode(potentialAttackNodes));
         Attack();
     }

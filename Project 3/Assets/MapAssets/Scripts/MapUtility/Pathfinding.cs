@@ -164,10 +164,8 @@ public class Pathfinding
     {
         List<Node> diamond = new List<Node>();
         List<Vector2Int> coor = GetDiamondCoordinateList(target, radius);
-        //Debug.Log("Coor List " + coor.Count);
         foreach (Vector2Int vector in coor)
         {
-            //Debug.Log(vector);
             if (isSafe(vector.x, vector.y))
                 diamond.Add(grid.GetGridObject(vector.x, vector.y));
         }
@@ -187,10 +185,7 @@ public class Pathfinding
                 int zDif = zOrigin - z;
                 int dis = Mathf.Abs(xDif) + Mathf.Abs(zDif);
                 if (dis <= radius && dis != 0)
-                {
-                    Debug.Log(x + ":" + z);
                     coordinates.Add(new Vector2Int(x, z));
-                }
                     
             }
         }
