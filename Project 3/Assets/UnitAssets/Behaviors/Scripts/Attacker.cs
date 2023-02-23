@@ -34,6 +34,7 @@ public class Attacker : Behavior
         }
 
         MoveToAttack();
+
     }
 
     public bool FindClosestTarget(List<Unit> players)
@@ -86,7 +87,7 @@ public class Attacker : Behavior
 
     private bool InRange(Unit player, Weapon weapon)
     {
-        List<Node> potentialAttackNodes = pathfinding.GetDiamond(player.node, weapon.range);
+        List<Node> potentialAttackNodes = pathfinding.GetHollowDiamond(player.node, weapon.range, weapon.minRange);
         return FindNodeInMovementRange(potentialAttackNodes, self.MovementLeft());
     }
 
@@ -144,7 +145,8 @@ public class Attacker : Behavior
     private void MoveToAttack()
     {
         // TODO : Filter nodes for minimum Range
-        List<Node> potentialAttackNodes = pathfinding.GetDiamond(target.node, self.equippedWeapon.range);
+        Weapon weapon = self.equippedWeapon;
+        List<Node> potentialAttackNodes = pathfinding.GetHollowDiamond(target.node, weapon.range, weapon.minRange);
         Move(FindClosestNode(potentialAttackNodes));
         Attack();
     }

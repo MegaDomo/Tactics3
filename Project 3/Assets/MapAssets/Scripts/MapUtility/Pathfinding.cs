@@ -163,7 +163,7 @@ public class Pathfinding
     public List<Node> GetDiamond(Node target, int radius)
     {
         List<Node> diamond = new List<Node>();
-        List<Vector2Int> coor = GetDiamondCoordinateList(target, radius);
+        List<Vector2Int> coor = GetDiamondCoordinateList(target, radius, 0);
         foreach (Vector2Int vector in coor)
         {
             if (isSafe(vector.x, vector.y))
@@ -172,25 +172,38 @@ public class Pathfinding
         return diamond;
     }
 
-    private List<Vector2Int> GetDiamondCoordinateList(Node origin, int radius)
+    public List<Node> GetHollowDiamond(Node target, int radius, int minRadius)
+    {
+        List<Node> diamond = new List<Node>();
+        List<Vector2Int> coor = GetDiamondCoordinateList(target, radius, minRadius);
+        foreach (Vector2Int vector in coor)
+        {
+            if (isSafe(vector.x, vector.y))
+                diamond.Add(grid.GetGridObject(vector.x, vector.y));
+        }
+        return diamond;
+    }
+
+    private List<Vector2Int> GetDiamondCoordinateList(Node origin, int maxRadius, int minRadius)
     {
         List<Vector2Int> coordinates = new List<Vector2Int>();
         int xOrigin = origin.x;
         int zOrigin = origin.z;
-        for (int x = -radius + xOrigin; x <= radius + xOrigin; x++)
+        for (int x = -maxRadius + xOrigin; x <= maxRadius + xOrigin; x++)
         {
-            for (int z = -radius + zOrigin; z <= radius + zOrigin; z++)
+            for (int z = -maxRadius + zOrigin; z <= maxRadius + zOrigin; z++)
             {
                 int xDif = xOrigin - x;
                 int zDif = zOrigin - z;
                 int dis = Mathf.Abs(xDif) + Mathf.Abs(zDif);
-                if (dis <= radius && dis != 0)
+                if (dis <= maxRadius && dis >= minRadius)
                     coordinates.Add(new Vector2Int(x, z));
-                    
+
             }
         }
         return coordinates;
     }
+
 
     public List<Node> GetSquare(int radius)
     {
