@@ -80,6 +80,7 @@ public class Attacker : Behavior
         {
             if (!InRange(player, weapon))
                 continue;
+            Debug.Log("In Range" + weapon.name);
             bestWeaponSet = CompareWeapons(bestWeaponSet, weapon, player);
         }
         return bestWeaponSet;
@@ -95,8 +96,8 @@ public class Attacker : Behavior
     {
         foreach (Node node in nodes)
         {
-            int temp = MapManager.instance.pathing.GetPathCost(self.node, node);
-
+            int temp = MapManager.instance.pathing.GetPathCostWithoutStart(self.node, node);
+            Debug.Log(temp);
             if (temp <= movement)
                 return true;
         }

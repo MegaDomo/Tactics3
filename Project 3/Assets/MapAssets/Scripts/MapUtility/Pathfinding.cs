@@ -131,7 +131,7 @@ public class Pathfinding
         }
         return pathCost;
     }
-
+    
     // Returns -1 if no path found
     public int GetPathCost(Node start, Node end)
     {
@@ -139,6 +139,24 @@ public class Pathfinding
         if (path.Count == 0)
             return -1;
         return GetPathCost(path);
+    }
+
+    public int GetPathCostWithoutStart(List<Node> path)
+    {
+        int pathCost = 0;
+        for (int i = 1; i < path.Count; i++)
+        {
+            pathCost += path[i].movementCost;
+        }
+        return pathCost;
+    }
+
+    public int GetPathCostWithoutStart(Node start, Node end)
+    {
+        List<Node> path = AStar(start, end);
+        if (path.Count == 0)
+            return -1;
+        return GetPathCostWithoutStart(path);
     }
 
     // Note : Used for Getting Closest Path
@@ -224,7 +242,6 @@ public class Pathfinding
     {
         return grid.isCoordinatesSafe(x, z);
     }
-
     #endregion
 
 
