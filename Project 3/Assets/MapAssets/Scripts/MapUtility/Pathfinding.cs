@@ -113,11 +113,11 @@ public class Pathfinding
     public List<Node> GetClosestPath(Node start, Node end, Unit unit)
     {
         List<Node> path = AStar(start, end);
-
+        //Debug.Log(path.Count);
         int nodeCost = GetNodeCostFromMovement(path, MapManager.instance.MovementLeft(unit));
-        Debug.Log(nodeCost);
+        //Debug.Log(nodeCost);
         path.RemoveRange(nodeCost, path.Count - nodeCost);
-        Debug.Log(path.Count);
+        //Debug.Log(path.Count);
 
         return path;
     }
@@ -163,14 +163,38 @@ public class Pathfinding
     public List<Node> GetDiamond(Node target, int radius)
     {
         List<Node> diamond = new List<Node>();
-        List<Vector2Int> coor = GetCoordinateList(radius);
-
+        List<Vector2Int> coor = GetDiamondCoordinateList(target, radius);
+        //Debug.Log("Coor List " + coor.Count);
         foreach (Vector2Int vector in coor)
         {
+            //Debug.Log(vector);
             if (isSafe(vector.x, vector.y))
                 diamond.Add(grid.GetGridObject(vector.x, vector.y));
         }
         return diamond;
+    }
+
+    private List<Vector2Int> GetDiamondCoordinateList(Node origin, int radius)
+    {
+        List<Vector2Int> coordinates = new List<Vector2Int>();
+        int xOrigin = origin.x;
+        int zOrigin = origin.z;
+        for (int x = -radius + xOrigin; x <= radius + xOrigin; x++)
+        {
+            for (int z = -radius + zOrigin; z <= radius + zOrigin; z++)
+            {
+                int xDif = xOrigin - x;
+                int zDif = zOrigin - z;
+                int dis = Mathf.Abs(xDif) + Mathf.Abs(zDif);
+                if (dis <= radius && dis != 0)
+                {
+                    Debug.Log(x + ":" + z);
+                    coordinates.Add(new Vector2Int(x, z));
+                }
+                    
+            }
+        }
+        return coordinates;
     }
 
     public List<Node> GetSquare(int radius)
@@ -191,22 +215,6 @@ public class Pathfinding
     private bool IsSafe(int x, int z)
     {
         return grid.isCoordinatesSafe(x, z);
-    }
-
-    private List<Vector2Int> GetCoordinateList(int radius)
-    {
-        List<Vector2Int> coordinates = new List<Vector2Int>();
-        
-        for (int x = -radius; x < radius; x++)
-        {
-            for (int z = -radius; z < radius; z++)
-            {
-                int dis = Mathf.Abs(x) + Mathf.Abs(z);
-                if (dis <= radius && dis != 0)
-                    coordinates.Add(new Vector2Int(x, z));
-            }
-        }
-        return coordinates;
     }
 
     #endregion

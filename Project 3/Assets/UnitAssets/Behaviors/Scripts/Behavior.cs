@@ -11,6 +11,16 @@ public class Behavior : ScriptableObject
     [HideInInspector] public Node destination;
 
     public virtual void TakeTurn() { }
+
+
+    public int GetPhysicalDamage()
+    {
+        if (target == null || self.equippedWeapon)
+            return -1;
+        return self.stats.attack + self.equippedWeapon.damage;
+    }
+
+
     // public virtual void GetBlackBoard() { }
     /*
          * "Player"

@@ -33,7 +33,7 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         SetSelf();
-        SetWeapon(weapons[0]);
+        //SetWeapon(weapons[0]);
     }
 
     public void StartTurn()
@@ -52,6 +52,33 @@ public class Unit : MonoBehaviour
     {
 
     }
+
+    #region Damage Methods
+    public void TakePhysicalDamage(int damage)
+    {
+        // TODO : If health < 0 Death()
+        stats.curHealth -= damage - stats.defense < 0 ? damage - stats.defense : 0;
+    }
+
+    public void TakeMagicalDamage(int damage)
+    {
+        // TODO : If health < 0 Death()
+        stats.curHealth -= damage - stats.spDefense < 0 ? damage - stats.spDefense : 0;
+    }
+
+    public int ForecastPhysicalDamage(int damage)
+    {
+        return damage - stats.defense < 0 ? damage - stats.defense : 0;
+    }
+
+    public int ForecastMagicalDamage(int damage)
+    {
+        return damage - stats.spDefense < 0 ? damage - stats.spDefense : 0;
+    }
+    #endregion
+
+
+
 
     public void SetWeapon(Weapon _weapon)
     {

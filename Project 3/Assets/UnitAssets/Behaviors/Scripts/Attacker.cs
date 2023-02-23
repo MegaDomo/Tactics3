@@ -7,23 +7,58 @@ using UnityEngine;
 public class Attacker : Behavior
 {
     Pathfinding pathfinding;
+    MapManager mapManager;
+
     public override void TakeTurn()
     {
-        pathfinding = MapManager.instance.pathing;
+        mapManager = MapManager.instance;
+        pathfinding = mapManager.pathing;
 
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
-        FindTarget(players, weapons);
+        FindTargetInWeaponRange(players, weapons);
+        if (self.equippedWeapon != null) Debug.Log("weapon is Not Null" + target.name);
+        if (target == null || self.equippedWeapon == null)
+        {
+            if (FindClosestTarget(players))
+                Move(FindClosestNode(pathfinding.GetNeighbors(target.node)));
+            return;
+        }
 
-        // Move
-        MoveToTarget();
+        int nodeDistance = mapManager.GetDistance(self.node, target.node);
+        Weapon weapon = self.equippedWeapon;
+        if (nodeDistance <= weapon.range && nodeDistance >= weapon.minRange)
+        {
+            Attack();
+            return;
+        }
+
+        MoveToAttack();
+    }
+
+    public bool FindClosestTarget(List<Unit> players)
+    {
+        // Gets all Nodes that players are on
+        List<Node> playerNodes = new List<Node>();
+        foreach (Unit player in players)
+            playerNodes.Add(player.node);
+
+        Node targetNode = FindClosestNode(playerNodes);
+        target = targetNode.unit;
+
+        if (target == null)
+        {
+            Debug.Log("No Target for: " + self.name);
+            return false;
+        }
+        return true;
     }
 
     #region Find Target
-    private void FindTarget(List<Unit> players, List<Weapon> weapons)
+    private void FindTargetInWeaponRange(List<Unit> players, List<Weapon> weapons)
     {
         // Need to find Target(Unit), Weapon, destination(Node)
-        Tuple<Weapon, int, Unit> bestSet = Tuple.Create<Weapon, int, Unit>(weapons[0], Int32.MinValue, new Unit());
+        Tuple<Weapon, int, Unit> bestSet = Tuple.Create<Weapon, int, Unit>(null, 0, null);
 
         foreach (Unit player in players)
         {
@@ -36,32 +71,18 @@ public class Attacker : Behavior
         }
 
         target = bestSet.Item3;
-    }
-
-    private Tuple<Weapon, int, Unit> CompareWeaponSets(Tuple<Weapon, int, Unit> bestSet, Tuple<Weapon, int> set, Unit nextPlayer)
-    {
-        Tuple<Weapon, int, Unit> playerSet;
-
-        if (bestSet.Item2 < set.Item2)
-        {
-            playerSet = Tuple.Create<Weapon, int, Unit>(set.Item1, set.Item2, nextPlayer);
-            return playerSet;
-        }
-            
-        return bestSet;
+        self.equippedWeapon = bestSet.Item1;
     }
 
     private Tuple<Weapon, int> GetBestWeaponAgainstPlayer(List<Weapon> weapons, Unit player)
     {
-        int bestDamage = Int32.MinValue;
-        Weapon bestWeapon = new Weapon();
-        Tuple<Weapon, int> bestSet = Tuple.Create<Weapon, int>(bestWeapon, bestDamage);
-        
+        Tuple<Weapon, int> bestSet = Tuple.Create<Weapon, int>(null, 0);
 
         foreach (Weapon weapon in weapons)
         {
-            if (InRange(player, weapon))
+            if (!InRange(player, weapon))
                 continue;
+            Debug.Log("In Range");
             bestSet = CompareWeapons(bestSet, weapon, player);
         }
         return bestSet;
@@ -87,25 +108,55 @@ public class Attacker : Behavior
 
     private Tuple<Weapon, int> CompareWeapons(Tuple<Weapon, int> bestSet, Weapon incomingWeapon, Unit player)
     {
-        int damage = incomingWeapon.damage + self.stats.attack - player.stats.defense;
+        int damage = -1;
+        if (incomingWeapon.weaponType == Weapon.WeaponType.Physical)
+            damage = player.ForecastPhysicalDamage(incomingWeapon.damage + self.stats.attack);
+        if (incomingWeapon.weaponType == Weapon.WeaponType.Magical)
+            damage = player.ForecastMagicalDamage(incomingWeapon.damage + self.stats.spAttack);
 
         if (bestSet.Item2 < damage)
         {
             Tuple<Weapon, int> newBestSet = Tuple.Create<Weapon, int>(incomingWeapon, damage);
             return newBestSet;
         }
-        
+
+        return bestSet;
+    }
+
+    private Tuple<Weapon, int, Unit> CompareWeaponSets(Tuple<Weapon, int, Unit> bestSet, Tuple<Weapon, int> set, Unit nextPlayer)
+    {
+        Tuple<Weapon, int, Unit> playerSet;
+
+        //Debug.Log(bestSet.Item2 + " < " + set.Item2);
+        if (bestSet.Item2 < set.Item2)
+        {
+            playerSet = Tuple.Create<Weapon, int, Unit>(set.Item1, set.Item2, nextPlayer);
+            return playerSet;
+        }
+            
         return bestSet;
     }
     #endregion
 
-    #region Moving
-    private void MoveToTarget()
+    #region Attacking
+    private void Attack()
     {
-        List<Node> adjNodes = pathfinding.GetNeighbors(target.node);
-        Move(FindClosestNode(adjNodes));
+        int damage = GetPhysicalDamage();
+        // TODO : Figure out whether physical or magical damage
+        target.TakePhysicalDamage(damage);
+    }
+    private void MoveToAttack()
+    {
+        // TODO : Filter nodes for minimum Range
+        List<Node> potentialAttackNodes = pathfinding.GetDiamond(target.node, self.equippedWeapon.range);
+        //Debug.Log("Node Length in MoveToAttack() =    " + potentialAttackNodes.Count);
+        Move(FindClosestNode(potentialAttackNodes));
+        Attack();
     }
 
+    #endregion
+
+    #region Moving
     public Node FindClosestNode(List<Node> nodes)
     {
         Node node = new Node();
@@ -128,10 +179,10 @@ public class Attacker : Behavior
 
     public void Move(Node destination)
     {
-        Grid<Node> map = MapManager.instance.map;
+        Grid<Node> map = mapManager.map;
         Utils.CreateWorldTextPopupOnGrid(destination.x, destination.z,
                                    10f, "Moving Here", 30, map);
-        MapManager.instance.MoveAsCloseAsPossible(self, destination);
+        mapManager.MoveAsCloseAsPossible(self, destination);
     }
     #endregion
 
@@ -144,14 +195,6 @@ public class Attacker : Behavior
 
 
 
-
-
-    private void CheckBestTarget(Tuple<Weapon, int> combo, Unit player)
-    {
-        // target = p1
-        // compare incoming combo against p1, combo = p2
-        //
-    }
 
     
 

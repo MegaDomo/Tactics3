@@ -55,7 +55,7 @@ public class MapMaker : MonoBehaviour
             GetMap();
 
         // When Finishes, Performs Handoff
-        manager.GetMapData(map, stepSize);
+        manager.SetMapData(map, stepSize);
     }
 
     #region Get Map
@@ -87,7 +87,6 @@ public class MapMaker : MonoBehaviour
                 RaycastHit[] hits = GetRaycastData(x, z, LayerMask.GetMask("Ground"));
                 if (hits.Length == 0)
                     continue;
-                Debug.Log(hits[0].transform.gameObject.name);
                 CreateNode(x, z, hits);
             }
         }
@@ -108,8 +107,7 @@ public class MapMaker : MonoBehaviour
 
         // Forecast Object
         float y2 = node.GetStandingPoint().y;
-        float cellSize = map.GetCellSize() / 2;
-        Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(cellSize, y2, cellSize);
+        Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(0, y2, 0);
         ForecastTile tile = Instantiate(forecastTile, spawnPoint, Quaternion.identity).GetComponent<ForecastTile>();
         node.SetForecastTile(tile);
 

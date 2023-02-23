@@ -26,7 +26,7 @@ public class MapManager : MonoBehaviour
         pathing = new Pathfinding(map, stepSize);
     }
 
-    public void GetMapData(Grid<Node> map, int stepSize)
+    public void SetMapData(Grid<Node> map, int stepSize)
     {
         this.map = map;
         this.stepSize = stepSize;
@@ -64,6 +64,12 @@ public class MapManager : MonoBehaviour
 
         List<Node> path = pathing.GetClosestPath(start, destination, selected);
         int pathCost = pathing.GetPathCost(path);
+
+        if (path.Count <= 0)
+        {
+            Debug.Log("For " + selected.name + " Path was 0");
+            return;
+        }
 
         destination = path[path.Count - 1];
         Utils.CreateWorldTextPopupOnGrid(destination, 10f, "Closest Move", 30, map);
@@ -104,7 +110,7 @@ public class MapManager : MonoBehaviour
 
         // Get Path
         int pathCost = pathing.GetPathCost(start, end);
-        Debug.Log(pathCost);
+        //Debug.Log(pathCost);
         // No Path
         if (pathCost == -1)
             return false;
