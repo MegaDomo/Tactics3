@@ -46,10 +46,21 @@ public class UIHotBarTest : MonoBehaviour
     #region Event Handler
     public void WeaponStrike()
     {
-        /*if (player.actionState == ActionState.ChoosingAction)
+        List<Node> neighbors = MapManager.instance.pathing.GetNeighbors(player.GetTargetedNode());
+        List<Unit> targets = new List<Unit>();
+        foreach (Node node in neighbors)
         {
-            player.actionState = ActionState.ChoosingTarget;
-        }*/
+            if (node.unit == null)
+                targets.Add(node.unit);
+        }
+
+        if (targets.Count == 0)
+            return;
+        Unit selected = player.GetSelected();
+
+        targets[0].TakePhysicalDamage(selected.equippedWeapon.damage);
+        selected.anim.SetTrigger("MeleeStrike");
+        selected.anim.ResetTrigger("MeleeStrike");
     }
 
     public void Wait()

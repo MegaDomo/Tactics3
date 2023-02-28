@@ -46,6 +46,7 @@ public class Node
 
     public void OnUnitExit()
     {
+        unit = null;
         passable = true;
     }
     

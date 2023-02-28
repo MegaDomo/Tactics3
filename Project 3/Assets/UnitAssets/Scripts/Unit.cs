@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     [Header("Unity References")]
     public Transform ground;
     public Transform weaponPoint;
+    public Animator anim;
 
     [Header("Attributes")]
     public UnitType type;
@@ -33,7 +34,7 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         SetSelf();
-        //SetWeapon(weapons[0]);
+        SetWeapon(weapons[0]);
     }
 
     public void StartTurn()
@@ -81,8 +82,11 @@ public class Unit : MonoBehaviour
 
     public void SetWeapon(Weapon _weapon)
     {
-        weaponPrefab = Instantiate(_weapon.prefab, weaponPoint.position, Quaternion.identity);
-        weaponPrefab.transform.SetParent(gameObject.transform);
+        if (_weapon == null)
+            return;
+        weaponPrefab = Instantiate(_weapon.prefab, weaponPoint.position, weaponPoint.rotation);
+        weaponPrefab.transform.SetParent(weaponPoint.transform);
+        equippedWeapon = _weapon;
     }
 
     private void SetSelf()
