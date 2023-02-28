@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewBlockObject", menuName = "Map/Block")]
+[CreateAssetMenu(fileName = "NewBlockObject", menuName = "Map/BlockObject")]
 public class BlockObject : ScriptableObject
 {
     public enum BlockType { Neutral, Difficult, Cluster, Line}
