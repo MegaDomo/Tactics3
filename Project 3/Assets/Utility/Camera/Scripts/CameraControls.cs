@@ -5,10 +5,12 @@ public class CameraControls : MonoBehaviour
 {
     [Header("Unity References")]
     public Transform cameraRotationPoint;
+    public Transform cameraTransform;
 
     [Header("Attributes")]
     public float cameraMoveSpeed;
     public float cameraRotateSpeed;
+    public float zoomDistance;
 
     private PlayerControls controls;
 
@@ -27,15 +29,15 @@ public class CameraControls : MonoBehaviour
         Vector2 move = controls.Player.Move.ReadValue<Vector2>();
         MoveCamera(move.x, move.y);
         RotateCamera();
+        ZoomCamera();
     }
 
     private void MoveCamera(float xAxis, float zAxis)
     {
         if (xAxis == 0 && zAxis == 0)
             return;
-
         Vector3 move = cameraRotationPoint.right * xAxis + cameraRotationPoint.forward * zAxis;
-        cameraRotationPoint.Translate(move * cameraMoveSpeed * Time.deltaTime);
+        cameraTransform.Translate(move * cameraMoveSpeed * Time.deltaTime);
     }
 
     private void RotateCamera()
@@ -43,8 +45,19 @@ public class CameraControls : MonoBehaviour
         float speed = cameraRotateSpeed * Time.deltaTime;
         if (controls.Player.RotateLeft.IsPressed())
             cameraRotationPoint.Rotate(Vector3.up, speed);
-
         if (controls.Player.RotateRight.IsPressed())
             cameraRotationPoint.Rotate(Vector3.up, -speed);
+    }
+
+    private void ZoomCamera()
+    {
+        float axis = controls.Player.Scroll.ReadValue<float>();
+        if (axis == 0)
+            return;
+
+        if (axis > 0)
+            transform.Translate(Vector3.up * zoomDistance);
+        if (axis < 0)
+            transform.Translate(-Vector3.up * zoomDistance);
     }
 }
