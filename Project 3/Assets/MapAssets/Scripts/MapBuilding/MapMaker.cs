@@ -47,10 +47,8 @@ public class MapMaker : MonoBehaviour
             saturation.Add(mediumSaturationPercentage);
             saturation.Add(highSaturationPercentage);
             MapGeneration gen = new MapGeneration(whichTerrain, map, terrains, forecastTile, saturation);
-            //CreateMap();
         }
             
-
         if (!makeRandomMap)
         {
             bool debug = true;
@@ -67,7 +65,6 @@ public class MapMaker : MonoBehaviour
             }
             GetMap();
         }
-        
 
         // When Finishes, Performs Handoff
         manager.SetMapData(map, stepSize);
@@ -117,9 +114,7 @@ public class MapMaker : MonoBehaviour
                 y = (int)hit.transform.position.y;
                 raycast = hit;
             }
-                
         }
-        
         return raycast;
     }
 
