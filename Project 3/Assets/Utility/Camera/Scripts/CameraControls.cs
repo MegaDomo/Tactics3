@@ -9,7 +9,6 @@ public class CameraControls : MonoBehaviour
     [Header("Attributes")]
     public float cameraMoveSpeed;
     public float cameraRotateSpeed;
-    public float cameraRotateAngle;
 
     private PlayerControls controls;
 
@@ -24,24 +23,28 @@ public class CameraControls : MonoBehaviour
 
     private void Update()
     {
+        transform.LookAt(cameraRotationPoint);
         Vector2 move = controls.Player.Move.ReadValue<Vector2>();
         MoveCamera(move.x, move.y);
-        //RotateCamera();
+        RotateCamera();
     }
 
-    private void MoveCamera(float x, float z)
+    private void MoveCamera(float xAxis, float zAxis)
     {
-        if (x == 0 && z == 0)
+        if (xAxis == 0 && zAxis == 0)
             return;
 
-        Vector3 dir = new Vector3(x, 0, z);
-
-        transform.Translate(dir * cameraMoveSpeed * Time.deltaTime);
+        Vector3 move = cameraRotationPoint.right * xAxis + cameraRotationPoint.forward * zAxis;
+        cameraRotationPoint.Translate(move * cameraMoveSpeed * Time.deltaTime);
     }
 
     private void RotateCamera()
     {
+        float speed = cameraRotateSpeed * Time.deltaTime;
         if (controls.Player.RotateLeft.IsPressed())
-            transform.RotateAround(cameraRotationPoint.position, Vector3.up, cameraRotateAngle);
+            cameraRotationPoint.Rotate(Vector3.up, speed);
+
+        if (controls.Player.RotateRight.IsPressed())
+            cameraRotationPoint.Rotate(Vector3.up, -speed);
     }
 }

@@ -97,7 +97,6 @@ public class MapMaker : MonoBehaviour
     {
         int y = (int)block.position.y;
         Node node = new Node(x, y, z, map);
-        if (y != 0) Debug.Log(y);
         CreateBlockObject(x, z, node, block);
         CreateForecastTile(x, z, node);
         map.SetGridObject(x, z, node);
