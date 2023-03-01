@@ -142,8 +142,8 @@ public class Attacker : Behavior
         int damage = self.stats.attack + self.equippedWeapon.damage;
         // TODO : Figure out whether physical or magical damage
         target.TakePhysicalDamage(damage);
-        self.anim.SetTrigger("MeleeStrike");
-        self.anim.ResetTrigger("MeleeStrike");
+        //self.anim.SetTrigger("MeleeStrike");
+        //self.anim.ResetTrigger("MeleeStrike");
     }
     private void MoveToAttack()
     {

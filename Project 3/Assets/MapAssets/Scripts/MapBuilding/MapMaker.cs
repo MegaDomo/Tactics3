@@ -52,7 +52,22 @@ public class MapMaker : MonoBehaviour
             
 
         if (!makeRandomMap)
+        {
+            bool debug = true;
+            if (debug)
+            {
+                for (int x = 0; x < map.GetWidth(); x++)
+                {
+                    for (int z = 0; z < map.GetHeight(); z++)
+                    {
+                        Vector3 position = map.GetWorldPosition(x, z);
+                        Debug.DrawLine(position, position + new Vector3(0, 100, 0), Color.red, 100f);
+                    }
+                }
+            }
             GetMap();
+        }
+        
 
         // When Finishes, Performs Handoff
         manager.SetMapData(map, stepSize);
@@ -65,21 +80,9 @@ public class MapMaker : MonoBehaviour
         GetObstacleLayer();
     }
 
+    #region Ground Layer
     private void GetGroundLayer()
     {
-        bool debug = false;
-        if (debug)
-        {
-            for (int x = 0; x < map.GetWidth(); x++)
-            {
-                for (int z = 0; z < map.GetHeight(); z++)
-                {
-                    Vector3 position = map.GetWorldPosition(x, z);
-                    Debug.DrawLine(position, position + new Vector3(0, 100, 0), Color.red, 100f);
-                }
-            }
-        }
-
         for (int x = 0; x < map.GetWidth(); x++)
         {
             for (int z = 0; z < map.GetHeight(); z++)
@@ -87,48 +90,57 @@ public class MapMaker : MonoBehaviour
                 RaycastHit[] hits = GetRaycastData(x, z, LayerMask.GetMask("Ground"));
                 if (hits.Length == 0)
                     continue;
-                CreateNode(x, z, hits);
+                RaycastHit hit = FindTopBlock(hits);
+                CreateNode(x, z, hit.transform);
             }
         }
     }
 
-    private void CreateNode(int x, int z, RaycastHit[] hits)
+    private void CreateNode(int x, int z, Transform block)
     {
-        RaycastHit hit = hits[0];
-        
-        // Coordinates
-        int y = (int)hit.transform.position.y;
+        int y = (int)block.position.y;
         Node node = new Node(x, y, z, map);
+        if (y != 0) Debug.Log(y);
+        CreateBlockObject(x, z, node, block);
+        CreateForecastTile(x, z, node);
+        map.SetGridObject(x, z, node);
+    }
 
-        // Block Object
-        Transform block = hit.transform;        
+    private RaycastHit FindTopBlock(RaycastHit[] hits)
+    {
+        int y = 0;
+        RaycastHit raycast = hits[0];
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.transform.position.y > y)
+            {
+                y = (int)hit.transform.position.y;
+                raycast = hit;
+            }
+                
+        }
+        
+        return raycast;
+    }
+
+    private void CreateBlockObject(int x, int z, Node node, Transform block)
+    {
         BlockObject blockObject = block.GetComponent<Block>().blockObject;
         node.SetBlockObject(block, blockObject);
+    }
 
-        // Forecast Object
+    private void CreateForecastTile(int x, int z, Node node)
+    {
         float y2 = node.GetStandingPoint().y;
         Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(0, y2, 0);
         ForecastTile tile = Instantiate(forecastTile, spawnPoint, Quaternion.identity).GetComponent<ForecastTile>();
         node.SetForecastTile(tile);
-
-        map.SetGridObject(x, z, node);
     }
+    #endregion
 
+    #region Obstacle & Decor
     private void GetObstacleLayer()
     {
-        bool debug = true;
-        if (debug)
-        {
-            for (int x = 0; x < map.GetWidth(); x++)
-            {
-                for (int z = 0; z < map.GetHeight(); z++)
-                {
-                    Vector3 position = map.GetWorldPosition(x, z);
-                    Debug.DrawLine(position, position + new Vector3(0, 100, 0), Color.red, 100f);
-                }
-            }
-        }
-
         for (int x = 0; x < map.GetWidth(); x++)
         {
             for (int z = 0; z < map.GetHeight(); z++)
@@ -136,8 +148,6 @@ public class MapMaker : MonoBehaviour
                 RaycastHit[] hits = GetRaycastData(x, z, LayerMask.GetMask("Obstacle"));
                 if (hits.Length == 0)
                         continue;
-                Debug.Log("Hit something apparently" + " : " + hits.Length);
-                Debug.Log(hits[0].transform.gameObject.name + " : " + hits[1].transform.gameObject.name);
                 AmendNodeWithTileObject(x, z, hits);
             }
         }
@@ -152,6 +162,7 @@ public class MapMaker : MonoBehaviour
         Transform tile = hit.transform;
         nodeToUpdate.SetTileObject(tile, tileObject);
     }
+    #endregion
 
     private RaycastHit[] GetRaycastData(int x, int z, LayerMask mask)
     {
