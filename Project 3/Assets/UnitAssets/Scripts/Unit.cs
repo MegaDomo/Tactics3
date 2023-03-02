@@ -109,7 +109,6 @@ public class Unit : MonoBehaviour
         stats.moved += pathCost;
         
         anim.SetBool("IsMoving", false);
-        Debug.Log("IEnumerator Finished");
     }
 
     // Update Method
@@ -119,16 +118,18 @@ public class Unit : MonoBehaviour
             return;
 
         Vector3 dir = nodeToMoveTo.GetStandingPoint() - node.GetStandingPoint();
+        //Debug.Log(node.x + ", " + node.z);
         Debug.Log(dir);
         RotateUnit(dir);
         transform.Translate(dir.normalized * stats.pathingSpeed * Time.deltaTime);
         if (IsUnitWithinNode(nodeToMoveTo))
         {
-            Debug.Log("Loading Next Node");
+            //Debug.Log("Loading Next Node");
             if (path.Count == 0)
             {
                 //Debug.Log("Here");
                 doneMoving = true;
+                node = nodeToMoveTo;
                 return;
             }
             node = nodeToMoveTo;
@@ -156,10 +157,11 @@ public class Unit : MonoBehaviour
     {
         Quaternion startValue = vfx.rotation;
 
-        float angle = -Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        float angle = (Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg) + 180;
+        Debug.Log(angle);
         Quaternion endValue = Quaternion.Euler(0, angle, 0);
 
-        vfx.rotation = Quaternion.Lerp(startValue, endValue, 100f);
+        vfx.rotation = Quaternion.Lerp(startValue, endValue, 100f * Time.deltaTime);
     }
     private void ResetMoveValues()
     {
