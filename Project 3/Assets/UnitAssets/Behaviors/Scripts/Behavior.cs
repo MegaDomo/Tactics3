@@ -13,8 +13,6 @@ public class Behavior : ScriptableObject
     public virtual void TakeTurn() { }
 
 
-
-
     // public virtual void GetBlackBoard() { }
     /*
          * "Player"
