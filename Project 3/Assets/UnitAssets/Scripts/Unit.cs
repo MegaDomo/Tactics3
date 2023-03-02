@@ -26,6 +26,10 @@ public class Unit : MonoBehaviour
 
     private GameObject weaponPrefab;
 
+    private Node nodeToMoveTo;
+    private bool isUnitInRange;
+    private bool isMoving;
+
     void Awake()
     {
         offset = transform.position - ground.position;
@@ -35,6 +39,11 @@ public class Unit : MonoBehaviour
     {
         SetSelf();
         SetWeapon(weapons[0]);
+    }
+
+    private void Update()
+    {
+        MoveUnit();
     }
 
     public void StartTurn()
@@ -77,9 +86,59 @@ public class Unit : MonoBehaviour
     }
     #endregion
 
+    #region Movement Methods
+    public IEnumerator Move(int pathCost, List<Node> path)
+    {
+        isMoving = true;
+        anim.SetBool("IsMoving", true);
 
+        // Some Loop to move through
+        for (int i = 1; i < path.Count; i++)
+        {
+            nodeToMoveTo = path[i];
+            yield return new WaitUntil(() => isUnitInRange);
+        }
 
+        stats.moved += pathCost;
+        isMoving = false;
+        anim.SetBool("IsMoving", false);
+    }
 
+    // This is an Update Method
+    private void MoveUnit()
+    {
+        if (!isMoving)
+            return;
+        Vector3 dir = nodeToMoveTo.GetStandingPoint() - node.GetStandingPoint();
+        transform.Translate(dir * 10f * Time.deltaTime);
+        isUnitInRange = IsUnitWithinNode(nodeToMoveTo);
+    }
+
+    public bool IsUnitWithinNode(Node node)
+    {
+        float ux = transform.position.x;
+        float uz = transform.position.z;
+
+        float epsilon = 1f;
+
+        float xFloor = node.x - epsilon;
+        float xCeil = node.x + epsilon;
+        float zFloor = node.z - epsilon;
+        float zCeil = node.z + epsilon;
+
+        if (ux < xFloor && ux > xCeil)
+            return false;
+        if (uz < zFloor && uz > zCeil)
+            return false;
+        return true;
+    }
+    public int MovementLeft()
+    {
+        return stats.movement - stats.moved;
+    }
+    #endregion
+
+    #region Setters
     public void SetWeapon(Weapon _weapon)
     {
         if (_weapon == null)
@@ -103,10 +162,5 @@ public class Unit : MonoBehaviour
         }
 
     }
-
-    public int MovementLeft()
-    {
-        return stats.movement - stats.moved;
-    }
-
+    #endregion
 }

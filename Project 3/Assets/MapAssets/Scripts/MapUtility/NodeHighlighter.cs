@@ -12,12 +12,14 @@ public class NodeHighlighter : MonoBehaviour
     }
     public void Highlight(Unit unit)
     {
-        Node node = unit.node;
-
         List<Node> routes = MapManager.instance.pathing.GetAllRoutes(unit);
 
-        foreach (Node item in routes)
-            item.forecastTile.TileInReach();
+        foreach (Node node in routes)
+        {
+            ForecastTile tile = node.forecastTile;
+            fTiles.Add(tile);
+            tile.TileInReach();
+        }
     }
 
     public void Unhighlight()

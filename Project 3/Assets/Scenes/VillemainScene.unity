@@ -5103,9 +5103,9 @@ MonoBehaviour:
   mapManager: {fileID: 2120947107}
   spawner: {fileID: 1641815416}
   units:
+  - {fileID: 868780660}
   - {fileID: 1803906856}
   - {fileID: 1386022425}
-  - {fileID: 868780660}
   players: []
   enemies: []
 --- !u!1001 &647851215
@@ -20505,7 +20505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4058351250588581874, guid: c44e062163099b64eb14eeb1dee35ca1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -57.81
+      value: -59.77
       objectReference: {fileID: 0}
     - target: {fileID: 4058351250588581874, guid: c44e062163099b64eb14eeb1dee35ca1, type: 3}
       propertyPath: m_LocalRotation.w

@@ -50,6 +50,20 @@ public class Node
         passable = true;
     }
     
+    public bool IsUnitWithinNode(Unit unit)
+    {
+        float ux = unit.transform.position.x;
+        float uz = unit.transform.position.z;
+
+        float epsilon = 2f;
+
+        if (ux < x - epsilon && ux > x + epsilon)
+            return false;
+        if (uz < z - epsilon && uz > z + epsilon)
+            return false;
+        return true;
+    }
+
     public void UpdatePathingValues()
     {
         if (blockObject == null)

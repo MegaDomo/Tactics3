@@ -255,7 +255,7 @@ public class Pathfinding
             List<Node> neighbors = GetNeighbors(current);
             foreach (Node node in neighbors)
             {
-                if (!frontier.Contains(node))
+                if (!frontier.Contains(node) && !allRoutes.Contains(node))
                     frontier.Enqueue(node);
             }
             index++;

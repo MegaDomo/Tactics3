@@ -36,18 +36,21 @@ public class PlayerTurn : MonoBehaviour
     public void EndTurn()
     {
         actionState = ActionState.CannotChoose;
+        nodeHighlighter.Unhighlight();
     }
 
     public void ChooseNode(Node node)
     {
         targetNode = node;
         actionState = ActionState.ChoosingAction;
+        nodeHighlighter.Unhighlight();
     }
 
     public void ClearNode()
     {
         targetNode = null;
         actionState = ActionState.ChooseNode;
+        nodeHighlighter.Highlight(selected);
     }
     
     #endregion
@@ -55,7 +58,6 @@ public class PlayerTurn : MonoBehaviour
     #region Player Functions
     public void PlayerMove()
     {
-        // If players turn
         if (CombatState.state != BattleState.PLAYERTURN)
             return;
         MapManager.instance.Move(selected, targetNode);
