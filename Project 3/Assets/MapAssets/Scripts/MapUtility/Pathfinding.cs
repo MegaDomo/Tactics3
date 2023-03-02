@@ -243,6 +243,7 @@ public class Pathfinding
         Node start = unit.node;
         Node current;
 
+        int index = 0;
         frontier.Enqueue(start);
         while (frontier.Count != 0)
         {
@@ -256,6 +257,12 @@ public class Pathfinding
             {
                 if (!frontier.Contains(node))
                     frontier.Enqueue(node);
+            }
+            index++;
+            if (index > 500)
+            {
+                Debug.Log(frontier.Count + " Too Much");
+                break;
             }
         }
         return allRoutes;
