@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ActionState { MoveAction, ChoosingAction, CannotChoose }
+public enum ActionState { ChooseNode, ChoosingAction, CannotChoose }
 
 public class PlayerTurn : MonoBehaviour
 {
@@ -15,16 +15,22 @@ public class PlayerTurn : MonoBehaviour
     }
     #endregion
 
+    [Header("Unity References")]
+    public NodeHighlighter nodeHighlighter;
+
+    [HideInInspector] public ActionState actionState;
+
     private Unit selected;
     private Unit targeted;
     private Node targetNode;
 
-    public ActionState actionState;
+    private bool isMoving;
 
     #region ActionStateMethods
     public void StartTurn()
     {
-        actionState = ActionState.MoveAction;
+        actionState = ActionState.ChooseNode;
+        nodeHighlighter.Highlight(selected);
     }
 
     public void EndTurn()
@@ -41,7 +47,7 @@ public class PlayerTurn : MonoBehaviour
     public void ClearNode()
     {
         targetNode = null;
-        actionState = ActionState.MoveAction;
+        actionState = ActionState.ChooseNode;
     }
     
     #endregion
@@ -65,7 +71,6 @@ public class PlayerTurn : MonoBehaviour
     {
         return targeted;
     }
-
 
     public Node GetTargetedNode()
     {

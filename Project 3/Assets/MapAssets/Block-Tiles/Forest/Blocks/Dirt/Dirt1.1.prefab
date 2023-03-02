@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 651213249521345980}
   - component: {fileID: 4514375482559457817}
   - component: {fileID: 1820228153820356307}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Dirt1.1VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4368908725041450188}
   - component: {fileID: 2762051346271032184}
   - component: {fileID: 2893818812291490784}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Plane.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5149857099423704003}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: StandingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -104,14 +104,12 @@ public class MapManager : MonoBehaviour
     // This Method will be called by the Move Command, and it needs to be called by mouse hovering
     public bool CanMove(Unit selected, Node start, Node end)
     {
-        // Objective Distance
+        // Quick Out : Objective Distance 
         if (GetDistance(start, end) > MovementLeft(selected))
             return false;
 
-        // Get Path
         int pathCost = pathing.GetPathCost(start, end);
-        //Debug.Log(pathCost);
-        // No Path
+
         if (pathCost == -1)
             return false;
         
@@ -163,6 +161,11 @@ public class MapManager : MonoBehaviour
         // This Sets Node and Unit data
         unit.node = destination;
         destination.unit = unit;
+    }
+
+    public void TranslateBetweenNodes(Unit unit, Node destination)
+    {
+        Vector3 newPosition = destination.GetStandingPoint() + unit.offset;
     }
 
     public int MovementLeft(Unit unit)

@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2049764188928731929}
   - component: {fileID: 6963543744911250576}
   - component: {fileID: 3935192636099363648}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ForecastTile
   m_TagString: ForecastTile
   m_Icon: {fileID: 0}
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mesh: {fileID: 2049764188303925484}
   def: {r: 0.60008013, g: 0.8207547, b: 0.8133989, a: 0}
+  selected: {r: 0.9056604, g: 0.9047282, b: 0.2264151, a: 0.7647059}
   withinReach: {r: 0, g: 0.6313726, b: 0, a: 0.8156863}
   outOfReach: {r: 0.8396226, g: 0.17030083, b: 0.17030083, a: 0.84313726}
   x: 0

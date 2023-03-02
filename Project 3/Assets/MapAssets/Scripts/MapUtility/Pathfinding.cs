@@ -113,11 +113,8 @@ public class Pathfinding
     public List<Node> GetClosestPath(Node start, Node end, Unit unit)
     {
         List<Node> path = AStar(start, end);
-        //Debug.Log(path.Count);
         int nodeCost = GetNodeCostFromMovement(path, MapManager.instance.MovementLeft(unit));
-        //Debug.Log(nodeCost);
         path.RemoveRange(nodeCost, path.Count - nodeCost);
-        //Debug.Log(path.Count);
 
         return path;
     }
@@ -222,7 +219,6 @@ public class Pathfinding
         return coordinates;
     }
 
-
     public List<Node> GetSquare(int radius)
     {
         return new List<Node>();
@@ -238,6 +234,32 @@ public class Pathfinding
         return new List<Node>();
     }
 
+    public List<Node> GetAllRoutes(Unit unit)
+    {
+        List<Node> allRoutes = new List<Node>();
+
+        Queue<Node> frontier = new Queue<Node>();
+
+        Node start = unit.node;
+        Node current;
+
+        frontier.Enqueue(start);
+        while (frontier.Count != 0)
+        {
+            current = frontier.Dequeue();
+            if (GetPathCost(start, current) > unit.MovementLeft())
+                continue;
+            allRoutes.Add(current);
+
+            List<Node> neighbors = GetNeighbors(current);
+            foreach (Node node in neighbors)
+            {
+                if (!frontier.Contains(node))
+                    frontier.Enqueue(node);
+            }
+        }
+        return allRoutes;
+    }
     private bool IsSafe(int x, int z)
     {
         return grid.isCoordinatesSafe(x, z);
