@@ -58,6 +58,11 @@ public class Grid<T>
         return new Vector3(x, 0, z) * cellSize;
     }
 
+    public Vector3 GetWorldPosition(Node node)
+    {
+        return new Vector3(node.x, 0, node.z) * cellSize;
+    }
+
     public Vector3 GetWorldPosition(int x, int y, int z)
     {
         return new Vector3(x, y, z) * cellSize;

@@ -1731,6 +1731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69362486e02202a4a9d1942af53fd1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vfx: {fileID: 6338569600576153574}
   ground: {fileID: 8769162473986946005}
   weaponPoint: {fileID: 8769162474161234478}
   anim: {fileID: 2380982989208113978}
@@ -1752,8 +1753,10 @@ MonoBehaviour:
     inflictionChance: 0
     inflictionResist: 0
     moved: 0
+    pathingSpeed: 10
   equippedWeapon: {fileID: 0}
-  weapons: []
+  weapons:
+  - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
   abilities: []
   behavior: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}

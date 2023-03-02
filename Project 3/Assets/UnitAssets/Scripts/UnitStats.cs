@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class UnitStats
 {
-    [Header("Stats")]
+    [Header("Character Stats")]
     public int maxHealth;
     public int curHealth;
     public int movement;
@@ -22,13 +22,8 @@ public class UnitStats
     public int critDamage;
     public int inflictionChance;
     public int inflictionResist;
-    
-    
 
-
-
-
-    #region Background Stats
-    [HideInInspector] public int moved;
-    #endregion
+    [Header("Hidden Stats")]
+    public int moved = 0;
+    public int pathingSpeed = 10;    
 }
