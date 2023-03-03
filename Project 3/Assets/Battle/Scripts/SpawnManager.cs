@@ -36,12 +36,12 @@ public class SpawnManager : MonoBehaviour
     {
         foreach (Unit unit in units)
         {
-            if (unit.type == Unit.UnitType.Player)
+            if (unit.unitType == Unit.UnitType.Player)
             {
                 players.Add(unit);
             }
 
-            if (unit.type == Unit.UnitType.Enemy)
+            if (unit.unitType == Unit.UnitType.Enemy)
             {
                 enemies.Add(unit);
             }
@@ -117,6 +117,8 @@ public class SpawnManager : MonoBehaviour
 
     public void Spawn(Unit unit, Node spawnPoint)
     {
+        unit.node = spawnPoint;
+        spawnPoint.OnUnitEnter(unit);
         MapManager.instance.Place(unit, spawnPoint);
     }
 }

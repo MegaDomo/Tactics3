@@ -59,8 +59,8 @@ public class UIHotBarTest : MonoBehaviour
         Unit selected = player.GetSelected();
 
         targets[0].TakePhysicalDamage(selected.equippedWeapon.damage);
-        selected.anim.SetTrigger("MeleeStrike");
-        selected.anim.ResetTrigger("MeleeStrike");
+        selected.unitAnim.anim.SetTrigger("MeleeStrike");
+        selected.unitAnim.anim.ResetTrigger("MeleeStrike");
     }
 
     public void Wait()

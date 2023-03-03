@@ -15,19 +15,41 @@ public class WeaponSetHandler
         this.pathfinding = pathfinding;
     }
 
-    #region Find Target
-    // Applies all weapons to each Player
-    private WeaponSet FindPlayerInWeaponRange(List<Unit> players, List<Weapon> weapons)
+    #region Best Weapon Set for Most Damage
+    private WeaponSet FindBestWeaponSet(List<Weapon> weapons, List<Unit> players)
     {
-        WeaponSet bestSet = new WeaponSet(weapons[0], players[0], self);
+        List<WeaponSet> inRangeSets = FindWeaponSetsInRange(weapons, players);
+
+        return FindBestSet(inRangeSets);
+    }
+
+    private List<WeaponSet> FindWeaponSetsInRange(List<Weapon> weapons, List<Unit> players)
+    {
+        List<WeaponSet> inRangeSets = new List<WeaponSet>();
+        // Filters out Weapons out of Range
         foreach (Unit player in players)
         {
             foreach (Weapon weapon in weapons)
             {
                 WeaponSet set = new WeaponSet(weapon, player, self);
-                bestSet = CompareWeaponSets(bestSet, set);
-            }            
+                if (InRange(set.GetWeapon(), set.GetTarget()))
+                    inRangeSets.Add(set);
+            }
         }
+        return inRangeSets;
+    }
+
+    private WeaponSet FindBestSet(List<WeaponSet> inRangeSets)
+    {
+        WeaponSet bestSet = new WeaponSet(null, null, null);
+        // No Weapon was in Range
+        if (inRangeSets.Count == 0)
+            return bestSet;
+        bestSet = inRangeSets[0];
+
+        foreach (WeaponSet set in inRangeSets)
+            bestSet = CompareWeaponSets(bestSet, set);
+
         return bestSet;
     }
 
@@ -38,9 +60,8 @@ public class WeaponSetHandler
         else
             return set2;
     }
-    #endregion
 
-    private bool InRange(Unit player, Weapon weapon)
+    private bool InRange(Weapon weapon, Unit player)
     {
         List<Node> potentialAttackNodes = pathfinding.GetHollowDiamond(player.node, weapon.range, weapon.minRange);
         return FindNodeInMovementRange(potentialAttackNodes, self.MovementLeft());
@@ -57,5 +78,5 @@ public class WeaponSetHandler
         }
         return false;
     }
-
+    #endregion
 }

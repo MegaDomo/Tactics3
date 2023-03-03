@@ -1679,6 +1679,8 @@ GameObject:
   - component: {fileID: 8769162474166777818}
   - component: {fileID: 8769162474166777823}
   - component: {fileID: 8769162474166777822}
+  - component: {fileID: 7954557289854797742}
+  - component: {fileID: 966486887291584769}
   - component: {fileID: 3423264339419139259}
   m_Layer: 0
   m_Name: Unit
@@ -1731,11 +1733,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69362486e02202a4a9d1942af53fd1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfx: {fileID: 6338569600576153574}
   ground: {fileID: 8769162473986946005}
   weaponPoint: {fileID: 8769162474161234478}
-  anim: {fileID: 2380982989208113978}
-  type: 0
+  unitType: 0
   stats:
     maxHealth: 10
     curHealth: 10
@@ -1758,8 +1758,37 @@ MonoBehaviour:
   weapons:
   - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
   abilities: []
-  behavior: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
+  unitAnim: {fileID: 0}
+  unitBehavior: {fileID: 0}
+--- !u!114 &7954557289854797742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769162474166777809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7dc8ea3cdfb25d4b8a378f8ab369e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviorType: 0
+  behavior: {fileID: 0}
+--- !u!114 &966486887291584769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769162474166777809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91c89a01caa0a0d4ebfc846687f1fe9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfx: {fileID: 6338569600576153574}
+  anim: {fileID: 2380982989208113978}
 --- !u!114 &3423264339419139259
 MonoBehaviour:
   m_ObjectHideFlags: 0

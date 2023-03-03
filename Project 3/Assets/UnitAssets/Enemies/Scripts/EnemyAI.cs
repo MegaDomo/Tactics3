@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     private Unit selected;
     public IEnumerator StartTurn()
     {
-        Behavior bhvr = selected.behavior;
+        Behavior bhvr = selected.unitBehavior.behavior;
 
         bhvr.TakeTurn();
 

@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class NodeHighlighter : MonoBehaviour
 {
-    private List<ForecastTile> fTiles;
+    private List<ForecastTile> fTiles = new List<ForecastTile>();
 
-    private void Start()
-    {
-        fTiles = new List<ForecastTile>();
-    }
     public void Highlight(Unit unit)
     {
         List<Node> routes = MapManager.instance.pathing.GetAllRoutes(unit);

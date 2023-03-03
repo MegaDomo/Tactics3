@@ -33,6 +33,9 @@ public class WeaponSet
     #region Utility
     private void CalculateBestDamage()
     {
+        if (weapon == null || target == null || self == null)
+            return;
+
         int damage = -1;
         if (weapon.weaponType == Weapon.WeaponType.Physical)
             damage = target.ForecastPhysicalDamage(weapon.damage + self.stats.attack);

@@ -6,16 +6,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Attacker", menuName = "Behaviors/Attacker")]
 public class Attacker : Behavior
 {
-    Pathfinding pathfinding;
+    WeaponSetHandler handler;
     MapManager mapManager;
+    Pathfinding pathfinding;
 
-    public override void TakeTurn()
+    public Attacker(MapManager mapManager)
     {
         mapManager = MapManager.instance;
         pathfinding = mapManager.pathing;
+        handler = new WeaponSetHandler(self, mapManager, pathfinding);
+    }
 
+    public override void TakeTurn()
+    {
+        
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
+
+
+
         FindTargetInWeaponRange(players, weapons);
         
         if (target == null || self.equippedWeapon == null)
