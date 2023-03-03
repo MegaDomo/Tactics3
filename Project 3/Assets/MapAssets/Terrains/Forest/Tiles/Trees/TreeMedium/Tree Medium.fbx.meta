@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: d9b9ab69108e9d74e9db1aba6f441639
+guid: 861fab86bf0f8a64b80196d432749e77
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Roots
+    second: {fileID: 2100000, guid: 9f2f648297fd87844a09e0acc46812d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: VineColor
+    second: {fileID: 2100000, guid: ac203b0f767e68c4dbe52cdcf0519852, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
