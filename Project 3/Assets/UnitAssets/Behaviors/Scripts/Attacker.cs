@@ -116,9 +116,9 @@ public class Attacker : Behavior
     private Tuple<Weapon, int> CompareWeapons(Tuple<Weapon, int> bestWeaponSet, Weapon incomingWeapon, Unit player)
     {
         int damage = -1;
-        if (incomingWeapon.weaponType == Weapon.WeaponType.Physical)
+        if (incomingWeapon.damageType == Weapon.DamageType.Physical)
             damage = player.ForecastPhysicalDamage(incomingWeapon.damage + self.stats.attack);
-        if (incomingWeapon.weaponType == Weapon.WeaponType.Magical)
+        if (incomingWeapon.damageType == Weapon.DamageType.Magical)
             damage = player.ForecastMagicalDamage(incomingWeapon.damage + self.stats.spAttack);
 
         if (bestWeaponSet.Item2 < damage)

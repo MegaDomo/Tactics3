@@ -9,7 +9,7 @@ public class UnitAnimation : MonoBehaviour
     public Animator anim;
 
     private AnimatorOverrideController animatorOverrideController;
-
+    private AnimationClipOverride clipOverrides;
     // Movement
     private Queue<Node> path = new Queue<Node>();
     private Unit unit;
@@ -19,11 +19,13 @@ public class UnitAnimation : MonoBehaviour
 
     private void Start()
     {
-        animatorOverrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
-        anim.runtimeAnimatorController = animatorOverrideController;
+        //animatorOverrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
+        //anim.runtimeAnimatorController = animatorOverrideController;
+
+        //clipOverrides = new AnimationClipOverride(animatorOverrideController.overridesCount);
+        //animatorOverrideController.GetOverrides(clipOverrides);
 
         unit = GetComponent<Unit>();
-        //GetComponent<Animation>().Play("TestSwordStrike");
     }
 
     private void Update()
@@ -125,7 +127,8 @@ public class UnitAnimation : MonoBehaviour
 
     public void SetWeaponAnimation(AnimationClip clip)
     {
-        animatorOverrideController["WeaponStrike"] = clip;
+        //animatorOverrideController["WeaponStrike"] = clip;
+        //animatorOverrideController.ApplyOverrides(clipOverrides);
     }
     #endregion
 }
