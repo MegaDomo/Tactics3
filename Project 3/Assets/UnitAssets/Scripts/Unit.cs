@@ -15,15 +15,19 @@ public class Unit : MonoBehaviour
     [Header("Attributes")]
     public UnitType unitType;
     public UnitStats stats;
-    public Weapon equippedWeapon;
-    public List<Weapon> weapons;
-    public List<Ability> abilities;
-    public EnemyObject enemyObj;
 
     [HideInInspector] public Vector3 offset;
     [HideInInspector] public Node node;
-    [HideInInspector] public UnitAnimation unitAnim;
+    
+    [HideInInspector] public Weapon equippedWeapon;
+    [HideInInspector] public List<Weapon> weapons;
+    [HideInInspector] public List<Ability> abilities;
+
+    [HideInInspector] public EnemyObject enemyObj;
     [HideInInspector] public UnitBehavior unitBehavior;
+    [HideInInspector] public Behavior behavior;
+
+    [HideInInspector] public UnitAnimation unitAnim;
 
     private GameObject weaponPrefab;
 
@@ -36,8 +40,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        //unitAnim = new UnitAnimation(vfx, anim);
-        SetWeapon(weapons[0]);
+        unitBehavior = new UnitBehavior(this);
     }
 
     private void Update()

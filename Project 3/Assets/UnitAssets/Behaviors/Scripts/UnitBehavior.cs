@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitBehavior : MonoBehaviour
+public class UnitBehavior
 {
     [HideInInspector] public Behavior behavior;
 
     private Unit unit;
 
-    private void Start()
+    public UnitBehavior(Unit unit)
     {
-        unit = GetComponent<Unit>();
+        this.unit = unit;
         SetBehavior();
         SetSelf();
     }
@@ -19,13 +19,13 @@ public class UnitBehavior : MonoBehaviour
     {
         if (unit.unitType == Unit.UnitType.Enemy)
         {
-            gameObject.tag = "Enemy";
+            unit.gameObject.tag = "Enemy";
             behavior.self = unit;
         }
 
         if (unit.unitType == Unit.UnitType.Player)
         {
-            gameObject.tag = "Player";
+            unit.gameObject.tag = "Player";
         }
     }
 
