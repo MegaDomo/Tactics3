@@ -79,22 +79,40 @@ public class Unit : MonoBehaviour
     }
     #endregion
 
+    #region Movement
+    public void Move(int pathCost, List<Node> path)
+    {
+        stats.moved += pathCost;
+        unitAnim.Move(path);
+    }
+
     public int MovementLeft()
     {
         return stats.movement - stats.moved;
     }
+    #endregion
+
+    #region Attacking Methods
+    public void WeaponStrike()
+    {
+        unitAnim.WeaponStrike();
+    }
+    #endregion
 
     #region Setters
-
-
     public void SetWeapon(Weapon _weapon)
     {
         if (_weapon == null)
             return;
+
+        if (weaponPrefab != null)
+            Destroy(weaponPrefab);
         weaponPrefab = Instantiate(_weapon.prefab, weaponPoint.position, weaponPoint.rotation);
         weaponPrefab.transform.SetParent(weaponPoint.transform);
+
+        unitAnim.SetWeaponAnimation(_weapon.animation);
+
         equippedWeapon = _weapon;
     }
-
     #endregion
 }

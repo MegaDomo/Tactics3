@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class UnitAnimation : MonoBehaviour
 {
-
     [Header("Unity References")]
     public Transform vfx;
     public Animator anim;
+
+    private AnimatorOverrideController animatorOverrideController;
 
     // Movement
     private Queue<Node> path = new Queue<Node>();
@@ -18,7 +19,11 @@ public class UnitAnimation : MonoBehaviour
 
     private void Start()
     {
+        animatorOverrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
+        anim.runtimeAnimatorController = animatorOverrideController;
+
         unit = GetComponent<Unit>();
+        //GetComponent<Animation>().Play("TestSwordStrike");
     }
 
     private void Update()
@@ -27,21 +32,15 @@ public class UnitAnimation : MonoBehaviour
     }
 
     #region Movement Methods
-    public IEnumerator Move(int pathCost, List<Node> path)
+    public void Move(List<Node> path)
     {
-        for (int i = 1; i < path.Count; i++)
-            this.path.Enqueue(path[i]);
-        nodeToMoveTo = this.path.Dequeue();
-
-        isMoving = true;
+        ReadyMoveValues(path);
         anim.SetBool("IsMoving", true);
+    }
 
-        doneMoving = false;
-        yield return new WaitUntil(() => doneMoving);
+    private void StopMoving()
+    {
         ResetMoveValues();
-
-        unit.stats.moved += pathCost;
-
         anim.SetBool("IsMoving", false);
     }
 
@@ -52,18 +51,15 @@ public class UnitAnimation : MonoBehaviour
             return;
 
         Vector3 dir = nodeToMoveTo.GetStandingPoint() - unit.node.GetStandingPoint();
-        //Debug.Log(node.x + ", " + node.z);
-        Debug.Log(dir);
+
         RotateUnit(dir);
         transform.Translate(dir.normalized * unit.stats.pathingSpeed * Time.deltaTime);
         if (IsUnitWithinNode(nodeToMoveTo))
         {
-            //Debug.Log("Loading Next Node");
             if (path.Count == 0)
             {
-                //Debug.Log("Here");
-                doneMoving = true;
                 unit.node = nodeToMoveTo;
+                StopMoving();
                 return;
             }
             unit.node = nodeToMoveTo;
@@ -97,19 +93,39 @@ public class UnitAnimation : MonoBehaviour
 
         vfx.rotation = Quaternion.Lerp(startValue, endValue, 100f * Time.deltaTime);
     }
+
     private void ResetMoveValues()
     {
         isMoving = false;
-        doneMoving = false;
 
         nodeToMoveTo = null;
         path = new Queue<Node>();
     }
+
+    private void ReadyMoveValues(List<Node> path)
+    {
+        isMoving = true;
+
+        for (int i = 1; i < path.Count; i++)
+            this.path.Enqueue(path[i]);
+        nodeToMoveTo = this.path.Dequeue();
+    }
+
     public int MovementLeft()
     {
         return unit.stats.movement - unit.stats.moved;
     }
     #endregion
 
+    #region Weapon Animations
+    public void WeaponStrike()
+    {
+        anim.Play("WeaponStrike");
+    }
 
+    public void SetWeaponAnimation(AnimationClip clip)
+    {
+        animatorOverrideController["WeaponStrike"] = clip;
+    }
+    #endregion
 }

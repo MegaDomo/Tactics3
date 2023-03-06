@@ -17,4 +17,5 @@ MonoBehaviour:
   minRange: 1
   charges: 0
   weaponType: 0
+  animation: {fileID: 7400000, guid: 98e8b34f3646e85459d6df9b21752ddd, type: 2}
   prefab: {fileID: 7800691829840014551, guid: 2b08ce4679064974dbc6dd333878865e, type: 3}

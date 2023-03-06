@@ -10,6 +10,6 @@ public class Weapon : ScriptableObject
     public int minRange;
     public int charges;
     public WeaponType weaponType;
-
+    public AnimationClip animation;
     public GameObject prefab;
 }
