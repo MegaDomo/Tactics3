@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class UnitBehavior : MonoBehaviour
 {
-    public enum BehaviorType { Attacker, Killer }
-
-    [Header("Attributes")]
-    public BehaviorType behaviorType;
-
     [HideInInspector] public Behavior behavior;
 
     private Unit unit;
@@ -38,10 +33,10 @@ public class UnitBehavior : MonoBehaviour
     {
         MapManager map = MapManager.instance;
 
-        if (behaviorType == BehaviorType.Attacker)
+        if (unit.enemyObj.behaviorType == EnemyObject.BehaviorType.Attacker)
             behavior = new Attacker(map);
 
-        if (behaviorType == BehaviorType.Killer)
+        if (unit.enemyObj.behaviorType == EnemyObject.BehaviorType.Killer)
             behavior = new Killer();
         // TODO : Add other Behaviors and compensate their constructors
     }

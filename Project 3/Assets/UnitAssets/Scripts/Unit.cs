@@ -5,11 +5,12 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
-    
 
     [Header("Unity References")]
     public Transform ground;
     public Transform weaponPoint;
+    public Transform vfx;
+    public Animator anim;
 
     [Header("Attributes")]
     public UnitType unitType;
@@ -17,6 +18,7 @@ public class Unit : MonoBehaviour
     public Weapon equippedWeapon;
     public List<Weapon> weapons;
     public List<Ability> abilities;
+    public EnemyObject enemyObj;
 
     [HideInInspector] public Vector3 offset;
     [HideInInspector] public Node node;
@@ -34,7 +36,13 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        //unitAnim = new UnitAnimation(vfx, anim);
         SetWeapon(weapons[0]);
+    }
+
+    private void Update()
+    {
+        unitAnim.MoveUnit();
     }
 
     #region Turn Methods
@@ -95,7 +103,7 @@ public class Unit : MonoBehaviour
     #region Attacking Methods
     public void WeaponStrike()
     {
-        unitAnim.WeaponStrike();
+        unitAnim.WeaponStrike(equippedWeapon);
     }
     #endregion
 
@@ -109,8 +117,6 @@ public class Unit : MonoBehaviour
             Destroy(weaponPrefab);
         weaponPrefab = Instantiate(_weapon.prefab, weaponPoint.position, weaponPoint.rotation);
         weaponPrefab.transform.SetParent(weaponPoint.transform);
-
-        unitAnim.SetWeaponAnimation(_weapon.animation);
 
         equippedWeapon = _weapon;
     }

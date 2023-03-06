@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class UnitAnimation : MonoBehaviour
 {
-    [Header("Unity References")]
     public Transform vfx;
     public Animator anim;
 
-    private AnimatorOverrideController animatorOverrideController;
-    private AnimationClipOverride clipOverrides;
     // Movement
     private Queue<Node> path = new Queue<Node>();
     private Unit unit;
@@ -17,21 +14,12 @@ public class UnitAnimation : MonoBehaviour
     private bool isMoving;
     private bool doneMoving;
 
-    private void Start()
+    public UnitAnimation(Transform vfx, Animator anim)
     {
-        //animatorOverrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
-        //anim.runtimeAnimatorController = animatorOverrideController;
-
-        //clipOverrides = new AnimationClipOverride(animatorOverrideController.overridesCount);
-        //animatorOverrideController.GetOverrides(clipOverrides);
-
-        unit = GetComponent<Unit>();
+        this.vfx = vfx;
+        this.anim = anim;
     }
 
-    private void Update()
-    {
-        MoveUnit();
-    }
 
     #region Movement Methods
     public void Move(List<Node> path)
@@ -47,7 +35,7 @@ public class UnitAnimation : MonoBehaviour
     }
 
     // Update Method
-    private void MoveUnit()
+    public void MoveUnit()
     {
         if (!isMoving)
             return;
@@ -120,15 +108,10 @@ public class UnitAnimation : MonoBehaviour
     #endregion
 
     #region Weapon Animations
-    public void WeaponStrike()
+    public void WeaponStrike(Weapon weapon)
     {
-        anim.Play("WeaponStrike");
+        anim.Play(weapon.weaponType);
     }
 
-    public void SetWeaponAnimation(AnimationClip clip)
-    {
-        //animatorOverrideController["WeaponStrike"] = clip;
-        //animatorOverrideController.ApplyOverrides(clipOverrides);
-    }
     #endregion
 }
