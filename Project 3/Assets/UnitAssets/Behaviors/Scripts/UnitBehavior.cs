@@ -4,26 +4,30 @@ using UnityEngine;
 
 public class UnitBehavior
 {
-    [HideInInspector] public Behavior behavior;
-
     private Unit unit;
+    private Behavior behavior;
+    private EnemyObject.BehaviorType behaviorType;
+    private Unit.UnitType unitType;
 
     public UnitBehavior(Unit unit)
     {
         this.unit = unit;
-        SetBehavior();
+        behaviorType = unit.enemyObj.behaviorType;
+        unitType = unit.unitType;
+
         SetSelf();
     }
 
     private void SetSelf()
     {
-        if (unit.unitType == Unit.UnitType.Enemy)
+        if (unitType == Unit.UnitType.Enemy)
         {
             unit.gameObject.tag = "Enemy";
+            SetBehavior();
             behavior.self = unit;
         }
 
-        if (unit.unitType == Unit.UnitType.Player)
+        if (unitType == Unit.UnitType.Player)
         {
             unit.gameObject.tag = "Player";
         }
@@ -33,11 +37,16 @@ public class UnitBehavior
     {
         MapManager map = MapManager.instance;
 
-        if (unit.enemyObj.behaviorType == EnemyObject.BehaviorType.Attacker)
+        if (behaviorType == EnemyObject.BehaviorType.Attacker)
             behavior = new Attacker(map);
 
-        if (unit.enemyObj.behaviorType == EnemyObject.BehaviorType.Killer)
+        if (behaviorType == EnemyObject.BehaviorType.Killer)
             behavior = new Killer();
         // TODO : Add other Behaviors and compensate their constructors
+    }
+
+    public Behavior GetBehavior()
+    {
+        return behavior;
     }
 }

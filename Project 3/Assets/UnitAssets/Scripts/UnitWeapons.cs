@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class UnitWeapons : MonoBehaviour
 {
-    public List<Weapon> weapons;
+    public List<Weapon> weapons = new List<Weapon>();
 
     private void Start()
     {
-        Unit unit = GetComponent<Unit>();
-        unit.weapons = weapons;
-        unit.SetWeapon(weapons[0]);
+        if (weapons.Count == 0)
+            return;
+
+        GetComponent<Unit>().SetWeapons(weapons);        
     }
 }

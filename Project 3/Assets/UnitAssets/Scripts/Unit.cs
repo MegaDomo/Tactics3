@@ -22,9 +22,9 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Weapon equippedWeapon;
     [HideInInspector] public List<Weapon> weapons;
     [HideInInspector] public List<Ability> abilities;
+    [HideInInspector] public List<Item> items;
 
     [HideInInspector] public EnemyObject enemyObj;
-    [HideInInspector] public UnitBehavior unitBehavior;
     [HideInInspector] public Behavior behavior;
 
     [HideInInspector] public UnitAnimation unitAnim;
@@ -35,12 +35,6 @@ public class Unit : MonoBehaviour
     {
         offset = transform.position - ground.position;
         unitAnim = GetComponent<UnitAnimation>();
-        unitBehavior = GetComponent<UnitBehavior>();
-    }
-
-    private void Start()
-    {
-        unitBehavior = new UnitBehavior(this);
     }
 
     private void Update()
@@ -111,6 +105,15 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Setters
+    public void SetWeapons(List<Weapon> weapons)
+    {
+        if (weapons.Count == 0)
+            return;
+
+        this.weapons = weapons;
+        SetWeapon(weapons[0]);
+    }
+
     public void SetWeapon(Weapon _weapon)
     {
         if (_weapon == null)
@@ -122,6 +125,29 @@ public class Unit : MonoBehaviour
         weaponPrefab.transform.SetParent(weaponPoint.transform);
 
         equippedWeapon = _weapon;
+    }
+
+    public void SetAbilities(List<Ability> abilities)
+    {
+        if (abilities.Count == 0)
+            return;
+
+        this.abilities = abilities;
+    }
+
+    public void SetInventory(List<Item> items)
+    {
+        if (items.Count == 0)
+            return;
+
+        this.items = items;
+    }
+
+    public void SetAsEnemy(EnemyObject enemyObject)
+    {
+        enemyObj = enemyObject;
+        UnitBehavior unitBehavior = new UnitBehavior(this);
+        behavior = unitBehavior.GetBehavior();
     }
     #endregion
 }
