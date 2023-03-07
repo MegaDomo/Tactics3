@@ -21,10 +21,11 @@ public class PlayerTurn : MonoBehaviour
     [HideInInspector] public ActionState actionState;
 
     private Unit selected;
-    private Unit targeted;
-    private Node targetNode;
+    private Unit target;
+    private Node destination;
 
     private bool isMoving;
+    private bool isAttacking;
 
     #region ActionStateMethods
     public void StartTurn()
@@ -41,16 +42,23 @@ public class PlayerTurn : MonoBehaviour
 
     public void ChooseNode(Node node)
     {
-        targetNode = node;
+        destination = node;
         actionState = ActionState.ChoosingAction;
         nodeHighlighter.Unhighlight();
     }
 
     public void ClearNode()
     {
-        targetNode = null;
+        destination = null;
         actionState = ActionState.ChooseNode;
         nodeHighlighter.Highlight(selected);
+    }
+
+    public void ChooseTarget(Unit target)
+    {
+        this.target = target;
+        actionState = ActionState.ChoosingAction;
+        nodeHighlighter.Unhighlight();
     }
     
     #endregion
@@ -60,8 +68,30 @@ public class PlayerTurn : MonoBehaviour
     {
         if (CombatState.state != BattleState.PLAYERTURN)
             return;
-        MapManager.instance.Move(selected, targetNode);
+        MapManager.instance.Move(selected, destination);
     }
+
+    public void WeaponStrike()
+    {
+        if (CombatState.state != BattleState.PLAYERTURN)
+            return;
+
+        if (target == null || destination == null || selected == null)
+        {
+            Debug.Log("Something was Null during WeaponStrike." + "\nTarget: "
+                      + target + "\nDestination: " + destination + "\nSelected: " + selected);
+            return;
+        }
+
+        if (isMoving)
+            return;
+
+        target.TakeDamage(selected, selected.equippedWeapon);
+    }
+    #endregion
+
+    #region Utility
+
     #endregion
 
     #region Getters & Setters
@@ -69,29 +99,49 @@ public class PlayerTurn : MonoBehaviour
     {
         return selected;
     }
-    public Unit GetTargeted()
-    {
-        return targeted;
-    }
-
-    public Node GetTargetedNode()
-    {
-        return targetNode;
-    }
-
     public void SetSelected(Unit _selected)
     {
         selected = _selected;
     }
 
-    public void SetTargeted(Unit _targeted)
+    public Unit GetTarget()
     {
-        targeted = _targeted;
+        return target;
     }
 
-    public void SetTargetedNode(Node _node)
+    public void SetTargeted(Unit target)
     {
-        targetNode = _node;
+        this.target = target;
+    }
+
+    public Node GetDestination()
+    {
+        return destination;
+    }
+
+    public void SetDestination(Node node)
+    {
+        destination = node;
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
+    }
+
+    public void SetIsMoving(bool value)
+    {
+        isMoving = value;
+    }
+
+    public bool IsAttacking()
+    {
+        return isAttacking;
+    }
+
+    public void SetIsAttacking(bool value)
+    {
+        isAttacking = value;
     }
     #endregion
 }

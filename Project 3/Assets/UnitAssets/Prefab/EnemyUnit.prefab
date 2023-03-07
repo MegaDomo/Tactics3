@@ -1685,7 +1685,7 @@ GameObject:
   - component: {fileID: 8418630457982787281}
   - component: {fileID: 1650907851296626239}
   - component: {fileID: 3423264339419139259}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EnemyUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1719,7 +1719,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 8769162474166777809}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 3.09
   m_Height: 13.28
   m_Direction: 1
@@ -1740,6 +1740,7 @@ MonoBehaviour:
   weaponPoint: {fileID: 8769162474161234478}
   vfx: {fileID: 6338569600576153574}
   anim: {fileID: 2380982989208113978}
+  unitType: 0
   stats:
     maxHealth: 10
     curHealth: 10
@@ -1758,8 +1759,6 @@ MonoBehaviour:
     inflictionResist: 0
     moved: 0
     pathingSpeed: 25
-  unitType: 0
-  offset: {x: 0, y: 0, z: 0}
   equippedWeapon: {fileID: 0}
   weapons:
   - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
@@ -1768,6 +1767,7 @@ MonoBehaviour:
   enemyObj: {fileID: 0}
   behavior: {fileID: 0}
   unitAnim: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!114 &-846446553673702364
 MonoBehaviour:
   m_ObjectHideFlags: 0

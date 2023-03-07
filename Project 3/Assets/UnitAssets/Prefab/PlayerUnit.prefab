@@ -1685,7 +1685,7 @@ GameObject:
   - component: {fileID: 1650907851296626239}
   - component: {fileID: 966486887291584769}
   - component: {fileID: 3423264339419139259}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PlayerUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1719,7 +1719,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 8769162474166777809}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 3.09
   m_Height: 13.28
   m_Direction: 1

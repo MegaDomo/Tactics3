@@ -8,21 +8,16 @@ public class UnitAnimation : MonoBehaviour
     public Animator anim;
 
     // Movement
-    private Queue<Node> path = new Queue<Node>();
+    private bool isMoving;
     private Unit unit;
     private Node nodeToMoveTo;
-    private bool isMoving;
-    private bool doneMoving;
-
-    public UnitAnimation(Transform vfx, Animator anim)
-    {
-        this.vfx = vfx;
-        this.anim = anim;
-    }
+    private Queue<Node> path = new Queue<Node>();
+    private PlayerTurn player;
 
     private void Start()
     {
         unit = GetComponent<Unit>();
+        player = PlayerTurn.instance;
     }
 
     #region Movement Methods
@@ -82,10 +77,9 @@ public class UnitAnimation : MonoBehaviour
         Quaternion startValue = vfx.rotation;
 
         float angle = (Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg) + 180;
-        Debug.Log(angle);
         Quaternion endValue = Quaternion.Euler(0, angle, 0);
 
-        vfx.rotation = Quaternion.Lerp(startValue, endValue, 100f * Time.deltaTime);
+        vfx.rotation = Quaternion.Lerp(startValue, endValue, 3f * Time.deltaTime);
     }
 
     private void ResetMoveValues()

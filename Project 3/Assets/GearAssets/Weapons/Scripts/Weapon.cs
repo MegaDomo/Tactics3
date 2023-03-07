@@ -8,6 +8,7 @@ public class Weapon : ScriptableObject
     public enum WeaponType { Sword1h, Axe1h, Mace1h, Dagger, Bow, Staff, Scepter, Sword2h, Axe2h, Mace2h }
 
     public int damage;
+    public int spDamage;
     public int range;
     public int minRange;
     public int charges;

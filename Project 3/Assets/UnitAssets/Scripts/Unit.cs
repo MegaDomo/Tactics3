@@ -62,6 +62,20 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Damage Methods
+    public void TakeDamage(Unit attacker, Weapon weapon)
+    {
+        int damage = 0;
+        if (weapon.damageType == Weapon.DamageType.Physical)
+        {
+            damage = attacker.stats.attack + weapon.damage;
+            stats.curHealth -= damage - stats.defense < 0 ? 0 : damage - stats.defense;
+        }
+        if (weapon.damageType == Weapon.DamageType.Magical)
+        {
+            damage = attacker.stats.spAttack + weapon.damage;
+            stats.curHealth -= damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense;
+        }
+    }
     public void TakePhysicalDamage(int damage)
     {
         // TODO : If health < 0 Death()
@@ -73,12 +87,12 @@ public class Unit : MonoBehaviour
         stats.curHealth -= damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense;
     }
 
-    public int ForecastPhysicalDamage(int damage)
+    public int ForecastTakePhysicalDamage(int damage)
     {
         return damage - stats.defense < 0 ? 0 : damage - stats.defense;
     }
 
-    public int ForecastMagicalDamage(int damage)
+    public int ForecastTakeMagicalDamage(int damage)
     {
         return damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense;
     }

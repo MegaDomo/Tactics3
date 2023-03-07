@@ -19,50 +19,43 @@ public class NodeClicker : MonoBehaviour
         CheckForNodeSelection();
     }
     
-    private void HighlightNode()
-    {
-        RaycastHit hit = GetHoverData(LayerMask.GetMask("ForecastTile"));
-        if (hit.transform == null) return;
-
-        ForecastTile fTile = hit.transform.GetComponent<ForecastTile>();
-        if (previousTile == null)
-        {
-            previousTile = fTile;
-        }
-        if (previousTile != fTile && previousTile != selectedTile)
-        {
-            previousTile.HideTile();
-            previousTile = fTile;
-        }
-
-        MoveSelector(fTile.node);
-        fTile.Highlight();
-    }
-
-    private void MoveSelector(Node node)
-    {
-        nodeSelector.gameObject.SetActive(true);
-        nodeSelector.position = node.GetStandingPoint();
-    }
-
-    private void HideSelector()
-    {
-        nodeSelector.gameObject.SetActive(false);
-    }
-
     private void CheckForNodeSelection()
     {
         if (CombatState.state != BattleState.PLAYERTURN && player.actionState != ActionState.ChooseNode)
             return;
 
-        RaycastHit hit = GetClickData();
-        if (hit.transform == null)
+        RaycastHit unitHit = GetClickData(LayerMask.GetMask("Enemy"));
+        if (unitHit.transform != null)
+        {
+            ClickedOnUnit(unitHit);
+            return;
+        }
+        
+        RaycastHit forecastHit = GetClickData(LayerMask.GetMask("ForecastTile"));
+        if (forecastHit.transform != null)
+        {
+            ClickedOnForecastTile(forecastHit);
+            return;
+        }
+
+        if (forecastHit.transform == null && unitHit.transform == null)
             return;
 
-        if (hit.transform.gameObject.tag != "ForecastTile")
-            return;
+    }
 
-        ForecastTile newTile = hit.transform.GetComponent<ForecastTile>();
+    private void CheckForDeselection()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            selectedTile.HideTile();
+            player.ClearNode();
+            HideSelector();
+        }
+    }
+
+    private void ClickedOnForecastTile(RaycastHit forecastHit)
+    {
+        ForecastTile newTile = forecastHit.transform.GetComponent<ForecastTile>();
         if (newTile != selectedTile)
         {
             if (selectedTile == null)
@@ -78,34 +71,30 @@ public class NodeClicker : MonoBehaviour
         }
     }
 
-    private void CheckForDeselection()
+    private void ClickedOnUnit(RaycastHit unitHit)
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            selectedTile.HideTile();
-            player.ClearNode();
-            HideSelector();
-        }
+
+    }
+
+
+
+    #region Utility
+    private void MoveSelector(Node node)
+    {
+        nodeSelector.gameObject.SetActive(true);
+        nodeSelector.position = node.GetStandingPoint();
+    }
+
+    private void HideSelector()
+    {
+        nodeSelector.gameObject.SetActive(false);
     }
 
     // Input Methods Used in Update()
-    private RaycastHit GetClickData()
+    private RaycastHit GetClickData(LayerMask mask)
     {
         RaycastHit hit = new RaycastHit();
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out hit, 1000f);
-            if (hit.transform == null)
-                Debug.Log("No Hit on Click");
-        }
-        return hit;
-    }
-
-    private RaycastHit GetHoverData(LayerMask mask)
-    {
-        RaycastHit hit = new RaycastHit();
-        if (!EventSystem.current.IsPointerOverGameObject())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit, 1000f, mask);
@@ -114,4 +103,5 @@ public class NodeClicker : MonoBehaviour
         }
         return hit;
     }
+    #endregion
 }

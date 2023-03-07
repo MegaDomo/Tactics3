@@ -38,9 +38,9 @@ public class WeaponSet
 
         int damage = -1;
         if (weapon.damageType == Weapon.DamageType.Physical)
-            damage = target.ForecastPhysicalDamage(weapon.damage + self.stats.attack);
+            damage = target.ForecastTakePhysicalDamage(weapon.damage + self.stats.attack);
         if (weapon.damageType == Weapon.DamageType.Magical)
-            damage = target.ForecastMagicalDamage(weapon.damage + self.stats.spAttack);
+            damage = target.ForecastTakeMagicalDamage(weapon.damage + self.stats.spAttack);
 
         bestDamage = damage;
     }

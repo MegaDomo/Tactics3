@@ -108,9 +108,9 @@ public class Killer : Behavior
     {
         int damage = -1;
         if (incomingWeapon.damageType == Weapon.DamageType.Physical)
-            damage = player.ForecastPhysicalDamage(incomingWeapon.damage + self.stats.attack);
+            damage = player.ForecastTakePhysicalDamage(incomingWeapon.damage + self.stats.attack);
         if (incomingWeapon.damageType == Weapon.DamageType.Magical)
-            damage = player.ForecastMagicalDamage(incomingWeapon.damage + self.stats.spAttack);
+            damage = player.ForecastTakeMagicalDamage(incomingWeapon.damage + self.stats.spAttack);
 
         if (bestWeaponSet.Item2 < damage)
         {

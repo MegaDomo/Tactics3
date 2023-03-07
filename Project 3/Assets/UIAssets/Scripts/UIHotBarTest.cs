@@ -6,9 +6,11 @@ public class UIHotBarTest : MonoBehaviour
 {
     [Header("Unity References")]
     public GameObject hotBar;
+    public WeaponPanel weaponPanel;
 
     private PlayerTurn player;
 
+    #region Hotbar Handling
     private void Start()
     {
         player = PlayerTurn.instance;
@@ -42,15 +44,16 @@ public class UIHotBarTest : MonoBehaviour
             return;
         hotBar.SetActive(true);
     }
+    #endregion
 
     #region Event Handler
     public void WeaponStrike()
     {
-        List<Node> neighbors = MapManager.instance.pathing.GetNeighbors(player.GetTargetedNode());
+        List<Node> neighbors = MapManager.instance.pathing.GetNeighbors(player.GetDestination());
         List<Unit> targets = new List<Unit>();
         foreach (Node node in neighbors)
         {
-            if (node.unit == null)
+            if (node.unit != null)
                 targets.Add(node.unit);
         }
 
@@ -59,8 +62,6 @@ public class UIHotBarTest : MonoBehaviour
         Unit selected = player.GetSelected();
 
         targets[0].TakePhysicalDamage(selected.equippedWeapon.damage);
-        selected.unitAnim.anim.SetTrigger("MeleeStrike");
-        selected.unitAnim.anim.ResetTrigger("MeleeStrike");
     }
 
     public void Wait()
