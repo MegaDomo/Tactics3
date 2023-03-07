@@ -30,10 +30,12 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Vector3 offset;
 
     private GameObject weaponPrefab;
+    private MapManager mapManager;
 
     void Awake()
     {
         offset = transform.position - ground.position;
+        mapManager = MapManager.instance;
         unitAnim = GetComponent<UnitAnimation>();
     }
 
@@ -99,10 +101,19 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Movement
-    public void Move(int pathCost, List<Node> path)
+    public void Move(Node end)
     {
+        if (!mapManager.CanMove(this, node, end))
+            return;
+
+        List<Node> path = mapManager.GetPath(node, end);
+        int pathCost = mapManager.GetPathCost(path);
+
         unitAnim.Move(path);
+
         stats.moved += pathCost;
+        node.OnUnitExit();
+        end.OnUnitEnter(this);
     }
 
     public int MovementLeft()

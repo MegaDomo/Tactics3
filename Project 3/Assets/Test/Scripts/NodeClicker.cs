@@ -24,12 +24,13 @@ public class NodeClicker : MonoBehaviour
         if (CombatState.state != BattleState.PLAYERTURN && player.actionState != ActionState.ChooseNode)
             return;
 
-        RaycastHit unitHit = GetClickData(LayerMask.GetMask("Enemy"));
+        // TODO : incorporate clicking on enemies to quickly hit enemies
+        /*RaycastHit unitHit = GetClickData(LayerMask.GetMask("Enemy"));
         if (unitHit.transform != null)
         {
             ClickedOnUnit(unitHit);
             return;
-        }
+        }*/
         
         RaycastHit forecastHit = GetClickData(LayerMask.GetMask("ForecastTile"));
         if (forecastHit.transform != null)
@@ -37,9 +38,6 @@ public class NodeClicker : MonoBehaviour
             ClickedOnForecastTile(forecastHit);
             return;
         }
-
-        if (forecastHit.transform == null && unitHit.transform == null)
-            return;
 
     }
 

@@ -8,7 +8,6 @@ public class UnitAnimation : MonoBehaviour
     public Animator anim;
 
     // Movement
-    private bool isMoving;
     private Unit unit;
     private Node nodeToMoveTo;
     private Queue<Node> path = new Queue<Node>();
@@ -36,7 +35,7 @@ public class UnitAnimation : MonoBehaviour
     // Update Method
     public void MoveUnit()
     {
-        if (!isMoving)
+        if (!player.IsMoving())
             return;
 
         Vector3 dir = nodeToMoveTo.GetStandingPoint() - unit.node.GetStandingPoint();
@@ -84,7 +83,7 @@ public class UnitAnimation : MonoBehaviour
 
     private void ResetMoveValues()
     {
-        isMoving = false;
+        player.SetIsMoving(false);
 
         nodeToMoveTo = null;
         path = new Queue<Node>();
@@ -92,7 +91,7 @@ public class UnitAnimation : MonoBehaviour
 
     private void ReadyMoveValues(List<Node> path)
     {
-        isMoving = true;
+        player.SetIsMoving(true);
 
         this.path = new Queue<Node>();
         for (int i = 1; i < path.Count; i++)

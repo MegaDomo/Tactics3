@@ -33,11 +33,20 @@ public class MapManager : MonoBehaviour
     }
 
     #region Move Methods
+    public List<Node> GetPath(Node start, Node end)
+    {
+        return pathing.AStar(start, end);
+    }
+
+    public int GetPathCost(List<Node> path)
+    {
+        return pathing.GetPathCost(path);
+    }
     // Unit is unit to move, and node is destination
     public void Move(Unit selected, Node destination)
     {
         // Base Case : If Can't move return
-        if (!destination.passable || !CanMove(selected, selected.node, destination))
+        if (!CanMove(selected, selected.node, destination))
             return;
 
         Node start = selected.node;
@@ -45,10 +54,6 @@ public class MapManager : MonoBehaviour
         List<Node> path = pathing.AStar(selected.node, destination);
         int pathCost = pathing.GetPathCost(path);
 
-        // Moves the Player along the Queue
-        selected.Move(pathCost, path);
-        //StartCoroutine(TraversePath(pathCost, selected, path));
-        
         // Updates the Nodes
         start.OnUnitExit();
         destination.OnUnitEnter(selected);
@@ -105,6 +110,9 @@ public class MapManager : MonoBehaviour
     // This Method will be called by the Move Command, and it needs to be called by mouse hovering
     public bool CanMove(Unit selected, Node start, Node end)
     {
+        if (!end.passable)
+            return false;
+
         // Quick Out : Objective Distance 
         if (GetDistance(start, end) > MovementLeft(selected))
             return false;

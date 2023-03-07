@@ -68,7 +68,7 @@ public class PlayerTurn : MonoBehaviour
     {
         if (CombatState.state != BattleState.PLAYERTURN)
             return;
-        MapManager.instance.Move(selected, destination);
+        selected.Move(destination);
     }
 
     public void WeaponStrike()

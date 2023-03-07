@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIHotBarTest : MonoBehaviour
+public class UIHotBar : MonoBehaviour
 {
     [Header("Unity References")]
     public GameObject hotBar;
