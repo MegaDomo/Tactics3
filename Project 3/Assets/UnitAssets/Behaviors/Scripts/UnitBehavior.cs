@@ -15,22 +15,8 @@ public class UnitBehavior
         behaviorType = unit.enemyObj.behaviorType;
         unitType = unit.unitType;
 
-        SetSelf();
-    }
-
-    private void SetSelf()
-    {
-        if (unitType == Unit.UnitType.Enemy)
-        {
-            unit.gameObject.tag = "Enemy";
-            SetBehavior();
-            behavior.self = unit;
-        }
-
-        if (unitType == Unit.UnitType.Player)
-        {
-            unit.gameObject.tag = "Player";
-        }
+        SetBehavior();
+        behavior.self = unit;
     }
 
     private void SetBehavior()

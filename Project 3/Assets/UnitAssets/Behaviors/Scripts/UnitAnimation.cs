@@ -20,6 +20,10 @@ public class UnitAnimation : MonoBehaviour
         this.anim = anim;
     }
 
+    private void Start()
+    {
+        unit = GetComponent<Unit>();
+    }
 
     #region Movement Methods
     public void Move(List<Node> path)
@@ -96,6 +100,7 @@ public class UnitAnimation : MonoBehaviour
     {
         isMoving = true;
 
+        this.path = new Queue<Node>();
         for (int i = 1; i < path.Count; i++)
             this.path.Enqueue(path[i]);
         nodeToMoveTo = this.path.Dequeue();

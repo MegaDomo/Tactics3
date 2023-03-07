@@ -12,12 +12,10 @@ public class Unit : MonoBehaviour
     public Transform vfx;
     public Animator anim;
 
-    [Header("Attributes")]
-    public UnitType unitType;
-    public UnitStats stats;
-
-    [HideInInspector] public Vector3 offset;
     [HideInInspector] public Node node;
+
+    [HideInInspector] public UnitType unitType;
+    [HideInInspector] public UnitStats stats;
     
     [HideInInspector] public Weapon equippedWeapon;
     [HideInInspector] public List<Weapon> weapons;
@@ -28,6 +26,8 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Behavior behavior;
 
     [HideInInspector] public UnitAnimation unitAnim;
+
+    [HideInInspector] public Vector3 offset;
 
     private GameObject weaponPrefab;
 
@@ -87,8 +87,8 @@ public class Unit : MonoBehaviour
     #region Movement
     public void Move(int pathCost, List<Node> path)
     {
-        stats.moved += pathCost;
         unitAnim.Move(path);
+        stats.moved += pathCost;
     }
 
     public int MovementLeft()
@@ -143,8 +143,28 @@ public class Unit : MonoBehaviour
         this.items = items;
     }
 
+    public void SetAsPlayer(PlayerStats playerStats)
+    {
+        if (playerStats == null)
+        {
+            Debug.Log("No Player Data to Set for: " + name);
+            return;
+        }
+        unitType = UnitType.Player;
+        stats = playerStats.stats;
+    }
+
     public void SetAsEnemy(EnemyObject enemyObject)
     {
+        if (enemyObject == null)
+        {
+            Debug.Log("No Enemy Data to Set for: " + name);
+            return;
+        }
+            
+
+        gameObject.tag = "Enemy";
+        unitType = UnitType.Enemy;
         enemyObj = enemyObject;
         UnitBehavior unitBehavior = new UnitBehavior(this);
         behavior = unitBehavior.GetBehavior();

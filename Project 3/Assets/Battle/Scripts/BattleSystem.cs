@@ -28,7 +28,6 @@ public class BattleSystem : MonoBehaviour
 
     public void SetUp()
     {
-        GetPlayersAndEnemies();
         QueueUp();
         StartBattle();
     }
@@ -78,7 +77,7 @@ public class BattleSystem : MonoBehaviour
             QueueUp();
     }
 
-    private void GetPlayersAndEnemies()
+    public void FindPlayersAndEnemies()
     {
         players = new List<Unit>();
         enemies = new List<Unit>();

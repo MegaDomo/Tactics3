@@ -20,8 +20,6 @@ public class SpawnManager : MonoBehaviour
 
         this.map = map;
 
-        SplitUnits(units, players, enemies);
-
         HandlePlayerSpawnPoints(players);
         HandleEnemySpawnPoints(enemies);
 
@@ -30,22 +28,6 @@ public class SpawnManager : MonoBehaviour
         // - is the player handler - which is holding onto the loudouts that the player chose for their units
         // it then creates those units maybe in a Create Unit Script
         // - Enemy Spawn Manager/ Creater, maybe pulls from a pool of units and adds them to the list
-    }
-
-    private void SplitUnits(List<Unit> units, List<Unit> players, List<Unit> enemies)
-    {
-        foreach (Unit unit in units)
-        {
-            if (unit.unitType == Unit.UnitType.Player)
-            {
-                players.Add(unit);
-            }
-
-            if (unit.unitType == Unit.UnitType.Enemy)
-            {
-                enemies.Add(unit);
-            }
-        }
     }
 
     public void HandlePlayerSpawnPoints(List<Unit> players) // 3 - 6
@@ -86,7 +68,6 @@ public class SpawnManager : MonoBehaviour
         {
             index++;
             current = adjNodes[index];
-            //Debug.Log(MapManager.instance.pathing.GetNeighbors(current).Count);
             foreach (Node node in MapManager.instance.pathing.GetNeighbors(current))
             {
                 if (adjNodes.Count >= numOfUnits)
@@ -101,18 +82,10 @@ public class SpawnManager : MonoBehaviour
         return adjNodes;
     }
 
-    private bool idk()
-    {
-        return false;
-    }
-
     private void SpawnList(List<Node> spawnPoints, List<Unit> unitsToSpawn)
     {
         for (int i = 0; i < unitsToSpawn.Count; i++)
-        {
             Spawn(unitsToSpawn[i], spawnPoints[i]);
-        }
-            
     }
 
     public void Spawn(Unit unit, Node spawnPoint)
@@ -121,4 +94,12 @@ public class SpawnManager : MonoBehaviour
         spawnPoint.OnUnitEnter(unit);
         MapManager.instance.Place(unit, spawnPoint);
     }
+
+    #region Utility
+    public void SetPlayersAndEnemies(List<Unit> players, List<Unit> enemies)
+    {
+        this.players = players;
+        this.enemies = enemies;
+    }
+    #endregion
 }
