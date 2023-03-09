@@ -38,6 +38,7 @@ public class PlayerTurn : MonoBehaviour
     {
         actionState = ActionState.CannotChoose;
         nodeHighlighter.Unhighlight();
+        BattleSystem.instance.GetNextInitiative();
     }
 
     public void ChooseNode(Node node)
@@ -86,12 +87,16 @@ public class PlayerTurn : MonoBehaviour
         if (isMoving)
             return;
 
-        target.TakeDamage(selected, selected.equippedWeapon);
+        SetIsAttacking(true);
+        selected.Move(destination);
     }
     #endregion
 
     #region Utility
-
+    public void DealDamage()
+    {
+        target.TakeDamage(selected, selected.equippedWeapon);
+    }
     #endregion
 
     #region Getters & Setters
@@ -109,7 +114,7 @@ public class PlayerTurn : MonoBehaviour
         return target;
     }
 
-    public void SetTargeted(Unit target)
+    public void SetTarget(Unit target)
     {
         this.target = target;
     }

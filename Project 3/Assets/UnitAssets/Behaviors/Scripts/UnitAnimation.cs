@@ -13,6 +13,9 @@ public class UnitAnimation : MonoBehaviour
     private Queue<Node> path = new Queue<Node>();
     private PlayerTurn player;
 
+    // Attacking
+    private bool isAttacking;
+
     private void Start()
     {
         unit = GetComponent<Unit>();
@@ -30,6 +33,10 @@ public class UnitAnimation : MonoBehaviour
     {
         ResetMoveValues();
         anim.SetBool("IsMoving", false);
+
+        if (!isAttacking)
+            return;
+        StartCoroutine(Attack());
     }
 
     // Update Method
@@ -105,11 +112,26 @@ public class UnitAnimation : MonoBehaviour
     }
     #endregion
 
+    #region Attack Methods
+    IEnumerator Attack()
+    {
+        BasicAttack();
+        float length = anim.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(length + 0.7f);
+        player.SetIsAttacking(false);
+        player.EndTurn();
+    }
+    #endregion
+
     #region Weapon Animations
     public void WeaponStrike(Weapon weapon)
     {
         anim.Play(weapon.weaponType);
     }
 
+    public void BasicAttack()
+    {
+        anim.Play("BasicAttack");
+    }
     #endregion
 }
