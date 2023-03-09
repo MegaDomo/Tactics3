@@ -5,63 +5,27 @@ using UnityEngine;
 public class UIHotBar : MonoBehaviour
 {
     [Header("Unity References")]
-    public GameObject hotBar;
-    public WeaponPanel weaponPanel;
+    public UIWeaponPanel weaponPanel;
 
     private PlayerTurn player;
 
-    #region Hotbar Handling
     private void Start()
     {
         player = PlayerTurn.instance;
-        TurnOffHotBar();
+        SetActiveHotBar(false);
     }
 
-    private void Update()
+    #region Setters
+    public void SetActiveHotBar(bool value)
     {
-        if (CanPlayerChooseAction())
-            TurnOnHotBar();
-        else
-            TurnOffHotBar();
-    }
-
-    private bool CanPlayerChooseAction()
-    {
-        if (CombatState.state == BattleState.PLAYERTURN && player.actionState == ActionState.ChoosingAction)
-            return true;
-        return false;
-    }
-
-    private void TurnOffHotBar()
-    {
-        if (!hotBar.activeInHierarchy)
-            return;
-        hotBar.SetActive(false);
-    }
-    private void TurnOnHotBar()
-    {
-        if (hotBar.activeInHierarchy)
-            return;
-        hotBar.SetActive(true);
+        gameObject.SetActive(value);
     }
     #endregion
 
     #region Event Handler
     public void WeaponStrike()
     {
-        List<Node> neighbors = MapManager.instance.pathing.GetNeighbors(player.GetDestination());
-        List<Unit> targets = new List<Unit>();
-        foreach (Node node in neighbors)
-        {
-            if (node.unit != null)
-                targets.Add(node.unit);
-        }
-
-        if (targets.Count == 0)
-            return;
-        Unit selected = player.GetSelected();
-
-        targets[0].TakePhysicalDamage(selected.equippedWeapon.damage);
+        weaponPanel.SetActiveWeaponPanel(true);
     }
 
     public void Wait()

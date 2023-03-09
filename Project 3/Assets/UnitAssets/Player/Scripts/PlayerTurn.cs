@@ -17,6 +17,7 @@ public class PlayerTurn : MonoBehaviour
 
     [Header("Unity References")]
     public NodeHighlighter nodeHighlighter;
+    public UIHotBar hotBar;
 
     [HideInInspector] public ActionState actionState;
 
@@ -38,6 +39,7 @@ public class PlayerTurn : MonoBehaviour
     {
         actionState = ActionState.CannotChoose;
         nodeHighlighter.Unhighlight();
+        ClearValues();
         BattleSystem.instance.GetNextInitiative();
     }
 
@@ -45,6 +47,7 @@ public class PlayerTurn : MonoBehaviour
     {
         destination = node;
         actionState = ActionState.ChoosingAction;
+        hotBar.SetActiveHotBar(true);
         nodeHighlighter.Unhighlight();
     }
 
@@ -52,6 +55,7 @@ public class PlayerTurn : MonoBehaviour
     {
         destination = null;
         actionState = ActionState.ChooseNode;
+        hotBar.SetActiveHotBar(false);
         nodeHighlighter.Highlight(selected);
     }
 
@@ -96,6 +100,15 @@ public class PlayerTurn : MonoBehaviour
     public void DealDamage()
     {
         target.TakeDamage(selected, selected.equippedWeapon);
+    }
+
+    private void ClearValues()
+    {
+        selected = null;
+        target = null;
+        destination = null;
+        isMoving = false;
+        isAttacking = false;
     }
     #endregion
 

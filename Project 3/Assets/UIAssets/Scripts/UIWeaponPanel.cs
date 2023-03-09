@@ -3,24 +3,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class WeaponPanel : MonoBehaviour
+public class UIWeaponPanel : MonoBehaviour
 {
     [Header("Unity Reference")]
-    public GameObject weaponPanel;
-    public GameObject targetPanel;
+    public UITargetPanel targetPanel;
     public List<Button> weaponAttackButtons;
 
     private PlayerTurn player;
     private Unit selected;
 
-    void Start()
+    private void Awake()
     {
         player = PlayerTurn.instance;
     }
 
+    void Start()
+    {
+        SetActiveWeaponPanel(false);
+    }
+
     private void OnEnable()
     {
-        Unit selected = player.GetSelected();
+        if (player == null)
+            return;
+        selected = player.GetSelected();
         SetWeapons();
         TurnOffRemainingButtons();
     }
@@ -44,8 +50,13 @@ public class WeaponPanel : MonoBehaviour
 
     private void ChangeToTargetPanel()
     {
-        targetPanel.SetActive(true);
+        targetPanel.SetActiveTargetPanel(true);
         gameObject.SetActive(false);
+    }
+
+    public void SetActiveWeaponPanel(bool value)
+    {
+        gameObject.SetActive(value);
     }
 
     #region Event Handlers

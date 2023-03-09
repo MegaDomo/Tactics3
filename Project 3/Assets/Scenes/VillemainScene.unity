@@ -473,9 +473,9 @@ RectTransform:
   m_Father: {fileID: 1206083129}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 176.87329, y: -54.30215}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 189.996, y: 62.6043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &45533409
@@ -521,7 +521,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 45533410}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIWeaponSelection, Assembly-CSharp
+        m_MethodName: Weapon1SelectButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &45533410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,9 +1532,9 @@ RectTransform:
   m_Father: {fileID: 1793418899}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 174.89911, y: -311.08093}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 179.9797, y: 77.4518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &151348489
@@ -1569,7 +1581,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1694988535}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIHotBarTest, Assembly-CSharp
         m_MethodName: Wait
         m_Mode: 1
@@ -1894,7 +1906,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 204013153}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UITargetSelection, Assembly-CSharp
+        m_MethodName: Target3Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &204013153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2570,7 +2594,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 253981067}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UITargetSelection, Assembly-CSharp
+        m_MethodName: Target2Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &253981067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2888,7 +2924,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 305497474}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UITargetSelection, Assembly-CSharp
+        m_MethodName: Target1Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &305497474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5631,14 +5679,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 549264182}
-  - component: {fileID: 549264183}
   m_Layer: 5
-  m_Name: WeaponPanel
+  m_Name: WeaponSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &549264182
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5660,25 +5707,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &549264183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549264181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbf7ad5f4d64c17429c39974423cb065, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponPanel: {fileID: 1206083128}
-  targetPanel: {fileID: 2100301975}
-  weaponAttackButtons:
-  - {fileID: 45533409}
-  - {fileID: 693754887}
-  - {fileID: 1530788655}
-  - {fileID: 600626858}
 --- !u!1001 &582391256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5895,9 +5923,9 @@ RectTransform:
   m_Father: {fileID: 1206083129}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 176.87329, y: -429.8347}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 189.996, y: 62.6043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &600626858
@@ -5943,7 +5971,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 600626859}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIWeaponSelection, Assembly-CSharp
+        m_MethodName: Weapon4SelectButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &600626859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6488,9 +6528,9 @@ RectTransform:
   m_Father: {fileID: 1206083129}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 176.87329, y: -179.47966}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 189.996, y: 62.6043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &693754887
@@ -6536,7 +6576,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 693754888}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIWeaponSelection, Assembly-CSharp
+        m_MethodName: Weapon2SelectButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &693754888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7627,7 +7679,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 762433388}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UITargetSelection, Assembly-CSharp
+        m_MethodName: Target4Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &762433388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11620,9 +11684,9 @@ RectTransform:
   m_Father: {fileID: 1793418899}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 174.89911, y: -59.7259}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 179.9797, y: 77.4518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1132043986
@@ -11669,7 +11733,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1694988535}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIHotBarTest, Assembly-CSharp
         m_MethodName: WeaponStrike
         m_Mode: 1
@@ -12165,8 +12229,9 @@ GameObject:
   - component: {fileID: 1206083132}
   - component: {fileID: 1206083131}
   - component: {fileID: 1206083130}
+  - component: {fileID: 1206083133}
   m_Layer: 5
-  m_Name: WeaponSelectButtons
+  m_Name: WeaponPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12260,6 +12325,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1206083128}
   m_CullTransparentMesh: 1
+--- !u!114 &1206083133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206083128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf7ad5f4d64c17429c39974423cb065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPanel: {fileID: 1770754852}
+  weaponAttackButtons:
+  - {fileID: 45533409}
+  - {fileID: 693754887}
+  - {fileID: 1530788655}
+  - {fileID: 600626858}
 --- !u!4 &1210158617 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8812712681081185525, guid: 7a2d6f9cd2323ee47852237323360476, type: 3}
@@ -16024,9 +16107,9 @@ RectTransform:
   m_Father: {fileID: 1206083129}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 176.87329, y: -304.65717}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 189.996, y: 62.6043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1530788655
@@ -16072,7 +16155,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1530788656}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIWeaponSelection, Assembly-CSharp
+        m_MethodName: Weapon3SelectButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1530788656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16553,7 +16648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8769162474166777818, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8769162474166777818, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17094,6 +17189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeHighlighter: {fileID: 2091272005}
+  hotBar: {fileID: 0}
   actionState: 0
 --- !u!1001 &1619313973
 PrefabInstance:
@@ -18108,14 +18204,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1694988534}
-  - component: {fileID: 1694988535}
   m_Layer: 5
   m_Name: HotBarUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1694988534
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18137,20 +18232,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1694988535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1694988533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c2e562417c2fbe499d2dff095c0cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hotBar: {fileID: 1793418898}
-  weaponPanel: {fileID: 0}
 --- !u!4 &1696012671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4634395290032291346, guid: 5dc15c4018e7919448046e91b4c4c528, type: 3}
@@ -19024,8 +19105,9 @@ GameObject:
   - component: {fileID: 1770754851}
   - component: {fileID: 1770754850}
   - component: {fileID: 1770754849}
+  - component: {fileID: 1770754852}
   m_Layer: 5
-  m_Name: TargetButtons
+  m_Name: TargetPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19119,6 +19201,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1770754847}
   m_CullTransparentMesh: 1
+--- !u!114 &1770754852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770754847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31e4fca6a613a144aa872fbcc48296a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetButtons:
+  - {fileID: 305497473}
+  - {fileID: 253981066}
+  - {fileID: 204013152}
+  - {fileID: 762433387}
 --- !u!1001 &1787549711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19376,6 +19475,7 @@ GameObject:
   - component: {fileID: 1793418905}
   - component: {fileID: 1793418906}
   - component: {fileID: 1793418907}
+  - component: {fileID: 1793418908}
   m_Layer: 5
   m_Name: HotBar
   m_TagString: Untagged
@@ -19507,6 +19607,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1793418908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793418898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2e562417c2fbe499d2dff095c0cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponPanel: {fileID: 1206083133}
 --- !u!4 &1794461254 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8812712681081185525, guid: 7a2d6f9cd2323ee47852237323360476, type: 3}
@@ -22487,9 +22600,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2100301976}
-  - component: {fileID: 2100301977}
   m_Layer: 5
-  m_Name: TargetPanel
+  m_Name: TargetSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22516,24 +22628,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2100301977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100301975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e31e4fca6a613a144aa872fbcc48296a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPanel: {fileID: 2100301975}
-  targetButtons:
-  - {fileID: 305497473}
-  - {fileID: 253981066}
-  - {fileID: 204013152}
-  - {fileID: 762433387}
 --- !u!4 &2112286711 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8812712681081185525, guid: 7a2d6f9cd2323ee47852237323360476, type: 3}

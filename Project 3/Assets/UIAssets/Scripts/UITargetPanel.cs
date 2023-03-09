@@ -4,25 +4,31 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class TargetPanel : MonoBehaviour
+public class UITargetPanel : MonoBehaviour
 {
     [Header("Unity References")]
-    public GameObject targetPanel;
     public List<Button> targetButtons;
 
     private PlayerTurn player;
     private Unit selected;
     private List<Unit> targets;
-
-    private void Start()
+    private void Awake()
     {
         player = PlayerTurn.instance;
     }
 
+    private void Start()
+    {
+        SetActiveTargetPanel(false);
+    }
+
     private void OnEnable()
     {
+        if (player == null)
+            return;
         selected = player.GetSelected();
         SetTargets();
+        TurnOffRemainingButtons();
     }
 
     private void SetTargets()
@@ -31,8 +37,6 @@ public class TargetPanel : MonoBehaviour
 
         for (int i = 0; i < targets.Count; i++)
             ConfigureButtons(i, targetButtons[i], targets[i]);
-
-        TurnOffRemainingButtons();
     }
 
     private void FindTargets()
@@ -63,6 +67,11 @@ public class TargetPanel : MonoBehaviour
     {
         player.WeaponStrike();
         gameObject.SetActive(false);
+    }
+
+    public void SetActiveTargetPanel(bool value)
+    {
+        gameObject.SetActive(value);
     }
 
     #region Event Handlers
