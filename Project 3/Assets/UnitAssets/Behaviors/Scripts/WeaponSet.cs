@@ -20,6 +20,7 @@ public class WeaponSet
         this.target = target;
         this.self = self;
         CalculateBestDamage();
+        // Calculate Aggro
     }
 
     public WeaponSet(Weapon weapon, Unit target, Unit self, int damage)

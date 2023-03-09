@@ -12,11 +12,6 @@ public class UIWeaponPanel : MonoBehaviour
     private PlayerTurn player;
     private Unit selected;
 
-    private void Awake()
-    {
-        player = PlayerTurn.instance;
-    }
-
     void Start()
     {
         SetActiveWeaponPanel(false);
@@ -25,7 +20,11 @@ public class UIWeaponPanel : MonoBehaviour
     private void OnEnable()
     {
         if (player == null)
+        {
+            player = PlayerTurn.instance;
             return;
+        }
+        
         selected = player.GetSelected();
         SetWeapons();
         TurnOffRemainingButtons();

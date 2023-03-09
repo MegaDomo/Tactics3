@@ -16,13 +16,41 @@ public class WeaponSetHandler
     }
 
     #region Best Weapon Set for Most Damage
-    private WeaponSet FindBestWeaponSet(List<Weapon> weapons, List<Unit> players)
+    public WeaponSet GetMostDamagingWeaponSet(List<Weapon> weapons, List<Unit> players)
     {
         List<WeaponSet> inRangeSets = FindWeaponSetsInRange(weapons, players);
 
-        return FindBestSet(inRangeSets);
+        return FindHighestDamageSet(inRangeSets);
     }
 
+    private WeaponSet FindHighestDamageSet(List<WeaponSet> inRangeSets)
+    {
+        WeaponSet bestSet = new WeaponSet(null, null, null);
+        // No Weapon was in Range
+        if (inRangeSets.Count == 0)
+            return bestSet;
+        bestSet = inRangeSets[0];
+
+        foreach (WeaponSet set in inRangeSets)
+            bestSet = CompareWeaponSetDamages(bestSet, set);
+
+        return bestSet;
+    }
+
+    private WeaponSet CompareWeaponSetDamages(WeaponSet set1, WeaponSet set2)
+    {
+        if (set1.GetBestDamage() > set2.GetBestDamage())
+            return set1;
+        else
+            return set2;
+    }
+
+    #endregion
+
+    #region Best Weapon Set for HighestAggro
+    #endregion
+
+    #region Utility
     private List<WeaponSet> FindWeaponSetsInRange(List<Weapon> weapons, List<Unit> players)
     {
         List<WeaponSet> inRangeSets = new List<WeaponSet>();
@@ -39,30 +67,9 @@ public class WeaponSetHandler
         return inRangeSets;
     }
 
-    private WeaponSet FindBestSet(List<WeaponSet> inRangeSets)
-    {
-        WeaponSet bestSet = new WeaponSet(null, null, null);
-        // No Weapon was in Range
-        if (inRangeSets.Count == 0)
-            return bestSet;
-        bestSet = inRangeSets[0];
-
-        foreach (WeaponSet set in inRangeSets)
-            bestSet = CompareWeaponSets(bestSet, set);
-
-        return bestSet;
-    }
-
-    private WeaponSet CompareWeaponSets(WeaponSet set1, WeaponSet set2)
-    {
-        if (set1.GetBestDamage() > set2.GetBestDamage())
-            return set1;
-        else
-            return set2;
-    }
-
     private bool InRange(Weapon weapon, Unit player)
     {
+        if (pathfinding == null) Debug.Log("InRange is null");
         List<Node> potentialAttackNodes = pathfinding.GetHollowDiamond(player.node, weapon.range, weapon.minRange);
         return FindNodeInMovementRange(potentialAttackNodes, self.MovementLeft());
     }

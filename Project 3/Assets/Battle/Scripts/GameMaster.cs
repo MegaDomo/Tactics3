@@ -34,9 +34,6 @@ public class GameMaster : MonoBehaviour
         maker.SetUp(makeRandomMap);
         mapManager.SetUp();
 
-        battleSystem.FindPlayersAndEnemies();
-        spawner.SetPlayersAndEnemies(battleSystem.players, battleSystem.enemies);
-
         // Spawn Unit on the Map : When units are spawned add to list
         if (spawnUnits)
             spawner.SpawnUnits(maker.map, battleSystem.units);

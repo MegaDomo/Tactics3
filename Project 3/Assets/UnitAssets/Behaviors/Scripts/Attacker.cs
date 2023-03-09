@@ -19,15 +19,13 @@ public class Attacker : Behavior
 
     public override void TakeTurn()
     {
-        
+
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
 
-
-
-        FindTargetInWeaponRange(players, weapons);
+        DistributeSet(handler.GetMostDamagingWeaponSet(weapons, players));
         
-        if (target == null || self.equippedWeapon == null)
+        if (target == null)
         {
             if (FindClosestTarget(players))
                 Move(FindClosestNode(pathfinding.GetNeighbors(target.node)));
@@ -63,88 +61,7 @@ public class Attacker : Behavior
         }
         return true;
     }
-
-    #region Find Target
-    private void FindTargetInWeaponRange(List<Unit> players, List<Weapon> weapons)
-    {
-        Tuple<Weapon, int, Unit> bestPlayerSet = Tuple.Create<Weapon, int, Unit>(null, 0, null);
-
-        foreach (Unit player in players)
-        {
-            // Apply all weapons to a player
-            Tuple<Weapon, int> set = GetBestWeaponAgainstPlayer(weapons, player);
-
-            bestPlayerSet = CompareWeaponSets(bestPlayerSet, set, player);            
-        }
-
-        target = bestPlayerSet.Item3;
-        self.equippedWeapon = bestPlayerSet.Item1;
-    }
-
-    private Tuple<Weapon, int> GetBestWeaponAgainstPlayer(List<Weapon> weapons, Unit player)
-    {
-        Tuple<Weapon, int> bestWeaponSet = Tuple.Create<Weapon, int>(null, 0);
-
-        foreach (Weapon weapon in weapons)
-        {
-            if (!InRange(player, weapon))
-                continue;
-            Debug.Log("In Range" + weapon.name);
-            bestWeaponSet = CompareWeapons(bestWeaponSet, weapon, player);
-        }
-        return bestWeaponSet;
-    }
-
-    private bool InRange(Unit player, Weapon weapon)
-    {
-        List<Node> potentialAttackNodes = pathfinding.GetHollowDiamond(player.node, weapon.range, weapon.minRange);
-        return FindNodeInMovementRange(potentialAttackNodes, self.MovementLeft());
-    }
-
-    private bool FindNodeInMovementRange(List<Node> nodes, int movement)
-    {
-        foreach (Node node in nodes)
-        {
-            int temp = MapManager.instance.pathing.GetPathCostWithoutStart(self.node, node);
-            Debug.Log(temp);
-            if (temp <= movement)
-                return true;
-        }
-        return false;
-    }
-
-    private Tuple<Weapon, int> CompareWeapons(Tuple<Weapon, int> bestWeaponSet, Weapon incomingWeapon, Unit player)
-    {
-        int damage = -1;
-        if (incomingWeapon.damageType == Weapon.DamageType.Physical)
-            damage = player.ForecastTakePhysicalDamage(incomingWeapon.damage + self.stats.attack);
-        if (incomingWeapon.damageType == Weapon.DamageType.Magical)
-            damage = player.ForecastTakeMagicalDamage(incomingWeapon.damage + self.stats.spAttack);
-
-        if (bestWeaponSet.Item2 < damage)
-        {
-            Tuple<Weapon, int> newBestSet = Tuple.Create<Weapon, int>(incomingWeapon, damage);
-            return newBestSet;
-        }
-
-        return bestWeaponSet;
-    }
-
-    private Tuple<Weapon, int, Unit> CompareWeaponSets(Tuple<Weapon, int, Unit> bestSet, Tuple<Weapon, int> set, Unit nextPlayer)
-    {
-        Tuple<Weapon, int, Unit> playerSet;
-
-        //Debug.Log(bestSet.Item2 + " < " + set.Item2);
-        if (bestSet.Item2 < set.Item2)
-        {
-            playerSet = Tuple.Create<Weapon, int, Unit>(set.Item1, set.Item2, nextPlayer);
-            return playerSet;
-        }
-            
-        return bestSet;
-    }
-    #endregion
-
+    
     #region Attacking
     private void Attack()
     {
@@ -162,10 +79,19 @@ public class Attacker : Behavior
         Move(FindClosestNode(potentialAttackNodes));
         Attack();
     }
-
     #endregion
 
     #region Moving
+    public void Move(Node destination)
+    {
+        Grid<Node> map = mapManager.map;
+        Utils.CreateWorldTextPopupOnGrid(destination.x, destination.z,
+                                   10f, "Moving Here", 30, map);
+        mapManager.MoveAsCloseAsPossible(self, destination);
+    }
+    #endregion
+
+    #region Utility
     public Node FindClosestNode(List<Node> nodes)
     {
         Node node = new Node();
@@ -186,12 +112,10 @@ public class Attacker : Behavior
         return node;
     }
 
-    public void Move(Node destination)
+    private void DistributeSet(WeaponSet set)
     {
-        Grid<Node> map = mapManager.map;
-        Utils.CreateWorldTextPopupOnGrid(destination.x, destination.z,
-                                   10f, "Moving Here", 30, map);
-        mapManager.MoveAsCloseAsPossible(self, destination);
+        target = set.GetTarget();
+        self.SetWeapon(set.GetWeapon());
     }
     #endregion
 
@@ -204,8 +128,6 @@ public class Attacker : Behavior
 
 
 
-
-    
 
 
 

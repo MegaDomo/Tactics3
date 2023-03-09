@@ -19,12 +19,10 @@ public class BattleSystem : MonoBehaviour
     public MapManager mapManager;
     public SpawnManager spawner;
 
-    [Header("Fill Players")]
-    public List<Unit> units;
-    public Queue<Unit> initiative = new Queue<Unit>();
-
+    [HideInInspector] public List<Unit> units;
     [HideInInspector] public List<Unit> players;
     [HideInInspector] public List<Unit> enemies;
+    [HideInInspector] public Queue<Unit> initiative = new Queue<Unit>();
 
     public void SetUp()
     {
@@ -77,17 +75,14 @@ public class BattleSystem : MonoBehaviour
             QueueUp();
     }
 
-    public void FindPlayersAndEnemies()
+    public void SetPlayersAndEnemies(List<Unit> players, List<Unit> enemies)
     {
-        players = new List<Unit>();
-        enemies = new List<Unit>();
+        this.players = players;
+        this.enemies = enemies;
 
-        foreach (Unit unit in units)
-        {
-            if (unit.unitType == Unit.UnitType.Player)
-                players.Add(unit);
-            if (unit.unitType == Unit.UnitType.Enemy)
-                enemies.Add(unit);
-        }
+        foreach (Unit unit in players)
+            units.Add(unit);
+        foreach (Unit unit in enemies)
+            units.Add(unit);
     }
 }

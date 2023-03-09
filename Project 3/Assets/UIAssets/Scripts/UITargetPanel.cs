@@ -12,11 +12,7 @@ public class UITargetPanel : MonoBehaviour
     private PlayerTurn player;
     private Unit selected;
     private List<Unit> targets;
-    private void Awake()
-    {
-        player = PlayerTurn.instance;
-    }
-
+    
     private void Start()
     {
         SetActiveTargetPanel(false);
@@ -25,7 +21,10 @@ public class UITargetPanel : MonoBehaviour
     private void OnEnable()
     {
         if (player == null)
+        {
+            player = PlayerTurn.instance;
             return;
+        }
         selected = player.GetSelected();
         SetTargets();
         TurnOffRemainingButtons();

@@ -44,7 +44,8 @@ public class UnitAnimation : MonoBehaviour
     {
         if (!player.IsMoving())
             return;
-        
+        if (nodeToMoveTo == null)
+            return;
         Vector3 dir = nodeToMoveTo.GetStandingPoint() - unit.node.GetStandingPoint();
         
         RotateUnit(dir);
@@ -90,12 +91,11 @@ public class UnitAnimation : MonoBehaviour
 
     private void ReadyMoveValues(List<Node> path)
     {
-        player.SetIsMoving(true);
-
         this.path = new Queue<Node>();
         for (int i = 1; i < path.Count; i++)
             this.path.Enqueue(path[i]);
         nodeToMoveTo = this.path.Dequeue();
+        player.SetIsMoving(true);
     }
 
     private void ResetMoveValues()
