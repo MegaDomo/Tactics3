@@ -25,6 +25,7 @@ public class UIHotBar : MonoBehaviour
     #region Event Handler
     public void WeaponStrike()
     {
+        gameObject.SetActive(false);
         weaponPanel.SetActiveWeaponPanel(true);
     }
 

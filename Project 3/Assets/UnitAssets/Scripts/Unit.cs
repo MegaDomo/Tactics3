@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour
     private GameObject weaponPrefab;
     private MapManager mapManager;
 
-    void Awake()
+    private void Start()
     {
         offset = transform.position - ground.position;
         mapManager = MapManager.instance;
@@ -103,6 +103,7 @@ public class Unit : MonoBehaviour
     #region Movement
     public void Move(Node end)
     {
+        if (mapManager == null) Debug.Log("Null");
         if (!mapManager.CanMove(this, node, end))
             return;
 

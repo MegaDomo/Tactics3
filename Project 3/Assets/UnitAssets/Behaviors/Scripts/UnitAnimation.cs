@@ -34,9 +34,9 @@ public class UnitAnimation : MonoBehaviour
         ResetMoveValues();
         anim.SetBool("IsMoving", false);
 
-        if (!isAttacking)
-            return;
-        StartCoroutine(Attack());
+        if (isAttacking)
+            StartCoroutine(Attack());
+        player.EndTurn();
     }
 
     // Update Method
@@ -44,9 +44,9 @@ public class UnitAnimation : MonoBehaviour
     {
         if (!player.IsMoving())
             return;
-
+        
         Vector3 dir = nodeToMoveTo.GetStandingPoint() - unit.node.GetStandingPoint();
-
+        
         RotateUnit(dir);
         transform.Translate(dir.normalized * unit.stats.pathingSpeed * Time.deltaTime);
         if (IsUnitWithinNode(nodeToMoveTo))
@@ -88,14 +88,6 @@ public class UnitAnimation : MonoBehaviour
         vfx.rotation = Quaternion.Lerp(startValue, endValue, 3f * Time.deltaTime);
     }
 
-    private void ResetMoveValues()
-    {
-        player.SetIsMoving(false);
-
-        nodeToMoveTo = null;
-        path = new Queue<Node>();
-    }
-
     private void ReadyMoveValues(List<Node> path)
     {
         player.SetIsMoving(true);
@@ -104,6 +96,14 @@ public class UnitAnimation : MonoBehaviour
         for (int i = 1; i < path.Count; i++)
             this.path.Enqueue(path[i]);
         nodeToMoveTo = this.path.Dequeue();
+    }
+
+    private void ResetMoveValues()
+    {
+        player.SetIsMoving(false);
+
+        nodeToMoveTo = null;
+        path = new Queue<Node>();
     }
 
     public int MovementLeft()
