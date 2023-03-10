@@ -2493,9 +2493,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823fa581c17cde445aa5a1372f1bc74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hotbar: {fileID: 0}
-  weaponPanel: {fileID: 0}
-  targetPanel: {fileID: 0}
+  hotbar: {fileID: 1793418908}
+  weaponPanel: {fileID: 1206083133}
+  targetPanel: {fileID: 1770754852}
 --- !u!1001 &247574132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12385,6 +12385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf7ad5f4d64c17429c39974423cb065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 245304506}
   targetPanel: {fileID: 1770754852}
   weaponAttackButtons:
   - {fileID: 45533409}
@@ -19213,6 +19214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31e4fca6a613a144aa872fbcc48296a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 245304506}
   targetButtons:
   - {fileID: 305497473}
   - {fileID: 253981066}
@@ -19619,6 +19621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c2e562417c2fbe499d2dff095c0cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 245304506}
   weaponPanel: {fileID: 1206083133}
 --- !u!4 &1794461254 stripped
 Transform:

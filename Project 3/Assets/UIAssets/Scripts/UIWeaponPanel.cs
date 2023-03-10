@@ -6,6 +6,7 @@ using TMPro;
 public class UIWeaponPanel : MonoBehaviour
 {
     [Header("Unity Reference")]
+    public UIManager uiManager;
     public UITargetPanel targetPanel;
     public List<Button> weaponAttackButtons;
 
@@ -44,8 +45,8 @@ public class UIWeaponPanel : MonoBehaviour
 
     private void ChangeToTargetPanel()
     {
-        targetPanel.SetActiveTargetPanel(true);
-        SetActiveWeaponPanel(false);
+        uiManager.SetActiveTargetPanel(true);
+        uiManager.SetActiveWeaponPanel(false);
     }
 
     public void SetActiveWeaponPanel(bool value)

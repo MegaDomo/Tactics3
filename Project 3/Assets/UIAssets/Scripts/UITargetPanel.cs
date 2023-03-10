@@ -7,6 +7,7 @@ using TMPro;
 public class UITargetPanel : MonoBehaviour
 {
     [Header("Unity References")]
+    public UIManager uiManager;
     public List<Button> targetButtons;
 
     private PlayerTurn player;
@@ -60,7 +61,7 @@ public class UITargetPanel : MonoBehaviour
     private void CloseTargetPanel()
     {
         player.WeaponStrike();
-        SetActiveTargetPanel(false);
+        uiManager.SetActiveTargetPanel(false);
     }
 
     public void SetActiveTargetPanel(bool value)

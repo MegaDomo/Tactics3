@@ -5,6 +5,7 @@ using UnityEngine;
 public class UIHotBar : MonoBehaviour
 {
     [Header("Unity References")]
+    public UIManager uiManager;
     public UIWeaponPanel weaponPanel;
 
     private PlayerTurn player;
@@ -24,8 +25,8 @@ public class UIHotBar : MonoBehaviour
     #region Event Handler
     public void WeaponStrike()
     {
-        gameObject.SetActive(false);
-        weaponPanel.SetActiveWeaponPanel(true);
+        uiManager.SetActiveWeaponPanel(true);
+        uiManager.SetActiveHotBar(false);
     }
 
     public void Wait()
