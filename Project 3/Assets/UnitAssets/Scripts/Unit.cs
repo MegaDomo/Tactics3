@@ -12,9 +12,11 @@ public class Unit : MonoBehaviour
     public Transform vfx;
     public Animator anim;
 
-    [HideInInspector] public Node node;
+    [Header("Attributes")]
+    public UnitType unitType;
 
-    [HideInInspector] public UnitType unitType;
+    [HideInInspector] public Node node;
+    
     [HideInInspector] public UnitStats stats;
     
     [HideInInspector] public Weapon equippedWeapon;
@@ -34,14 +36,23 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        offset = transform.position - ground.position;
-        mapManager = MapManager.instance;
-        unitAnim = GetComponent<UnitAnimation>();
+        
     }
 
     private void Update()
     {
         unitAnim.MoveUnit();
+    }
+
+    public void SetupUnit()
+    {
+        offset = transform.position - ground.position;
+        mapManager = MapManager.instance;
+        unitAnim = GetComponent<UnitAnimation>();
+        if (unitType == UnitType.Player)
+            SetAsPlayer();
+        if (unitType == UnitType.Enemy)
+            SetAsEnemy();
     }
 
     #region Turn Methods
@@ -169,26 +180,21 @@ public class Unit : MonoBehaviour
         this.items = items;
     }
 
-    public void SetAsPlayer(PlayerStats playerStats)
+    public void SetAsPlayer()
     {
-        if (playerStats == null)
-        {
-            Debug.Log("No Player Data to Set for: " + name);
-            return;
-        }
         unitType = UnitType.Player;
-        stats = playerStats.stats;
+        stats = GetComponent<Player>().stats;
     }
 
-    public void SetAsEnemy(EnemyObject enemyObject)
+    public void SetAsEnemy()
     {
+        EnemyObject enemyObject = GetComponent<Enemy>().enemyObject;
         if (enemyObject == null)
         {
             Debug.Log("No Enemy Data to Set for: " + name);
             return;
         }
             
-
         gameObject.tag = "Enemy";
         unitType = UnitType.Enemy;
         enemyObj = enemyObject;

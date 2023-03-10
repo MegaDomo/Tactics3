@@ -24,7 +24,7 @@ public class UnitBehavior
         MapManager map = MapManager.instance;
 
         if (behaviorType == EnemyObject.BehaviorType.Attacker)
-            behavior = new Attacker(map);
+            behavior = new Attacker(map, unit);
 
         if (behaviorType == EnemyObject.BehaviorType.Killer)
             behavior = new Killer();

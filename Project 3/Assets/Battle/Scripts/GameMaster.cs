@@ -24,7 +24,7 @@ public class GameMaster : MonoBehaviour
     public MapManager mapManager;
     public BattleSystem battleSystem;
     public SpawnManager spawner;
-    public LevelEditorSystem editor;
+    public UnitDistribution distribution;
 
     private void Start()
     {
@@ -34,14 +34,21 @@ public class GameMaster : MonoBehaviour
         maker.SetUp(makeRandomMap);
         mapManager.SetUp();
 
+        distribution.DistributeUnits();
+
         // Spawn Unit on the Map : When units are spawned add to list
         if (spawnUnits)
-            spawner.SpawnUnits(maker.map, battleSystem.units);
+        {
+            spawner.SpawnUnits();
+            spawner.PlaceUnits(maker.map);
+        }
 
         if (haveCombat)
+        {
+            List<Unit> players = spawner.GetPlayers();
+            List<Unit> enemies = spawner.GetEnemies();
+            battleSystem.SetPlayersAndEnemies(players, enemies);
             battleSystem.SetUp();
-
-        if (editLevelOnRunTime)
-            editor.SetUp(!makeRandomMap);
+        }
     }
 }

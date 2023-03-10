@@ -12,11 +12,6 @@ public class UIWeaponPanel : MonoBehaviour
     private PlayerTurn player;
     private Unit selected;
 
-    void Start()
-    {
-        SetActiveWeaponPanel(false);
-    }
-
     private void OnEnable()
     {
         if (player == null)
@@ -24,7 +19,7 @@ public class UIWeaponPanel : MonoBehaviour
             player = PlayerTurn.instance;
             return;
         }
-        
+        Debug.Log("here");
         selected = player.GetSelected();
         SetWeapons();
         TurnOffRemainingButtons();
@@ -50,7 +45,7 @@ public class UIWeaponPanel : MonoBehaviour
     private void ChangeToTargetPanel()
     {
         targetPanel.SetActiveTargetPanel(true);
-        gameObject.SetActive(false);
+        SetActiveWeaponPanel(false);
     }
 
     public void SetActiveWeaponPanel(bool value)

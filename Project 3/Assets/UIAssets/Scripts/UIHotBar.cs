@@ -9,10 +9,9 @@ public class UIHotBar : MonoBehaviour
 
     private PlayerTurn player;
 
-    private void Start()
+    public void Setup()
     {
         player = PlayerTurn.instance;
-        SetActiveHotBar(false);
     }
 
     #region Setters

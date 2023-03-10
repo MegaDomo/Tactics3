@@ -10,16 +10,20 @@ public class Attacker : Behavior
     MapManager mapManager;
     Pathfinding pathfinding;
 
-    public Attacker(MapManager mapManager)
+    public Attacker(MapManager mapManager, Unit self)
     {
         mapManager = MapManager.instance;
         pathfinding = mapManager.pathing;
+        this.self = self;
         handler = new WeaponSetHandler(self, mapManager, pathfinding);
     }
 
     public override void TakeTurn()
     {
-
+        // NOTE : Something weird is happening here with mapmanger, I think it is a Load order error
+        // Without lines 25-26 This method sees "mapManager" as null even though its set in the constructor
+        mapManager = MapManager.instance;
+        pathfinding = mapManager.pathing;
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
 
@@ -31,7 +35,7 @@ public class Attacker : Behavior
                 Move(FindClosestNode(pathfinding.GetNeighbors(target.node)));
             return;
         }
-
+        if (mapManager == null) Debug.Log(36);
         int nodeDistance = mapManager.GetDistance(self.node, target.node);
         Weapon weapon = self.equippedWeapon;
         if (nodeDistance <= weapon.range && nodeDistance >= weapon.minRange)
@@ -84,6 +88,7 @@ public class Attacker : Behavior
     #region Moving
     public void Move(Node destination)
     {
+        
         Grid<Node> map = mapManager.map;
         Utils.CreateWorldTextPopupOnGrid(destination.x, destination.z,
                                    10f, "Moving Here", 30, map);

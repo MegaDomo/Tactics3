@@ -18,7 +18,7 @@ public class EnemyAI : MonoBehaviour
     public IEnumerator StartTurn()
     {
         Behavior bhvr = selected.behavior;
-
+        
         bhvr.TakeTurn();
 
         // TODO : NEEDS to be a variable based on length of movement occuring

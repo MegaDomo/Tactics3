@@ -13,11 +13,6 @@ public class UITargetPanel : MonoBehaviour
     private Unit selected;
     private List<Unit> targets;
     
-    private void Start()
-    {
-        SetActiveTargetPanel(false);
-    }
-
     private void OnEnable()
     {
         if (player == null)
@@ -65,7 +60,7 @@ public class UITargetPanel : MonoBehaviour
     private void CloseTargetPanel()
     {
         player.WeaponStrike();
-        gameObject.SetActive(false);
+        SetActiveTargetPanel(false);
     }
 
     public void SetActiveTargetPanel(bool value)

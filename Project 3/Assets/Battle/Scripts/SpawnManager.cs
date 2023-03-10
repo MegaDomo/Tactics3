@@ -5,42 +5,35 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Unity References")]
-    public List<Unit> players;
-    public List<Unit> enemies;
+    public BattleSystem battleSystem;
 
     [Header("Debugging: Unit Prefabs to Spawn")]
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
 
+    private List<Unit> players;
+    private List<Unit> enemies;
     private Grid<Node> map;
-
-    public void SpawnUnits(Grid<Node> map, List<Unit> units)
+    
+    public void SpawnUnits()
     {
-        if (units.Count == 0)
+        InstantiatePlayerUnits(players);
+        InstantiateEnemyUnits(enemies);
+    }
+
+    public void PlaceUnits(Grid<Node> map)
+    {
+        if (players.Count == 0 && enemies.Count == 0)
         {
-            Debug.Log("No Units in List");
+            Debug.Log("No Units either Lists");
             return;
         }
-        // TODO : Instantiate the Units()
-        //InstantiatePlayerUnits(players);
-        //InstantiateEnemyUnits(enemies);
-
-        BattleSystem.instance.SetPlayersAndEnemies(players, enemies);
-
+        
         this.map = map;
 
         HandlePlayerSpawnPoints(players);
         HandleEnemySpawnPoints(enemies);
-
-
-        // TODO : Call 2 Scripts/Methods
-        // - is the player handler - which is holding onto the loudouts that the player chose for their units
-        // it then creates those units maybe in a Create Unit Script
-        // - Enemy Spawn Manager/ Creater, maybe pulls from a pool of units and adds them to the list
     }
-
-    
-
 
     #region Player Spawn Methods
     public void HandlePlayerSpawnPoints(List<Unit> players) // 3 - 6
@@ -57,6 +50,14 @@ public class SpawnManager : MonoBehaviour
         // Hard part
         // Randoms w/ Weights
     }
+
+    public void InstantiatePlayerUnits(List<Unit> units)
+    {
+        if (units.Count == 0)
+            return;
+
+        players = CreateUnits(units, playerPrefab);
+    }
     #endregion
 
     #region Enemy Spawn Methods
@@ -71,6 +72,14 @@ public class SpawnManager : MonoBehaviour
     private Node GetEnemyParentSpawnLocation()
     {
         return map.GetGridObject(Random.Range(0, map.GetSize()), Random.Range(0, map.GetSize()));
+    }
+
+    public void InstantiateEnemyUnits(List<Unit> units)
+    {
+        if (units.Count == 0)
+            return;
+
+        enemies = CreateUnits(units, enemyPrefab);
     }
     #endregion
 
@@ -114,47 +123,66 @@ public class SpawnManager : MonoBehaviour
     #endregion
 
     #region Utility
-    public void SetPlayersAndEnemies(List<Unit> players, List<Unit> enemies)
+    private void SplitPlayersAndEnemies(List<Unit> units)
     {
-        this.players = players;
-        this.enemies = enemies;
-    }
+        players = new List<Unit>();
+        enemies = new List<Unit>();
 
-    public void InstantiatePlayerUnits(List<Unit> units)
-    {
-        if (units.Count == 0)
-            return;
-
-        List<Unit> tempUnits = new List<Unit>();
         foreach (Unit unit in units)
         {
-            GameObject clone = Instantiate(playerPrefab);
-            tempUnits.Add(clone.GetComponent<Unit>());
+            if (unit.unitType == Unit.UnitType.Player)
+                players.Add(unit);
+            if (unit.unitType == Unit.UnitType.Enemy)
+                enemies.Add(unit);
         }
-
-        foreach (Unit unit in units)
-            Destroy(unit.gameObject);
-        
-        players = tempUnits;
-        Debug.Log(players[0].name);
     }
 
-    public void InstantiateEnemyUnits(List<Unit> units)
+    private List<Unit> CreateUnits(List<Unit> unitsToCreate, GameObject prefab)
     {
-        if (units.Count == 0)
-            return;
-
         List<Unit> tempUnits = new List<Unit>();
-        foreach (Unit unit in units)
+        foreach (Unit unit in unitsToCreate)
         {
-            GameObject clone = Instantiate(enemyPrefab);
-            tempUnits.Add(clone.GetComponent<Unit>());
+            GameObject clone = Instantiate(prefab);
+            Unit cloneUnit = clone.GetComponent<Unit>();
+            cloneUnit.SetupUnit();
+            tempUnits.Add(cloneUnit);
         }
+        return tempUnits;
+    }
 
+    private void DestroyUnits(List<Unit> units)
+    {
         foreach (Unit unit in units)
             Destroy(unit.gameObject);
+    }
+    #endregion
 
-        enemies = tempUnits;
+    #region Getters & Setters
+    public List<Unit> GetPlayers()
+    {
+        return players;
+    }
+
+    public List<Unit> GetEnemies()
+    {
+        return enemies;
+    }
+
+    public List<Unit> GetUnits()
+    {
+        List<Unit> units = new List<Unit>();
+
+        foreach (Unit unit in players)
+            units.Add(unit);
+        foreach (Unit unit in enemies)
+            units.Add(unit);
+
+        return units;
+    }
+
+    public void SetUnitsToSpawn(List<Unit> units)
+    {
+        SplitPlayersAndEnemies(units);
     }
     #endregion
 }

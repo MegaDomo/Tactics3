@@ -79,6 +79,7 @@ public class BattleSystem : MonoBehaviour
     {
         this.players = players;
         this.enemies = enemies;
+        units = new List<Unit>();
 
         foreach (Unit unit in players)
             units.Add(unit);

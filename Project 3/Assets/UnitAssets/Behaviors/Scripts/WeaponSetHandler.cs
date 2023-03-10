@@ -69,7 +69,6 @@ public class WeaponSetHandler
 
     private bool InRange(Weapon weapon, Unit player)
     {
-        if (pathfinding == null) Debug.Log("InRange is null");
         List<Node> potentialAttackNodes = pathfinding.GetHollowDiamond(player.node, weapon.range, weapon.minRange);
         return FindNodeInMovementRange(potentialAttackNodes, self.MovementLeft());
     }
@@ -79,7 +78,6 @@ public class WeaponSetHandler
         foreach (Node node in nodes)
         {
             int temp = MapManager.instance.pathing.GetPathCostWithoutStart(self.node, node);
-            Debug.Log(temp);
             if (temp <= movement)
                 return true;
         }
