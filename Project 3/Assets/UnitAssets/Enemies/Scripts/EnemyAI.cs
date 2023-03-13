@@ -15,6 +15,7 @@ public class EnemyAI : MonoBehaviour
     #endregion
 
     private Unit selected;
+
     public IEnumerator StartTurn()
     {
         Behavior bhvr = selected.behavior;

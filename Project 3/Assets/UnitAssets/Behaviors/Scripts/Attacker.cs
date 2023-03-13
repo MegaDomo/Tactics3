@@ -87,11 +87,7 @@ public class Attacker : Behavior
     #region Moving
     public void Move(Node destination)
     {
-        
-        Grid<Node> map = mapManager.map;
-        Utils.CreateWorldTextPopupOnGrid(destination.x, destination.z,
-                                   10f, "Moving Here", 30, map);
-        mapManager.MoveAsCloseAsPossible(self, destination);
+        self.Move(destination);
     }
     #endregion
 
