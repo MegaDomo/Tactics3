@@ -45,7 +45,7 @@ public static class Pathfinding
                 }
             }
         }
-
+        
         // Defines the Path, following the Breadcrumbs
         current = end;
 
@@ -65,35 +65,105 @@ public static class Pathfinding
         path.Reverse();
         return path;
     }
-
-    
-
-    private static bool isSafe(Grid<Node> grid, int x, int z)
-    {
-        if (x < 0 || z < 0 || x >= grid.GetSize() || z >= grid.GetSize())
-            return false;
-        return true;
-    }
-
-    private static bool isSafePassible(Node neighbor)
-    {
-        // Obstructed
-        if (!neighbor.passable)
-            return false;
-        return true;
-    }
     #endregion
 
-    #region Path Variants
+    #region Grid/Path Methods
+    // Start of Grid/Path Methods Region
+    #region Closest
     public static List<Node> GetClosestPath(Grid<Node> grid, Node start, Node end, Unit unit)
     {
         List<Node> path = AStar(grid, start, end);
-        int nodeCost = GetNodeCostFromMovement(path, MapManager.instance.MovementLeft(unit));
+        int nodeCost = GetNodeCostFromMovement(path, unit.MovementLeft());
         path.RemoveRange(nodeCost, path.Count - nodeCost);
-
         return path;
     }
 
+    public static Node GetClosestPassibleNode(Grid<Node> grid, Node start, List<Node> destinations)
+    {
+        Node node = null;
+        int closest = int.MaxValue;
+        int nextCost;
+
+        foreach (Node nextNode in destinations)
+        {
+            if (!IsSafePassible(nextNode))
+                continue;
+            nextCost = GetPathCost(grid, start, nextNode);
+
+            if (nextCost < closest)
+            {
+                closest = nextCost;
+                node = nextNode;
+            }
+        }
+
+        return node;
+    }
+
+    public static Node GetClosestNode(Grid<Node> grid, Node start, List<Node> destinations)
+    {
+        Node node = null;
+        int closest = int.MaxValue;
+        int nextCost;
+
+        foreach (Node nextNode in destinations)
+        {
+            nextCost = GetPathCost(grid, start, nextNode);
+
+            if (nextCost < closest)
+            {
+                closest = nextCost;
+                node = nextNode;
+            }
+        }
+
+        return node;
+    }
+
+    public static Node GetClosestPassibleNode(Grid<Node> grid, Node start, Node destination)
+    {
+        Node node = null;
+        List<Node> destinations = GetPassibleNeighbors(grid, destination);
+        int closest = int.MaxValue;
+        int nextCost;
+
+        foreach (Node nextNode in destinations)
+        {
+            nextCost = GetPathCost(grid, start, nextNode);
+
+            if (nextCost < closest)
+            {
+                closest = nextCost;
+                node = nextNode;
+            }
+        }
+
+        return node;
+    }
+
+    public static Node GetClosestNode(Grid<Node> grid, Node start, Node destination)
+    {
+        Node node = null;
+        List<Node> destinations = GetNeighbors(grid, destination);
+        int closest = int.MaxValue;
+        int nextCost;
+
+        foreach (Node nextNode in destinations)
+        {
+            nextCost = GetPathCost(grid, start, nextNode);
+
+            if (nextCost < closest)
+            {
+                closest = nextCost;
+                node = nextNode;
+            }
+        }
+
+        return node;
+    }
+    #endregion
+
+    #region PathCost
     public static int GetPathCost(List<Node> path)
     {
         int pathCost = 0;
@@ -147,6 +217,8 @@ public static class Pathfinding
         return nodeCost;
     }
     #endregion
+    // End of Grid/Path Methods Region
+    #endregion
 
     // Methods to get various shapes of Nodes in the form of Lists
     #region Getting to know your neighbors
@@ -157,13 +229,13 @@ public static class Pathfinding
         int x = node.x;
         int z = node.z;
 
-        if (isSafe(grid, x + 1, z) && isSafePassible(grid.GetGridObject(x + 1, z)))
+        if (isSafe(grid, x + 1, z) && IsSafePassible(grid.GetGridObject(x + 1, z)))
             neighbors.Add(grid.GetGridObject(x + 1, z));
-        if (isSafe(grid, x, z + 1) && isSafePassible(grid.GetGridObject(x, z + 1)))
+        if (isSafe(grid, x, z + 1) && IsSafePassible(grid.GetGridObject(x, z + 1)))
             neighbors.Add(grid.GetGridObject(x, z + 1));
-        if (isSafe(grid, x - 1, z) && isSafePassible(grid.GetGridObject(x - 1, z)))
+        if (isSafe(grid, x - 1, z) && IsSafePassible(grid.GetGridObject(x - 1, z)))
             neighbors.Add(grid.GetGridObject(x - 1, z));
-        if (isSafe(grid, x, z - 1) && isSafePassible(grid.GetGridObject(x, z - 1)))
+        if (isSafe(grid, x, z - 1) && IsSafePassible(grid.GetGridObject(x, z - 1)))
             neighbors.Add(grid.GetGridObject(x, z - 1));
 
         return neighbors;
@@ -283,6 +355,21 @@ public static class Pathfinding
     #endregion
 
     #region Utility Methods
+    private static bool isSafe(Grid<Node> grid, int x, int z)
+    {
+        if (x < 0 || z < 0 || x >= grid.GetSize() || z >= grid.GetSize())
+            return false;
+        return true;
+    }
+
+    private static bool IsSafePassible(Node neighbor)
+    {
+        // Obstructed
+        if (!neighbor.passable)
+            return false;
+        return true;
+    }
+
     public static bool CanMove(Grid<Node> grid, Unit selected, Node start, Node end)
     {
         // Heuristic

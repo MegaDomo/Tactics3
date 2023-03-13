@@ -25,9 +25,6 @@ public class PlayerTurn : MonoBehaviour
     private Unit target;
     private Node destination;
 
-    private bool isMoving;
-    private bool isAttacking;
-
     #region ActionStateMethods
     public void StartTurn()
     {
@@ -88,10 +85,10 @@ public class PlayerTurn : MonoBehaviour
             return;
         }
 
-        if (isMoving)
+        if (selected.IsMoving())
             return;
 
-        SetIsAttacking(true);
+        selected.SetIsAttacking(true);
         selected.Move(destination);
     }
     #endregion
@@ -107,8 +104,6 @@ public class PlayerTurn : MonoBehaviour
         selected = null;
         target = null;
         destination = null;
-        isMoving = false;
-        isAttacking = false;
     }
     #endregion
 
@@ -140,26 +135,6 @@ public class PlayerTurn : MonoBehaviour
     public void SetDestination(Node node)
     {
         destination = node;
-    }
-
-    public bool IsMoving()
-    {
-        return isMoving;
-    }
-
-    public void SetIsMoving(bool value)
-    {
-        isMoving = value;
-    }
-
-    public bool IsAttacking()
-    {
-        return isAttacking;
-    }
-
-    public void SetIsAttacking(bool value)
-    {
-        isAttacking = value;
     }
     #endregion
 }

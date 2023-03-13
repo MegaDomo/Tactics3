@@ -34,11 +34,6 @@ public class Unit : MonoBehaviour
     private GameObject weaponPrefab;
     private MapManager mapManager;
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         unitAnim.MoveUnit();
@@ -195,6 +190,26 @@ public class Unit : MonoBehaviour
         enemyObj = enemyObject;
         UnitBehavior unitBehavior = new UnitBehavior(this);
         behavior = unitBehavior.GetBehavior();
+    }
+
+    public void SetIsMoving(bool value)
+    {
+        unitAnim.SetIsMoving(value);
+    }
+
+    public bool IsMoving()
+    {
+        return unitAnim.IsMoving();
+    }
+
+    public void SetIsAttacking(bool value)
+    {
+        unitAnim.SetIsAttacking(value);
+    }
+
+    public bool IsAttacking()
+    {
+        return unitAnim.IsAttacking();
     }
     #endregion
 }

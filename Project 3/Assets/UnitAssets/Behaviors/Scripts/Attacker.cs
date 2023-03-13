@@ -20,8 +20,6 @@ public class Attacker : Behavior
 
     public override void TakeTurn()
     {
-        // NOTE : Something weird is happening here with mapmanger, I think it is a Load order error
-        // Without lines 25-26 This method sees "mapManager" as null even though its set in the constructor
         mapManager = MapManager.instance;
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
@@ -31,10 +29,11 @@ public class Attacker : Behavior
         if (target == null)
         {
             if (FindClosestTarget(players))
-                Move(FindClosestNode(Pathfinding.GetPassibleNeighbors(map, target.node)));
+                MoveAsCloseAsPossible();
+
             return;
         }
-        if (mapManager == null) Debug.Log(36);
+
         int nodeDistance = mapManager.GetDistance(self.node, target.node);
         Weapon weapon = self.equippedWeapon;
         if (nodeDistance <= weapon.range && nodeDistance >= weapon.minRange)
@@ -44,7 +43,6 @@ public class Attacker : Behavior
         }
 
         MoveToAttack();
-
     }
 
     public bool FindClosestTarget(List<Unit> players)
@@ -53,10 +51,9 @@ public class Attacker : Behavior
         List<Node> playerNodes = new List<Node>();
         foreach (Unit player in players)
             playerNodes.Add(player.node);
-
-        Node targetNode = FindClosestNode(playerNodes);
+        Node targetNode = Pathfinding.GetClosestNode(map, self.node, playerNodes);
         target = targetNode.unit;
-
+        
         if (target == null)
         {
             Debug.Log("No Target for: " + self.name);
@@ -69,49 +66,39 @@ public class Attacker : Behavior
     private void Attack()
     {
         int damage = self.stats.attack + self.equippedWeapon.damage;
-        // TODO : Figure out whether physical or magical damage
         target.TakePhysicalDamage(damage);
-        //self.anim.SetTrigger("MeleeStrike");
-        //self.anim.ResetTrigger("MeleeStrike");
     }
     private void MoveToAttack()
     {
         // TODO : Filter nodes for minimum Range
         Weapon weapon = self.equippedWeapon;
         List<Node> potentialAttackNodes = Pathfinding.GetHollowDiamond(map, target.node, weapon.range, weapon.minRange);
-        Move(FindClosestNode(potentialAttackNodes));
+        Move(Pathfinding.GetClosestPassibleNode(map, self.node, potentialAttackNodes));
         Attack();
     }
     #endregion
 
     #region Moving
-    public void Move(Node destination)
+    private void MoveAsCloseAsPossible()
     {
-        self.Move(destination);
+        List<Node> neighbors = Pathfinding.GetPassibleNeighbors(map, target.node);
+        if (neighbors.Count == 0)
+        {
+            // I believe getting here means no targets are in range whatsoever and the adjacent nodes of 
+            // the closest target are blocked. 
+            // This could be to perform another object or some kind of idle behavior
+            return;
+        }
+        destination = Pathfinding.GetClosestPassibleNode(map, self.node, neighbors);
+
+        List<Node> path = Pathfinding.GetClosestPath(map, self.node, destination, self);
+        destination = path[path.Count - 1];
+
+        Move(Pathfinding.GetClosestPassibleNode(map, self.node, destination));
     }
     #endregion
 
     #region Utility
-    public Node FindClosestNode(List<Node> nodes)
-    {
-        Node node = new Node();
-        int close = int.MaxValue;
-        int temp;
-
-        foreach (Node item in nodes)
-        {
-            temp = Pathfinding.GetPathCost(map, self.node, item);
-
-            if (temp < close)
-            {
-                close = temp;
-                node = item;
-            }
-        }
-
-        return node;
-    }
-
     private void DistributeSet(WeaponSet set)
     {
         target = set.GetTarget();

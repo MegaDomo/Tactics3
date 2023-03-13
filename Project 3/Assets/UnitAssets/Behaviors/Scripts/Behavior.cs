@@ -12,7 +12,10 @@ public class Behavior : ScriptableObject
 
     public virtual void TakeTurn() { }
 
-
+    public void Move(Node destination)
+    {
+        self.Move(destination);
+    }
     // public virtual void GetBlackBoard() { }
     /*
          * "Player"

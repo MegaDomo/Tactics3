@@ -16,17 +16,19 @@ public class EnemyAI : MonoBehaviour
 
     private Unit selected;
 
+    private bool isMoving;
+    private bool isAttacking;
+
     public IEnumerator StartTurn()
     {
         Behavior bhvr = selected.behavior;
-        
+        bhvr.self = selected;
         bhvr.TakeTurn();
 
-        // TODO : NEEDS to be a variable based on length of movement occuring
         yield return new WaitForSeconds(1f);
 
+        // Change this \/
         EndTurn();
-        //selected.behavior.FindTarget();
     }
 
     public void EndTurn()
