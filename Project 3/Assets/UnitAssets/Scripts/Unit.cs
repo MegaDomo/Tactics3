@@ -134,10 +134,6 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Attacking Methods
-    public void WeaponStrike()
-    {
-        unitAnim.WeaponStrike(equippedWeapon);
-    }
     #endregion
 
     #region Setters

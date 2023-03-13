@@ -37,14 +37,17 @@ public class UITargetPanel : MonoBehaviour
     {
         Node destination = player.GetDestination();
         List<Node> adjNodes = Pathfinding.GetNeighbors(MapManager.instance.GetMap(), destination);
-        Debug.Log("Nodes: " + adjNodes.Count);
+
         targets = new List<Unit>();
         foreach (Node node in adjNodes)
         {
-            if (node.unit != null)
-                targets.Add(node.unit);
+            Unit unit = node.unit;
+            if (unit == null)
+                continue;
+            if (unit.unitType != Unit.UnitType.Enemy)
+                continue;
+            targets.Add(node.unit);
         }
-        Debug.Log("Targets: " + targets.Count);
     }
 
     private void ConfigureButtons(Button button, Unit target)

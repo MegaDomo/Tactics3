@@ -13,9 +13,6 @@ public class UnitAnimation : MonoBehaviour
     private Queue<Node> path = new Queue<Node>();
     private PlayerTurn player;
 
-    // Attacking
-    private bool isAttacking;
-
     private void Start()
     {
         unit = GetComponent<Unit>();
@@ -34,8 +31,12 @@ public class UnitAnimation : MonoBehaviour
         ResetMoveValues();
         anim.SetBool("IsMoving", false);
 
-        if (isAttacking)
+        if (player.IsAttacking())
+        {
             StartCoroutine(Attack());
+            return;
+        }
+
         player.EndTurn();
     }
 
@@ -47,8 +48,8 @@ public class UnitAnimation : MonoBehaviour
         if (nodeToMoveTo == null)
             return;
         Vector3 dir = nodeToMoveTo.GetStandingPoint() - unit.node.GetStandingPoint();
-        
-        RotateUnit(dir);
+
+        LerpRotateUnit(dir);
         transform.Translate(dir.normalized * unit.stats.pathingSpeed * Time.deltaTime);
         if (IsUnitWithinNode(nodeToMoveTo))
         {
@@ -79,7 +80,7 @@ public class UnitAnimation : MonoBehaviour
         return false;
     }
 
-    private void RotateUnit(Vector3 dir)
+    private void LerpRotateUnit(Vector3 dir)
     {
         Quaternion startValue = vfx.rotation;
 
@@ -87,6 +88,14 @@ public class UnitAnimation : MonoBehaviour
         Quaternion endValue = Quaternion.Euler(0, angle, 0);
 
         vfx.rotation = Quaternion.Lerp(startValue, endValue, 3f * Time.deltaTime);
+    }
+
+    private void RotateUnit(Vector3 dir)
+    {
+        float angle = (Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg) + 180;
+        Quaternion endValue = Quaternion.Euler(0, angle, 0);
+
+        vfx.rotation = endValue;
     }
 
     private void ReadyMoveValues(List<Node> path)
@@ -115,20 +124,18 @@ public class UnitAnimation : MonoBehaviour
     #region Attack Methods
     IEnumerator Attack()
     {
+        Vector3 dir = player.GetTarget().node.GetStandingPoint() - unit.node.GetStandingPoint();
+        RotateUnit(dir);
         BasicAttack();
+        yield return new WaitForSeconds(0.1f);
         float length = anim.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(length + 0.7f);
+        yield return new WaitForSeconds(length);
         player.SetIsAttacking(false);
         player.EndTurn();
     }
     #endregion
 
     #region Weapon Animations
-    public void WeaponStrike(Weapon weapon)
-    {
-        anim.Play(weapon.weaponType);
-    }
-
     public void BasicAttack()
     {
         anim.Play("BasicAttack");

@@ -3158,10 +3158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f98edb74e02434ba7bbfc18c864343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  player2: {fileID: 0}
-  overrideC: {fileID: 22100000, guid: c76ba62fc38dcd8449076129eba6edbd, type: 2}
-  overrideC2: {fileID: 22100000, guid: 4899ab023e0517c489d1a6b6c9daf90e, type: 2}
 --- !u!4 &319899319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8812712681081185525, guid: 7a2d6f9cd2323ee47852237323360476, type: 3}
@@ -17732,6 +17728,7 @@ MonoBehaviour:
   units:
   - {fileID: 8769162474166777822, guid: 259ddf72b7596fd4caa0f417f0b60aaf, type: 3}
   - {fileID: 8769162474166777822, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
+  - {fileID: 8769162474166777822, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
 --- !u!1001 &1642879295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20401,7 +20398,7 @@ Transform:
   m_GameObject: {fileID: 1864691555}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 7.97, z: 0}
-  m_LocalScale: {x: 5.0923, y: 5.0923, z: 5.0923}
+  m_LocalScale: {x: 1.75, y: 5.0923, z: 1.75}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 906865298}
