@@ -94,7 +94,7 @@ public class SpawnManager : MonoBehaviour
         {
             index++;
             current = adjNodes[index];
-            foreach (Node node in MapManager.instance.pathing.GetNeighbors(current))
+            foreach (Node node in Pathfinding.GetPassibleNeighbors(MapManager.instance.GetMap(), current))
             {
                 if (adjNodes.Count >= numOfUnits)
                     break;

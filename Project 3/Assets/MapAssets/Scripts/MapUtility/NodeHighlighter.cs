@@ -8,7 +8,7 @@ public class NodeHighlighter : MonoBehaviour
 
     public void Highlight(Unit unit)
     {
-        List<Node> routes = MapManager.instance.pathing.GetAllRoutes(unit);
+        List<Node> routes = Pathfinding.GetAllRoutes(MapManager.instance.GetMap(), unit);
 
         foreach (Node node in routes)
         {

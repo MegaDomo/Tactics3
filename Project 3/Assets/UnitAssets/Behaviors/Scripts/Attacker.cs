@@ -6,16 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Attacker", menuName = "Behaviors/Attacker")]
 public class Attacker : Behavior
 {
-    WeaponSetHandler handler;
-    MapManager mapManager;
-    Pathfinding pathfinding;
+    private WeaponSetHandler handler;
+    private MapManager mapManager;
+    private Grid<Node> map;
 
     public Attacker(MapManager mapManager, Unit self)
     {
         mapManager = MapManager.instance;
-        pathfinding = mapManager.pathing;
+        map = mapManager.GetMap();
         this.self = self;
-        handler = new WeaponSetHandler(self, mapManager, pathfinding);
+        handler = new WeaponSetHandler(self, mapManager, map);
     }
 
     public override void TakeTurn()
@@ -23,7 +23,6 @@ public class Attacker : Behavior
         // NOTE : Something weird is happening here with mapmanger, I think it is a Load order error
         // Without lines 25-26 This method sees "mapManager" as null even though its set in the constructor
         mapManager = MapManager.instance;
-        pathfinding = mapManager.pathing;
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
 
@@ -32,7 +31,7 @@ public class Attacker : Behavior
         if (target == null)
         {
             if (FindClosestTarget(players))
-                Move(FindClosestNode(pathfinding.GetNeighbors(target.node)));
+                Move(FindClosestNode(Pathfinding.GetPassibleNeighbors(map, target.node)));
             return;
         }
         if (mapManager == null) Debug.Log(36);
@@ -79,7 +78,7 @@ public class Attacker : Behavior
     {
         // TODO : Filter nodes for minimum Range
         Weapon weapon = self.equippedWeapon;
-        List<Node> potentialAttackNodes = pathfinding.GetHollowDiamond(target.node, weapon.range, weapon.minRange);
+        List<Node> potentialAttackNodes = Pathfinding.GetHollowDiamond(map, target.node, weapon.range, weapon.minRange);
         Move(FindClosestNode(potentialAttackNodes));
         Attack();
     }
@@ -105,7 +104,7 @@ public class Attacker : Behavior
 
         foreach (Node item in nodes)
         {
-            temp = MapManager.instance.pathing.GetPathCost(self.node, item);
+            temp = Pathfinding.GetPathCost(map, self.node, item);
 
             if (temp < close)
             {
@@ -123,16 +122,6 @@ public class Attacker : Behavior
         self.SetWeapon(set.GetWeapon());
     }
     #endregion
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -6,13 +6,13 @@ public class WeaponSetHandler
 {
     private Unit self;
     private MapManager manager;
-    private Pathfinding pathfinding;
+    private Grid<Node> map;
 
-    public WeaponSetHandler(Unit self, MapManager manager, Pathfinding pathfinding)
+    public WeaponSetHandler(Unit self, MapManager manager, Grid<Node> map)
     {
         this.self = self;
         this.manager = manager;
-        this.pathfinding = pathfinding;
+        this.map = map;
     }
 
     #region Best Weapon Set for Most Damage
@@ -69,7 +69,7 @@ public class WeaponSetHandler
 
     private bool InRange(Weapon weapon, Unit player)
     {
-        List<Node> potentialAttackNodes = pathfinding.GetHollowDiamond(player.node, weapon.range, weapon.minRange);
+        List<Node> potentialAttackNodes = Pathfinding.GetHollowDiamond(map, player.node, weapon.range, weapon.minRange);
         return FindNodeInMovementRange(potentialAttackNodes, self.MovementLeft());
     }
 
@@ -77,7 +77,7 @@ public class WeaponSetHandler
     {
         foreach (Node node in nodes)
         {
-            int temp = MapManager.instance.pathing.GetPathCostWithoutStart(self.node, node);
+            int temp = Pathfinding.GetPathCostWithoutStart(map, self.node, node);
             if (temp <= movement)
                 return true;
         }

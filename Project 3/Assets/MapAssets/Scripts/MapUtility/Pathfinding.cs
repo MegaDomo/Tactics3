@@ -2,23 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinding
+public static class Pathfinding
 {
-    int stepSize;
-    private Grid<Node> grid;
-
-    public Pathfinding(Grid<Node> grid, int stepSize)
-    {
-        this.grid = grid;
-        this.stepSize = stepSize;
-    }
-
     #region AStar Pathing
     // Finds the Path and also returns the pathCost
-    public List<Node> AStar(Node start, Node end)
+    public static List<Node> AStar(Grid<Node> grid, Node start, Node end)
     {
         List<Node> path = new List<Node>();
-
+        float stepSize = grid.GetCellSize() / 2;
         // Starts the Queue
         PriorityQueue<Node> frontier = new PriorityQueue<Node>();
         Dictionary<Node, Node> came_from = new Dictionary<Node, Node>();
@@ -38,7 +29,7 @@ public class Pathfinding
                 break;
 
             // Adds Adjacent Edges
-            foreach (Node next in GetNeighbors(current))
+            foreach (Node next in GetPassibleNeighbors(grid, current))
             {
                 if (Mathf.Abs(next.y - current.y) > stepSize)
                     continue;
@@ -48,7 +39,7 @@ public class Pathfinding
                 if (!cost_so_far.ContainsKey(next) || newCost < cost_so_far[next])
                 {
                     cost_so_far[next] = newCost;
-                    int priority = newCost + GetDistance(next, end);
+                    int priority = newCost + GetDistance(grid, next, end);
                     frontier.Enqueue(next, priority);
                     came_from[next] = current;
                 }
@@ -75,32 +66,16 @@ public class Pathfinding
         return path;
     }
 
-    public List<Node> GetNeighbors(Node node)
-    {
-        List<Node> neighbors = new List<Node>();
+    
 
-        int x = node.x;
-        int z = node.z;
-
-        if (isSafe(x + 1, z) && isSafe(grid.GetGridObject(x + 1, z)))
-            neighbors.Add(grid.GetGridObject(x + 1, z));
-        if (isSafe(x, z + 1) && isSafe(grid.GetGridObject(x, z + 1)))
-            neighbors.Add(grid.GetGridObject(x, z + 1));
-        if (isSafe(x - 1, z) && isSafe(grid.GetGridObject(x - 1, z)))
-            neighbors.Add(grid.GetGridObject(x - 1, z));
-        if (isSafe(x, z - 1) && isSafe(grid.GetGridObject(x, z - 1)))
-            neighbors.Add(grid.GetGridObject(x, z - 1));
-
-        return neighbors;
-    }
-    private bool isSafe(int x, int z)
+    private static bool isSafe(Grid<Node> grid, int x, int z)
     {
         if (x < 0 || z < 0 || x >= grid.GetSize() || z >= grid.GetSize())
             return false;
         return true;
     }
 
-    private bool isSafe(Node neighbor)
+    private static bool isSafePassible(Node neighbor)
     {
         // Obstructed
         if (!neighbor.passable)
@@ -110,16 +85,16 @@ public class Pathfinding
     #endregion
 
     #region Path Variants
-    public List<Node> GetClosestPath(Node start, Node end, Unit unit)
+    public static List<Node> GetClosestPath(Grid<Node> grid, Node start, Node end, Unit unit)
     {
-        List<Node> path = AStar(start, end);
+        List<Node> path = AStar(grid, start, end);
         int nodeCost = GetNodeCostFromMovement(path, MapManager.instance.MovementLeft(unit));
         path.RemoveRange(nodeCost, path.Count - nodeCost);
 
         return path;
     }
 
-    public int GetPathCost(List<Node> path)
+    public static int GetPathCost(List<Node> path)
     {
         int pathCost = 0;
         foreach (Node node in path)
@@ -130,15 +105,15 @@ public class Pathfinding
     }
     
     // Returns -1 if no path found
-    public int GetPathCost(Node start, Node end)
+    public static int GetPathCost(Grid<Node> grid, Node start, Node end)
     {
-        List<Node> path = AStar(start, end);
+        List<Node> path = AStar(grid, start, end);
         if (path.Count == 0)
             return -1;
         return GetPathCost(path);
     }
 
-    public int GetPathCostWithoutStart(List<Node> path)
+    public static int GetPathCostWithoutStart(List<Node> path)
     {
         int pathCost = 0;
         for (int i = 1; i < path.Count; i++)
@@ -148,16 +123,16 @@ public class Pathfinding
         return pathCost;
     }
 
-    public int GetPathCostWithoutStart(Node start, Node end)
+    public static int GetPathCostWithoutStart(Grid<Node> grid, Node start, Node end)
     {
-        List<Node> path = AStar(start, end);
+        List<Node> path = AStar(grid, start, end);
         if (path.Count == 0)
             return -1;
         return GetPathCostWithoutStart(path);
     }
 
     // Note : Used for Getting Closest Path
-    public int GetNodeCostFromMovement(List<Node> path, int movement)
+    public static int GetNodeCostFromMovement(List<Node> path, int movement)
     {
         int nodeCost = 0;
         int pathCost = 0;
@@ -175,31 +150,69 @@ public class Pathfinding
 
     // Methods to get various shapes of Nodes in the form of Lists
     #region Getting to know your neighbors
-    public List<Node> GetDiamond(Node target, int radius)
+    public static List<Node> GetPassibleNeighbors(Grid<Node> grid, Node node)
+    {
+        List<Node> neighbors = new List<Node>();
+
+        int x = node.x;
+        int z = node.z;
+
+        if (isSafe(grid, x + 1, z) && isSafePassible(grid.GetGridObject(x + 1, z)))
+            neighbors.Add(grid.GetGridObject(x + 1, z));
+        if (isSafe(grid, x, z + 1) && isSafePassible(grid.GetGridObject(x, z + 1)))
+            neighbors.Add(grid.GetGridObject(x, z + 1));
+        if (isSafe(grid, x - 1, z) && isSafePassible(grid.GetGridObject(x - 1, z)))
+            neighbors.Add(grid.GetGridObject(x - 1, z));
+        if (isSafe(grid, x, z - 1) && isSafePassible(grid.GetGridObject(x, z - 1)))
+            neighbors.Add(grid.GetGridObject(x, z - 1));
+
+        return neighbors;
+    }
+
+    public static List<Node> GetNeighbors(Grid<Node> grid, Node node)
+    {
+        List<Node> neighbors = new List<Node>();
+
+        int x = node.x;
+        int z = node.z;
+
+        if (isSafe(grid, x + 1, z))
+            neighbors.Add(grid.GetGridObject(x + 1, z));
+        if (isSafe(grid, x, z + 1))
+            neighbors.Add(grid.GetGridObject(x, z + 1));
+        if (isSafe(grid, x - 1, z))
+            neighbors.Add(grid.GetGridObject(x - 1, z));
+        if (isSafe(grid, x, z - 1))
+            neighbors.Add(grid.GetGridObject(x, z - 1));
+
+        return neighbors;
+    }
+
+    public static List<Node> GetDiamond(Grid<Node> grid, Node target, int radius)
     {
         List<Node> diamond = new List<Node>();
         List<Vector2Int> coor = GetDiamondCoordinateList(target, radius, 0);
         foreach (Vector2Int vector in coor)
         {
-            if (isSafe(vector.x, vector.y))
+            if (isSafe(grid, vector.x, vector.y))
                 diamond.Add(grid.GetGridObject(vector.x, vector.y));
         }
         return diamond;
     }
 
-    public List<Node> GetHollowDiamond(Node target, int radius, int minRadius)
+    public static List<Node> GetHollowDiamond(Grid<Node> grid, Node target, int radius, int minRadius)
     {
         List<Node> diamond = new List<Node>();
         List<Vector2Int> coor = GetDiamondCoordinateList(target, radius, minRadius);
         foreach (Vector2Int vector in coor)
         {
-            if (isSafe(vector.x, vector.y))
+            if (isSafe(grid, vector.x, vector.y))
                 diamond.Add(grid.GetGridObject(vector.x, vector.y));
         }
         return diamond;
     }
 
-    private List<Vector2Int> GetDiamondCoordinateList(Node origin, int maxRadius, int minRadius)
+    private static List<Vector2Int> GetDiamondCoordinateList(Node origin, int maxRadius, int minRadius)
     {
         List<Vector2Int> coordinates = new List<Vector2Int>();
         int xOrigin = origin.x;
@@ -219,22 +232,22 @@ public class Pathfinding
         return coordinates;
     }
 
-    public List<Node> GetSquare(int radius)
+    public static List<Node> GetSquare(Grid<Node> grid, int radius)
     {
         return new List<Node>();
     }
 
-    public List<Node> GetPlus(int radius)
+    public static List<Node> GetPlus(Grid<Node> grid, int radius)
     {
         return new List<Node>();
     }
 
-    public List<Node> GetLine(int radius)
+    public static List<Node> GetLine(Grid<Node> grid, int radius)
     {
         return new List<Node>();
     }
 
-    public List<Node> GetAllRoutes(Unit unit)
+    public static List<Node> GetAllRoutes(Grid<Node> grid, Unit unit)
     {
         List<Node> allRoutes = new List<Node>();
 
@@ -248,11 +261,11 @@ public class Pathfinding
         while (frontier.Count != 0)
         {
             current = frontier.Dequeue();
-            if (GetPathCost(start, current) > unit.MovementLeft())
+            if (GetPathCost(grid, start, current) > unit.MovementLeft())
                 continue;
             allRoutes.Add(current);
 
-            List<Node> neighbors = GetNeighbors(current);
+            List<Node> neighbors = GetPassibleNeighbors(grid, current);
             foreach (Node node in neighbors)
             {
                 if (!frontier.Contains(node) && !allRoutes.Contains(node))
@@ -267,22 +280,16 @@ public class Pathfinding
         }
         return allRoutes;
     }
-    private bool IsSafe(int x, int z)
-    {
-        return grid.isCoordinatesSafe(x, z);
-    }
     #endregion
 
-
-
     #region Utility Methods
-    public bool CanMove(Unit selected, Node start, Node end)
+    public static bool CanMove(Grid<Node> grid, Unit selected, Node start, Node end)
     {
         // Heuristic
-        if (GetDistance(start, end) > selected.stats.movement - selected.stats.moved)
+        if (GetDistance(grid, start, end) > selected.stats.movement - selected.stats.moved)
             return false;
 
-        int pathCost = GetPathCost(start, end);
+        int pathCost = GetPathCost(grid, start, end);
         Debug.Log(pathCost);
         // No Path
         if (pathCost == -1)
@@ -296,17 +303,17 @@ public class Pathfinding
     }
 
     // Doing the Math to get an integer worth of tiles moved    
-    public int GetDistance(Node start, Node end)
+    public static int GetDistance(Grid<Node> grid, Node start, Node end)
     {
         // Gets Differences of destination - start point
-        Vector3 dif = GetCoordinates(end) - GetCoordinates(start);
+        Vector3 dif = GetCoordinates(grid, end) - GetCoordinates(grid, start);
 
         // Add up total Movement along x and z axis
         return (int)Mathf.Abs(dif.x) + (int)Mathf.Abs(dif.z);
     }
 
     // Gets the Node the Player has moved to. Returns the respected Coordinates
-    public Vector3 GetCoordinates(Node node)
+    public static Vector3 GetCoordinates(Grid<Node> grid, Node node)
     {
         // Base Case : No Data
         if (node == null)

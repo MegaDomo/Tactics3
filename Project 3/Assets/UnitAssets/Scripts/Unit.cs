@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
 
     [HideInInspector] public Node node;
     
-    [HideInInspector] public UnitStats stats;
+    public UnitStats stats; // Not Hidden for Debbuging
     
     [HideInInspector] public Weapon equippedWeapon;
     [HideInInspector] public List<Weapon> weapons;
@@ -114,7 +114,6 @@ public class Unit : MonoBehaviour
     #region Movement
     public void Move(Node end)
     {
-        if (mapManager == null) Debug.Log("Null");
         if (!mapManager.CanMove(this, node, end))
             return;
 

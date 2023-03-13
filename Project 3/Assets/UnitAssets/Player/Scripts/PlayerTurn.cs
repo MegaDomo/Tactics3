@@ -17,7 +17,7 @@ public class PlayerTurn : MonoBehaviour
 
     [Header("Unity References")]
     public NodeHighlighter nodeHighlighter;
-    public UIHotBar hotBar;
+    public UIManager ui;
 
     [HideInInspector] public ActionState actionState;
 
@@ -47,7 +47,7 @@ public class PlayerTurn : MonoBehaviour
     {
         destination = node;
         actionState = ActionState.ChoosingAction;
-        hotBar.SetActiveHotBar(true);
+        ui.SetActiveHotBar(true);
         nodeHighlighter.Unhighlight();
     }
 
@@ -55,7 +55,7 @@ public class PlayerTurn : MonoBehaviour
     {
         destination = null;
         actionState = ActionState.ChooseNode;
-        hotBar.SetActiveHotBar(false);
+        ui.CloseAllPanels();
         nodeHighlighter.Highlight(selected);
     }
 

@@ -18,14 +18,9 @@ public class MapManager : MonoBehaviour
 
     [HideInInspector] public int stepSize;
     [HideInInspector] public Grid<Node> map;
-    [HideInInspector] public Pathfinding pathing;
 
     private bool unitIsMoving = false;
-    public void SetUp()
-    {
-        pathing = new Pathfinding(map, stepSize);
-    }
-
+    
     public void SetMapData(Grid<Node> map, int stepSize)
     {
         this.map = map;
@@ -35,12 +30,12 @@ public class MapManager : MonoBehaviour
     #region Move Methods
     public List<Node> GetPath(Node start, Node end)
     {
-        return pathing.AStar(start, end);
+        return Pathfinding.AStar(map, start, end);
     }
 
     public int GetPathCost(List<Node> path)
     {
-        return pathing.GetPathCost(path);
+        return Pathfinding.GetPathCost(path);
     }
     // Unit is unit to move, and node is destination
     public void Move(Unit selected, Node destination)
@@ -51,8 +46,8 @@ public class MapManager : MonoBehaviour
 
         Node start = selected.node;
 
-        List<Node> path = pathing.AStar(selected.node, destination);
-        int pathCost = pathing.GetPathCost(path);
+        List<Node> path = Pathfinding.AStar(map, selected.node, destination);
+        int pathCost = Pathfinding.GetPathCost(path);
 
         // Updates the Nodes
         start.OnUnitExit();
@@ -68,8 +63,8 @@ public class MapManager : MonoBehaviour
 
         Node start = selected.node;
 
-        List<Node> path = pathing.GetClosestPath(start, destination, selected);
-        int pathCost = pathing.GetPathCost(path);
+        List<Node> path = Pathfinding.GetClosestPath(map, start, destination, selected);
+        int pathCost = Pathfinding.GetPathCost(path);
 
         if (path.Count <= 0)
         {
@@ -105,7 +100,13 @@ public class MapManager : MonoBehaviour
     }
     #endregion
 
-    // ===== Utility Methods =====
+    #region Getters & Setters
+    public Grid<Node> GetMap()
+    {
+        return map;
+    }
+    #endregion
+
     #region Utility Methods
     // This Method will be called by the Move Command, and it needs to be called by mouse hovering
     public bool CanMove(Unit selected, Node start, Node end)
@@ -117,7 +118,7 @@ public class MapManager : MonoBehaviour
         if (GetDistance(start, end) > MovementLeft(selected))
             return false;
 
-        int pathCost = pathing.GetPathCost(start, end);
+        int pathCost = Pathfinding.GetPathCost(map, start, end);
 
         if (pathCost == -1)
             return false;
@@ -182,5 +183,4 @@ public class MapManager : MonoBehaviour
         return unit.stats.movement - unit.stats.moved;
     }
     #endregion
-
 }

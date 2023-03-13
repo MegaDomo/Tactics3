@@ -6,21 +6,17 @@ using TMPro;
 public class UIWeaponPanel : MonoBehaviour
 {
     [Header("Unity Reference")]
-    public UIManager uiManager;
-    public UITargetPanel targetPanel;
     public List<Button> weaponAttackButtons;
 
     private PlayerTurn player;
     private Unit selected;
 
-    private void OnEnable()
+    #region Finds Weapons
+    public void Setup()
     {
         if (player == null)
-        {
             player = PlayerTurn.instance;
-            return;
-        }
-        Debug.Log("here");
+
         selected = player.GetSelected();
         SetWeapons();
         TurnOffRemainingButtons();
@@ -29,54 +25,48 @@ public class UIWeaponPanel : MonoBehaviour
     private void SetWeapons()
     {
         for (int i = 0; i < selected.weapons.Count; i++)
-            ConfigureButton(i, weaponAttackButtons[i], selected.weapons[i]);
+            ConfigureButton(weaponAttackButtons[i], selected.weapons[i]);
     }
 
-    private void ConfigureButton(int index, Button button, Weapon weapon)
+    private void ConfigureButton(Button button, Weapon weapon)
     {
-        TextMeshProUGUI text = button.transform.GetChild(index).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI text = button.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         text.SetText(weapon.name);
     }
+
     private void TurnOffRemainingButtons()
     {
-        for (int i = selected.weapons.Count - 1; i < weaponAttackButtons.Count; i++)
+        for (int i = selected.weapons.Count; i < weaponAttackButtons.Count; i++)
             weaponAttackButtons[i].gameObject.SetActive(false);
     }
+    #endregion
 
-    private void ChangeToTargetPanel()
-    {
-        uiManager.SetActiveTargetPanel(true);
-        uiManager.SetActiveWeaponPanel(false);
-    }
-
+    #region Setters
     public void SetActiveWeaponPanel(bool value)
     {
         gameObject.SetActive(value);
     }
+    #endregion
 
     #region Event Handlers
     public void Weapon1SelectButton()
     {
         selected.SetWeapon(selected.weapons[0]);
-        ChangeToTargetPanel();
     }
 
     public void Weapon2SelectButton()
     {
         selected.SetWeapon(selected.weapons[1]);
-        ChangeToTargetPanel();
     }
 
     public void Weapon3SelectButton()
     {
         selected.SetWeapon(selected.weapons[2]);
-        ChangeToTargetPanel();
     }
 
     public void Weapon4SelectButton()
     {
         selected.SetWeapon(selected.weapons[3]);
-        ChangeToTargetPanel();
     }
     #endregion
 }

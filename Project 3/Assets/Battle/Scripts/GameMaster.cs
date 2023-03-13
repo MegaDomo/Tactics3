@@ -32,7 +32,6 @@ public class GameMaster : MonoBehaviour
         // Creates the Map
         // TODO : Determine if Static Map or RNG Map
         maker.SetUp(makeRandomMap);
-        mapManager.SetUp();
 
         distribution.DistributeUnits();
 

@@ -5,56 +5,55 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [Header("UI References")]
-    public UIHotBar hotbar;
-    public UIWeaponPanel weaponPanel;
-    public UITargetPanel targetPanel;
+    public GameObject hotbar;
+    public GameObject weaponPanel;
+    public GameObject targetPanel;
 
     private void Start()
     {
-        hotbar.Setup();
+        CloseAllPanels();
+    }
 
+    #region ChangePanels
+    public void ChangeFromHotbarToWeapon()
+    {
+        SetActiveHotBar(false);
+        SetActiveWeaponPanel(true);
+    }
+
+    public void ChangeFromWeaponToTarget()
+    {
+        SetActiveWeaponPanel(false);
+        SetActiveTargetPanel(true);
+    }
+
+    public void CloseTarget()
+    {
+        SetActiveTargetPanel(false);
+    }
+
+    public void CloseAllPanels()
+    {
         SetActiveHotBar(false);
         SetActiveWeaponPanel(false);
         SetActiveTargetPanel(false);
     }
+    #endregion
 
+    #region Setters
     public void SetActiveHotBar(bool value)
     {
-        if (value)
-        {
-            hotbar.enabled = value;
-            hotbar.SetActiveHotBar(value);
-        }
-        else
-        {
-            hotbar.SetActiveHotBar(value);
-            hotbar.enabled = value;
-        }
+        hotbar.SetActive(value);
     }
+
     public void SetActiveWeaponPanel(bool value)
     {
-        if (value)
-        {
-            weaponPanel.enabled = value;
-            weaponPanel.SetActiveWeaponPanel(value);
-        }
-        else
-        {
-            weaponPanel.SetActiveWeaponPanel(value);
-            weaponPanel.enabled = value;
-        }
+        weaponPanel.SetActive(value);
     }
+
     public void SetActiveTargetPanel(bool value)
     {
-        if (value)
-        {
-            targetPanel.enabled = value;
-            targetPanel.SetActiveTargetPanel(value);
-        }
-        else
-        {
-            targetPanel.SetActiveTargetPanel(value);
-            targetPanel.enabled = value;
-        }
+        targetPanel.SetActive(value);
     }
+    #endregion
 }
