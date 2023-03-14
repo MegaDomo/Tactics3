@@ -9,6 +9,9 @@ public class UnitAnimationEventHandler : MonoBehaviour
 
     public void BasicAttack()
     {
-        PlayerTurn.instance.DealDamage();
+        if (parentUnitScript.unitType == Unit.UnitType.Player)
+            PlayerTurn.instance.DealDamage();
+        if (parentUnitScript.unitType == Unit.UnitType.Enemy)
+            EnemyAI.instance.DealDamage();
     }
 }

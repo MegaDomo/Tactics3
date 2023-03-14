@@ -26,6 +26,7 @@ public class Attacker : Behavior
 
         DistributeSet(handler.GetMostDamagingWeaponSet(weapons, players));
         
+        // Just Moving
         if (target == null)
         {
             if (FindClosestTarget(players))
@@ -34,15 +35,15 @@ public class Attacker : Behavior
             return;
         }
 
-        int nodeDistance = mapManager.GetDistance(self.node, target.node);
+        MoveToAttack();
+
+        /*int nodeDistance = mapManager.GetDistance(self.node, target.node);
         Weapon weapon = self.equippedWeapon;
         if (nodeDistance <= weapon.range && nodeDistance >= weapon.minRange)
         {
-            Attack();
+            
             return;
-        }
-
-        MoveToAttack();
+        }*/
     }
 
     public bool FindClosestTarget(List<Unit> players)
@@ -63,18 +64,14 @@ public class Attacker : Behavior
     }
     
     #region Attacking
-    private void Attack()
-    {
-        int damage = self.stats.attack + self.equippedWeapon.damage;
-        target.TakePhysicalDamage(damage);
-    }
     private void MoveToAttack()
     {
         // TODO : Filter nodes for minimum Range
+        self.SetIsAttacking(true);
+
         Weapon weapon = self.equippedWeapon;
         List<Node> potentialAttackNodes = Pathfinding.GetHollowDiamond(map, target.node, weapon.range, weapon.minRange);
         Move(Pathfinding.GetClosestPassibleNode(map, self.node, potentialAttackNodes));
-        Attack();
     }
     #endregion
 

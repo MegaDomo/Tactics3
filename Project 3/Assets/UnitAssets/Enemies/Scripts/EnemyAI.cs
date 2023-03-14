@@ -15,20 +15,17 @@ public class EnemyAI : MonoBehaviour
     #endregion
 
     private Unit selected;
-
+    private Behavior behavior;
     private bool isMoving;
     private bool isAttacking;
 
     public IEnumerator StartTurn()
     {
-        Behavior bhvr = selected.behavior;
-        bhvr.self = selected;
-        bhvr.TakeTurn();
+        behavior = selected.behavior;
+        behavior.self = selected;
+        behavior.TakeTurn();
 
         yield return new WaitForSeconds(1f);
-
-        // Change this \/
-        EndTurn();
     }
 
     public void EndTurn()
@@ -36,6 +33,14 @@ public class EnemyAI : MonoBehaviour
         BattleSystem.instance.GetNextInitiative();
     }
 
+    #region Utility
+    public void DealDamage()
+    {
+        if (behavior.target == null)
+            return;
+        behavior.target.TakeDamage(selected, selected.equippedWeapon);
+    }
+    #endregion
     #region Setters
     public void SetSelected(Unit _selected)
     {
