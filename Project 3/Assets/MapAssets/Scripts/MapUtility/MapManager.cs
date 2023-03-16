@@ -89,7 +89,7 @@ public class MapManager : MonoBehaviour
         // Moves Player
         // Note : i = 1 because the path includes the Node the unit is already standing on;
         // therefore it is skipped
-        for (int i = 1; i < path.Count; i++)
+        for (int i = 0; i < path.Count; i++)
         {
             Place(selected, path[i]);
             yield return new WaitForSeconds(pathingSpeed);
@@ -116,7 +116,11 @@ public class MapManager : MonoBehaviour
 
         // Quick Out : Objective Distance 
         if (GetDistance(start, end) > MovementLeft(selected))
+        {
+            Debug.Log("GetDistance");
             return false;
+        }
+            
 
         int pathCost = Pathfinding.GetPathCost(map, start, end);
 
@@ -125,7 +129,10 @@ public class MapManager : MonoBehaviour
         
         // Path is too long
         if (pathCost > MovementLeft(selected))
+        {
+            Debug.Log("pathCost");
             return false;
+        }
 
         return true;
     }

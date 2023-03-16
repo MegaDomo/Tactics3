@@ -7,6 +7,7 @@ public class WeaponSet
     private Unit self;
     private Unit target;
     private Weapon weapon;
+    private Node destination;
     int bestDamage;
 
     public WeaponSet()
@@ -14,11 +15,21 @@ public class WeaponSet
 
     }
 
-    public WeaponSet(Weapon weapon, Unit target, Unit self)
+    public WeaponSet(Unit self, Unit target, Weapon weapon)
     {
-        this.weapon = weapon;
-        this.target = target;
         this.self = self;
+        this.target = target;
+        this.weapon = weapon;
+        CalculateBestDamage();
+        // Calculate Aggro
+    }
+
+    public WeaponSet(Unit self, Unit target, Weapon weapon, Node destination)
+    {
+        this.self = self;
+        this.target = target;
+        this.weapon = weapon;
+        this.destination = destination;
         CalculateBestDamage();
         // Calculate Aggro
     }
@@ -53,24 +64,14 @@ public class WeaponSet
         return self;
     }
 
-    public Unit GetTarget()
-    {
-        return target;
-    }
-
-    public Weapon GetWeapon()
-    {
-        return weapon;
-    }
-
-    public int GetBestDamage()
-    {
-        return bestDamage;
-    }
-
     public void SetSelf(Unit self)
     {
         this.self = self;
+    }
+
+    public Unit GetTarget()
+    {
+        return target;
     }
 
     public void SetTarget(Unit target)
@@ -78,9 +79,29 @@ public class WeaponSet
         this.target = target;
     }
 
+    public Weapon GetWeapon()
+    {
+        return weapon;
+    }
+
     public void SetWeapon(Weapon weapon)
     {
         this.weapon = weapon;
+    }
+
+    public Node GetDestination()
+    {
+        return destination;
+    }
+
+    public void SetDestination(Node destination)
+    {
+        this.destination = destination;
+    }
+
+    public int GetBestDamage()
+    {
+        return bestDamage;
     }
 
     public void SetBestDamage(int damage)

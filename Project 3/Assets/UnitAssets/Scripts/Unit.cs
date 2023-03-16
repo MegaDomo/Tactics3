@@ -107,19 +107,19 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Movement
-    public void Move(Node end)
+    public void Move(Node destination)
     {
-        if (!mapManager.CanMove(this, node, end))
-            return;
+        /*if (!mapManager.CanMove(this, node, destination))
+            return;*/
 
-        List<Node> path = mapManager.GetPath(node, end);
+        List<Node> path = mapManager.GetPath(node, destination);
         int pathCost = mapManager.GetPathCost(path);
 
         unitAnim.Move(path);
 
         stats.moved += pathCost;
         node.OnUnitExit();
-        end.OnUnitEnter(this);
+        destination.OnUnitEnter(this);
     }
 
     public int MovementLeft()

@@ -59,29 +59,42 @@ public class WeaponSetHandler
         {
             foreach (Weapon weapon in weapons)
             {
-                WeaponSet set = new WeaponSet(weapon, player, self);
-                if (InRange(set.GetWeapon(), set.GetTarget()))
+                WeaponSet set = new WeaponSet(self, player, weapon);
+                if (InRange(set))
                     inRangeSets.Add(set);
             }
         }
         return inRangeSets;
     }
 
-    private bool InRange(Weapon weapon, Unit player)
+    private bool InRange(WeaponSet set)
     {
+        Weapon weapon = set.GetWeapon();
+        Unit player = set.GetTarget();
+
         List<Node> potentialAttackNodes = Pathfinding.GetHollowDiamond(map, player.node, weapon.range, weapon.minRange);
-        return FindNodeInMovementRange(potentialAttackNodes, self.MovementLeft());
+
+        List<Node> nodesInRange = FindNodesInMovementRange(potentialAttackNodes, self.MovementLeft());
+
+        if (nodesInRange.Count == 0)
+            return false;
+
+        Node node = Pathfinding.GetClosestPassibleNode(map, self.node, nodesInRange);
+        set.SetDestination(node);
+        return true;
     }
 
-    private bool FindNodeInMovementRange(List<Node> nodes, int movement)
+    private List<Node> FindNodesInMovementRange(List<Node> nodes, int movement)
     {
+        List<Node> nodesInRange = new List<Node>();
+
         foreach (Node node in nodes)
         {
-            int temp = Pathfinding.GetPathCostWithoutStart(map, self.node, node);
+            int temp = Pathfinding.GetPathCost(map, self.node, node);
             if (temp <= movement)
-                return true;
+                nodesInRange.Add(node);
         }
-        return false;
+        return nodesInRange;
     }
     #endregion
 }

@@ -47,7 +47,7 @@ public class UnitAnimation : MonoBehaviour
         anim.SetBool("IsMoving", true);
 
         this.path = new Queue<Node>();
-        for (int i = 1; i < path.Count; i++)
+        for (int i = 0; i < path.Count; i++)
             this.path.Enqueue(path[i]);
         nodeToMoveTo = this.path.Dequeue();
 
@@ -130,7 +130,13 @@ public class UnitAnimation : MonoBehaviour
     #region Attack Methods
     IEnumerator Attack()
     {
-        Vector3 dir = player.GetTarget().node.GetStandingPoint() - unit.node.GetStandingPoint();
+        Unit target;
+        if (unit.unitType == Unit.UnitType.Player)
+            target = player.GetTarget();
+        else
+            target = unit.behavior.target;
+
+        Vector3 dir = target.node.GetStandingPoint() - unit.node.GetStandingPoint();
         RotateUnit(dir);
         BasicAttack();
         yield return new WaitForSeconds(0.1f);
