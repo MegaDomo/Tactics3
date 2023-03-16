@@ -5,6 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class UnitStats
 {
+    [Header("Attributes")]
+    public bool isAggressive;
+
     [Header("Character Stats")]
     public int maxHealth;
     public int curHealth;
@@ -24,6 +27,7 @@ public class UnitStats
     public int inflictionResist;
 
     [Header("Hidden Stats")]
+    public int aggro;
     public int moved = 0;
     public int pathingSpeed = 10;    
 }

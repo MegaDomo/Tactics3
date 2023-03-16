@@ -8,6 +8,7 @@ public class Behavior : ScriptableObject
 
     [HideInInspector] public Unit target;
     [HideInInspector] public Unit self;
+    [HideInInspector] public Unit tauntedPlayer;
     [HideInInspector] public Node destination;
 
     public virtual void TakeTurn() { }

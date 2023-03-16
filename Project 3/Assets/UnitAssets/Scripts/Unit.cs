@@ -15,6 +15,9 @@ public class Unit : MonoBehaviour
     [Header("Attributes")]
     public UnitType unitType;
 
+    [Header("Debugging")]
+    public Unit tauntedTarget;
+
     [HideInInspector] public Node node;
     
     public UnitStats stats; // Not Hidden for Debbuging
@@ -190,6 +193,7 @@ public class Unit : MonoBehaviour
         enemyObj = enemyObject;
         UnitBehavior unitBehavior = new UnitBehavior(this);
         behavior = unitBehavior.GetBehavior();
+        behavior.tauntedPlayer = tauntedTarget;
     }
 
     public void SetIsMoving(bool value)

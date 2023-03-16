@@ -24,40 +24,27 @@ public class Attacker : Behavior
         List<Unit> players = BattleSystem.instance.players;
         List<Weapon> weapons = self.weapons;
 
-        DistributeSet(handler.GetMostDamagingWeaponSet(weapons, players));
-        
-        // Just Moving
-        if (target == null || destination == null)
+        WeaponSet chosenSet;
+
+        // Check for Taunt
+        if (tauntedPlayer != null)
         {
-            if (FindClosestTarget(players))
-            {
-                Debug.Log(self.name + " Moving As Close As Possible");
-                MoveAsCloseAsPossible();
-            }
-                
+            chosenSet = handler.GetMostDamagingWeaponSet(weapons, tauntedPlayer);
+            DistributeSet(chosenSet);
+            ChooseAction(players);
             return;
         }
-        Debug.Log(self.name + " Moving To Attack");
-        MoveToAttack();
+
+        // Get Aggro
+        chosenSet = handler.GetHighestAggroWeaponSet(weapons, players);
+        DistributeSet(chosenSet);
+        ChooseAction(players);
+        return;
+
+
+        //chosenSet = handler.GetMostDamagingWeaponSet(weapons, players);
     }
 
-    public bool FindClosestTarget(List<Unit> players)
-    {
-        // Gets all Nodes that players are on
-        List<Node> playerNodes = new List<Node>();
-        foreach (Unit player in players)
-            playerNodes.Add(player.node);
-        Node targetNode = Pathfinding.GetClosestNode(map, self.node, playerNodes);
-        target = targetNode.unit;
-        
-        if (target == null)
-        {
-            Debug.Log("No Target for: " + self.name);
-            return false;
-        }
-        return true;
-    }
-    
     #region Attacking
     private void MoveToAttack()
     {
@@ -88,6 +75,41 @@ public class Attacker : Behavior
     #endregion
 
     #region Utility
+    public bool FindClosestTarget(List<Unit> players)
+    {
+        // Gets all Nodes that players are on
+        List<Node> playerNodes = new List<Node>();
+        foreach (Unit player in players)
+            playerNodes.Add(player.node);
+
+        Node targetNode = Pathfinding.GetClosestNode(map, self.node, playerNodes);
+        target = targetNode.unit;
+
+        if (target == null)
+        {
+            Debug.Log("No Target for: " + self.name);
+            return false;
+        }
+        return true;
+    }
+
+    private void ChooseAction(List<Unit> players)
+    {
+        if (target == null)
+        {
+            if (FindClosestTarget(players))
+            {
+                MoveAsCloseAsPossible();
+            }
+            return;
+        }
+        else
+        {
+            MoveToAttack();
+            return;
+        }
+    }
+
     private void DistributeSet(WeaponSet set)
     {
         target = set.GetTarget();

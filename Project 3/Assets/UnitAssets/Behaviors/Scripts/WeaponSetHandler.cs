@@ -15,11 +15,28 @@ public class WeaponSetHandler
         this.map = map;
     }
 
+
     #region Best Weapon Set for Most Damage
     public WeaponSet GetMostDamagingWeaponSet(List<Weapon> weapons, List<Unit> players)
     {
         List<WeaponSet> inRangeSets = FindWeaponSetsInRange(weapons, players);
 
+        if (inRangeSets.Count == 0)
+        {
+            WeaponSet set = FindClosestTarget(players);
+            set = GetClosestNodeInMovementRange(set);
+            return set;
+        }
+
+        return FindHighestDamageSet(inRangeSets);
+    }
+
+    public WeaponSet GetMostDamagingWeaponSet(List<Weapon> weapons, Unit player)
+    {
+        List<WeaponSet> inRangeSets = FindWeaponSetsInRange(weapons, player);
+
+        if (inRangeSets.Count == 0)
+            return new WeaponSet(self, player, null);
         return FindHighestDamageSet(inRangeSets);
     }
 
@@ -44,10 +61,23 @@ public class WeaponSetHandler
         else
             return set2;
     }
-
     #endregion
 
     #region Best Weapon Set for HighestAggro
+    public WeaponSet GetHighestAggroWeaponSet(List<Weapon> weapons, List<Unit> players)
+    {
+        List<WeaponSet> inRangeSets = FindWeaponSetsInRange(weapons, players);
+
+        if (inRangeSets.Count == 0)
+            return FindClosestTarget(players);
+
+        return FindHighestAggroSet(inRangeSets);
+    }
+
+    private WeaponSet FindHighestAggroSet(List<WeaponSet> inRangeSets)
+    {
+        return null;
+    }
     #endregion
 
     #region Utility
@@ -64,6 +94,19 @@ public class WeaponSetHandler
                     inRangeSets.Add(set);
             }
         }
+        return inRangeSets;
+    }
+
+    private List<WeaponSet> FindWeaponSetsInRange(List<Weapon> weapons, Unit player)
+    {
+        List<WeaponSet> inRangeSets = new List<WeaponSet>();
+        // Filters out Weapons out of Range
+            foreach (Weapon weapon in weapons)
+            {
+                WeaponSet set = new WeaponSet(self, player, weapon);
+                if (InRange(set))
+                    inRangeSets.Add(set);
+            }
         return inRangeSets;
     }
 
@@ -95,6 +138,32 @@ public class WeaponSetHandler
                 nodesInRange.Add(node);
         }
         return nodesInRange;
+    }
+
+    public WeaponSet FindClosestTarget(List<Unit> players)
+    {
+        WeaponSet set;
+
+        List<Node> playerNodes = new List<Node>();
+        foreach (Unit player in players)
+            playerNodes.Add(player.node);
+
+        Node targetNode = Pathfinding.GetClosestNode(map, self.node, playerNodes);
+
+        return set = new WeaponSet(self, targetNode.unit, null, targetNode);
+    }
+
+    public WeaponSet GetClosestNodeInMovementRange(WeaponSet set)
+    {
+        List<Node> neighbors = Pathfinding.GetPassibleNeighbors(map, set.GetTarget().node);
+        if (neighbors.Count == 0)
+            return set;
+
+        Node destination = Pathfinding.GetClosestPassibleNode(map, self.node, neighbors);
+        List<Node> path = Pathfinding.GetClosestPath(map, self.node, destination, self);
+        set.SetDestination(path[path.Count - 1]);
+
+        return set;
     }
     #endregion
 }
