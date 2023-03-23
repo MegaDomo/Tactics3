@@ -8,7 +8,8 @@ public class WeaponSet
     private Unit target;
     private Weapon weapon;
     private Node destination;
-    int bestDamage;
+
+    private int bestDamage;
 
     public WeaponSet()
     {

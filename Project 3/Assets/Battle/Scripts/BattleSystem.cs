@@ -86,4 +86,11 @@ public class BattleSystem : MonoBehaviour
         foreach (Unit unit in enemies)
             units.Add(unit);
     }
+
+    #region Getters & Setters
+    public List<Unit> GetPlayers()
+    {
+        return players;
+    }
+    #endregion
 }

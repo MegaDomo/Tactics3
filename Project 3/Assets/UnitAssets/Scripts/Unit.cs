@@ -134,7 +134,7 @@ public class Unit : MonoBehaviour
     #region Attacking Methods
     #endregion
 
-    #region Setters
+    #region Getters & Setters
     public void SetWeapons(List<Weapon> weapons)
     {
         if (weapons.Count == 0)
@@ -194,6 +194,21 @@ public class Unit : MonoBehaviour
         UnitBehavior unitBehavior = new UnitBehavior(this);
         behavior = unitBehavior.GetBehavior();
         behavior.tauntedPlayer = tauntedTarget;
+    }
+
+    public Unit GetTauntedTarget()
+    {
+        return tauntedTarget;
+    }
+
+    public void SetTauntedTarget(Unit tauntedTarget)
+    {
+        this.tauntedTarget = tauntedTarget;
+    }
+
+    public void ClearTauntedTarget()
+    {
+        tauntedTarget = null;
     }
 
     public void SetIsMoving(bool value)

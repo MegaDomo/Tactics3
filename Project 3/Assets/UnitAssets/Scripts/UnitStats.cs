@@ -28,6 +28,7 @@ public class UnitStats
 
     [Header("Hidden Stats")]
     public int aggro;
+    public int aggroRange = 5;
     public int moved = 0;
     public int pathingSpeed = 10;    
 }

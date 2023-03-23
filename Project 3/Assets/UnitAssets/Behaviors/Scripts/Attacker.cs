@@ -6,44 +6,59 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Attacker", menuName = "Behaviors/Attacker")]
 public class Attacker : Behavior
 {
-    private WeaponSetHandler handler;
     private MapManager mapManager;
+    private BattleSystem battle;
+    private Behaviorology behaviorology;
+    private WeaponSetHandler handler;
     private Grid<Node> map;
 
     public Attacker(MapManager mapManager, Unit self)
     {
         mapManager = MapManager.instance;
+        battle = BattleSystem.instance;
+
         map = mapManager.GetMap();
         this.self = self;
+
         handler = new WeaponSetHandler(self, mapManager, map);
+        behaviorology = new Behaviorology(self, mapManager, map);
     }
 
     public override void TakeTurn()
     {
         mapManager = MapManager.instance;
-        List<Unit> players = BattleSystem.instance.players;
+        List<Unit> players = battle.GetPlayers();
         List<Weapon> weapons = self.weapons;
-
-        WeaponSet chosenSet;
 
         // Check for Taunt
         if (tauntedPlayer != null)
         {
-            chosenSet = handler.GetMostDamagingWeaponSet(weapons, tauntedPlayer);
-            DistributeSet(chosenSet);
-            ChooseAction(players);
+            Taunted(tauntedPlayer, weapons, players);
             return;
         }
 
         // Get Aggro
-        chosenSet = handler.GetHighestAggroWeaponSet(weapons, players);
+        Unit aggroedPlayer = behaviorology.IsAggroed(players);
+        if (aggroedPlayer != null)
+        {
+            Taunted(aggroedPlayer, weapons, players);
+            return;
+        }
+
+        // Not Aggroed
+        WeaponSet chosenSet = handler.GetMostDamagingWeaponSet(weapons, players);
         DistributeSet(chosenSet);
-        ChooseAction(players);
-        return;
-
-
-        //chosenSet = handler.GetMostDamagingWeaponSet(weapons, players);
+        ChooseAction(chosenSet, players);
     }
+
+    #region Aggro
+    public void Taunted(Unit tauntedPlayer, List<Weapon> weapons, List<Unit> players)
+    {
+        WeaponSet chosenSet = handler.GetMostDamagingWeaponSet(weapons, tauntedPlayer);
+        DistributeSet(chosenSet);
+        ChooseAction(chosenSet, players);
+    }
+    #endregion
 
     #region Attacking
     private void MoveToAttack()
@@ -54,28 +69,28 @@ public class Attacker : Behavior
     }
     #endregion
 
-    #region Moving
-    private void MoveAsCloseAsPossible()
-    {
-        List<Node> neighbors = Pathfinding.GetPassibleNeighbors(map, target.node);
-        if (neighbors.Count == 0)
-        {
-            // I believe getting here means no targets are in range whatsoever and the adjacent nodes of 
-            // the closest target are blocked. 
-            // This could be to perform another object or some kind of idle behavior
-            return;
-        }
-        destination = Pathfinding.GetClosestPassibleNode(map, self.node, neighbors);
-
-        List<Node> path = Pathfinding.GetClosestPath(map, self.node, destination, self);
-        destination = path[path.Count - 1];
-
-        Move(Pathfinding.GetClosestPassibleNode(map, self.node, destination));
-    }
-    #endregion
-
     #region Utility
-    public bool FindClosestTarget(List<Unit> players)
+    // Checking for range
+    private void ChooseAction(WeaponSet set, List<Unit> players)
+    {
+        if (set.GetWeapon() != null)
+            InRange();
+        if (set.GetWeapon() == null)
+            OutOfRange(players);
+    }
+
+    private void InRange()
+    {
+        self.SetIsAttacking(true);
+        Move(destination);
+    }
+
+    private void OutOfRange(List<Unit> players)
+    {
+        Move(destination);
+    }
+
+    public void FindClosestTarget(List<Unit> players)
     {
         // Gets all Nodes that players are on
         List<Node> playerNodes = new List<Node>();
@@ -88,25 +103,6 @@ public class Attacker : Behavior
         if (target == null)
         {
             Debug.Log("No Target for: " + self.name);
-            return false;
-        }
-        return true;
-    }
-
-    private void ChooseAction(List<Unit> players)
-    {
-        if (target == null)
-        {
-            if (FindClosestTarget(players))
-            {
-                MoveAsCloseAsPossible();
-            }
-            return;
-        }
-        else
-        {
-            MoveToAttack();
-            return;
         }
     }
 

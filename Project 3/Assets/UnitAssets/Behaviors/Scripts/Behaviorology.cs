@@ -19,6 +19,7 @@ public class Behaviorology
 
     // A method that gets a list of players in WeaponAttack Range
     #region Get Player Methods
+    
     public List<Unit> GetPlayersInWeaponRange(List<Unit> allPlayers, List<Weapon> weapons)
     {
         List<Unit> playersInWeaponRange = new List<Unit>();
@@ -58,16 +59,71 @@ public class Behaviorology
 
 
     #region Aggro Methods
-    public Unit AggroedPlayer(List<Unit> aggroPlayersInWeaponRange)
+
+    public Unit IsAggroed(List<Unit> allPlayers)
     {
-        if (aggroPlayersInWeaponRange.Count == 0)
+        List<Unit> aggroPlayers = GetPlayersWithAggroSkill(allPlayers);
+        if (aggroPlayers.Count == 0)
             return null;
-        foreach (Unit unit in aggroPlayersInWeaponRange)
+        List<Unit> aggroPlayersInRange = GetPlayersInAggroRange(aggroPlayers);
+        if (aggroPlayersInRange.Count == 0)
+            return null;
+        return AggroedPlayer(aggroPlayersInRange);
+    }
+
+    public List<Unit> GetPlayersWithAggroSkill(List<Unit> allPlayers)
+    {
+        List<Unit> aggroPlayers = new List<Unit>();
+
+        foreach (Unit player in allPlayers)
         {
-            if (Random.Range(0, 100) < unit.stats.aggro)
-                return unit;
+            if (player.stats.isAggressive)
+                aggroPlayers.Add(player);
+        }
+        return aggroPlayers;
+    }
+
+    private List<Unit> GetPlayersInAggroRange(List<Unit> aggroPlayers)
+    {
+        List<Unit> aggroPlayersInRange = new List<Unit>();
+
+        foreach (Unit player in aggroPlayers)
+        {
+            if (Pathfinding.GetDistance(map, self.node, player.node) <= player.stats.aggroRange)
+                aggroPlayersInRange.Add(player);
+        }
+        return aggroPlayersInRange;
+    }
+
+    public Unit AggroedPlayer(List<Unit> aggroPlayersInRange)
+    {
+        aggroPlayersInRange = GetDescendingAggroList(aggroPlayersInRange);
+
+        foreach (Unit player in aggroPlayersInRange)
+        {
+            if (Random.Range(0, 100) <= player.stats.aggro)
+                return player;
         }
         return null;
+    }
+
+    private List<Unit> GetDescendingAggroList(List<Unit> aggroPlayersInRange)
+    {
+        List<int> aggroValue = new List<int>();
+        List<Unit> temp = new List<Unit>();
+        foreach (Unit player in aggroPlayersInRange)
+            aggroValue.Add(player.stats.aggro);
+
+        // Check if Descending
+        aggroValue.Sort();
+        aggroValue.Reverse();
+
+        foreach (int value in aggroValue)
+            foreach (Unit player in aggroPlayersInRange)
+                if (value == player.stats.aggro)
+                    temp.Add(player);
+
+        return temp;
     }
     #endregion
 

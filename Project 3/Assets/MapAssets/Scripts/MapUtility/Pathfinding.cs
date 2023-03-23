@@ -122,6 +122,7 @@ public static class Pathfinding
 
         path.Add(current);
         path.Reverse();
+        path.RemoveAt(path.Count - 1);
         return path;
     }
     #endregion
@@ -133,7 +134,7 @@ public static class Pathfinding
     {
         List<Node> path = AStarWithStart(grid, start, end);
         int nodeCost = GetNodeCostFromMovement(path, unit.MovementLeft());
-        path.RemoveRange(nodeCost, path.Count - nodeCost);
+        path.RemoveRange(nodeCost + 1, path.Count - nodeCost - 1);
         return path;
     }
 
@@ -242,6 +243,14 @@ public static class Pathfinding
         return GetPathCost(path);
     }
 
+    public static int GetPathCostWithStart(Grid<Node> grid, Node start, Node end)
+    {
+        List<Node> path = AStarWithStart(grid, start, end);
+        if (path.Count == 0)
+            return -1;
+        return GetPathCost(path);
+    }
+
     public static int GetPathCostWithoutStart(List<Node> path)
     {
         int pathCost = 0;
@@ -272,6 +281,7 @@ public static class Pathfinding
                 break;
             nodeCost++;
         }
+        Debug.Log(nodeCost);
         return nodeCost;
     }
     #endregion

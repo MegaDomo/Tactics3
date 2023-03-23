@@ -15,7 +15,6 @@ public class WeaponSetHandler
         this.map = map;
     }
 
-
     #region Best Weapon Set for Most Damage
     public WeaponSet GetMostDamagingWeaponSet(List<Weapon> weapons, List<Unit> players)
     {
@@ -36,16 +35,19 @@ public class WeaponSetHandler
         List<WeaponSet> inRangeSets = FindWeaponSetsInRange(weapons, player);
 
         if (inRangeSets.Count == 0)
-            return new WeaponSet(self, player, null);
+        {
+            WeaponSet set = new WeaponSet(self, player, null);
+            set = GetClosestNodeInMovementRange(set);
+            return set;
+        }
+            
         return FindHighestDamageSet(inRangeSets);
     }
 
     private WeaponSet FindHighestDamageSet(List<WeaponSet> inRangeSets)
     {
         WeaponSet bestSet = new WeaponSet(null, null, null);
-        // No Weapon was in Range
-        if (inRangeSets.Count == 0)
-            return bestSet;
+        
         bestSet = inRangeSets[0];
 
         foreach (WeaponSet set in inRangeSets)
@@ -60,23 +62,6 @@ public class WeaponSetHandler
             return set1;
         else
             return set2;
-    }
-    #endregion
-
-    #region Best Weapon Set for HighestAggro
-    public WeaponSet GetHighestAggroWeaponSet(List<Weapon> weapons, List<Unit> players)
-    {
-        List<WeaponSet> inRangeSets = FindWeaponSetsInRange(weapons, players);
-
-        if (inRangeSets.Count == 0)
-            return FindClosestTarget(players);
-
-        return FindHighestAggroSet(inRangeSets);
-    }
-
-    private WeaponSet FindHighestAggroSet(List<WeaponSet> inRangeSets)
-    {
-        return null;
     }
     #endregion
 
@@ -133,7 +118,7 @@ public class WeaponSetHandler
 
         foreach (Node node in nodes)
         {
-            int temp = Pathfinding.GetPathCost(map, self.node, node);
+            int temp = Pathfinding.GetPathCostWithStart(map, self.node, node);
             if (temp <= movement)
                 nodesInRange.Add(node);
         }
@@ -142,26 +127,30 @@ public class WeaponSetHandler
 
     public WeaponSet FindClosestTarget(List<Unit> players)
     {
-        WeaponSet set;
-
         List<Node> playerNodes = new List<Node>();
         foreach (Unit player in players)
             playerNodes.Add(player.node);
 
         Node targetNode = Pathfinding.GetClosestNode(map, self.node, playerNodes);
 
-        return set = new WeaponSet(self, targetNode.unit, null, targetNode);
+        return new WeaponSet(self, targetNode.unit, null, targetNode);
     }
 
     public WeaponSet GetClosestNodeInMovementRange(WeaponSet set)
     {
         List<Node> neighbors = Pathfinding.GetPassibleNeighbors(map, set.GetTarget().node);
         if (neighbors.Count == 0)
+        {
+            // TODO : 
+            // This indicates all possibilities are block and needs to trigger some idle behavior
+            // Maybe Find Secondary Target
             return set;
+        }
 
         Node destination = Pathfinding.GetClosestPassibleNode(map, self.node, neighbors);
         List<Node> path = Pathfinding.GetClosestPath(map, self.node, destination, self);
         set.SetDestination(path[path.Count - 1]);
+        Debug.Log(path.Count);
 
         return set;
     }
