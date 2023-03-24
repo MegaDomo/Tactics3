@@ -33,6 +33,11 @@ public class MapManager : MonoBehaviour
         return Pathfinding.AStar(map, start, end);
     }
 
+    public List<Node> GetPathWithStart(Node start, Node end)
+    {
+        return Pathfinding.AStarWithStart(map, start, end);
+    }
+
     public int GetPathCost(List<Node> path)
     {
         return Pathfinding.GetPathCost(path);

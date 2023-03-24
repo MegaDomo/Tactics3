@@ -26,20 +26,33 @@ public class UnitAnimation : MonoBehaviour
     #region Movement Methods
     public void Move(List<Node> path)
     {
+        if (path.Count == 0)
+        {
+            CheckAttack();
+            return;
+        }
         ReadyMoveValues(path);
     }
 
     private void StopMoving()
     {
         ResetMoveValues();
+        CheckAttack();
+    }
 
+    private void CheckAttack()
+    {
         if (IsAttacking())
         {
-            StartCoroutine(Attack());
+            Attack();
             return;
         }
-
         EndTurn();
+    }
+
+    public void Attack()
+    {
+        StartCoroutine(AttackAnimation());
     }
 
     private void ReadyMoveValues(List<Node> path)
@@ -128,7 +141,7 @@ public class UnitAnimation : MonoBehaviour
     #endregion
 
     #region Attack Methods
-    IEnumerator Attack()
+    IEnumerator AttackAnimation()
     {
         Unit target;
         if (unit.unitType == Unit.UnitType.Player)

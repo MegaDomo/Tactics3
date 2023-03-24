@@ -1854,7 +1854,9 @@ MonoBehaviour:
   vfx: {fileID: 6338569600576153574}
   anim: {fileID: 2380982989208113978}
   unitType: 1
+  tauntedTarget: {fileID: 0}
   stats:
+    isAggressive: 0
     maxHealth: 10
     curHealth: 10
     movement: 5
@@ -1870,8 +1872,10 @@ MonoBehaviour:
     critDamage: 0
     inflictionChance: 0
     inflictionResist: 0
+    aggro: 0
+    aggroRange: 5
     moved: 0
-    pathingSpeed: 25
+    pathingSpeed: 56
   equippedWeapon: {fileID: 0}
   weapons:
   - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}

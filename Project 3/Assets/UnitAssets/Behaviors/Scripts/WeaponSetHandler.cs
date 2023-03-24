@@ -102,12 +102,25 @@ public class WeaponSetHandler
 
         List<Node> potentialAttackNodes = Pathfinding.GetHollowDiamond(map, player.node, weapon.range, weapon.minRange);
 
+        foreach (Node node1 in potentialAttackNodes)
+        {
+            if (self.node == node1)
+            {
+                set.SetDestination(node1);
+                return true;
+            }
+        }
+
         List<Node> nodesInRange = FindNodesInMovementRange(potentialAttackNodes, self.MovementLeft());
 
         if (nodesInRange.Count == 0)
             return false;
 
         Node node = Pathfinding.GetClosestPassibleNode(map, self.node, nodesInRange);
+
+        if (node == null)
+            return false;
+
         set.SetDestination(node);
         return true;
     }

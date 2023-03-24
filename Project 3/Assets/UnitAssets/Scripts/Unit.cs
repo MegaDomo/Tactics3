@@ -40,6 +40,10 @@ public class Unit : MonoBehaviour
     private void Update()
     {
         unitAnim.MoveUnit();
+
+        if (behavior == null)
+            return;
+        behavior.SetTauntedPlayer(tauntedTarget);
     }
 
     public void SetupUnit()
@@ -112,9 +116,6 @@ public class Unit : MonoBehaviour
     #region Movement
     public void Move(Node destination)
     {
-        /*if (!mapManager.CanMove(this, node, destination))
-            return;*/
-
         List<Node> path = mapManager.GetPath(node, destination);
         int pathCost = mapManager.GetPathCost(path);
 
@@ -132,6 +133,11 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Attacking Methods
+    public void Attack()
+    {
+        unitAnim.SetIsAttacking(true);
+        unitAnim.Attack();
+    }
     #endregion
 
     #region Getters & Setters
@@ -194,16 +200,6 @@ public class Unit : MonoBehaviour
         UnitBehavior unitBehavior = new UnitBehavior(this);
         behavior = unitBehavior.GetBehavior();
         behavior.tauntedPlayer = tauntedTarget;
-    }
-
-    public Unit GetTauntedTarget()
-    {
-        return tauntedTarget;
-    }
-
-    public void SetTauntedTarget(Unit tauntedTarget)
-    {
-        this.tauntedTarget = tauntedTarget;
     }
 
     public void ClearTauntedTarget()

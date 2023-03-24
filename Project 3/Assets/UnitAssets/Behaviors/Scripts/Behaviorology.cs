@@ -59,7 +59,6 @@ public class Behaviorology
 
 
     #region Aggro Methods
-
     public Unit IsAggroed(List<Unit> allPlayers)
     {
         List<Unit> aggroPlayers = GetPlayersWithAggroSkill(allPlayers);

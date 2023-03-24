@@ -134,6 +134,7 @@ public static class Pathfinding
     {
         List<Node> path = AStarWithStart(grid, start, end);
         int nodeCost = GetNodeCostFromMovement(path, unit.MovementLeft());
+        Debug.Log("NodeCost: " + nodeCost + " : " + "Path.Count: " + path.Count);
         path.RemoveRange(nodeCost + 1, path.Count - nodeCost - 1);
         return path;
     }

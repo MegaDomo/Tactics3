@@ -15,6 +15,24 @@ public class Behavior : ScriptableObject
 
     public void Move(Node destination)
     {
+        if (destination == null)
+        {
+            Debug.Log(self.name + " Cannot move because Destination is Null");
+            // TODO : trigger some idle behavior
+            return;
+        }
+
         self.Move(destination);
     }
+
+    public Unit GetTauntedPlayer()
+    {
+        return tauntedPlayer;
+    }
+
+    public void SetTauntedPlayer(Unit tauntedPlayer)
+    {
+        this.tauntedPlayer = tauntedPlayer;
+    }
+
 }
