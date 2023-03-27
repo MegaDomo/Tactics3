@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ShoveAbility", menuName = "Abilities/Shove")]
-public class ShoveAbility : ScriptableObject, Ability
+
+public class ShoveAbility : Ability
 {
     private int power;
     private int range;
@@ -28,7 +28,7 @@ public class ShoveAbility : ScriptableObject, Ability
     #endregion
 
     public int pushDistance;
-    public void Activate()
+    public override void Activate()
     { 
 
     }

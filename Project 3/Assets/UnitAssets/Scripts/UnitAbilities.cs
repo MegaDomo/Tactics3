@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class UnitAbilities : MonoBehaviour
 {
-
+    public List<Ability> abilities;
 }
