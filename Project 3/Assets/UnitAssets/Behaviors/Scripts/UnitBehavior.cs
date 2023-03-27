@@ -7,13 +7,11 @@ public class UnitBehavior
     private Unit unit;
     private Behavior behavior;
     private EnemyObject.BehaviorType behaviorType;
-    private Unit.UnitType unitType;
 
-    public UnitBehavior(Unit unit)
+    public UnitBehavior(Unit unit, EnemyObject enemyObject)
     {
         this.unit = unit;
-        behaviorType = unit.enemyObj.behaviorType;
-        unitType = unit.unitType;
+        behaviorType = enemyObject.behaviorType;
 
         SetBehavior();
         behavior.self = unit;

@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
 
     public IEnumerator StartTurn()
     {
-        behavior = selected.behavior;
+        behavior = selected.enemy.behavior;
         behavior.self = selected;
         behavior.TakeTurn();
 
@@ -41,6 +41,7 @@ public class EnemyAI : MonoBehaviour
         behavior.target.TakeDamage(selected, selected.equippedWeapon);
     }
     #endregion
+
     #region Setters
     public void SetSelected(Unit _selected)
     {

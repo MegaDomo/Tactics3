@@ -48,7 +48,7 @@ public class Attacker : Behavior
         // Not Aggroed
         WeaponSet chosenSet = handler.GetMostDamagingWeaponSet(weapons, players);
         DistributeSet(chosenSet);
-        ChooseAction(chosenSet, players);
+        ChooseAction(chosenSet);
     }
 
     #region Aggro
@@ -56,7 +56,7 @@ public class Attacker : Behavior
     {
         WeaponSet chosenSet = handler.GetMostDamagingWeaponSet(weapons, tauntedPlayer);
         DistributeSet(chosenSet);
-        ChooseAction(chosenSet, players);
+        ChooseAction(chosenSet);
     }
     #endregion
 
@@ -71,12 +71,12 @@ public class Attacker : Behavior
 
     #region Utility
     // Checking for range
-    private void ChooseAction(WeaponSet set, List<Unit> players)
+    private void ChooseAction(WeaponSet set)
     {
         if (set.GetWeapon() != null)
             InRange();
         if (set.GetWeapon() == null)
-            OutOfRange(players);
+            OutOfRange();
     }
 
     private void InRange()
@@ -85,7 +85,7 @@ public class Attacker : Behavior
         Move(destination);
     }
 
-    private void OutOfRange(List<Unit> players)
+    private void OutOfRange()
     {
         Move(destination);
     }

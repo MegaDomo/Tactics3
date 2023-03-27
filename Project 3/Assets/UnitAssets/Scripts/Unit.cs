@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     [Header("Unity References")]
     public Transform ground;
     public Transform weaponPoint;
+    public Transform EffectPoint;
     public Transform vfx;
     public Animator anim;
 
@@ -24,11 +25,11 @@ public class Unit : MonoBehaviour
     
     [HideInInspector] public Weapon equippedWeapon;
     [HideInInspector] public List<Weapon> weapons;
-    [HideInInspector] public List<Ability> abilities;
     [HideInInspector] public List<Item> items;
 
-    [HideInInspector] public EnemyObject enemyObj;
-    [HideInInspector] public Behavior behavior;
+    [HideInInspector] public Enemy enemy;
+    [HideInInspector] public Player player;
+    [HideInInspector] public UnitAbilities unitAbilities;
 
     [HideInInspector] public UnitAnimation unitAnim;
 
@@ -41,9 +42,9 @@ public class Unit : MonoBehaviour
     {
         unitAnim.MoveUnit();
 
-        if (behavior == null)
+        if (enemy == null)
             return;
-        behavior.SetTauntedPlayer(tauntedTarget);
+        enemy.behavior.SetTauntedPlayer(tauntedTarget);
     }
 
     public void SetupUnit()
@@ -51,6 +52,7 @@ public class Unit : MonoBehaviour
         offset = transform.position - ground.position;
         mapManager = MapManager.instance;
         unitAnim = GetComponent<UnitAnimation>();
+        unitAbilities = GetComponent<UnitAbilities>();
         if (unitType == UnitType.Player)
             SetAsPlayer();
         if (unitType == UnitType.Enemy)
@@ -165,10 +167,7 @@ public class Unit : MonoBehaviour
 
     public void SetAbilities(List<Ability> abilities)
     {
-        if (abilities.Count == 0)
-            return;
-
-        this.abilities = abilities;
+        
     }
 
     public void SetInventory(List<Item> items)
@@ -181,30 +180,24 @@ public class Unit : MonoBehaviour
 
     public void SetAsPlayer()
     {
-        unitType = UnitType.Player;
-        stats = GetComponent<Player>().stats;
+        player = GetComponent<Player>();
+        if (player == null)
+        {
+            Debug.Log("No Player Data to Set for: " + name);
+            return;
+        }
+        stats = player.stats;
     }
 
     public void SetAsEnemy()
     {
-        EnemyObject enemyObject = GetComponent<Enemy>().enemyObject;
-        if (enemyObject == null)
+        enemy = GetComponent<Enemy>();
+        if (enemy == null)
         {
             Debug.Log("No Enemy Data to Set for: " + name);
             return;
         }
-            
-        gameObject.tag = "Enemy";
-        unitType = UnitType.Enemy;
-        enemyObj = enemyObject;
-        UnitBehavior unitBehavior = new UnitBehavior(this);
-        behavior = unitBehavior.GetBehavior();
-        behavior.tauntedPlayer = tauntedTarget;
-    }
-
-    public void ClearTauntedTarget()
-    {
-        tauntedTarget = null;
+        enemy.SetupEnemy(this);
     }
 
     public void SetIsMoving(bool value)

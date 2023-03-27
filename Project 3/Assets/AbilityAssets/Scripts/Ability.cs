@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ability : ScriptableObject
+public interface Ability
 {
-    public int power;
-    public int range;
-    public int cooldown;
+    public int Power { get; set; }
+    public int Range{ get; set; }
+    public int Cooldown{ get; set; }
 
-    public virtual void Activate() { }
+    public void Activate();
 }

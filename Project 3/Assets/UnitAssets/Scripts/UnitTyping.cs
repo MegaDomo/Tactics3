@@ -18,8 +18,5 @@ public class UnitTyping : MonoBehaviour
 
     private void Start()
     {
-        Unit unit = GetComponent<Unit>();
-        unit.unitType = unitType;
-        unit.enemyObj = enemyObject;
     }
 }

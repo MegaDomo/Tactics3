@@ -35,4 +35,9 @@ public class Behavior : ScriptableObject
         this.tauntedPlayer = tauntedPlayer;
     }
 
+    public void ClearTauntedPlayer()
+    {
+        tauntedPlayer = null;
+    }
+
 }
