@@ -23,4 +23,11 @@ public class Player : ScriptableObject
         stats.curHealth -= amount;
         healthChangeEvent.Invoke(stats.curHealth, stats.maxHealth);
     }
+
+    public void SetHealth(int amount)
+    {
+        stats.maxHealth = amount;
+        stats.curHealth = stats.maxHealth;
+        healthChangeEvent.Invoke(stats.curHealth, stats.maxHealth);
+    }
 }

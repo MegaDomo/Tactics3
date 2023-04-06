@@ -5,8 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelector : MonoBehaviour
 {
+    [Header("Unity References")]
+    public LevelSelectPlayerUI playerUI;
+
     public void PlayLevelButton()
     {
+        playerUI.SetPlayerObject();
         SceneManager.LoadScene(1);
     }
 }
