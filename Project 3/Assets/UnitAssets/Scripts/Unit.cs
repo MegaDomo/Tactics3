@@ -85,13 +85,14 @@ public class Unit : MonoBehaviour
         if (weapon.damageType == Weapon.DamageType.Physical)
         {
             damage = attacker.stats.attack + weapon.damage;
-            stats.curHealth -= damage - stats.defense < 0 ? 0 : damage - stats.defense;
+            player.DecreaseHealth(damage - stats.defense < 0 ? 0 : damage - stats.defense);
         }
         if (weapon.damageType == Weapon.DamageType.Magical)
         {
             damage = attacker.stats.spAttack + weapon.damage;
-            stats.curHealth -= damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense;
+            player.DecreaseHealth(damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense);
         }
+
     }
     public void TakePhysicalDamage(int damage)
     {
@@ -180,13 +181,6 @@ public class Unit : MonoBehaviour
 
     public void SetAsPlayer()
     {
-        player = GetComponent<Player>();
-        if (player == null)
-        {
-            Debug.Log("No Player Data to Set for: " + name);
-            return;
-        }
-        stats = player.stats;
     }
 
     public void SetAsEnemy()

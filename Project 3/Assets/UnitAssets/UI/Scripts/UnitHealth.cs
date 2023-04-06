@@ -4,17 +4,16 @@ using UnityEngine.UI;
 public class UnitHealth : MonoBehaviour
 {
     [Header("Unity References")]
+    public Player player;
     public Image fillImage;
-
-    private UnitStats stats;
 
     private void Start()
     {
-        stats = GetComponent<Unit>().stats;
+        player.healthChangeEvent.AddListener(ChangeHealthBar);
     }
 
-    private void Update()
+    public void ChangeHealthBar(int curHealth, int maxHealth)
     {
-        fillImage.fillAmount = stats.curHealth / stats.maxHealth;
+        fillImage.fillAmount = curHealth / maxHealth;
     }
 }

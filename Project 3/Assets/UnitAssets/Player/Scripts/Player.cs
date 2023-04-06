@@ -1,9 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Player : MonoBehaviour
+[CreateAssetMenu(fileName = "NewPlayer", menuName = "Units/Player")]
+public class Player : ScriptableObject
 {
-    [Header("Debugging")]
+    public new string name;
+    public Sprite portrait; 
     public UnitStats stats;
+
+    [System.NonSerialized]
+    public UnityEvent<int, int> healthChangeEvent;
+
+    private void OnEnable()
+    {
+        stats.curHealth = stats.maxHealth;
+        if (healthChangeEvent == null)
+            healthChangeEvent = new UnityEvent<int, int>();
+    }
+
+    public void DecreaseHealth(int amount)
+    {
+        stats.curHealth -= amount;
+        healthChangeEvent.Invoke(stats.curHealth, stats.maxHealth);
+    }
 }
