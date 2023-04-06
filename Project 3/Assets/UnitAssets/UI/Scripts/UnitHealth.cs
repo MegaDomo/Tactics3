@@ -9,6 +9,7 @@ public class UnitHealth : MonoBehaviour
 
     private void Start()
     {
+        ChangeHealthBar(player.stats.curHealth, player.stats.maxHealth);
         player.healthChangeEvent.AddListener(ChangeHealthBar);
     }
 
