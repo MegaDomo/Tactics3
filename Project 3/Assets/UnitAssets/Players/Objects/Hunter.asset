@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c482d8e0906bcfc4890c597fb95e48c1, type: 3}
+  m_Name: Hunter
+  m_EditorClassIdentifier: 
+  name: 
+  portrait: {fileID: 0}
+  stats:
+    isAggressive: 0
+    maxHealth: 0
+    curHealth: 0
+    movement: 0
+    speed: 0
+    vision: 0
+    attack: 0
+    spAttack: 0
+    defense: 0
+    spDefense: 0
+    accuracy: 0
+    avoidance: 0
+    critChance: 0
+    critDamage: 0
+    inflictionChance: 0
+    inflictionResist: 0
+    aggro: 0
+    aggroRange: 5
+    moved: 0
+    pathingSpeed: 10

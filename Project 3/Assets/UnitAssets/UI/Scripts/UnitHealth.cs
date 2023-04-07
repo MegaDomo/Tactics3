@@ -15,6 +15,8 @@ public class UnitHealth : MonoBehaviour
 
     public void ChangeHealthBar(int curHealth, int maxHealth)
     {
-        fillImage.fillAmount = curHealth / maxHealth;
+        float cur = (float)curHealth;
+        float max = (float)maxHealth;
+        fillImage.fillAmount = cur / max;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 
@@ -6,14 +7,23 @@ public class LevelSelectPlayerUI : MonoBehaviour
 {
     [Header("Unity References")]
     public Player player;
-    public TextMeshProUGUI hpInput;
+    public TMP_InputField field;
 
     public void SetPlayerObject()
     {
-        if (hpInput.text == String.Empty)
+        if (field.text == String.Empty)
             return;
-        if (!int.TryParse(hpInput.text, out int x))
+
+        int x = 0;
+        string value = field.text;
+        Debug.Log(value);
+        if (!int.TryParse(value, out x))
+        {
+            Debug.Log("Here");
             return;
+        }
+            
+            
         player.SetHealth(x);
     }
 }

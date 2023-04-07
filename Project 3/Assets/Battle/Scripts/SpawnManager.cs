@@ -15,10 +15,10 @@ public class SpawnManager : MonoBehaviour
     private List<Unit> enemies;
     private Grid<Node> map;
     
-    public void SpawnUnits()
+    public void SpawnUnits(List<Player> playerObjs, int numOfEnemies)
     {
-        InstantiatePlayerUnits(players);
-        InstantiateEnemyUnits(enemies);
+        InstantiatePlayerUnits(playerObjs);
+        InstantiateEnemyUnits(numOfEnemies);
     }
 
     public void PlaceUnits(Grid<Node> map)
@@ -51,12 +51,12 @@ public class SpawnManager : MonoBehaviour
         // Randoms w/ Weights
     }
 
-    public void InstantiatePlayerUnits(List<Unit> units)
+    public void InstantiatePlayerUnits(List<Player> playerObjs)
     {
-        if (units.Count == 0)
+        if (playerObjs.Count == 0)
             return;
 
-        players = CreateUnits(units, playerPrefab);
+        players = CreatePlayerUnits(playerObjs, playerPrefab);
     }
     #endregion
 
@@ -74,12 +74,12 @@ public class SpawnManager : MonoBehaviour
         return map.GetGridObject(Random.Range(0, map.GetSize()), Random.Range(0, map.GetSize()));
     }
 
-    public void InstantiateEnemyUnits(List<Unit> units)
+    public void InstantiateEnemyUnits(int num)
     {
-        if (units.Count == 0)
+        if (num == 0)
             return;
 
-        enemies = CreateUnits(units, enemyPrefab);
+        enemies = CreateEnemyUnits(num, enemyPrefab);
     }
     #endregion
 
@@ -137,14 +137,27 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private List<Unit> CreateUnits(List<Unit> unitsToCreate, GameObject prefab)
+    private List<Unit> CreatePlayerUnits(List<Player> playerObjs, GameObject prefab)
     {
         List<Unit> tempUnits = new List<Unit>();
-        foreach (Unit unit in unitsToCreate)
+        foreach (Player player in playerObjs)
         {
             GameObject clone = Instantiate(prefab);
             Unit cloneUnit = clone.GetComponent<Unit>();
-            cloneUnit.SetupUnit();
+            cloneUnit.SetAsPlayer(player);
+            tempUnits.Add(cloneUnit);
+        }
+        return tempUnits;
+    }
+
+    private List<Unit> CreateEnemyUnits(int numToCreate, GameObject prefab)
+    {
+        List<Unit> tempUnits = new List<Unit>();
+        for (int i = 0; i < numToCreate; i++)
+        {
+            GameObject clone = Instantiate(prefab);
+            Unit cloneUnit = clone.GetComponent<Unit>();
+            cloneUnit.SetAsEnemy();
             tempUnits.Add(cloneUnit);
         }
         return tempUnits;

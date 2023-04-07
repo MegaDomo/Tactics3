@@ -2937,15 +2937,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cade0a6b0346d4f9344a3f314d0823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  players:
+  - {fileID: 11400000, guid: 336f08040a65e0047bd87316fa7323c1, type: 2}
   makeRandomMap: 0
   spawnUnits: 1
+  numOfEnemies: 2
   haveCombat: 1
   editLevelOnRunTime: 0
   maker: {fileID: 345424373}
   mapManager: {fileID: 2120947107}
   battleSystem: {fileID: 637372065}
   spawner: {fileID: 1641815416}
-  distribution: {fileID: 1641815417}
 --- !u!114 &310017295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16173,7 +16175,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1641815415}
   - component: {fileID: 1641815416}
-  - component: {fileID: 1641815417}
   m_Layer: 0
   m_Name: SpawnManager
   m_TagString: Untagged
@@ -16211,25 +16212,6 @@ MonoBehaviour:
   battleSystem: {fileID: 637372065}
   playerPrefab: {fileID: 8769162474166777809, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
   enemyPrefab: {fileID: 8769162474166777809, guid: 259ddf72b7596fd4caa0f417f0b60aaf, type: 3}
---- !u!114 &1641815417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641815414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afbbb7be593850e44b08cb06b9a467dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawner: {fileID: 1641815416}
-  units:
-  - {fileID: 8769162474166777822, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
-  - {fileID: 8769162474166777822, guid: 259ddf72b7596fd4caa0f417f0b60aaf, type: 3}
-  - {fileID: 8769162474166777822, guid: 259ddf72b7596fd4caa0f417f0b60aaf, type: 3}
-  - {fileID: 8769162474166777822, guid: 259ddf72b7596fd4caa0f417f0b60aaf, type: 3}
-  - {fileID: 8769162474166777822, guid: 259ddf72b7596fd4caa0f417f0b60aaf, type: 3}
 --- !u!1001 &1642879295
 PrefabInstance:
   m_ObjectHideFlags: 0

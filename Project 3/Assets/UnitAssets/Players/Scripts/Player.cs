@@ -5,7 +5,9 @@ using UnityEngine.Events;
 public class Player : ScriptableObject
 {
     public new string name;
-    public Sprite portrait; 
+    public Sprite portrait;
+    public Sprite fullBody;
+    public GameObject prefab;
     public UnitStats stats;
 
     [System.NonSerialized]

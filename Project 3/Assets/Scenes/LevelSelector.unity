@@ -839,7 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 11400000, guid: 336f08040a65e0047bd87316fa7323c1, type: 2}
-  hpInput: {fileID: 174896073}
+  field: {fileID: 864049188}
 --- !u!1 &864049186
 GameObject:
   m_ObjectHideFlags: 0

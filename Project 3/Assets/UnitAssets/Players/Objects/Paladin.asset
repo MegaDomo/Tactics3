@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c482d8e0906bcfc4890c597fb95e48c1, type: 3}
-  m_Name: Michael
+  m_Name: Paladin
   m_EditorClassIdentifier: 
-  name: Michael
+  name: 
   portrait: {fileID: 0}
   stats:
     isAggressive: 0
-    maxHealth: 10
+    maxHealth: 0
     curHealth: 0
-    movement: 12
+    movement: 0
     speed: 0
     vision: 0
-    attack: 2
+    attack: 0
     spAttack: 0
-    defense: 1
+    defense: 0
     spDefense: 0
     accuracy: 0
     avoidance: 0

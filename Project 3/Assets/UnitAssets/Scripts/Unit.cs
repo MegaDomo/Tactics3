@@ -52,11 +52,7 @@ public class Unit : MonoBehaviour
         offset = transform.position - ground.position;
         mapManager = MapManager.instance;
         unitAnim = GetComponent<UnitAnimation>();
-        unitAbilities = GetComponent<UnitAbilities>();
-        if (unitType == UnitType.Player)
-            SetAsPlayer();
-        if (unitType == UnitType.Enemy)
-            SetAsEnemy();
+        unitAbilities = GetComponent<UnitAbilities>();        
     }
 
     #region Turn Methods
@@ -179,12 +175,15 @@ public class Unit : MonoBehaviour
         this.items = items;
     }
 
-    public void SetAsPlayer()
+    public void SetAsPlayer(Player player)
     {
+        SetupUnit();
+        this.player = player;
     }
 
     public void SetAsEnemy()
     {
+        SetupUnit();
         enemy = GetComponent<Enemy>();
         if (enemy == null)
         {

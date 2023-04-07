@@ -13,9 +13,13 @@ public class GameMaster : MonoBehaviour
     }
     #endregion
 
+    [Header("Players")]
+    public List<Player> players;
+
     [Header("Level Editor: Settings of Next Run")]
     public bool makeRandomMap;
     public bool spawnUnits;
+    public int numOfEnemies;
     public bool haveCombat;
     public bool editLevelOnRunTime;
 
@@ -24,7 +28,6 @@ public class GameMaster : MonoBehaviour
     public MapManager mapManager;
     public BattleSystem battleSystem;
     public SpawnManager spawner;
-    public UnitDistribution distribution;
 
     private void Start()
     {
@@ -33,12 +36,10 @@ public class GameMaster : MonoBehaviour
         // TODO : Determine if Static Map or RNG Map
         maker.SetUp(makeRandomMap);
 
-        distribution.DistributeUnits();
-
         // Spawn Unit on the Map : When units are spawned add to list
         if (spawnUnits)
         {
-            spawner.SpawnUnits();
+            spawner.SpawnUnits(players, numOfEnemies);
             spawner.PlaceUnits(maker.map);
         }
 
