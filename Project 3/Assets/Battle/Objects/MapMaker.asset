@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c79df396a351b44b242f2ae0483890, type: 3}
+  m_Name: MapMaker
+  m_EditorClassIdentifier: 
+  terrains: []
+  lowSaturationPercentage: 0
+  mediumSaturationPercentage: 0
+  highSaturationPercentage: 0
+  whichTerrain: 
+  gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
+  forecastTile: {fileID: 2049764188928731931, guid: 4bd73d927e9359d45ad9319ced1ad30c, type: 3}
+  manager: {fileID: 0}
+  stepSize: 5
+  cellSize: 10
+  minMapSize: 15
+  maxMapSize: 15

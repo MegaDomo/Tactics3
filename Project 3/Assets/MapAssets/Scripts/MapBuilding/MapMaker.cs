@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapMaker : MonoBehaviour
+[CreateAssetMenu(fileName = "NewMapMaker", menuName = "Managers/Map Maker")]
+public class MapMaker : ScriptableObject
 {
     [Header("Testing")]
     public List<TerrainKit> terrains;
@@ -12,9 +13,12 @@ public class MapMaker : MonoBehaviour
     public int highSaturationPercentage;
     public string whichTerrain;
 
+    [Header("ScriptableObject References")]
+    public GameMaster gameMaster;
+
     [Header("Unity References")]
     public GameObject forecastTile;
-    public Transform startingPoint;
+    
     public MapManager manager;
 
     [Header("Attributes")]
@@ -25,14 +29,16 @@ public class MapMaker : MonoBehaviour
 
     [HideInInspector] public Grid<Node> map;
 
-    private bool makeRandomMap;
     private int size;
     private List<int> saturation = new List<int>();
 
-    public void SetUp(bool makeRandomMap)
+    public void OnEnable()
     {
-        this.makeRandomMap = makeRandomMap;
+        gameMaster.makeMapEvent.AddListener(SetUp);
+    }
 
+    public void SetUp(Transform startingPoint, bool makeRandomMap)
+    {
         // Initializers
         size = Random.Range(minMapSize, maxMapSize);
         map = new Grid<Node>(size, cellSize, startingPoint.position, () => new Node());
@@ -67,7 +73,7 @@ public class MapMaker : MonoBehaviour
         }
 
         // When Finishes, Performs Handoff
-        manager.SetMapData(map, stepSize);
+        gameMaster.SetMap(map);
     }
 
     #region Get Map

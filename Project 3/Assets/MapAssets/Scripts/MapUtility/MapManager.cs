@@ -16,15 +16,13 @@ public class MapManager : MonoBehaviour
     [Header("Attributes")]
     public float pathingSpeed;
 
-    [HideInInspector] public int stepSize;
     [HideInInspector] public Grid<Node> map;
 
     private bool unitIsMoving = false;
     
-    public void SetMapData(Grid<Node> map, int stepSize)
+    public void SetMapData(Grid<Node> map)
     {
         this.map = map;
-        this.stepSize = stepSize;
     }
 
     #region Move Methods
@@ -33,75 +31,9 @@ public class MapManager : MonoBehaviour
         return Pathfinding.AStar(map, start, end);
     }
 
-    public List<Node> GetPathWithStart(Node start, Node end)
-    {
-        return Pathfinding.AStarWithStart(map, start, end);
-    }
-
     public int GetPathCost(List<Node> path)
     {
         return Pathfinding.GetPathCost(path);
-    }
-    // Unit is unit to move, and node is destination
-    public void Move(Unit selected, Node destination)
-    {
-        // Base Case : If Can't move return
-        if (!CanMove(selected, selected.node, destination))
-            return;
-
-        Node start = selected.node;
-
-        List<Node> path = Pathfinding.AStar(map, selected.node, destination);
-        int pathCost = Pathfinding.GetPathCost(path);
-
-        // Updates the Nodes
-        start.OnUnitExit();
-        destination.OnUnitEnter(selected);
-    }
-
-    public void MoveAsCloseAsPossible(Unit selected, Node destination)
-    {
-        if (unitIsMoving)
-            return;
-        if (!destination.passable)
-            return;
-
-        Node start = selected.node;
-
-        List<Node> path = Pathfinding.GetClosestPath(map, start, destination, selected);
-        int pathCost = Pathfinding.GetPathCost(path);
-
-        if (path.Count <= 0)
-        {
-            Debug.Log("For " + selected.name + " Path was 0");
-            return;
-        }
-
-        destination = path[path.Count - 1];
-        Utils.CreateWorldTextPopupOnGrid(destination, 10f, "Closest Move", 30, map);
-
-        // Moves the Player along the Queue
-        unitIsMoving = true;
-        StartCoroutine(TraversePath(pathCost, selected, path));
-
-        // Updates the Nodes
-        start.OnUnitExit();
-        destination.OnUnitEnter(selected);
-    }
-
-    IEnumerator TraversePath(int pathCost, Unit selected, List<Node> path)
-    {
-        // Moves Player
-        // Note : i = 1 because the path includes the Node the unit is already standing on;
-        // therefore it is skipped
-        for (int i = 0; i < path.Count; i++)
-        {
-            Place(selected, path[i]);
-            yield return new WaitForSeconds(pathingSpeed);
-        }
-        selected.stats.moved += pathCost;
-
-        unitIsMoving = false;
     }
     #endregion
 

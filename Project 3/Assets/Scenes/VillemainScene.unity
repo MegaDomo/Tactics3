@@ -1642,7 +1642,7 @@ GameObject:
   - component: {fileID: 162432791}
   m_Layer: 0
   m_Name: StartingPoint
-  m_TagString: Untagged
+  m_TagString: MapStartingPoint
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2372,7 +2372,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 310017293}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &245304506
 MonoBehaviour:
@@ -2891,7 +2891,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 310017293}
-  - component: {fileID: 310017294}
   - component: {fileID: 310017295}
   m_Layer: 0
   m_Name: GameMaster
@@ -2917,7 +2916,6 @@ Transform:
   - {fileID: 821325094}
   - {fileID: 2091272006}
   - {fileID: 2120947106}
-  - {fileID: 345424374}
   - {fileID: 1607814663}
   - {fileID: 1632602161}
   - {fileID: 1641815415}
@@ -2925,29 +2923,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &310017294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310017292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3cade0a6b0346d4f9344a3f314d0823, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  players:
-  - {fileID: 11400000, guid: 336f08040a65e0047bd87316fa7323c1, type: 2}
-  makeRandomMap: 0
-  spawnUnits: 1
-  numOfEnemies: 2
-  haveCombat: 1
-  editLevelOnRunTime: 0
-  maker: {fileID: 345424373}
-  mapManager: {fileID: 2120947107}
-  battleSystem: {fileID: 637372065}
-  spawner: {fileID: 1641815416}
 --- !u!114 &310017295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3213,98 +3188,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3720278588393324496, guid: 80b5239571c625e49826b9eef00a5deb, type: 3}
   m_PrefabInstance: {fileID: 337799051}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &345424372
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 345424374}
-  - component: {fileID: 345424373}
-  - component: {fileID: 345424375}
-  m_Layer: 0
-  m_Name: MapMaker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &345424373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345424372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55c79df396a351b44b242f2ae0483890, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terrains:
-  - terrain: Forest
-    difficultTerrainSaturation: 0
-    blockObjects:
-    - {fileID: 11400000, guid: d11d2a2f2e8a99e4db4a55bb4062f8cc, type: 2}
-    - {fileID: 11400000, guid: 2e51d373398452c48a7c6770aced6939, type: 2}
-    - {fileID: 11400000, guid: 93d26275091ed0f44be02dc5a0799bae, type: 2}
-    - {fileID: 11400000, guid: c21300b8f4ca270418a8e39a0a922bb0, type: 2}
-    - {fileID: 11400000, guid: d7df5a2e553d40d44ba5367bafa00233, type: 2}
-    obstacleSaturation: 0
-    decorSaturation: 0
-    tileObjects:
-    - {fileID: 11400000, guid: 6d2f1613fce395a408e293d9b17712ad, type: 2}
-    - {fileID: 11400000, guid: 372bae64b57d7214fb841ffca1a605a6, type: 2}
-  - terrain: Volcano
-    difficultTerrainSaturation: 1
-    blockObjects:
-    - {fileID: 11400000, guid: d11d2a2f2e8a99e4db4a55bb4062f8cc, type: 2}
-    - {fileID: 11400000, guid: 2e51d373398452c48a7c6770aced6939, type: 2}
-    obstacleSaturation: 1
-    decorSaturation: 0
-    tileObjects:
-    - {fileID: 11400000, guid: 6d2f1613fce395a408e293d9b17712ad, type: 2}
-  lowSaturationPercentage: 10
-  mediumSaturationPercentage: 25
-  highSaturationPercentage: 80
-  whichTerrain: Forest
-  forecastTile: {fileID: 2049764188928731931, guid: 4bd73d927e9359d45ad9319ced1ad30c, type: 3}
-  startingPoint: {fileID: 162432791}
-  manager: {fileID: 2120947107}
-  stepSize: 5
-  cellSize: 10
-  minMapSize: 15
-  maxMapSize: 15
---- !u!4 &345424374
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345424372}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.8492, y: -2.938758, z: 0.23572731}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 310017293}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &345424375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345424372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efe1117abb47f664c87234a702ca76aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blockObject: {fileID: 11400000, guid: 22b8451edf15f874b9a9fc1f4e2b7842, type: 2}
 --- !u!1001 &377152875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5846,7 +5729,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca9d43637fc657499377cecb199815a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maker: {fileID: 345424373}
   mapManager: {fileID: 2120947107}
   spawner: {fileID: 1641815416}
   units:
@@ -16025,7 +15907,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 310017293}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1607814664
 MonoBehaviour:
@@ -16136,7 +16018,7 @@ Transform:
   m_Children:
   - {fileID: 143948262}
   m_Father: {fileID: 310017293}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1632602162
 MonoBehaviour:
@@ -16333,7 +16215,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 310017293}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1641815416
 MonoBehaviour:
@@ -21096,7 +20978,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathingSpeed: 0.3
-  stepSize: 0
 --- !u!1001 &2122454083
 PrefabInstance:
   m_ObjectHideFlags: 0

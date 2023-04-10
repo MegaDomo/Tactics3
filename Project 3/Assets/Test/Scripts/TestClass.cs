@@ -5,23 +5,24 @@ using UnityEngine;
 
 public class TestClass : MonoBehaviour
 {
-    public event EventHandler OnPressSpaceBar;
+    public delegate int test(bool value);
 
     private void Start()
     {
-        OnPressSpaceBar += TestMethod;
+        bool valu2 = true;
+        test newEvent = new test(TestMethod);
+        newEvent += TestMethod2;
+        int x = newEvent.Invoke(true);
+        Debug.Log(x);
     }
 
-    private void Update()
+    private int TestMethod(bool value)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            OnPressSpaceBar?.Invoke(this, EventArgs.Empty);
-        }
+        return 3;
     }
 
-    private void TestMethod(object sender, EventArgs e)
+    private int TestMethod2(bool value)
     {
-        Debug.Log("Hell0");
+        return 7;
     }
 }

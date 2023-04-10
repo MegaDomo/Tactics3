@@ -9,6 +9,7 @@ TagManager:
   - ObstacleDecor
   - Enemy
   - ForecastTile
+  - MapStartingPoint
   layers:
   - Default
   - TransparentFX

@@ -16,7 +16,6 @@ public class BattleSystem : MonoBehaviour
 
     
     [Header("Unity References")]
-    public MapMaker maker;
     public MapManager mapManager;
     public SpawnManager spawner;
 
