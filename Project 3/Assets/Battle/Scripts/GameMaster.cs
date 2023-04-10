@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
-    #region Singleton
-    public static GameMaster instance;
-
-    private void Awake()
-    {
-        instance = this;
-    }
-    #endregion
-
     [Header("Players")]
     public List<Player> players;
 
@@ -31,12 +22,8 @@ public class GameMaster : MonoBehaviour
 
     private void Start()
     {
-
-        // Creates the Map
-        // TODO : Determine if Static Map or RNG Map
         maker.SetUp(makeRandomMap);
 
-        // Spawn Unit on the Map : When units are spawned add to list
         if (spawnUnits)
         {
             spawner.SpawnUnits(players, numOfEnemies);
