@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class MapManager : MonoBehaviour
 {
     #region Singleton
@@ -127,4 +128,6 @@ public class MapManager : MonoBehaviour
         return unit.stats.movement - unit.stats.moved;
     }
     #endregion
+    
 }
+*/

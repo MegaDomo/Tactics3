@@ -20,16 +20,12 @@ public class ForecastTile : MonoBehaviour
 
     private Material mat;
     private PlayerTurn player;
+    private Grid<Node> map;
 
     private void Awake()
     {
         mat = mesh.material;
         HideTile();
-    }
-
-    private void Start()
-    {
-        player = PlayerTurn.instance;
     }
 
     public void Highlight()
@@ -47,7 +43,7 @@ public class ForecastTile : MonoBehaviour
 
         // Can move to, Turn Green
         Unit unit = player.GetSelected();
-        if (MapManager.instance.CanMove(unit, unit.node, node))
+        if (Pathfinding.CanMove(map, unit, unit.node, node))
             TileInReach();
         // Can't move to, Turn Red
         else
@@ -65,13 +61,6 @@ public class ForecastTile : MonoBehaviour
         isSelected = false;
         HideTile();
     }
-
-
-
-
-
-
-
 
     #region Color Methods
     public void TileInReach()
@@ -104,6 +93,11 @@ public class ForecastTile : MonoBehaviour
     public void SetNode(Node node)
     {
         this.node = node;
-    }    
+    }
+
+    public void SetMap(Grid<Node> map)
+    {
+        this.map = map;
+    }
     #endregion
 }

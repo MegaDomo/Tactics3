@@ -6,21 +6,21 @@ using TMPro;
 
 public class UITargetPanel : MonoBehaviour
 {
+    [Header("Scriptable Object References")]
+    public GameMaster gameMaster;
+    public PlayerTurn playerTurn;
+
     [Header("Unity References")]
     public UIManager uiManager;
     public List<Button> targetButtons;
 
-    private PlayerTurn player;
     private Unit selected;
     private List<Unit> targets;
 
     #region Finds Targets
     public void Setup()
     {
-        if (player == null)
-            player = PlayerTurn.instance;
-
-        selected = player.GetSelected();
+        selected = playerTurn.GetSelected();
         SetTargets();
         TurnOffRemainingButtons();
     }
@@ -35,8 +35,8 @@ public class UITargetPanel : MonoBehaviour
 
     private void FindTargets()
     {
-        Node destination = player.GetDestination();
-        List<Node> adjNodes = Pathfinding.GetNeighbors(MapManager.instance.GetMap(), destination);
+        Node destination = playerTurn.GetDestination();
+        List<Node> adjNodes = Pathfinding.GetNeighbors(gameMaster.GetMap(), destination);
 
         targets = new List<Unit>();
         foreach (Node node in adjNodes)
@@ -73,22 +73,22 @@ public class UITargetPanel : MonoBehaviour
     #region Event Handlers
     public void Target1Button()
     {
-        player.SetTarget(targets[0]);
+        playerTurn.SetTarget(targets[0]);
         WeaponStrike();
     }
     public void Target2Button()
     {
-        player.SetTarget(targets[1]);
+        playerTurn.SetTarget(targets[1]);
         WeaponStrike();
     }
     public void Target3Button()
     {
-        player.SetTarget(targets[2]);
+        playerTurn.SetTarget(targets[2]);
         WeaponStrike();
     }
     public void Target4Button()
     {
-        player.SetTarget(targets[3]);
+        playerTurn.SetTarget(targets[3]);
         WeaponStrike();
     }
     #endregion
@@ -96,7 +96,7 @@ public class UITargetPanel : MonoBehaviour
     #region Utility
     private void WeaponStrike()
     {
-        player.WeaponStrike();
+        playerTurn.WeaponStrike();
     }
     #endregion
 }

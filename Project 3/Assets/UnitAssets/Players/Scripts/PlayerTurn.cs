@@ -1,25 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public enum ActionState { ChooseNode, ChoosingAction, CannotChoose }
 
-public class PlayerTurn : MonoBehaviour
+[CreateAssetMenu(fileName = "NewPlayerTurnManager", menuName = "Managers/Player Turn Manager")]
+public class PlayerTurn : ScriptableObject
 {
-    #region Singleton
-    public static PlayerTurn instance;
-
-    private void Awake()
-    {
-        instance = this;
-    }
-    #endregion
+    [Header("Scriptable Object References")]
+    public BattleSystem battleSystem;
 
     [Header("Unity References")]
     public NodeHighlighter nodeHighlighter;
     public UIManager ui;
 
     [HideInInspector] public ActionState actionState;
+
+    public UnityEvent selectedNodeEvent;
 
     private Unit selected;
     private Unit target;
@@ -37,14 +34,14 @@ public class PlayerTurn : MonoBehaviour
         actionState = ActionState.CannotChoose;
         nodeHighlighter.Unhighlight();
         ClearValues();
-        BattleSystem.instance.GetNextInitiative();
+        battleSystem.GetNextInitiative();
     }
 
     public void ChooseNode(Node node)
     {
         destination = node;
         actionState = ActionState.ChoosingAction;
-        ui.SetActiveHotBar(true);
+        selectedNodeEvent.Invoke();
         nodeHighlighter.Unhighlight();
     }
 

@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+// Utility ScriptableObject
 [CreateAssetMenu(fileName = "NewMapMaker", menuName = "Managers/Map Maker")]
 public class MapMaker : ScriptableObject
 {
@@ -18,8 +20,6 @@ public class MapMaker : ScriptableObject
 
     [Header("Unity References")]
     public GameObject forecastTile;
-    
-    public MapManager manager;
 
     [Header("Attributes")]
     [SerializeField] private int stepSize = 5;
@@ -29,6 +29,8 @@ public class MapMaker : ScriptableObject
 
     [HideInInspector] public Grid<Node> map;
 
+    public Action<Grid<Node>> mapMadeEvent;
+
     private int size;
     private List<int> saturation = new List<int>();
 
@@ -37,10 +39,10 @@ public class MapMaker : ScriptableObject
         gameMaster.makeMapEvent.AddListener(SetUp);
     }
 
-    public void SetUp(Transform startingPoint, bool makeRandomMap)
+    private void SetUp(Transform startingPoint, bool makeRandomMap)
     {
         // Initializers
-        size = Random.Range(minMapSize, maxMapSize);
+        size = UnityEngine.Random.Range(minMapSize, maxMapSize);
         map = new Grid<Node>(size, cellSize, startingPoint.position, () => new Node());
 
         for (int i = 0; i < map.GetSize(); i++)
@@ -73,7 +75,7 @@ public class MapMaker : ScriptableObject
         }
 
         // When Finishes, Performs Handoff
-        gameMaster.SetMap(map);
+        mapMadeEvent.Invoke(map);
     }
 
     #region Get Map
@@ -134,6 +136,7 @@ public class MapMaker : ScriptableObject
         float y2 = node.GetStandingPoint().y;
         Vector3 spawnPoint = map.GetWorldPosition(x, z) + new Vector3(0, y2, 0);
         ForecastTile tile = Instantiate(forecastTile, spawnPoint, Quaternion.identity).GetComponent<ForecastTile>();
+        tile.SetMap(map);
         node.SetForecastTile(tile);
     }
     #endregion

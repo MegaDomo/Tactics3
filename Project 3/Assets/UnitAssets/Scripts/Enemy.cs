@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+[CreateAssetMenu(fileName = "NewEnemy", menuName = "Managers/Enemy")]
+public class Enemy : ScriptableObject
 {
+    [Header("Scriptable Object References")]
+    public GameMaster gameMaster;
+
     [Header("Which Enemy")]
     public EnemyObject enemyObject;
 
@@ -11,15 +15,13 @@ public class Enemy : MonoBehaviour
 
     public void SetupEnemy(Unit unit)
     {
-        EnemyObject enemyObject = GetComponent<Enemy>().enemyObject;
         if (enemyObject == null)
         {
             Debug.Log("No Enemy Data to Set for: " + name);
             return;
         }
 
-        gameObject.tag = "Enemy";
-        UnitBehavior unitBehavior = new UnitBehavior(unit, enemyObject);
+        UnitBehavior unitBehavior = new UnitBehavior(unit, gameMaster.GetMap(), enemyObject);
         behavior = unitBehavior.GetBehavior();
     }
 

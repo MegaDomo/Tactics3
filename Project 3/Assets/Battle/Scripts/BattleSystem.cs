@@ -2,22 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Determines whose going in Initiative
-public class BattleSystem : MonoBehaviour
+// Manager ScriptableObject
+[CreateAssetMenu(fileName = "NewBattleSystem", menuName = "Managers/Battle System")]
+public class BattleSystem : ScriptableObject
 {
-    #region Singleton
-    public static BattleSystem instance;
-
-    void Awake()
-    {
-        instance = this;
-    }
-    #endregion
-
-    
-    [Header("Unity References")]
-    public MapManager mapManager;
-    public SpawnManager spawner;
+    [Header("Scriptable Object References")]
+    public GameMaster gameMaster;
+    public PlayerTurn playerTurn;
+    public EnemyAI enemyAI;
 
     [HideInInspector] public List<Unit> units;
     [HideInInspector] public List<Unit> players;
@@ -58,13 +50,13 @@ public class BattleSystem : MonoBehaviour
         {
             case Unit.UnitType.Player:
                 CombatState.MakeStatePlayerTurn();
-                PlayerTurn.instance.SetSelected(next);
-                PlayerTurn.instance.StartTurn();
+                playerTurn.SetSelected(next);
+                playerTurn.StartTurn();
                 break;
             case Unit.UnitType.Enemy:
                 CombatState.MakeStateEnemyTurn();
-                EnemyAI.instance.SetSelected(next);
-                StartCoroutine(EnemyAI.instance.StartTurn());
+                enemyAI.SetSelected(next);
+                enemyAI.StartTurn();
                 break;
             default:
                 break;

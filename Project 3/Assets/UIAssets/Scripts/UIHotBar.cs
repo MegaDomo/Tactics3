@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class UIHotBar : MonoBehaviour
 {
-    private PlayerTurn player;
-
-    private void Start()
-    {
-        player = PlayerTurn.instance;
-    }
+    [Header("Scriptable Object References")]
+    public PlayerTurn playerTurn;
 
     #region Setters
     public void SetActiveHotBar(bool value)
@@ -26,7 +22,7 @@ public class UIHotBar : MonoBehaviour
 
     public void Wait()
     {
-        player.PlayerMove();
+        playerTurn.PlayerMove();
     }
     #endregion
 }

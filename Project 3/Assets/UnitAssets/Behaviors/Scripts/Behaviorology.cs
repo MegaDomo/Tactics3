@@ -5,16 +5,14 @@ using UnityEngine;
 public class Behaviorology
 {
     private Unit self;
-    private MapManager manager;
     private Grid<Node> map;
     private WeaponSetHandler handler;
 
-    public Behaviorology(Unit self, MapManager manager, Grid<Node> map)
+    public Behaviorology(Unit self, Grid<Node> map)
     {
         this.self = self;
-        this.manager = manager;
         this.map = map;
-        handler = new WeaponSetHandler(self, manager, map);
+        handler = new WeaponSetHandler(self, map);
     }
 
     // A method that gets a list of players in WeaponAttack Range

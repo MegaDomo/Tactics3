@@ -913,6 +913,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba72f68941070094d84daec7ff14d716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTurn: {fileID: 0}
+  enemyAI: {fileID: 0}
   parentUnitScript: {fileID: 8769162474166777822}
 --- !u!1 &3755669806245959011
 GameObject:
@@ -1791,7 +1793,6 @@ GameObject:
   - component: {fileID: 8769162474166777818}
   - component: {fileID: 8769162474166777823}
   - component: {fileID: 8769162474166777822}
-  - component: {fileID: -846446553673702364}
   - component: {fileID: 966486887291584769}
   - component: {fileID: 5484492567382113369}
   - component: {fileID: 8418630457982787281}
@@ -1885,20 +1886,6 @@ MonoBehaviour:
   unitAbilities: {fileID: 0}
   unitAnim: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
---- !u!114 &-846446553673702364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769162474166777809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8361412a9802bb43974a679456e1b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyObject: {fileID: 11400000, guid: 61f8347d888fc2e40bb202aa15564c19, type: 2}
-  behavior: {fileID: 0}
 --- !u!114 &966486887291584769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1911,6 +1898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c89a01caa0a0d4ebfc846687f1fe9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTurn: {fileID: 0}
+  enemyAI: {fileID: 0}
   vfx: {fileID: 6338569600576153574}
   anim: {fileID: 2380982989208113978}
 --- !u!114 &5484492567382113369

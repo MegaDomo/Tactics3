@@ -6,27 +6,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Attacker", menuName = "Behaviors/Attacker")]
 public class Attacker : Behavior
 {
-    private MapManager mapManager;
     private BattleSystem battle;
     private Behaviorology behaviorology;
     private WeaponSetHandler handler;
     private Grid<Node> map;
 
-    public Attacker(MapManager mapManager, Unit self)
+    public Attacker(Grid<Node> map, Unit self)
     {
-        mapManager = MapManager.instance;
-        battle = BattleSystem.instance;
-
-        map = mapManager.GetMap();
+        this.map = map;
         this.self = self;
 
-        handler = new WeaponSetHandler(self, mapManager, map);
-        behaviorology = new Behaviorology(self, mapManager, map);
+        handler = new WeaponSetHandler(self, map);
+        behaviorology = new Behaviorology(self, map);
     }
 
     public override void TakeTurn()
     {
-        mapManager = MapManager.instance;
         List<Unit> players = battle.GetPlayers();
         List<Weapon> weapons = self.weapons;
 

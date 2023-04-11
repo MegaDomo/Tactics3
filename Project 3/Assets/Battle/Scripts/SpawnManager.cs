@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+// Utility/*Manager ScriptableObject
+[CreateAssetMenu(fileName = "NewSpawnManager", menuName = "Managers/Spawn Manager")]
+public class SpawnManager : ScriptableObject
 {
-    [Header("Unity References")]
+    [Header("Scriptable Objects References")]
+    public GameMaster gameMaster;
     public BattleSystem battleSystem;
 
     [Header("Debugging: Unit Prefabs to Spawn")]
@@ -94,7 +97,7 @@ public class SpawnManager : MonoBehaviour
         {
             index++;
             current = adjNodes[index];
-            foreach (Node node in Pathfinding.GetPassibleNeighbors(MapManager.instance.GetMap(), current))
+            foreach (Node node in Pathfinding.GetPassibleNeighbors(gameMaster.GetMap(), current))
             {
                 if (adjNodes.Count >= numOfUnits)
                     break;
@@ -118,7 +121,7 @@ public class SpawnManager : MonoBehaviour
     {
         unit.node = spawnPoint;
         spawnPoint.OnUnitEnter(unit);
-        MapManager.instance.Place(unit, spawnPoint);
+        gameMaster.Place(unit, spawnPoint);
     }
     #endregion
 

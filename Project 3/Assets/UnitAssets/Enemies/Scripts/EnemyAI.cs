@@ -3,34 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // In Control of the whole enemy team
-public class EnemyAI : MonoBehaviour
+[CreateAssetMenu(fileName = "NewEnemyAI", menuName = "Managers/Enemy AI")]
+public class EnemyAI : ScriptableObject
 {
-    #region Singleton
-    public static EnemyAI instance;
-
-    private void Awake()
-    {
-        instance = this;
-    }
-    #endregion
+    [Header("Scriptable Object References")]
+    public BattleSystem battleSystem;
 
     private Unit selected;
     private Behavior behavior;
     private bool isMoving;
     private bool isAttacking;
 
-    public IEnumerator StartTurn()
+    public void StartTurn()
     {
         behavior = selected.enemy.behavior;
         behavior.self = selected;
         behavior.TakeTurn();
-
-        yield return new WaitForSeconds(1f);
     }
 
     public void EndTurn()
     {
-        BattleSystem.instance.GetNextInitiative();
+        battleSystem.GetNextInitiative();
     }
 
     #region Utility

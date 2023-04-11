@@ -36,7 +36,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Vector3 offset;
 
     private GameObject weaponPrefab;
-    private MapManager mapManager;
+    private Grid<Node> map;
 
     private void Update()
     {
@@ -50,7 +50,7 @@ public class Unit : MonoBehaviour
     public void SetupUnit()
     {
         offset = transform.position - ground.position;
-        mapManager = MapManager.instance;
+        map = player.GetMap();
         unitAnim = GetComponent<UnitAnimation>();
         unitAbilities = GetComponent<UnitAbilities>();        
     }
@@ -115,12 +115,10 @@ public class Unit : MonoBehaviour
     #region Movement
     public void Move(Node destination)
     {
-        List<Node> path = mapManager.GetPath(node, destination);
-        int pathCost = mapManager.GetPathCost(path);
+        List<Node> path = Pathfinding.AStar(map, node, destination);
 
         unitAnim.Move(path);
 
-        stats.moved += pathCost;
         node.OnUnitExit();
         destination.OnUnitEnter(this);
     }

@@ -5,19 +5,18 @@ using TMPro;
 
 public class UIWeaponPanel : MonoBehaviour
 {
+    [Header("Scriptable Object References")]
+    public PlayerTurn playerTurn;
+
     [Header("Unity Reference")]
     public List<Button> weaponAttackButtons;
 
-    private PlayerTurn player;
     private Unit selected;
 
     #region Finds Weapons
     public void Setup()
     {
-        if (player == null)
-            player = PlayerTurn.instance;
-
-        selected = player.GetSelected();
+        selected = playerTurn.GetSelected();
         SetWeapons();
         TurnOffRemainingButtons();
     }

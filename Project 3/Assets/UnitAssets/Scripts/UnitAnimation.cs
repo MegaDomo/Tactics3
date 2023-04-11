@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class UnitAnimation : MonoBehaviour
 {
+    [Header("Scriptable Object References")]
+    public PlayerTurn playerTurn;
+    public EnemyAI enemyAI;
+
     public Transform vfx;
     public Animator anim;
 
@@ -13,14 +17,10 @@ public class UnitAnimation : MonoBehaviour
     private Unit unit;
     private Node nodeToMoveTo;
     private Queue<Node> path = new Queue<Node>();
-    private PlayerTurn player;
-    private EnemyAI enemyAI;
 
     private void Start()
     {
         unit = GetComponent<Unit>();
-        player = PlayerTurn.instance;
-        enemyAI = EnemyAI.instance;
     }
 
     #region Movement Methods
@@ -145,7 +145,7 @@ public class UnitAnimation : MonoBehaviour
     {
         Unit target;
         if (unit.unitType == Unit.UnitType.Player)
-            target = player.GetTarget();
+            target = playerTurn.GetTarget();
         else
             target = unit.enemy.behavior.target;
 
@@ -171,7 +171,7 @@ public class UnitAnimation : MonoBehaviour
     private void EndTurn()
     {
         if (unit.unitType == Unit.UnitType.Player)
-            player.EndTurn();
+            playerTurn.EndTurn();
         if (unit.unitType == Unit.UnitType.Enemy)
             enemyAI.EndTurn();
     }

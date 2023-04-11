@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+// MiddleMan ScriptableObject
 [CreateAssetMenu(fileName = "NewPlayer", menuName = "Units/Player")]
 public class Player : ScriptableObject
 {
@@ -10,8 +11,10 @@ public class Player : ScriptableObject
     public GameObject prefab;
     public UnitStats stats;
 
-    [System.NonSerialized]
-    public UnityEvent<int, int> healthChangeEvent;
+    [System.NonSerialized] public Unit unit;
+    [System.NonSerialized] public UnityEvent<int, int> healthChangeEvent;
+
+    private Grid<Node> map;
 
     private void OnEnable()
     {
@@ -32,4 +35,16 @@ public class Player : ScriptableObject
         stats.curHealth = stats.maxHealth;
         healthChangeEvent.Invoke(stats.curHealth, stats.maxHealth);
     }
+
+    #region Getters & Setters
+    public Grid<Node> GetMap()
+    {
+        return map;
+    }
+
+    public void SetMap(Grid<Node> map)
+    {
+        this.map = map;
+    }
+    #endregion
 }

@@ -5,13 +5,11 @@ using UnityEngine;
 public class WeaponSetHandler
 {
     private Unit self;
-    private MapManager manager;
     private Grid<Node> map;
 
-    public WeaponSetHandler(Unit self, MapManager manager, Grid<Node> map)
+    public WeaponSetHandler(Unit self, Grid<Node> map)
     {
         this.self = self;
-        this.manager = manager;
         this.map = map;
     }
 

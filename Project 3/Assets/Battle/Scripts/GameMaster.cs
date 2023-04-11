@@ -4,11 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+// Manager ScriptableObject
 [CreateAssetMenu(fileName = "NewGameMaster", menuName = "Managers/GameMaster")]
 public class GameMaster : ScriptableObject
 {
     [Header("Players")]
     public List<Player> players;
+
+    [Header("Scriptable Object References")]
+    public MapMaker mapMaker;
+    public BattleSystem battleSystem;
+    public SpawnManager spawner;
 
     [Header("Level Editor: Settings of Next Run")]
     public bool makeRandomMap;
@@ -16,14 +22,13 @@ public class GameMaster : ScriptableObject
     public bool haveCombat;
     public int numOfEnemies;
 
-    [System.NonSerialized] public Grid<Node> map;
-    [System.NonSerialized] public UnityEvent<Transform, bool> makeMapEvent;
-
-    private BattleSystem battleSystem;
-    private SpawnManager spawner;
+    [HideInInspector] public Grid<Node> map;
+    [HideInInspector] public UnityEvent<Transform, bool> makeMapEvent;
 
     private void OnEnable()
     {
+        mapMaker.mapMadeEvent += MapEventSubscriber;
+
         makeMapEvent = new UnityEvent<Transform, bool>();
         SceneManager.activeSceneChanged += LoadLevel;
     }
@@ -52,6 +57,25 @@ public class GameMaster : ScriptableObject
             battleSystem.SetUp();
         }
     }
+
+    #region Events & Subscribers
+    private void MapEventSubscriber(Grid<Node> map)
+    {
+        this.map = map;
+    }
+    #endregion
+
+    #region Utility Methods
+    public void Place(Unit unit, Node destination)
+    {
+        Vector3 newPosition = destination.GetStandingPoint() + unit.offset;
+        unit.gameObject.transform.position = newPosition;
+
+        // This Sets Node and Unit data
+        unit.node = destination;
+        destination.unit = unit;
+    }
+    #endregion
 
     #region Getters & Setters
     public Grid<Node> GetMap()

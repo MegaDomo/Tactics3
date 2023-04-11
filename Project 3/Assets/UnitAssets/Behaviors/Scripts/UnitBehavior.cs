@@ -1,26 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class UnitBehavior
 {
     private Unit unit;
     private Behavior behavior;
     private EnemyObject.BehaviorType behaviorType;
 
-    public UnitBehavior(Unit unit, EnemyObject enemyObject)
+    public UnitBehavior(Unit unit, Grid<Node> map, EnemyObject enemyObject)
     {
         this.unit = unit;
         behaviorType = enemyObject.behaviorType;
 
-        SetBehavior();
+        SetBehavior(map);
         behavior.self = unit;
     }
 
-    private void SetBehavior()
+    private void SetBehavior(Grid<Node> map)
     {
-        MapManager map = MapManager.instance;
-
         if (behaviorType == EnemyObject.BehaviorType.Attacker)
             behavior = new Attacker(map, unit);
 
