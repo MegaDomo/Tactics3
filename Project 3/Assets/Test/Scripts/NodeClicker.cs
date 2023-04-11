@@ -3,9 +3,11 @@ using UnityEngine.EventSystems;
 
 public class NodeClicker : MonoBehaviour
 {
+    [Header("Scriptable Objects References")]
+    public PlayerTurn player;
+
     [Header("Unity References")]
     public Transform nodeSelector;
-    public PlayerTurn player;
 
     private ForecastTile selectedTile;
     private ForecastTile previousTile;

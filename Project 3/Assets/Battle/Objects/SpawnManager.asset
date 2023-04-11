@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1489f7844cbec6c4c8889a86e4eee4ff, type: 3}
+  m_Name: SpawnManager
+  m_EditorClassIdentifier: 
+  gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
+  battleSystem: {fileID: 11400000, guid: 228b50141dc903849a2a60d960609323, type: 2}
+  playerPrefab: {fileID: 8769162474166777809, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
+  enemyPrefab: {fileID: 8769162474166777809, guid: 259ddf72b7596fd4caa0f417f0b60aaf, type: 3}

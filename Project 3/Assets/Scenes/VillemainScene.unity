@@ -11508,7 +11508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf7ad5f4d64c17429c39974423cb065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTurn: {fileID: 0}
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   weaponAttackButtons:
   - {fileID: 45533409}
   - {fileID: 693754887}
@@ -13913,9 +13913,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerTurn, Assembly-CSharp
-        m_MethodName: EndTurn
+      - m_Target: {fileID: 11400000, guid: 228b50141dc903849a2a60d960609323, type: 2}
+        m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
+        m_MethodName: GetNextInitiative
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15932,8 +15932,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7667a77424f7e8b47bda6a39f0fafb3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   nodeSelector: {fileID: 143948262}
-  player: {fileID: 0}
 --- !u!1001 &1636679553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17459,8 +17459,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31e4fca6a613a144aa872fbcc48296a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMaster: {fileID: 0}
-  playerTurn: {fileID: 0}
+  gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   uiManager: {fileID: 245304506}
   targetButtons:
   - {fileID: 305497473}
@@ -17944,7 +17944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c2e562417c2fbe499d2dff095c0cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTurn: {fileID: 0}
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
 --- !u!1001 &1794809912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20524,7 +20524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd5ecbd4c896c1459967fc1f216898f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMaster: {fileID: 0}
+  gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
 --- !u!4 &2091272006
 Transform:
   m_ObjectHideFlags: 0

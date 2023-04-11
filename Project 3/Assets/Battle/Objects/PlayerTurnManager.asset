@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d852bd09333f74bb0e5cb04f78848f, type: 3}
+  m_Name: PlayerTurnManager
+  m_EditorClassIdentifier: 
+  battleSystem: {fileID: 11400000, guid: 228b50141dc903849a2a60d960609323, type: 2}
+  nodeHighlighter: {fileID: 0}
+  ui: {fileID: 0}
+  actionState: 0
+  selectedNodeEvent:
+    m_PersistentCalls:
+      m_Calls: []
