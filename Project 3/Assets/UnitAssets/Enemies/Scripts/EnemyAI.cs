@@ -16,7 +16,7 @@ public class EnemyAI : ScriptableObject
 
     public void StartTurn()
     {
-        behavior = selected.enemy.behavior;
+        //behavior = selected.behavior;
         behavior.self = selected;
         behavior.TakeTurn();
     }

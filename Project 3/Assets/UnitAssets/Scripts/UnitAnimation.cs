@@ -147,7 +147,7 @@ public class UnitAnimation : MonoBehaviour
         if (unit.unitType == Unit.UnitType.Player)
             target = playerTurn.GetTarget();
         else
-            target = unit.enemy.behavior.target;
+            target = unit.target;
 
         Vector3 dir = target.node.GetStandingPoint() - unit.node.GetStandingPoint();
         RotateUnit(dir);

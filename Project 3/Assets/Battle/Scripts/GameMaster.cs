@@ -38,8 +38,6 @@ public class GameMaster : ScriptableObject
         if (SceneManager.GetActiveScene().buildIndex == 0)
             return;
 
-        return;
-
         Transform startingPoint = GameObject.FindGameObjectWithTag("MapStartingPoint").transform;
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
 
@@ -68,8 +66,8 @@ public class GameMaster : ScriptableObject
     #region Utility Methods
     public void Place(Unit unit, Node destination)
     {
-        Vector3 newPosition = destination.GetStandingPoint() + unit.offset;
-        unit.gameObject.transform.position = newPosition;
+        Vector3 newPosition = destination.GetStandingPoint() + unit.unitMovement.offset;
+        unit.SetPosition(newPosition);
 
         // This Sets Node and Unit data
         unit.node = destination;
@@ -89,42 +87,3 @@ public class GameMaster : ScriptableObject
     }
     #endregion
 }
-
-/*
-public class GameMaster : MonoBehaviour
-{
-    [Header("Players")]
-    public List<Player> players;
-
-    [Header("Level Editor: Settings of Next Run")]
-    public bool makeRandomMap;
-    public bool spawnUnits;
-    public int numOfEnemies;
-    public bool haveCombat;
-    public bool editLevelOnRunTime;
-
-    [Header("References")]
-    public MapMaker maker;
-    public MapManager mapManager;
-    public BattleSystem battleSystem;
-    public SpawnManager spawner;
-
-    private void Start()
-    {
-        maker.SetUp(makeRandomMap);
-
-        if (spawnUnits)
-        {
-            spawner.SpawnUnits(players, numOfEnemies);
-            spawner.PlaceUnits(maker.map);
-        }
-
-        if (haveCombat)
-        {
-            List<Unit> players = spawner.GetPlayers();
-            List<Unit> enemies = spawner.GetEnemies();
-            battleSystem.SetPlayersAndEnemies(players, enemies);
-            battleSystem.SetUp();
-        }
-    }
-}*/

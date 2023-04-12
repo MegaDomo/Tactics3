@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewEnemy", menuName = "Units/Enemy")]
-public class Enemy : ScriptableObject
+public class Enemy : Unit
 {
     [Header("Scriptable Object References")]
     public GameMaster gameMaster;

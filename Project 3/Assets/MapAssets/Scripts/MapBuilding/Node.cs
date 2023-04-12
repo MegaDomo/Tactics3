@@ -52,8 +52,8 @@ public class Node
     
     public bool IsUnitWithinNode(Unit unit)
     {
-        float ux = unit.transform.position.x;
-        float uz = unit.transform.position.z;
+        float ux = unit.GetPosition().x;
+        float uz = unit.GetPosition().z;
 
         float epsilon = 2f;
 

@@ -1,17 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Unit : MonoBehaviour
+public class Unit : ScriptableObject
 {
     public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
-
-    [Header("Unity References")]
-    public Transform ground;
-    public Transform weaponPoint;
-    public Transform EffectPoint;
-    public Transform vfx;
-    public Animator anim;
 
     [Header("Attributes")]
     public UnitType unitType;
@@ -19,50 +13,27 @@ public class Unit : MonoBehaviour
     [Header("Debugging")]
     public Unit tauntedTarget;
 
-    [HideInInspector] public Node node;
-    
     public UnitStats stats; // Not Hidden for Debbuging
-    
+
+    [HideInInspector] public Node node;
+
     [HideInInspector] public Weapon equippedWeapon;
     [HideInInspector] public List<Weapon> weapons;
+    [HideInInspector] public List<Ability> abilities;
     [HideInInspector] public List<Item> items;
 
-    [HideInInspector] public Enemy enemy;
-    [HideInInspector] public Player player;
-    [HideInInspector] public UnitAbilities unitAbilities;
+    [HideInInspector] public UnitMovement unitMovement;
+    [HideInInspector] public UnityEvent<int, int> healthChangeEvent;
 
-    [HideInInspector] public UnitAnimation unitAnim;
+    [HideInInspector] public Unit target;
 
-    [HideInInspector] public Vector3 offset;
-
-    private GameObject weaponPrefab;
     private Grid<Node> map;
-
-    private void Update()
-    {
-        unitAnim.MoveUnit();
-
-        if (enemy == null)
-            return;
-        enemy.behavior.SetTauntedPlayer(tauntedTarget);
-    }
-
-    public void SetupUnit()
-    {
-        offset = transform.position - ground.position;
-        map = player.GetMap();
-        unitAnim = GetComponent<UnitAnimation>();
-        unitAbilities = GetComponent<UnitAbilities>();        
-    }
 
     #region Turn Methods
     public void StartTurn()
     {
         // Resets how far he moved
         stats.moved = 0;
-
-
-
 
         // TODO : Handle Status Effects / Tile Effects
 
@@ -74,6 +45,13 @@ public class Unit : MonoBehaviour
     }
     #endregion
 
+    #region Move Methods
+    public void Move(Node destination)
+    {
+        unitMovement.Move(destination);
+    }
+    #endregion
+
     #region Damage Methods
     public void TakeDamage(Unit attacker, Weapon weapon)
     {
@@ -81,24 +59,26 @@ public class Unit : MonoBehaviour
         if (weapon.damageType == Weapon.DamageType.Physical)
         {
             damage = attacker.stats.attack + weapon.damage;
-            player.DecreaseHealth(damage - stats.defense < 0 ? 0 : damage - stats.defense);
+            DecreaseHealth(damage - stats.defense < 0 ? 0 : damage - stats.defense);
         }
         if (weapon.damageType == Weapon.DamageType.Magical)
         {
             damage = attacker.stats.spAttack + weapon.damage;
-            player.DecreaseHealth(damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense);
+            DecreaseHealth(damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense);
         }
-
-    }
-    public void TakePhysicalDamage(int damage)
-    {
-        // TODO : If health < 0 Death()
-        stats.curHealth -= damage - stats.defense < 0 ? 0 : damage - stats.defense;
     }
 
-    public void TakeMagicalDamage(int damage)
+    public void DecreaseHealth(int amount)
     {
-        stats.curHealth -= damage - stats.spDefense < 0 ? 0 : damage - stats.spDefense;
+        stats.curHealth -= amount;
+        healthChangeEvent.Invoke(stats.curHealth, stats.maxHealth);
+    }
+
+    public void SetHealth(int amount)
+    {
+        stats.maxHealth = amount;
+        stats.curHealth = stats.maxHealth;
+        healthChangeEvent.Invoke(stats.curHealth, stats.maxHealth);
     }
 
     public int ForecastTakePhysicalDamage(int damage)
@@ -112,32 +92,31 @@ public class Unit : MonoBehaviour
     }
     #endregion
 
-    #region Movement
-    public void Move(Node destination)
-    {
-        List<Node> path = Pathfinding.AStar(map, node, destination);
-
-        unitAnim.Move(path);
-
-        node.OnUnitExit();
-        destination.OnUnitEnter(this);
-    }
-
-    public int MovementLeft()
-    {
-        return stats.movement - stats.moved;
-    }
-    #endregion
-
     #region Attacking Methods
-    public void Attack()
-    {
-        unitAnim.SetIsAttacking(true);
-        unitAnim.Attack();
-    }
+    
     #endregion
 
     #region Getters & Setters
+    public Grid<Node> GetMap()
+    {
+        return map;
+    }
+
+    public void SetMap(Grid<Node> map)
+    {
+        this.map = map;
+    }
+
+    public Vector3 GetPosition()
+    {
+        return unitMovement.transform.position;
+    }
+
+    public void SetPosition(Vector3 value)
+    {
+        unitMovement.transform.position = value;
+    }
+
     public void SetWeapons(List<Weapon> weapons)
     {
         if (weapons.Count == 0)
@@ -151,12 +130,7 @@ public class Unit : MonoBehaviour
     {
         if (_weapon == null)
             return;
-
-        if (weaponPrefab != null)
-            Destroy(weaponPrefab);
-        weaponPrefab = Instantiate(_weapon.prefab, weaponPoint.position, weaponPoint.rotation);
-        weaponPrefab.transform.SetParent(weaponPoint.transform);
-
+        unitMovement.SetWeapon(_weapon);
         equippedWeapon = _weapon;
     }
 
@@ -175,40 +149,39 @@ public class Unit : MonoBehaviour
 
     public void SetAsPlayer(Player player)
     {
-        SetupUnit();
-        this.player = player;
+        unitMovement.SetupUnit();
+        unitType = UnitType.Player;
     }
 
     public void SetAsEnemy()
     {
-        SetupUnit();
-        enemy = GetComponent<Enemy>();
-        if (enemy == null)
-        {
-            Debug.Log("No Enemy Data to Set for: " + name);
-            return;
-        }
-        enemy.SetupEnemy(this);
+        unitMovement.SetupUnit();
+        unitType = UnitType.Enemy;
+    }
+
+    public int MovementLeft()
+    {
+        return unitMovement.MovementLeft();
     }
 
     public void SetIsMoving(bool value)
     {
-        unitAnim.SetIsMoving(value);
+        unitMovement.SetIsMoving(value);
     }
 
     public bool IsMoving()
     {
-        return unitAnim.IsMoving();
-    }
-
-    public void SetIsAttacking(bool value)
-    {
-        unitAnim.SetIsAttacking(value);
+        return unitMovement.IsMoving();
     }
 
     public bool IsAttacking()
     {
-        return unitAnim.IsAttacking();
+        return unitMovement.unitAnim.IsAttacking();
+    }
+
+    public void SetIsAttacking(bool value)
+    {
+        unitMovement.unitAnim.SetIsAttacking(value);
     }
     #endregion
 }

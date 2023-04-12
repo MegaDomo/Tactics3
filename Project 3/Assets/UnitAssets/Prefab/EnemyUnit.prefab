@@ -915,7 +915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTurn: {fileID: 0}
   enemyAI: {fileID: 0}
-  parentUnitScript: {fileID: 8769162474166777822}
+  parentUnitScript: {fileID: 0}
 --- !u!1 &3755669806245959011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1792,11 +1792,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8769162474166777818}
   - component: {fileID: 8769162474166777823}
-  - component: {fileID: 8769162474166777822}
-  - component: {fileID: 966486887291584769}
-  - component: {fileID: 5484492567382113369}
-  - component: {fileID: 8418630457982787281}
-  - component: {fileID: 1650907851296626239}
   m_Layer: 11
   m_Name: EnemyUnit
   m_TagString: Enemy
@@ -1837,110 +1832,6 @@ CapsuleCollider:
   m_Height: 13.28
   m_Direction: 1
   m_Center: {x: 0, y: 5, z: 0}
---- !u!114 &8769162474166777822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769162474166777809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69362486e02202a4a9d1942af53fd1be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ground: {fileID: 8769162473986946005}
-  weaponPoint: {fileID: 8769162474161234478}
-  EffectPoint: {fileID: 0}
-  vfx: {fileID: 6338569600576153574}
-  anim: {fileID: 2380982989208113978}
-  unitType: 1
-  tauntedTarget: {fileID: 0}
-  stats:
-    isAggressive: 0
-    maxHealth: 10
-    curHealth: 10
-    movement: 5
-    speed: 0
-    vision: 0
-    attack: 1
-    spAttack: 0
-    defense: 0
-    spDefense: 0
-    accuracy: 0
-    avoidance: 0
-    critChance: 0
-    critDamage: 0
-    inflictionChance: 0
-    inflictionResist: 0
-    aggro: 0
-    aggroRange: 5
-    moved: 0
-    pathingSpeed: 56
-  equippedWeapon: {fileID: 0}
-  weapons:
-  - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
-  items: []
-  enemy: {fileID: 0}
-  player: {fileID: 0}
-  unitAbilities: {fileID: 0}
-  unitAnim: {fileID: 0}
-  offset: {x: 0, y: 0, z: 0}
---- !u!114 &966486887291584769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769162474166777809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91c89a01caa0a0d4ebfc846687f1fe9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTurn: {fileID: 0}
-  enemyAI: {fileID: 0}
-  vfx: {fileID: 6338569600576153574}
-  anim: {fileID: 2380982989208113978}
---- !u!114 &5484492567382113369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769162474166777809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 909cc5e2a6864e14db9f1624ccf17b3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilities: []
---- !u!114 &8418630457982787281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769162474166777809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d7607f4757b62142a0421632acabfaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapons:
-  - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
---- !u!114 &1650907851296626239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769162474166777809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3add9479f3fbee408c607c47330cd69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9199684486421295616
 GameObject:
   m_ObjectHideFlags: 0

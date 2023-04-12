@@ -169,7 +169,7 @@ public class SpawnManager : ScriptableObject
     private void DestroyUnits(List<Unit> units)
     {
         foreach (Unit unit in units)
-            Destroy(unit.gameObject);
+            Destroy(unit.unitMovement.gameObject);
     }
     #endregion
 
