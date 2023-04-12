@@ -5,10 +5,19 @@ using UnityEngine;
 
 public class TestClass : MonoBehaviour
 {
-    public delegate int test(bool value);
-
+    
     private void Start()
     {
+        Unit unit = new Unit();
+        Player player = new Player();
+        IUnit interfaceUnit = new Player();
+
+        unit.name = "Test From Unit";
+        player.TestString = "Test from Player";
+        interfaceUnit.TestString = "Test From interfaceUnit";
+
+        IUnit handOff = player;
+        Debug.Log(handOff.TestString);
     }
 
     private void TestMethod(bool value)

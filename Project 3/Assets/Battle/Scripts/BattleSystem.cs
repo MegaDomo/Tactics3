@@ -72,7 +72,7 @@ public class BattleSystem : ScriptableObject
         this.players = players;
         this.enemies = enemies;
         units = new List<Unit>();
-
+        
         foreach (Unit unit in players)
             units.Add(unit);
         foreach (Unit unit in enemies)

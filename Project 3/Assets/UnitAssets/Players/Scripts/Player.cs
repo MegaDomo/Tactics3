@@ -4,13 +4,15 @@ using UnityEngine.Events;
 
 // MiddleMan ScriptableObject
 [CreateAssetMenu(fileName = "NewPlayer", menuName = "Units/Player")]
-public class Player : Unit
+public class Player : Unit, IUnit
 {
     public new string name;
+    private string testString;
     public Sprite portrait;
     public Sprite fullBody;
     public GameObject prefab;
-    public UnitStats stats;
+
+    public string TestString { get => testString; set => testString = value; }
 
     private void OnEnable()
     {
@@ -20,6 +22,9 @@ public class Player : Unit
     }
 
     #region Getters & Setters
-    
+    public void Test()
+    {
+        
+    }
     #endregion
 }
