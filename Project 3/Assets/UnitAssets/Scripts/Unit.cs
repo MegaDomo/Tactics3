@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "NewUnit", menuName = "Units/Unit")]
 public class Unit : ScriptableObject
 {
     public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
@@ -165,13 +166,11 @@ public class Unit : ScriptableObject
 
     public void SetAsPlayer(Unit player)
     {
-        unitMovement.SetupUnit();
         unitType = UnitType.Player;
     }
 
     public void SetAsEnemy()
     {
-        unitMovement.SetupUnit();
         unitType = UnitType.Enemy;
 
         UnitBehavior unitBehavior = new UnitBehavior(this, gameMaster.GetMap(), behaviorType);

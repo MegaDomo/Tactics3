@@ -11273,8 +11273,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
-  battleSystem: {fileID: 0}
-  playerTurn: {fileID: 0}
+  battleSystem: {fileID: 11400000, guid: 228b50141dc903849a2a60d960609323, type: 2}
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
 --- !u!1 &1200371817
 GameObject:
   m_ObjectHideFlags: 0
@@ -11330,7 +11330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e19c54e6e923d47840b7423ac17f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 11400000, guid: 336f08040a65e0047bd87316fa7323c1, type: 2}
+  player: {fileID: 0}
   portraitImage: {fileID: 798912587}
   fillImage: {fileID: 633080655}
   healthText: {fileID: 1450831250}

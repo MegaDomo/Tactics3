@@ -36,7 +36,7 @@ public class MapMaker : ScriptableObject
 
     public void OnEnable()
     {
-        gameMaster.makeMapEvent.AddListener(SetUp);
+        gameMaster.makeMapEvent += SetUp;
     }
 
     private void SetUp(Transform startingPoint, bool makeRandomMap)

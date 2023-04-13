@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,10 +14,62 @@ public class SpawnManager : ScriptableObject
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
 
-    private List<Unit> players;
-    private List<Unit> enemies;
+    public Action finishedSpawningEvent;
+
     private Grid<Node> map;
-    
+
+    private void OnEnable()
+    {
+        gameMaster.spawnUnitsEvent += SpawnUnits;    
+    }
+
+    public void SpawnUnits(Grid<Node> map, List<Unit> players, List<Unit> enemies)
+    {
+        this.map = map;
+        SpawnPlayers(players);
+        SpawnEnemies(enemies);
+        finishedSpawningEvent.Invoke();
+    }
+
+    private void SpawnPlayers(List<Unit> players)
+    {
+        foreach (Unit player in players)
+        {
+            GameObject clone = Instantiate(playerPrefab);
+            clone.GetComponent<UnitMovement>().SetupUnit(player);
+        }
+        PlacePlayers(players);
+    }
+
+    private void SpawnEnemies(List<Unit> enemies)
+    {
+        foreach (Unit enemy in enemies)
+        {
+            GameObject clone = Instantiate(enemyPrefab);
+            clone.GetComponent<UnitMovement>().SetupUnit(enemy);
+        }
+        PlaceEnemies(enemies);
+    }
+
+    private void PlacePlayers(List<Unit> players)
+    {
+        Node origin = map.GetGridObject(0, 0);
+        List<Node> spawnPoints = Pathfinding.GetDiamond(map, origin, 3);
+
+        for (int i = 0; i < players.Count; i++)
+            gameMaster.Place(players[i], spawnPoints[i]);
+    }
+
+    private void PlaceEnemies(List<Unit> enemies)
+    {
+        Node origin = map.GetGridObject((int)map.GetSize() / 2, (int)map.GetSize() / 2);
+        List<Node> spawnPoints = Pathfinding.GetDiamond(map, origin, 3);
+
+        for (int i = 0; i < enemies.Count; i++)
+            gameMaster.Place(enemies[i], spawnPoints[i]);
+    }
+
+    /*
     public void SpawnUnits(List<Unit> playerObjs, int numOfEnemies)
     {
         InstantiatePlayerUnits(playerObjs);
@@ -201,4 +253,5 @@ public class SpawnManager : ScriptableObject
         SplitPlayersAndEnemies(units);
     }
     #endregion
+    */
 }

@@ -19,14 +19,14 @@ public class UnitMovement : MonoBehaviour
 
     private GameObject weaponPrefab;
 
-
     private void Update()
     {
         unitAnim.MoveUnit();
     }
 
-    public void SetupUnit()
+    public void SetupUnit(Unit unit)
     {
+        this.unit = unit;
         offset = transform.position - ground.position;
         unitAnim = GetComponent<UnitAnimation>();
     }

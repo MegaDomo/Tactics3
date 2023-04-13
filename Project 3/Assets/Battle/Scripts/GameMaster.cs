@@ -1,7 +1,6 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 // Manager ScriptableObject
@@ -10,11 +9,12 @@ public class GameMaster : ScriptableObject
 {
     [Header("Players")]
     public List<Unit> players;
+    public List<Unit> enemies;
 
     [Header("Scriptable Object References")]
     public MapMaker mapMaker;
     public BattleSystem battleSystem;
-    public SpawnManager spawner;
+    public SpawnManager spawnManager;
 
     [Header("Level Editor: Settings of Next Run")]
     public bool makeRandomMap;
@@ -22,14 +22,15 @@ public class GameMaster : ScriptableObject
     public bool haveCombat;
     public int numOfEnemies;
 
-    [HideInInspector] public Grid<Node> map;
-    [HideInInspector] public UnityEvent<Transform, bool> makeMapEvent;
+    private Grid<Node> map;
+
+    public Action<Transform, bool> makeMapEvent;
+    public Action<Grid<Node>, List<Unit>, List<Unit>> spawnUnitsEvent;
 
     private void OnEnable()
     {
         mapMaker.mapMadeEvent += MapEventSubscriber;
-
-        makeMapEvent = new UnityEvent<Transform, bool>();
+        spawnManager.finishedSpawningEvent += StartCombat;
         SceneManager.activeSceneChanged += LoadLevel;
     }
 
@@ -42,20 +43,17 @@ public class GameMaster : ScriptableObject
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
 
         if (spawnUnits)
-        {
-            spawner.SpawnUnits(players, numOfEnemies);
-            ///spawner.PlaceUnits(maker.map);
-        }
+            spawnUnitsEvent.Invoke(map, players, enemies);
+    }
 
+    private void StartCombat()
+    {
         if (haveCombat)
         {
-            List<Unit> players = spawner.GetPlayers();
-            List<Unit> enemies = spawner.GetEnemies();
             battleSystem.SetPlayersAndEnemies(players, enemies);
             battleSystem.SetUp();
         }
     }
-
     #region Events & Subscribers
     private void MapEventSubscriber(Grid<Node> map)
     {
