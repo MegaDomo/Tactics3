@@ -176,6 +176,7 @@ public class Unit : ScriptableObject
 
         UnitBehavior unitBehavior = new UnitBehavior(this, gameMaster.GetMap(), behaviorType);
         behavior = unitBehavior.GetBehavior();
+        behavior.self = this;
     }
 
     public int MovementLeft()

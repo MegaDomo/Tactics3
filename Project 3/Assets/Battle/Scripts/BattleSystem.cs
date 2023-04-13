@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,15 @@ public class BattleSystem : ScriptableObject
     [HideInInspector] public List<Unit> players;
     [HideInInspector] public List<Unit> enemies;
     [HideInInspector] public Queue<Unit> initiative = new Queue<Unit>();
+
+    public Action<Unit> playerTurnEvent;
+    public Action<Unit> enemyTurnEvent;
+
+    private void OnEnable()
+    {
+        playerTurn.endTurnEvent += GetNextInitiative;
+        enemyAI.endTurnEvent += GetNextInitiative;
+    }
 
     public void SetUp()
     {
@@ -50,13 +60,11 @@ public class BattleSystem : ScriptableObject
         {
             case Unit.UnitType.Player:
                 CombatState.MakeStatePlayerTurn();
-                playerTurn.SetSelected(next);
-                playerTurn.StartTurn();
+                playerTurnEvent.Invoke(next);
                 break;
             case Unit.UnitType.Enemy:
                 CombatState.MakeStateEnemyTurn();
-                enemyAI.SetSelected(next);
-                enemyAI.StartTurn();
+                enemyTurnEvent.Invoke(next);
                 break;
             default:
                 break;

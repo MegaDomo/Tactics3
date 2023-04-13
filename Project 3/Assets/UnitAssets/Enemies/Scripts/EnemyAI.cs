@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 // In Control of the whole enemy team
@@ -14,16 +13,23 @@ public class EnemyAI : ScriptableObject
     private bool isMoving;
     private bool isAttacking;
 
-    public void StartTurn()
+    public Action endTurnEvent;
+
+    private void OnEnable()
     {
-        //behavior = selected.behavior;
-        behavior.self = selected;
+        battleSystem.enemyTurnEvent += StartTurn;    
+    }
+
+    public void StartTurn(Unit unit)
+    {
+        selected = unit;
+        behavior = selected.behavior;
         behavior.TakeTurn();
     }
 
     public void EndTurn()
     {
-        battleSystem.GetNextInitiative();
+        endTurnEvent.Invoke();
     }
 
     #region Utility

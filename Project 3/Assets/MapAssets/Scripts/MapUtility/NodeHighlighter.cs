@@ -6,8 +6,15 @@ public class NodeHighlighter : MonoBehaviour
 {
     [Header("Scriptable Object References")]
     public GameMaster gameMaster;
+    public BattleSystem battleSystem;
+    public PlayerTurn playerTurn;
 
     private List<ForecastTile> fTiles = new List<ForecastTile>();
+
+    private void Start()
+    {
+        
+    }
 
     public void Highlight(Unit unit)
     {

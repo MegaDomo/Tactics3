@@ -1,6 +1,5 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
-
 
 public enum ActionState { ChooseNode, ChoosingAction, CannotChoose }
 
@@ -16,16 +15,24 @@ public class PlayerTurn : ScriptableObject
 
     [HideInInspector] public ActionState actionState;
 
-    public UnityEvent selectedNodeEvent;
+    public Action selectedNodeEvent;
+    public Action endTurnEvent;
 
     private Unit selected;
     private Unit target;
     private Node destination;
 
+    private void OnEnable()
+    {
+        battleSystem.playerTurnEvent += StartTurn;
+        
+    }
+
     #region ActionStateMethods
-    public void StartTurn()
+    public void StartTurn(Unit unit)
     {
         actionState = ActionState.ChooseNode;
+        SetSelected(unit);
         nodeHighlighter.Highlight(selected);
     }
 
@@ -34,7 +41,7 @@ public class PlayerTurn : ScriptableObject
         actionState = ActionState.CannotChoose;
         nodeHighlighter.Unhighlight();
         ClearValues();
-        battleSystem.GetNextInitiative();
+        endTurnEvent.Invoke();
     }
 
     public void ChooseNode(Node node)
