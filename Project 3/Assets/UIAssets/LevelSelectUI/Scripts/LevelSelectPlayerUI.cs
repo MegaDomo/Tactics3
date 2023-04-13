@@ -6,7 +6,7 @@ using TMPro;
 public class LevelSelectPlayerUI : MonoBehaviour
 {
     [Header("Unity References")]
-    public Player player;
+    public Unit player;
     public TMP_InputField field;
 
     public void SetPlayerObject()

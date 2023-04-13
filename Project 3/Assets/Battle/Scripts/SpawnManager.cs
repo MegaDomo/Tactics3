@@ -18,7 +18,7 @@ public class SpawnManager : ScriptableObject
     private List<Unit> enemies;
     private Grid<Node> map;
     
-    public void SpawnUnits(List<Player> playerObjs, int numOfEnemies)
+    public void SpawnUnits(List<Unit> playerObjs, int numOfEnemies)
     {
         InstantiatePlayerUnits(playerObjs);
         InstantiateEnemyUnits(numOfEnemies);
@@ -54,7 +54,7 @@ public class SpawnManager : ScriptableObject
         // Randoms w/ Weights
     }
 
-    public void InstantiatePlayerUnits(List<Player> playerObjs)
+    public void InstantiatePlayerUnits(List<Unit> playerObjs)
     {
         if (playerObjs.Count == 0)
             return;
@@ -140,14 +140,14 @@ public class SpawnManager : ScriptableObject
         }
     }
 
-    private List<Unit> CreatePlayerUnits(List<Player> playerObjs, GameObject prefab)
+    private List<Unit> CreatePlayerUnits(List<Unit> playerObjs, GameObject prefab)
     {
         List<Unit> tempUnits = new List<Unit>();
-        foreach (Player player in playerObjs)
+        foreach (Unit unit in playerObjs)
         {
             GameObject clone = Instantiate(prefab);
             Unit cloneUnit = clone.GetComponent<Unit>();
-            cloneUnit.SetAsPlayer(player);
+            cloneUnit.SetAsPlayer(unit);
             tempUnits.Add(cloneUnit);
         }
         return tempUnits;

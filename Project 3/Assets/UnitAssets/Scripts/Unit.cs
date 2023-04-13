@@ -1,14 +1,28 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Unit : ScriptableObject
 {
     public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
+    public enum BehaviorType { Attacker, Killer }
+
+    [Header("Scriptable Object References")]
+    public GameMaster gameMaster;
+    public PlayerTurn playerTurn;
+    public EnemyAI enemyAI;
 
     [Header("Attributes")]
+    public new string name;
     public UnitType unitType;
+    public Sprite portrait;
+    public Sprite fullBody;
+    public GameObject prefab;
+    public AnimatorOverrideController overrideController;
+
+    [Header("If Enemy Attributes")]
+    public BehaviorType behaviorType;
+    [HideInInspector] public Behavior behavior;
 
     [Header("Debugging")]
     public Unit tauntedTarget;
@@ -16,16 +30,18 @@ public class Unit : ScriptableObject
     public UnitStats stats; // Not Hidden for Debbuging
 
     [HideInInspector] public Node node;
+    [HideInInspector] public UnitMovement unitMovement;
+    [HideInInspector] public Unit target;
 
     [HideInInspector] public Weapon equippedWeapon;
     [HideInInspector] public List<Weapon> weapons;
     [HideInInspector] public List<Ability> abilities;
     [HideInInspector] public List<Item> items;
 
-    [HideInInspector] public UnitMovement unitMovement;
-    [HideInInspector] public UnityEvent<int, int> healthChangeEvent;
-
-    [HideInInspector] public Unit target;
+    [HideInInspector] public Action startTurnEvent;
+    [HideInInspector] public Action endTurnEvent;
+    [HideInInspector] public Action<int, int> healthChangeEvent;
+    [HideInInspector] public Action movementEvent;
 
     private Grid<Node> map;
 
@@ -147,7 +163,7 @@ public class Unit : ScriptableObject
         this.items = items;
     }
 
-    public void SetAsPlayer(Player player)
+    public void SetAsPlayer(Unit player)
     {
         unitMovement.SetupUnit();
         unitType = UnitType.Player;
@@ -157,6 +173,9 @@ public class Unit : ScriptableObject
     {
         unitMovement.SetupUnit();
         unitType = UnitType.Enemy;
+
+        UnitBehavior unitBehavior = new UnitBehavior(this, gameMaster.GetMap(), behaviorType);
+        behavior = unitBehavior.GetBehavior();
     }
 
     public int MovementLeft()

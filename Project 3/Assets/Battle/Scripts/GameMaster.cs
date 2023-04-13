@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameMaster : ScriptableObject
 {
     [Header("Players")]
-    public List<Player> players;
+    public List<Unit> players;
 
     [Header("Scriptable Object References")]
     public MapMaker mapMaker;

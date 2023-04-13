@@ -2,23 +2,21 @@ public class UnitBehavior
 {
     private Unit unit;
     private Behavior behavior;
-    private EnemyObject.BehaviorType behaviorType;
 
-    public UnitBehavior(Unit unit, Grid<Node> map, EnemyObject enemyObject)
+    public UnitBehavior(Unit unit, Grid<Node> map, Unit.BehaviorType behaviorType)
     {
         this.unit = unit;
-        behaviorType = enemyObject.behaviorType;
 
-        SetBehavior(map);
+        SetBehavior(map, behaviorType);
         behavior.self = unit;
     }
 
-    private void SetBehavior(Grid<Node> map)
+    private void SetBehavior(Grid<Node> map, Unit.BehaviorType behaviorType)
     {
-        if (behaviorType == EnemyObject.BehaviorType.Attacker)
+        if (behaviorType == Unit.BehaviorType.Attacker)
             behavior = new Attacker(map, unit);
 
-        if (behaviorType == EnemyObject.BehaviorType.Killer)
+        if (behaviorType == Unit.BehaviorType.Killer)
             behavior = new Killer();
         // TODO : Add other Behaviors and compensate their constructors
     }
