@@ -18,11 +18,6 @@ public class UnitAnimation : MonoBehaviour
     private Node nodeToMoveTo;
     private Queue<Node> path = new Queue<Node>();
 
-    private void Start()
-    {
-        unit = GetComponent<Unit>();
-    }
-
     #region Movement Methods
     public void Move(List<Node> path)
     {
@@ -178,6 +173,11 @@ public class UnitAnimation : MonoBehaviour
     #endregion
 
     #region Setters
+    public void SetUnit(Unit unit)
+    {
+        this.unit = unit;
+    }
+
     public void SetIsMoving(bool value)
     {
         isMoving = value;

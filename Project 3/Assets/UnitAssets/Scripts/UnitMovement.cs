@@ -29,6 +29,7 @@ public class UnitMovement : MonoBehaviour
         this.unit = unit;
         offset = transform.position - ground.position;
         unitAnim = GetComponent<UnitAnimation>();
+        unitAnim.SetUnit(unit);
     }
 
     #region Movement

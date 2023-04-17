@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         CloseAllPanels();
+    }
+
+    public void LevelSelectButton()
+    {
+        SceneManager.LoadScene(0);
     }
 
     #region ChangePanels

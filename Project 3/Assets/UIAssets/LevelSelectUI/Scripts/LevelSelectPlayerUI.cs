@@ -6,8 +6,16 @@ using TMPro;
 public class LevelSelectPlayerUI : MonoBehaviour
 {
     [Header("Unity References")]
+    public LevelSelector levelSelector;
     public Unit player;
+
+    [Header("UI References")]
     public TMP_InputField field;
+
+    private void Start()
+    {
+        levelSelector.selectLevelEvent += SetPlayerObject;    
+    }
 
     public void SetPlayerObject()
     {

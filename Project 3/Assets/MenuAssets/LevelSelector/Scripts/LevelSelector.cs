@@ -1,16 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelSelector : MonoBehaviour
 {
-    [Header("Unity References")]
-    public LevelSelectPlayerUI playerUI;
+    public Action selectLevelEvent;
 
-    public void PlayLevelButton()
+    public void PlayLevel1Button()
     {
-        playerUI.SetPlayerObject();
+        selectLevelEvent.Invoke();
         SceneManager.LoadScene(1);
+    }
+
+    public void PlayLevel2Button()
+    {
+        selectLevelEvent.Invoke();
+        SceneManager.LoadScene(2);
     }
 }
