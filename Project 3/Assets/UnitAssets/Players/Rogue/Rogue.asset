@@ -44,7 +44,7 @@ MonoBehaviour:
     aggro: 0
     aggroRange: 5
     moved: 0
-    pathingSpeed: 10
+    pathingSpeed: 60
   unitMovement: {fileID: 0}
   target: {fileID: 0}
   equippedWeapon: {fileID: 0}

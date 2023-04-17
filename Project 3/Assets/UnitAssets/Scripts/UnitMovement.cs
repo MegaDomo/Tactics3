@@ -24,7 +24,7 @@ public class UnitMovement : MonoBehaviour
         unitAnim.MoveUnit();
     }
 
-    public void SetupUnit(Unit unit)
+    public void Setup(Unit unit)
     {
         this.unit = unit;
         unit.unitMovement = this;

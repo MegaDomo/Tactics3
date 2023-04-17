@@ -11,10 +11,15 @@ public class UIManager : MonoBehaviour
     public GameObject hotbar;
     public GameObject weaponPanel;
     public GameObject targetPanel;
-    
-    private void Start()
+
+    private void OnEnable()
     {
         playerTurn.deselectedNodeEvent += CloseAllPanels;
+        playerTurn.selectedNodeEvent += TurnOnHotBar;
+    }
+
+    private void Start()
+    {
         CloseAllPanels();
     }
 
@@ -24,6 +29,11 @@ public class UIManager : MonoBehaviour
     }
 
     #region ChangePanels
+    public void TurnOnHotBar()
+    {
+        SetActiveHotBar(true);
+    }
+
     public void ChangeFromHotbarToWeapon()
     {
         SetActiveHotBar(false);
@@ -59,6 +69,7 @@ public class UIManager : MonoBehaviour
     #region Setters
     public void SetActiveHotBar(bool value)
     {
+        if (hotbar == null) Debug.Log("Yep");
         hotbar.SetActive(value);
     }
 

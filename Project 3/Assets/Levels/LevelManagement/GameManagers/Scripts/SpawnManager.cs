@@ -36,7 +36,8 @@ public class SpawnManager : ScriptableObject
         foreach (Unit player in players)
         {
             GameObject clone = Instantiate(playerPrefab);
-            clone.GetComponent<UnitMovement>().SetupUnit(player);
+            UnitMovement movementComponent = clone.GetComponent<UnitMovement>();
+            player.Setup(map, movementComponent);
         }
         PlacePlayers(players);
     }
@@ -46,7 +47,8 @@ public class SpawnManager : ScriptableObject
         foreach (Unit enemy in enemies)
         {
             GameObject clone = Instantiate(enemyPrefab);
-            clone.GetComponent<UnitMovement>().SetupUnit(enemy);
+            UnitMovement movementComponent = clone.GetComponent<UnitMovement>();
+            enemy.Setup(map, movementComponent);
         }
         PlaceEnemies(enemies);
     }

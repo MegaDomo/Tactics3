@@ -46,6 +46,13 @@ public class Unit : ScriptableObject
 
     private Grid<Node> map;
 
+    public void Setup(Grid<Node> map, UnitMovement unitMovement)
+    {
+        this.map = map;
+        this.unitMovement = unitMovement;
+        this.unitMovement.Setup(this);
+    }
+
     #region Turn Methods
     public void StartTurn()
     {
