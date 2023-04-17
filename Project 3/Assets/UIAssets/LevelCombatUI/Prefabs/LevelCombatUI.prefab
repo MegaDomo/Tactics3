@@ -1071,7 +1071,7 @@ GameObject:
   - component: {fileID: 5086838600745766572}
   - component: {fileID: 5086838600745766560}
   m_Layer: 5
-  m_Name: UI
+  m_Name: LevelCombatUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1176,6 +1176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823fa581c17cde445aa5a1372f1bc74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   hotbar: {fileID: 5086838601644594443}
   weaponPanel: {fileID: 5086838602131008929}
   targetPanel: {fileID: 5086838601693241478}

@@ -1,17 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Unity References")]
+    public PlayerTurn playerTurn;
+
     [Header("UI References")]
     public GameObject hotbar;
     public GameObject weaponPanel;
     public GameObject targetPanel;
-
+    
     private void Start()
     {
+        playerTurn.deselectedNodeEvent += CloseAllPanels;
         CloseAllPanels();
     }
 
@@ -39,6 +42,13 @@ public class UIManager : MonoBehaviour
     }
 
     public void CloseAllPanels()
+    {
+        SetActiveHotBar(false);
+        SetActiveWeaponPanel(false);
+        SetActiveTargetPanel(false);
+    }
+
+    public void CloseAllPanels(Unit unit)
     {
         SetActiveHotBar(false);
         SetActiveWeaponPanel(false);

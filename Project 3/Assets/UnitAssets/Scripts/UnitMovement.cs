@@ -27,6 +27,7 @@ public class UnitMovement : MonoBehaviour
     public void SetupUnit(Unit unit)
     {
         this.unit = unit;
+        unit.unitMovement = this;
         offset = transform.position - ground.position;
         unitAnim = GetComponent<UnitAnimation>();
         unitAnim.SetUnit(unit);

@@ -9,14 +9,14 @@ public class PlayerTurn : ScriptableObject
     [Header("Scriptable Object References")]
     public BattleSystem battleSystem;
 
-    [Header("Unity References")]
-    public NodeHighlighter nodeHighlighter;
-    public UIManager ui;
-
     [HideInInspector] public ActionState actionState;
 
-    public Action selectedNodeEvent;
+    // Player Events
     public Action endTurnEvent;
+
+    // Node Events
+    public Action selectedNodeEvent;
+    public Action<Unit> deselectedNodeEvent;
 
     private Unit selected;
     private Unit target;
@@ -33,13 +33,12 @@ public class PlayerTurn : ScriptableObject
     {
         actionState = ActionState.ChooseNode;
         SetSelected(unit);
-        nodeHighlighter.Highlight(selected);
+        deselectedNodeEvent?.Invoke(selected);
     }
 
     public void EndTurn()
     {
         actionState = ActionState.CannotChoose;
-        nodeHighlighter.Unhighlight();
         ClearValues();
         endTurnEvent.Invoke();
     }
@@ -49,22 +48,19 @@ public class PlayerTurn : ScriptableObject
         destination = node;
         actionState = ActionState.ChoosingAction;
         selectedNodeEvent.Invoke();
-        nodeHighlighter.Unhighlight();
     }
 
     public void ClearNode()
     {
         destination = null;
         actionState = ActionState.ChooseNode;
-        ui.CloseAllPanels();
-        nodeHighlighter.Highlight(selected);
+        deselectedNodeEvent.Invoke(selected);
     }
 
     public void ChooseTarget(Unit target)
     {
         this.target = target;
         actionState = ActionState.ChoosingAction;
-        nodeHighlighter.Unhighlight();
     }
     
     #endregion
