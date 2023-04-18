@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class ASyncLevelLoader : MonoBehaviour
 {
+    [Header("Scriptable Object Reference")]
+    public GameMaster gameMaster;
+
     [Header("Menu Screens")]
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject mainMenu;

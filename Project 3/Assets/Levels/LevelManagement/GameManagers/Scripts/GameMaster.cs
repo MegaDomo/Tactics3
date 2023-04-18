@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,14 +32,13 @@ public class GameMaster : ScriptableObject
     {
         mapMaker.mapMadeEvent += MapEventSubscriber;
         spawnManager.finishedSpawningEvent += StartCombat;
-        SceneManager.activeSceneChanged += LoadLevel;
     }
 
-    private void LoadLevel(Scene current, Scene next)
+    public void LoadLevel()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
             return;
-
+        
         Transform startingPoint = GameObject.FindGameObjectWithTag("MapStartingPoint").transform;
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
 

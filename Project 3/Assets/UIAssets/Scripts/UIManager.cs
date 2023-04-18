@@ -69,7 +69,6 @@ public class UIManager : MonoBehaviour
     #region Setters
     public void SetActiveHotBar(bool value)
     {
-        if (hotbar == null) Debug.Log("Yep");
         hotbar.SetActive(value);
     }
 
