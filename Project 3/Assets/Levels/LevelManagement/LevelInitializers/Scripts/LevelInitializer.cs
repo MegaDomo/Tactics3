@@ -11,7 +11,7 @@ public class LevelInitializer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(UIprefab);
+
     }
 
     // Update is called once per frame
