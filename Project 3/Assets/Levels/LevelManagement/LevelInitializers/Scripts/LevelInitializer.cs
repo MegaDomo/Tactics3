@@ -6,15 +6,23 @@ public class LevelInitializer : MonoBehaviour
 {
     [Header("Scriptable Object References")]
     public GameMaster gameMaster;
-
-    [Header("Prefab References")]
-    public GameObject UIprefab;
-    public GameObject map;
+    public LevelManager levelManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        levelManager.LoadLevel();
+
+        // TODO : Maybe this is where Dialogue can Trigger from before GameMaster Starts Combat
+        // Would need GameMaster to Load Characters but not start combat
+
         gameMaster.LoadLevel();
+
+
+
+
+
+
         //StartCoroutine(LoadLevel());
     }
 

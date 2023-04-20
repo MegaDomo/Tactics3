@@ -13,18 +13,21 @@ public class UIManager : MonoBehaviour
     public GameObject weaponPanel;
     public GameObject targetPanel;
 
-    private void Awake()
-    {
-    }
-
-    private void OnEnable()
-    {
-        //SetupEvents();
-    }
 
     private void Start()
     {
         CloseAllPanels();
+    }
+
+    #region Events
+    private void OnEnable()
+    {
+        SubscribeEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeEvents();
     }
 
     private void Setup()
@@ -34,13 +37,22 @@ public class UIManager : MonoBehaviour
         targetPanel = transform.GetChild(0).GetChild(2).gameObject;
     }
 
-    private void SetupEvents()
+    private void SubscribeEvents()
     {
         playerTurn.deselectedNodeEvent += CloseAllPanels;
         playerTurn.selectedNodeEvent += TurnOnHotBar;
 
         battleSystem.playerTurnEvent += CloseAllPanels;
     }
+
+    private void UnsubscribeEvents()
+    {
+        playerTurn.deselectedNodeEvent -= CloseAllPanels;
+        playerTurn.selectedNodeEvent -= TurnOnHotBar;
+
+        battleSystem.playerTurnEvent -= CloseAllPanels;
+    }
+    #endregion
 
     public void LevelSelectButton()
     {

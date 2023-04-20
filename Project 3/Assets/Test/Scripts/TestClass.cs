@@ -16,7 +16,12 @@ public class TestClass : MonoBehaviour
 
     private void OnEnable()
     {
-        battleSystem.playerTurnEvent += TestMethod;
+        //battleSystem.playerTurnEvent += TestMethod;
+    }
+
+    private void OnDisable()
+    {
+        //battleSystem.playerTurnEvent -= TestMethod;
     }
 
     private void Start()
@@ -27,6 +32,6 @@ public class TestClass : MonoBehaviour
     {
         if (testObject == null) Debug.Log("Test Object is Null");
         else Debug.Log("Test Object is Good");
-        battleSystem.playerTurnEvent -= TestMethod;
+        
     }
 }
