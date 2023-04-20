@@ -6,20 +6,28 @@ using UnityEngine.SceneManagement;
 
 public class TestClass : MonoBehaviour
 {
+    public BattleSystem battleSystem;
     public GameObject testObject;
 
+    public Action testEvent;
     private void Awake()
     {
-        if (testObject == null) Debug.Log("Awake");
+        
     }
 
     private void OnEnable()
     {
-        if (testObject == null) Debug.Log("OnEnable");
+        battleSystem.playerTurnEvent += TestMethod;
     }
 
     private void Start()
     {
-        if (testObject == null) Debug.Log("Start");
+        
+    }
+
+    private void TestMethod(Unit unit)
+    {
+        if (testObject == null) Debug.Log("Test Object is Null");
+        else Debug.Log("Test Object is Good");
     }
 }

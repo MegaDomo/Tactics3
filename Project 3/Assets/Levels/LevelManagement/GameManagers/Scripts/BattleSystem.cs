@@ -9,6 +9,7 @@ public class BattleSystem : ScriptableObject
 {
     [Header("Scriptable Object References")]
     public GameMaster gameMaster;
+    public SpawnManager spawnManager;
     public PlayerTurn playerTurn;
     public EnemyAI enemyAI;
 
@@ -22,12 +23,14 @@ public class BattleSystem : ScriptableObject
 
     private void OnEnable()
     {
+        spawnManager.finishedSpawningEvent += Setup;
         playerTurn.endTurnEvent += GetNextInitiative;
         enemyAI.endTurnEvent += GetNextInitiative;
     }
 
-    public void SetUp()
+    public void Setup(List<Unit> players, List<Unit> enemies)
     {
+        SetPlayersAndEnemies(players, enemies);
         QueueUp();
         StartBattle();
     }

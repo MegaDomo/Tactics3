@@ -15,7 +15,6 @@ public class GameMaster : ScriptableObject
     [Header("Scriptable Object References")]
     public MapMaker mapMaker;
     public BattleSystem battleSystem;
-    public SpawnManager spawnManager;
 
     [Header("Level Editor: Settings of Next Run")]
     public bool makeRandomMap;
@@ -31,7 +30,6 @@ public class GameMaster : ScriptableObject
     private void OnEnable()
     {
         mapMaker.mapMadeEvent += MapEventSubscriber;
-        spawnManager.finishedSpawningEvent += StartCombat;
     }
 
     public void LoadLevel()
@@ -46,14 +44,6 @@ public class GameMaster : ScriptableObject
             spawnUnitsEvent.Invoke(map, players, enemies);
     }
 
-    private void StartCombat()
-    {
-        if (haveCombat)
-        {
-            battleSystem.SetPlayersAndEnemies(players, enemies);
-            battleSystem.SetUp();
-        }
-    }
     #region Events & Subscribers
     private void MapEventSubscriber(Grid<Node> map)
     {

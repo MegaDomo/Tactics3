@@ -14,7 +14,7 @@ public class SpawnManager : ScriptableObject
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
 
-    public Action finishedSpawningEvent;
+    public Action<List<Unit>, List<Unit>> finishedSpawningEvent;
 
     private Grid<Node> map;
 
@@ -28,7 +28,7 @@ public class SpawnManager : ScriptableObject
         this.map = map;
         SpawnPlayers(players);
         SpawnEnemies(enemies);
-        finishedSpawningEvent.Invoke();
+        finishedSpawningEvent.Invoke(players, enemies);
     }
 
     private void SpawnPlayers(List<Unit> players)

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BattleSystem
   m_EditorClassIdentifier: 
   gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
+  spawnManager: {fileID: 11400000, guid: 8ed31554148639b4392e92100073e8ce, type: 2}
   playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   enemyAI: {fileID: 11400000, guid: 42adc56d6527de94eb3328c98308f31c, type: 2}
   units: []

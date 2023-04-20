@@ -19,10 +19,7 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //playerTurn.deselectedNodeEvent += CloseAllPanels;
-        //playerTurn.selectedNodeEvent += TurnOnHotBar;
-
-        //battleSystem.playerTurnEvent += CloseAllPanels;
+        SetupEvents();
     }
 
     private void Start()
@@ -35,6 +32,14 @@ public class UIManager : MonoBehaviour
         hotbar = transform.GetChild(0).GetChild(0).gameObject;
         weaponPanel = transform.GetChild(0).GetChild(1).gameObject;
         targetPanel = transform.GetChild(0).GetChild(2).gameObject;
+    }
+
+    private void SetupEvents()
+    {
+        playerTurn.deselectedNodeEvent += CloseAllPanels;
+        playerTurn.selectedNodeEvent += TurnOnHotBar;
+
+        battleSystem.playerTurnEvent += CloseAllPanels;
     }
 
     public void LevelSelectButton()
@@ -83,6 +88,7 @@ public class UIManager : MonoBehaviour
     #region Setters
     public void SetActiveHotBar(bool value)
     {
+        if (hotbar == null) Debug.Log("Yep It's Hotbar");
         hotbar.SetActive(value);
     }
 
