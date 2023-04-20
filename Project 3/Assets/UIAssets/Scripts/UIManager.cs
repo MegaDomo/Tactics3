@@ -6,21 +6,35 @@ public class UIManager : MonoBehaviour
 {
     [Header("Unity References")]
     public PlayerTurn playerTurn;
+    public BattleSystem battleSystem;
 
     [Header("UI References")]
     public GameObject hotbar;
     public GameObject weaponPanel;
     public GameObject targetPanel;
 
+    private void Awake()
+    {
+    }
+
     private void OnEnable()
     {
-        playerTurn.deselectedNodeEvent += CloseAllPanels;
-        playerTurn.selectedNodeEvent += TurnOnHotBar;
+        //playerTurn.deselectedNodeEvent += CloseAllPanels;
+        //playerTurn.selectedNodeEvent += TurnOnHotBar;
+
+        //battleSystem.playerTurnEvent += CloseAllPanels;
     }
 
     private void Start()
     {
         CloseAllPanels();
+    }
+
+    private void Setup()
+    {
+        hotbar = transform.GetChild(0).GetChild(0).gameObject;
+        weaponPanel = transform.GetChild(0).GetChild(1).gameObject;
+        targetPanel = transform.GetChild(0).GetChild(2).gameObject;
     }
 
     public void LevelSelectButton()

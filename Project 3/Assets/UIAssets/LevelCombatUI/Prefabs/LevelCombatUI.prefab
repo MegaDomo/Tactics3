@@ -1177,6 +1177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
+  battleSystem: {fileID: 11400000, guid: 228b50141dc903849a2a60d960609323, type: 2}
   hotbar: {fileID: 5086838601644594443}
   weaponPanel: {fileID: 5086838602131008929}
   targetPanel: {fileID: 5086838601693241478}
@@ -3877,7 +3878,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
   playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
-  uiManager: {fileID: 0}
   targetButtons:
   - {fileID: 5086838601230431768}
   - {fileID: 5086838601178890771}

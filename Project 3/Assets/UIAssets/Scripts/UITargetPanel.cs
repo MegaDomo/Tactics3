@@ -11,7 +11,6 @@ public class UITargetPanel : MonoBehaviour
     public PlayerTurn playerTurn;
 
     [Header("Unity References")]
-    public UIManager uiManager;
     public List<Button> targetButtons;
 
     private Unit selected;

@@ -33,28 +33,27 @@ public class PlayerTurn : ScriptableObject
     {
         actionState = ActionState.ChooseNode;
         SetSelected(unit);
-        deselectedNodeEvent?.Invoke(selected);
     }
 
     public void EndTurn()
     {
         actionState = ActionState.CannotChoose;
         ClearValues();
-        endTurnEvent.Invoke();
+        endTurnEvent?.Invoke();
     }
 
     public void ChooseNode(Node node)
     {
         destination = node;
         actionState = ActionState.ChoosingAction;
-        selectedNodeEvent.Invoke();
+        selectedNodeEvent?.Invoke();
     }
 
     public void ClearNode()
     {
         destination = null;
         actionState = ActionState.ChooseNode;
-        deselectedNodeEvent.Invoke(selected);
+        deselectedNodeEvent?.Invoke(selected);
     }
 
     public void ChooseTarget(Unit target)
