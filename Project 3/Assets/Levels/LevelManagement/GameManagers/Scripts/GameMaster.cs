@@ -13,6 +13,7 @@ public class GameMaster : ScriptableObject
     public List<Unit> enemies;
 
     [Header("Scriptable Object References")]
+    public LevelManager levelManager;
     public MapMaker mapMaker;
     public BattleSystem battleSystem;
 
@@ -27,15 +28,19 @@ public class GameMaster : ScriptableObject
     public Action<Transform, bool> makeMapEvent;
     public Action<Grid<Node>, List<Unit>, List<Unit>> spawnUnitsEvent;
 
+    private string levelToLoad;
+
     private void OnEnable()
     {
         mapMaker.mapMadeEvent += MapEventSubscriber;
+        SceneManager.activeSceneChanged += LoadLevel;
     }
 
-    public void LoadLevel()
+    public void LoadLevel(Scene current, Scene next)
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-            return;
+        levelManager.LoadLevel(levelToLoad);
+        //if (SceneManager.GetActiveScene().buildIndex == 0)
+        //    return;
         
         Transform startingPoint = GameObject.FindGameObjectWithTag("MapStartingPoint").transform;
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
@@ -72,6 +77,16 @@ public class GameMaster : ScriptableObject
     public void SetMap(Grid<Node> map)
     {
         this.map = map;
+    }
+
+    public string GetLevelToLoad()
+    {
+        return levelToLoad;
+    }
+
+    public void SetLevelToLoad(string levelToLoad)
+    {
+        this.levelToLoad = levelToLoad;
     }
     #endregion
 }

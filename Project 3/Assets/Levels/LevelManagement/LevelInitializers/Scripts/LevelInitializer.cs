@@ -11,12 +11,12 @@ public class LevelInitializer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelManager.LoadLevel();
+        //levelManager.LoadLevel();
 
         // TODO : Maybe this is where Dialogue can Trigger from before GameMaster Starts Combat
         // Would need GameMaster to Load Characters but not start combat
 
-        gameMaster.LoadLevel();
+        //gameMaster.LoadLevel();
 
 
 
@@ -29,12 +29,7 @@ public class LevelInitializer : MonoBehaviour
     IEnumerator LoadLevel()
     {
         yield return new WaitForSeconds(3.5f);
-        gameMaster.LoadLevel();
+        //gameMaster.LoadLevel();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

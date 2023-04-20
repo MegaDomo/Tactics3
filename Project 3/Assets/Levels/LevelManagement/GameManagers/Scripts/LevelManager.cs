@@ -7,8 +7,29 @@ public class LevelManager : ScriptableObject
 {
     public List<Level> levels;
 
-    public void LoadLevel()
+    private Dictionary<string, int> levelIndexes = new Dictionary<string, int>();
+
+    private void OnEnable()
     {
-        Instantiate(levels[0].map);
+        SetLevels();
+    }
+
+    public void LoadLevel(string levelName)
+    {
+        if (!levelIndexes.ContainsKey(levelName))
+        {
+            Debug.Log("Name does not match Level Manager data");
+            return;
+        }
+        int index = levelIndexes[levelName];
+        Instantiate(levels[index].map);
+    }
+
+    private void SetLevels()
+    {
+        int index = 0;
+
+        foreach (Level level in levels)
+            levelIndexes.Add(level.name, index++);
     }
 }

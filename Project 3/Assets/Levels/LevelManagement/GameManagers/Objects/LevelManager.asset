@@ -24,4 +24,4 @@ MonoBehaviour:
     dialogue:
       characterName: 
       sentences: []
-    map: {fileID: 0}
+    map: {fileID: 4839220402965264444, guid: bdb20e99cd8b9f34cb69d5e8cef17177, type: 3}
