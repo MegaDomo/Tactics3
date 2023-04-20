@@ -14,13 +14,13 @@ public class LevelInitializer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //gameMaster.LoadLevel();
-        StartCoroutine(LoadLevel());
+        gameMaster.LoadLevel();
+        //StartCoroutine(LoadLevel());
     }
 
     IEnumerator LoadLevel()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3.5f);
         gameMaster.LoadLevel();
     }
 

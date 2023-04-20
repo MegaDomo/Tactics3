@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        SetupEvents();
+        //SetupEvents();
     }
 
     private void Start()
