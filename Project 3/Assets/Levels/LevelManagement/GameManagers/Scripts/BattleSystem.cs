@@ -21,9 +21,12 @@ public class BattleSystem : ScriptableObject
     public Action<Unit> playerTurnEvent;
     public Action<Unit> enemyTurnEvent;
 
+    public Action victoryEvent;
+    public Action defeatEvent;
+
     private void OnEnable()
     {
-        spawnManager.finishedSpawningEvent += Setup;
+        gameMaster.startCombatEvent += Setup;
         playerTurn.endTurnEvent += GetNextInitiative;
         enemyAI.endTurnEvent += GetNextInitiative;
     }
@@ -50,6 +53,13 @@ public class BattleSystem : ScriptableObject
 
     public void GetNextInitiative()
     {
+        // TODO : Check if one Side has been wiped
+        // Extra Script (Maybe) that listens for Unit OnDeath Events
+        // Uses Comparative Based Search to remove from list, upon empty list fire
+        // respective Event
+
+
+
         Unit next;
         if (!initiative.TryPeek(out next))
             return;
@@ -78,17 +88,31 @@ public class BattleSystem : ScriptableObject
             QueueUp();
     }
 
+
+
+    #region Utility
     public void SetPlayersAndEnemies(List<Unit> players, List<Unit> enemies)
     {
         this.players = players;
         this.enemies = enemies;
         units = new List<Unit>();
-        
+
         foreach (Unit unit in players)
             units.Add(unit);
         foreach (Unit unit in enemies)
             units.Add(unit);
     }
+
+    public void Victory()
+    {
+        victoryEvent.Invoke();
+    }
+
+    public void Defeat()
+    {
+        defeatEvent.Invoke();
+    }
+    #endregion
 
     #region Getters & Setters
     public List<Unit> GetPlayers()

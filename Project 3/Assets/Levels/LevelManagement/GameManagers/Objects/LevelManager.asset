@@ -17,12 +17,16 @@ MonoBehaviour:
     isTherePreDialogue: 1
     preCombatDialogue:
       dialogues:
-      - characterLeft: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
-        characterRight: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+      - charactersLeft:
+        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
         whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
         sentence: I'm Going Alone
-      - characterLeft: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
-        characterRight: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+      - charactersLeft:
+        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
         whoseTalking: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
         sentence: Of Course you are, And I'm coming With you
     isTherePostDialogue: 0

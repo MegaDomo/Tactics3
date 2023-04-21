@@ -4,8 +4,8 @@ using UnityEngine;
 public class CharacterDialogue
 {
     [Header("Characters")]
-    public Character characterLeft;
-    public Character characterRight;
+    public Character[] charactersLeft;
+    public Character[] charactersRight;
     public Character whoseTalking;
 
     [Header("Details")]

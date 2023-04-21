@@ -13,7 +13,6 @@ public class UIManager : MonoBehaviour
     public GameObject weaponPanel;
     public GameObject targetPanel;
 
-
     private void Start()
     {
         CloseAllPanels();

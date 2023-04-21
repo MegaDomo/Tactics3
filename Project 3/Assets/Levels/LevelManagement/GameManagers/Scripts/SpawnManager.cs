@@ -28,7 +28,7 @@ public class SpawnManager : ScriptableObject
         this.map = map;
         SpawnPlayers(players);
         SpawnEnemies(enemies);
-        finishedSpawningEvent.Invoke(players, enemies);
+        finishedSpawningEvent?.Invoke(players, enemies);
     }
 
     private void SpawnPlayers(List<Unit> players)
