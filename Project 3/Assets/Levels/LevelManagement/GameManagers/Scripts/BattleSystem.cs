@@ -24,6 +24,8 @@ public class BattleSystem : ScriptableObject
     public Action victoryEvent;
     public Action defeatEvent;
 
+    public bool isInCombat;
+
     private void OnEnable()
     {
         gameMaster.startCombatEvent += Setup;
@@ -40,6 +42,7 @@ public class BattleSystem : ScriptableObject
 
     public void StartBattle()
     {
+        isInCombat = true;
         GetNextInitiative();
     }
 
@@ -58,7 +61,8 @@ public class BattleSystem : ScriptableObject
         // Uses Comparative Based Search to remove from list, upon empty list fire
         // respective Event
 
-
+        if (!isInCombat)
+            return;
 
         Unit next;
         if (!initiative.TryPeek(out next))
@@ -105,6 +109,7 @@ public class BattleSystem : ScriptableObject
 
     public void Victory()
     {
+        isInCombat = false;
         victoryEvent.Invoke();
     }
 

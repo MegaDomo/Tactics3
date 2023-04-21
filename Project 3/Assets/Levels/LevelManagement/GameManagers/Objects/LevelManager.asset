@@ -29,9 +29,33 @@ MonoBehaviour:
         - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
         whoseTalking: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
         sentence: Of Course you are, And I'm coming With you
-    isTherePostDialogue: 0
+      - charactersLeft:
+        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        sentence: Sam! You can't Swim!
+    isTherePostDialogue: 1
     postCombatDialogue:
-      dialogues: []
+      dialogues:
+      - charactersLeft:
+        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        sentence: Gee Willackers, That was Close!
+      - charactersLeft:
+        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+        whoseTalking: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+        sentence: Fiddle Sticks, They almost had you Frodo
+      - charactersLeft:
+        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        sentence: PO-TA-TOES
     map: {fileID: 560290703722878767, guid: 5d89fdc2c57a19b4cafb62620a4bebd0, type: 3}
   - name: Jungle Level
     isTherePreDialogue: 0

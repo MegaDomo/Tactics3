@@ -83,6 +83,7 @@ public class GameMaster : ScriptableObject
         Level level = levelManager.GetLevel(levelToLoad);
         if (level.isTherePostDialogue)
             startDialogueEvent.Invoke(level.postCombatDialogue);
+            
     }
     #endregion
 

@@ -5781,6 +5781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
+  UIElements: {fileID: 1286004473811744363}
   characterName: {fileID: 6402950821814051577}
   characterDialogue: {fileID: 186449587698529833}
   charactersLeftImage:
