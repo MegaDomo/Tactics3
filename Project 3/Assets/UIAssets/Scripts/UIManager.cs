@@ -30,13 +30,6 @@ public class UIManager : MonoBehaviour
         UnsubscribeEvents();
     }
 
-    private void Setup()
-    {
-        hotbar = transform.GetChild(0).GetChild(0).gameObject;
-        weaponPanel = transform.GetChild(0).GetChild(1).gameObject;
-        targetPanel = transform.GetChild(0).GetChild(2).gameObject;
-    }
-
     private void SubscribeEvents()
     {
         playerTurn.deselectedNodeEvent += CloseAllPanels;

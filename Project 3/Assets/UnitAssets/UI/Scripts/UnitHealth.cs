@@ -13,7 +13,7 @@ public class UnitHealth : MonoBehaviour
     private void Start()
     {
         ChangeHealthBar(player.stats.curHealth, player.stats.maxHealth);
-        portraitImage.sprite = player.portrait;
+        portraitImage.sprite = player.character.portrait;
         player.healthChangeEvent += ChangeHealthBar;
     }
 

@@ -27,6 +27,7 @@ public class GameMaster : ScriptableObject
 
     public Action<Transform, bool> makeMapEvent;
     public Action<Grid<Node>, List<Unit>, List<Unit>> spawnUnitsEvent;
+    public Action<Dialogue> startDialogue;
 
     private string levelToLoad;
 
@@ -38,15 +39,15 @@ public class GameMaster : ScriptableObject
 
     public void LoadLevel(Scene current, Scene next)
     {
-        levelManager.LoadLevel(levelToLoad);
-        //if (SceneManager.GetActiveScene().buildIndex == 0)
-        //    return;
-        
         Transform startingPoint = GameObject.FindGameObjectWithTag("MapStartingPoint").transform;
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
 
         if (spawnUnits)
             spawnUnitsEvent.Invoke(map, players, enemies);
+
+        Level level = levelManager.GetLevel(levelToLoad);
+        if (level.isTherePreDialogue)
+            startDialogue.Invoke(level.preCombatDialogue);
     }
 
     #region Events & Subscribers

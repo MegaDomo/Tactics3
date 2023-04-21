@@ -1102,7 +1102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6911437132860309656, guid: c9df37f906bd87542ac2c8bf618ef20f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: VillemainScene
+      value: Level1
       objectReference: {fileID: 0}
     - target: {fileID: 6911437132880300433, guid: c9df37f906bd87542ac2c8bf618ef20f, type: 3}
       propertyPath: m_Pivot.x

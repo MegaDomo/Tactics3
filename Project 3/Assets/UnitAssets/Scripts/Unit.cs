@@ -14,10 +14,8 @@ public class Unit : ScriptableObject
     public EnemyAI enemyAI;
 
     [Header("Attributes")]
-    public new string name;
     public UnitType unitType;
-    public Sprite portrait;
-    public Sprite fullBody;
+    public Character character;
     public GameObject prefab;
     public AnimatorOverrideController overrideController;
 

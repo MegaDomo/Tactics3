@@ -26,12 +26,12 @@ public class ASyncLevelLoader : MonoBehaviour
         loadingScreen.SetActive(true);
 
         gameMaster.SetLevelToLoad(levelToLoad);
-        StartCoroutine(LoadLevelASync());
+        StartCoroutine(LoadLevelASync(levelToLoad));
     }
 
-    IEnumerator LoadLevelASync()
+    IEnumerator LoadLevelASync(string levelToLoad)
     {
-        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(1);
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelToLoad);
 
         while (!loadOperation.isDone)
         {

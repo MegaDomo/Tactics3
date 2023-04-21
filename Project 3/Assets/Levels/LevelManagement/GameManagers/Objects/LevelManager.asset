@@ -13,15 +13,27 @@ MonoBehaviour:
   m_Name: LevelManager
   m_EditorClassIdentifier: 
   levels:
-  - name: Level 1
-    isThereDialogue: 0
-    dialogue:
-      characterName: 
-      sentences: []
+  - name: Level1
+    isTherePreDialogue: 1
+    preCombatDialogue:
+      dialogues:
+      - characterLeft: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        characterRight: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        sentence: I'm Going Alone
+      - characterLeft: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        characterRight: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+        whoseTalking: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
+        sentence: Of Course you are, And I'm coming With you
+    isTherePostDialogue: 0
+    postCombatDialogue:
+      dialogues: []
     map: {fileID: 560290703722878767, guid: 5d89fdc2c57a19b4cafb62620a4bebd0, type: 3}
   - name: Jungle Level
-    isThereDialogue: 0
-    dialogue:
-      characterName: 
-      sentences: []
+    isTherePreDialogue: 0
+    preCombatDialogue:
+      dialogues: []
+    isTherePostDialogue: 0
+    postCombatDialogue:
+      dialogues: []
     map: {fileID: 4839220402965264444, guid: bdb20e99cd8b9f34cb69d5e8cef17177, type: 3}

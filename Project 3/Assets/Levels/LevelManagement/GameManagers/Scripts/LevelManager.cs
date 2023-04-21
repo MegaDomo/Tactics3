@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewLevelManager", menuName = "Managers/Level Manager")]
 public class LevelManager : ScriptableObject
 {
-    public List<Level> levels;
+    [SerializeField] private List<Level> levels;
 
     private Dictionary<string, int> levelIndexes = new Dictionary<string, int>();
 
@@ -32,4 +32,23 @@ public class LevelManager : ScriptableObject
         foreach (Level level in levels)
             levelIndexes.Add(level.name, index++);
     }
+
+    #region Getters & Setters
+    public Level GetLevel(string levelName)
+    {
+        if (!levelIndexes.ContainsKey(levelName))
+        {
+            Debug.Log("Name does not match Level Manager data");
+            return null;
+        }
+        int index = levelIndexes[levelName];
+
+        return levels[index];
+    }
+
+    public void AddLevel(Level level)
+    {
+        levels.Add(level);
+    }
+    #endregion
 }
