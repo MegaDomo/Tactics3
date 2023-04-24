@@ -1695,7 +1695,6 @@ GameObject:
   - component: {fileID: 8769162474166777818}
   - component: {fileID: 8769162474166777823}
   - component: {fileID: 1929201187517981881}
-  - component: {fileID: 5256326926144208188}
   m_Layer: 12
   m_Name: PlayerUnit
   m_TagString: Untagged
@@ -1747,30 +1746,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe64ba945144c594f972ec0914abfb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 0}
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
+  enemyAI: {fileID: 11400000, guid: 42adc56d6527de94eb3328c98308f31c, type: 2}
   ground: {fileID: 8769162473986946005}
   weaponPoint: {fileID: 8769162474161234478}
   EffectPoint: {fileID: 0}
   vfx: {fileID: 6338569600576153574}
   anim: {fileID: 2380982989208113978}
   offset: {x: 0, y: 0, z: 0}
-  unitAnim: {fileID: 0}
---- !u!114 &5256326926144208188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8769162474166777809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91c89a01caa0a0d4ebfc846687f1fe9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
-  enemyAI: {fileID: 11400000, guid: 42adc56d6527de94eb3328c98308f31c, type: 2}
-  vfx: {fileID: 6338569600576153574}
-  anim: {fileID: 2380982989208113978}
+  unit: {fileID: 0}
 --- !u!1 &9199684486421295616
 GameObject:
   m_ObjectHideFlags: 0

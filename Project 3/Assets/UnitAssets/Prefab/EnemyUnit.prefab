@@ -1792,6 +1792,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8769162474166777818}
   - component: {fileID: 8769162474166777823}
+  - component: {fileID: -7705327574340583647}
+  - component: {fileID: 9070875022396421424}
   m_Layer: 11
   m_Name: EnemyUnit
   m_TagString: Enemy
@@ -1832,6 +1834,42 @@ CapsuleCollider:
   m_Height: 13.28
   m_Direction: 1
   m_Center: {x: 0, y: 5, z: 0}
+--- !u!114 &-7705327574340583647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769162474166777809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe64ba945144c594f972ec0914abfb60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}
+  ground: {fileID: 0}
+  weaponPoint: {fileID: 0}
+  EffectPoint: {fileID: 0}
+  vfx: {fileID: 0}
+  anim: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  unitAnim: {fileID: 0}
+--- !u!114 &9070875022396421424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769162474166777809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91c89a01caa0a0d4ebfc846687f1fe9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTurn: {fileID: 0}
+  enemyAI: {fileID: 0}
+  vfx: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!1 &9199684486421295616
 GameObject:
   m_ObjectHideFlags: 0

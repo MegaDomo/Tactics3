@@ -7,6 +7,8 @@ public class Level
 {
     [Header("Attributes")]
     public string name;
+
+    [Header("Dialogue")]
     public bool isTherePreDialogue;
     public Dialogue preCombatDialogue;
     public bool isTherePostDialogue;

@@ -200,12 +200,12 @@ public class Unit : ScriptableObject
 
     public bool IsAttacking()
     {
-        return unitMovement.unitAnim.IsAttacking();
+        return unitMovement.IsAttacking();
     }
 
     public void SetIsAttacking(bool value)
     {
-        unitMovement.unitAnim.SetIsAttacking(value);
+        unitMovement.SetIsAttacking(value);
     }
     #endregion
 }

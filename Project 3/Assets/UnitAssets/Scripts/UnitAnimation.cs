@@ -17,7 +17,7 @@ public class UnitAnimation : MonoBehaviour
     private Unit unit;
     private Node nodeToMoveTo;
     private Queue<Node> path = new Queue<Node>();
-
+    /*
     #region Movement Methods
     public void Move(List<Node> path)
     {
@@ -128,11 +128,6 @@ public class UnitAnimation : MonoBehaviour
 
         vfx.rotation = endValue;
     }
-
-    public int MovementLeft()
-    {
-        return unit.stats.movement - unit.stats.moved;
-    }
     #endregion
 
     #region Attack Methods
@@ -173,29 +168,7 @@ public class UnitAnimation : MonoBehaviour
     #endregion
 
     #region Setters
-    public void SetUnit(Unit unit)
-    {
-        this.unit = unit;
-    }
-
-    public void SetIsMoving(bool value)
-    {
-        isMoving = value;
-    }
-
-    public bool IsMoving()
-    {
-        return isMoving;
-    }
-
-    public void SetIsAttacking(bool value)
-    {
-        isAttacking = value;
-    }
-
-    public bool IsAttacking()
-    {
-        return isAttacking;
-    }
+    
     #endregion
+    */
 }
