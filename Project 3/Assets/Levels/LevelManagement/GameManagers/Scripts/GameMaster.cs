@@ -8,10 +8,6 @@ using UnityEngine.SceneManagement;
 [CreateAssetMenu(fileName = "NewGameMaster", menuName = "Managers/GameMaster")]
 public class GameMaster : ScriptableObject
 {
-    [Header("Players")]
-    public List<Unit> players;
-    public List<Unit> enemies;
-
     [Header("Scriptable Object References")]
     public LevelManager levelManager;
     public MapMaker mapMaker;
@@ -21,15 +17,15 @@ public class GameMaster : ScriptableObject
     public bool makeRandomMap;
     public bool spawnUnits;
     public bool haveCombat;
-    public int numOfEnemies;
 
     public Action<Transform, bool> makeMapEvent;
-    public Action<Grid<Node>, List<Unit>, List<Unit>, Dictionary<Node, Unit>> spawnUnitsEvent;
-    public Action<List<Unit>, List<Unit>> startCombatEvent;
+    public Action<Grid<Node>, List<Node>, List<Unit>> spawnUnitsEvent;
+    public Action<List<Unit>> startCombatEvent;
     public Action<Dialogue> startDialogueEvent;
 
     private Grid<Node> map;
-    private Dictionary<Node, Unit> spawnPoints;
+    private List<Node> spawnPoints = new List<Node>();
+    private List<Unit> unitsToSpawn = new List<Unit>();
     private string levelToLoad;
 
     private void OnEnable()
@@ -48,7 +44,7 @@ public class GameMaster : ScriptableObject
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
 
         if (spawnUnits)
-            spawnUnitsEvent.Invoke(map, players, enemies, spawnPoints);
+            spawnUnitsEvent?.Invoke(map, spawnPoints, unitsToSpawn);
 
         Level level = levelManager.GetLevel(levelToLoad);
         if (level.isTherePreDialogue)
@@ -56,9 +52,10 @@ public class GameMaster : ScriptableObject
     }
 
     #region Events & Subscribers
-    private void MapEventSubscriber(Grid<Node> map, Dictionary<Node, Unit> spawnPoints)
+    private void MapEventSubscriber(Grid<Node> map, List<Node> spawnPoints, List<Unit> unitsToSpawn)
     {
         this.spawnPoints = spawnPoints;
+        this.unitsToSpawn = unitsToSpawn;
         this.map = map;
     }
     #endregion
@@ -76,7 +73,7 @@ public class GameMaster : ScriptableObject
 
     public void StartCobmat()
     {
-        startCombatEvent.Invoke(players, enemies);
+        startCombatEvent?.Invoke(unitsToSpawn);
     }
 
     public void Victory()

@@ -176,8 +176,6 @@ public class Unit : ScriptableObject
 
     public void SetAsEnemy()
     {
-        unitType = UnitType.Enemy;
-
         UnitBehavior unitBehavior = new UnitBehavior(this, gameMaster.GetMap(), behaviorType);
         behavior = unitBehavior.GetBehavior();
         behavior.self = this;

@@ -33,9 +33,10 @@ public class BattleSystem : ScriptableObject
         enemyAI.endTurnEvent += GetNextInitiative;
     }
 
-    public void Setup(List<Unit> players, List<Unit> enemies)
+    public void Setup(List<Unit> units)
     {
-        SetPlayersAndEnemies(players, enemies);
+        this.units = units;
+        SetPlayersAndEnemies(units);
         QueueUp();
         StartBattle();
     }
@@ -95,16 +96,15 @@ public class BattleSystem : ScriptableObject
 
 
     #region Utility
-    public void SetPlayersAndEnemies(List<Unit> players, List<Unit> enemies)
+    public void SetPlayersAndEnemies(List<Unit> units)
     {
-        this.players = players;
-        this.enemies = enemies;
-        units = new List<Unit>();
-
-        foreach (Unit unit in players)
-            units.Add(unit);
-        foreach (Unit unit in enemies)
-            units.Add(unit);
+        foreach (Unit unit in units)
+        {
+            if (unit.unitType == Unit.UnitType.Player)
+                players.Add(unit);
+            if (unit.unitType == Unit.UnitType.Player)
+                enemies.Add(unit);
+        }
     }
 
     public void Victory()

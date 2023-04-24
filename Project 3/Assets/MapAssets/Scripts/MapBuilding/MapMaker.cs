@@ -27,9 +27,10 @@ public class MapMaker : ScriptableObject
     [SerializeField] private int maxMapSize;
 
     private Grid<Node> map;
-    private Dictionary<Node, Unit> spawnPoints;
+    private List<Node> spawnPoints = new List<Node>();
+    private List<Unit> unitsToSpawn = new List<Unit>();
 
-    public Action<Grid<Node>, Dictionary<Node, Unit>> mapMadeEvent;
+    public Action<Grid<Node>, List<Node>, List<Unit>> mapMadeEvent;
 
     private int size;
     private List<int> saturation = new List<int>();
@@ -75,7 +76,7 @@ public class MapMaker : ScriptableObject
         }
 
         // When Finishes, Performs Handoff
-        mapMadeEvent.Invoke(map, spawnPoints);
+        mapMadeEvent.Invoke(map, spawnPoints, unitsToSpawn);
     }
 
     #region Get Map
@@ -168,19 +169,58 @@ public class MapMaker : ScriptableObject
     }
     #endregion
 
-    #region SpawnPoints
+    #region Spawning
     private void GetSpawnPoints()
     {
+        spawnPoints = new List<Node>();
+        unitsToSpawn = new List<Unit>();
         GameObject[] spawnPointsObj = GameObject.FindGameObjectsWithTag("SpawnPoint");
-
+        
         for (int i = 0; i < spawnPointsObj.Length; i++)
         {
             Vector3 position = spawnPointsObj[i].transform.position;
             SpawnPointBlock spb = spawnPointsObj[i].GetComponent<SpawnPointBlock>();
 
-            Node node = map.GetGridObject((int)position.x, (int)position.z);
-            spawnPoints.Add(node, spb.unit);
+            map.GetXZ(position, out int x, out int z);
+            Node node = map.GetGridObject(x, z);
+            spawnPoints.Add(node);
+            unitsToSpawn.Add(spb.unit);
+
+            Destroy(spb.gameObject);
         }
+
+        SpawnUnits();
+    }
+
+    public void SpawnUnits()
+    {
+        InstantiateUnits();
+        PlaceUnits();
+    }
+
+    private void InstantiateUnits()
+    {
+        for (int i = 0; i < unitsToSpawn.Count; i++)
+        {
+            Unit nextUnit = unitsToSpawn[i];
+
+            GameObject clone = Instantiate(nextUnit.prefab);
+            UnitMovement movementComponent = clone.GetComponent<UnitMovement>();
+            nextUnit.Setup(map, movementComponent);
+
+            if (nextUnit.unitType == Unit.UnitType.Enemy)
+                nextUnit.SetAsEnemy();
+        }
+    }
+
+    private void PlaceUnits()
+    {
+        
+        for (int i = 0; i < spawnPoints.Count; i++)
+        {
+            gameMaster.Place(unitsToSpawn[i], spawnPoints[i]);
+        }
+            
     }
     #endregion
 
