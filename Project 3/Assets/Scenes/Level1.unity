@@ -281,52 +281,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 37.222, y: 61.529, z: -17.898}
---- !u!1 &776786186
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 776786188}
-  - component: {fileID: 776786187}
-  m_Layer: 0
-  m_Name: LevelInitializer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &776786187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776786186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f25de4ed19b2d384fa794d35d083e84a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
-  levelManager: {fileID: 11400000, guid: c824ba6fe3901504ebf43a1862991f6f, type: 2}
---- !u!4 &776786188
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776786186}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 559.00037, y: 346.00177, z: -0.22875977}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,7 +562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5086838600745766561, guid: 570e4051251bbaa41a090d0150775e39, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5086838600745766561, guid: 570e4051251bbaa41a090d0150775e39, type: 3}
       propertyPath: m_AnchorMax.x
@@ -821,7 +775,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5172291692614403105, guid: fe741e73b092a7b4da8143d451d41cbc, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5172291692614403105, guid: fe741e73b092a7b4da8143d451d41cbc, type: 3}
       propertyPath: m_AnchorMax.x

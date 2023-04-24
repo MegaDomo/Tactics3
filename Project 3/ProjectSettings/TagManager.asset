@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - ForecastTile
   - MapStartingPoint
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

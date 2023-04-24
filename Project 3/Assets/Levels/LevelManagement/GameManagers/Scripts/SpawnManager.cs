@@ -17,13 +17,14 @@ public class SpawnManager : ScriptableObject
     public Action<List<Unit>, List<Unit>> finishedSpawningEvent;
 
     private Grid<Node> map;
+    private Dictionary<Node, Unit> spawnPoints;
 
     private void OnEnable()
     {
         gameMaster.spawnUnitsEvent += SpawnUnits;    
     }
 
-    public void SpawnUnits(Grid<Node> map, List<Unit> players, List<Unit> enemies)
+    public void SpawnUnits(Grid<Node> map, List<Unit> players, List<Unit> enemies, Dictionary<Node, Unit> spawnPoints)
     {
         this.map = map;
         SpawnPlayers(players);

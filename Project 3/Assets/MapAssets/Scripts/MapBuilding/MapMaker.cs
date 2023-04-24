@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 // Utility ScriptableObject
 [CreateAssetMenu(fileName = "NewMapMaker", menuName = "Managers/Map Maker")]
@@ -27,9 +26,10 @@ public class MapMaker : ScriptableObject
     [SerializeField] private int minMapSize;
     [SerializeField] private int maxMapSize;
 
-    [HideInInspector] public Grid<Node> map;
+    private Grid<Node> map;
+    private Dictionary<Node, Unit> spawnPoints;
 
-    public Action<Grid<Node>> mapMadeEvent;
+    public Action<Grid<Node>, Dictionary<Node, Unit>> mapMadeEvent;
 
     private int size;
     private List<int> saturation = new List<int>();
@@ -75,7 +75,7 @@ public class MapMaker : ScriptableObject
         }
 
         // When Finishes, Performs Handoff
-        mapMadeEvent.Invoke(map);
+        mapMadeEvent.Invoke(map, spawnPoints);
     }
 
     #region Get Map
@@ -83,6 +83,7 @@ public class MapMaker : ScriptableObject
     {
         GetGroundLayer();
         GetObstacleLayer();
+        GetSpawnPoints();
     }
 
     #region Ground Layer
@@ -164,6 +165,22 @@ public class MapMaker : ScriptableObject
         TileObject tileObject = hit.collider.gameObject.GetComponent<Tile>().tileObject;
         Transform tile = hit.transform;
         nodeToUpdate.SetTileObject(tile, tileObject);
+    }
+    #endregion
+
+    #region SpawnPoints
+    private void GetSpawnPoints()
+    {
+        GameObject[] spawnPointsObj = GameObject.FindGameObjectsWithTag("SpawnPoint");
+
+        for (int i = 0; i < spawnPointsObj.Length; i++)
+        {
+            Vector3 position = spawnPointsObj[i].transform.position;
+            SpawnPointBlock spb = spawnPointsObj[i].GetComponent<SpawnPointBlock>();
+
+            Node node = map.GetGridObject((int)position.x, (int)position.z);
+            spawnPoints.Add(node, spb.unit);
+        }
     }
     #endregion
 

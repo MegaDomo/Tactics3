@@ -23,13 +23,13 @@ public class GameMaster : ScriptableObject
     public bool haveCombat;
     public int numOfEnemies;
 
-    private Grid<Node> map;
-
     public Action<Transform, bool> makeMapEvent;
-    public Action<Grid<Node>, List<Unit>, List<Unit>> spawnUnitsEvent;
+    public Action<Grid<Node>, List<Unit>, List<Unit>, Dictionary<Node, Unit>> spawnUnitsEvent;
     public Action<List<Unit>, List<Unit>> startCombatEvent;
     public Action<Dialogue> startDialogueEvent;
 
+    private Grid<Node> map;
+    private Dictionary<Node, Unit> spawnPoints;
     private string levelToLoad;
 
     private void OnEnable()
@@ -48,7 +48,7 @@ public class GameMaster : ScriptableObject
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
 
         if (spawnUnits)
-            spawnUnitsEvent.Invoke(map, players, enemies);
+            spawnUnitsEvent.Invoke(map, players, enemies, spawnPoints);
 
         Level level = levelManager.GetLevel(levelToLoad);
         if (level.isTherePreDialogue)
@@ -56,8 +56,9 @@ public class GameMaster : ScriptableObject
     }
 
     #region Events & Subscribers
-    private void MapEventSubscriber(Grid<Node> map)
+    private void MapEventSubscriber(Grid<Node> map, Dictionary<Node, Unit> spawnPoints)
     {
+        this.spawnPoints = spawnPoints;
         this.map = map;
     }
     #endregion
