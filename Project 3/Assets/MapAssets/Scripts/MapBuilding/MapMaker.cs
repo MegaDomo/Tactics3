@@ -27,10 +27,9 @@ public class MapMaker : ScriptableObject
     [SerializeField] private int maxMapSize;
 
     private Grid<Node> map;
-    private List<Node> spawnPoints = new List<Node>();
-    private List<Unit> unitsToSpawn = new List<Unit>();
+    private List<Unit> units = new List<Unit>();
 
-    public Action<Grid<Node>, List<Node>, List<Unit>> mapMadeEvent;
+    public Action<Grid<Node>, List<Unit>> mapMadeEvent;
 
     private int size;
     private List<int> saturation = new List<int>();
@@ -76,7 +75,7 @@ public class MapMaker : ScriptableObject
         }
 
         // When Finishes, Performs Handoff
-        mapMadeEvent.Invoke(map, spawnPoints, unitsToSpawn);
+        mapMadeEvent.Invoke(map, units);
     }
 
     #region Get Map
@@ -172,8 +171,8 @@ public class MapMaker : ScriptableObject
     #region Spawning
     private void GetSpawnPoints()
     {
-        spawnPoints = new List<Node>();
-        unitsToSpawn = new List<Unit>();
+        List<Node> spawnPoints = new List<Node>();
+        List<Unit> unitsToSpawn = new List<Unit>();
         GameObject[] spawnPointsObj = GameObject.FindGameObjectsWithTag("SpawnPoint");
         
         for (int i = 0; i < spawnPointsObj.Length; i++)
@@ -186,19 +185,21 @@ public class MapMaker : ScriptableObject
             spawnPoints.Add(node);
             unitsToSpawn.Add(spb.unit);
 
+            
+
             Destroy(spb.gameObject);
         }
 
-        SpawnUnits();
+        SpawnUnits(spawnPoints, unitsToSpawn);
     }
 
-    public void SpawnUnits()
+    public void SpawnUnits(List<Node> spawnPoints, List<Unit> unitsToSpawn)
     {
-        InstantiateUnits();
-        PlaceUnits();
+        InstantiateUnits(unitsToSpawn);
+        PlaceUnits(spawnPoints, unitsToSpawn);
     }
 
-    private void InstantiateUnits()
+    private void InstantiateUnits(List<Unit> unitsToSpawn)
     {
         for (int i = 0; i < unitsToSpawn.Count; i++)
         {
@@ -213,12 +214,13 @@ public class MapMaker : ScriptableObject
         }
     }
 
-    private void PlaceUnits()
+    private void PlaceUnits(List<Node> spawnPoints, List<Unit> unitsToSpawn)
     {
         
         for (int i = 0; i < spawnPoints.Count; i++)
         {
             gameMaster.Place(unitsToSpawn[i], spawnPoints[i]);
+            Utils.CreateWorldText(map.GetWorldPosition(spawnPoints[i]), "Spawning Here", 30, TextAnchor.MiddleCenter);
         }
             
     }

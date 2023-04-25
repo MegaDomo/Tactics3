@@ -51,6 +51,8 @@ public class SpawnManager : ScriptableObject
     {
         for (int i = 0; i < spawnPoints.Count; i++)
             gameMaster.Place(unitsToSpawn[i], spawnPoints[i]);
+
+        
     }
 
 }

@@ -24,8 +24,7 @@ public class GameMaster : ScriptableObject
     public Action<Dialogue> startDialogueEvent;
 
     private Grid<Node> map;
-    private List<Node> spawnPoints = new List<Node>();
-    private List<Unit> unitsToSpawn = new List<Unit>();
+    private List<Unit> units = new List<Unit>();
     private string levelToLoad;
 
     private void OnEnable()
@@ -43,19 +42,15 @@ public class GameMaster : ScriptableObject
         Transform startingPoint = GameObject.FindGameObjectWithTag("MapStartingPoint").transform;
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
 
-        if (spawnUnits)
-            spawnUnitsEvent?.Invoke(map, spawnPoints, unitsToSpawn);
-
         Level level = levelManager.GetLevel(levelToLoad);
         if (level.isTherePreDialogue)
             startDialogueEvent.Invoke(level.preCombatDialogue);
     }
 
     #region Events & Subscribers
-    private void MapEventSubscriber(Grid<Node> map, List<Node> spawnPoints, List<Unit> unitsToSpawn)
+    private void MapEventSubscriber(Grid<Node> map, List<Unit> units)
     {
-        this.spawnPoints = spawnPoints;
-        this.unitsToSpawn = unitsToSpawn;
+        this.units = units;
         this.map = map;
     }
     #endregion
@@ -73,7 +68,7 @@ public class GameMaster : ScriptableObject
 
     public void StartCobmat()
     {
-        startCombatEvent?.Invoke(unitsToSpawn);
+        startCombatEvent?.Invoke(units);
     }
 
     public void Victory()
