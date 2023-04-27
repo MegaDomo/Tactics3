@@ -11,14 +11,14 @@ public class Attacker : Behavior
     private WeaponSetHandler handler;
     private Grid<Node> map;
 
-    public Attacker(BattleSystem battle, Grid<Node> map, Unit self)
+    public Attacker(Unit self)
     {
-        this.battle = battle;
-        this.map = self.GetMap();
+        battle = self.GetBattleSystem();
+        map = self.GetMap();
         this.self = self;
         
-        handler = new WeaponSetHandler(self, this.map);
-        behaviorology = new Behaviorology(self, this.map);
+        handler = new WeaponSetHandler(self, map);
+        behaviorology = new Behaviorology(self, map);
     }
 
     public override void TakeTurn()

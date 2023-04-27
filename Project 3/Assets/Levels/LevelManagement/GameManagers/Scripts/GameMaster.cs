@@ -53,7 +53,6 @@ public class GameMaster : ScriptableObject
     #region Events & Subscribers
     private void MapEventSubscriber(Grid<Node> map, List<Unit> units)
     {
-        
         this.units = units;
         this.map = map;
     }

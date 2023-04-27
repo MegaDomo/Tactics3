@@ -32,6 +32,7 @@ public class PlayerTurn : ScriptableObject
     public void StartTurn(Unit unit)
     {
         actionState = ActionState.ChooseNode;
+        if (unit == null) Debug.Log("Unit");
         SetSelected(unit);
     }
 

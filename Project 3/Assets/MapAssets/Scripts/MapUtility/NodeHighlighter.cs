@@ -24,7 +24,7 @@ public class NodeHighlighter : MonoBehaviour
     public void Highlight(Unit unit)
     {
         List<Node> routes = Pathfinding.GetAllRoutes(gameMaster.GetMap(), unit);
-
+        
         foreach (Node node in routes)
         {
             ForecastTile tile = node.forecastTile;

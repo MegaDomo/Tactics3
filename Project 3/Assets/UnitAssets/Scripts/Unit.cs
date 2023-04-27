@@ -192,7 +192,7 @@ public class Unit : MonoBehaviour
 
     public void SetAsEnemy()
     {
-        UnitBehavior unitBehavior = new UnitBehavior(battleSystem, this, gameMaster.GetMap(), behaviorType);
+        UnitBehavior unitBehavior = new UnitBehavior(this);
         behavior = unitBehavior.GetBehavior();
         behavior.self = this;
     }
@@ -220,6 +220,11 @@ public class Unit : MonoBehaviour
     public void SetIsAttacking(bool value)
     {
         unitMovement.SetIsAttacking(value);
+    }
+
+    public BattleSystem GetBattleSystem()
+    {
+        return battleSystem;
     }
     #endregion
 }
