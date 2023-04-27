@@ -12,8 +12,11 @@ public class DialogueManager : MonoBehaviour
 
     [Header("UI References")]
     [SerializeField] private GameObject UIElements;
-    [SerializeField] private TextMeshProUGUI characterName;
     [SerializeField] private TextMeshProUGUI characterDialogue;
+    [SerializeField] private GameObject leftCharacterNameObj;
+    [SerializeField] private TextMeshProUGUI leftCharacterName;
+    [SerializeField] private GameObject rightCharacterNameObj;
+    [SerializeField] private TextMeshProUGUI rightCharacterName;
     [SerializeField] private Image[] charactersLeftImage;
     [SerializeField] private Image[] charactersRightImage;
 
@@ -85,7 +88,6 @@ public class DialogueManager : MonoBehaviour
 
     private void AdjustUIElements(CharacterDialogue characterDia)
     {
-        characterName.text = characterDia.whoseTalking.name;
         characterDialogue.text = characterDia.sentence;
 
         // Left
@@ -111,6 +113,9 @@ public class DialogueManager : MonoBehaviour
             if (characterDia.charactersLeft[i] == characterDia.whoseTalking)
             {
                 charactersLeftImage[i].color = Color.white;
+                leftCharacterNameObj.SetActive(true);
+                rightCharacterNameObj.SetActive(false);
+                leftCharacterName.text = characterDia.whoseTalking.characterName;
                 return;
             }
         }
@@ -120,6 +125,9 @@ public class DialogueManager : MonoBehaviour
             if (characterDia.charactersRight[i] == characterDia.whoseTalking)
             {
                 charactersRightImage[i].color = Color.white;
+                rightCharacterNameObj.SetActive(true);
+                leftCharacterNameObj.SetActive(false);
+                rightCharacterName.text = characterDia.whoseTalking.characterName;
                 return;
             }
         }

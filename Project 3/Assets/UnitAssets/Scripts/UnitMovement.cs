@@ -8,7 +8,6 @@ public class UnitMovement : MonoBehaviour
     public PlayerTurn playerTurn;
     public EnemyAI enemyAI;
 
-    
     [Header("Unity References")]
     public Transform ground;
     public Transform weaponPoint;
@@ -18,8 +17,7 @@ public class UnitMovement : MonoBehaviour
 
     [HideInInspector] public Vector3 offset;
 
-    [Header("Debugging Scriptable Object")]
-    public Unit unit;
+    private Unit unit;
     private bool isMoving;
     private bool isAttacking;
     private GameObject weaponPrefab;

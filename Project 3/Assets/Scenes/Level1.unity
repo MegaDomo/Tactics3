@@ -495,6 +495,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level1
       objectReference: {fileID: 0}
+    - target: {fileID: 5122312811278785680, guid: 5d89fdc2c57a19b4cafb62620a4bebd0, type: 3}
+      propertyPath: unitObj
+      value: 
+      objectReference: {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+    - target: {fileID: 5359591240021168207, guid: 5d89fdc2c57a19b4cafb62620a4bebd0, type: 3}
+      propertyPath: unitObj
+      value: 
+      objectReference: {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+    - target: {fileID: 6662688718527585604, guid: 5d89fdc2c57a19b4cafb62620a4bebd0, type: 3}
+      propertyPath: unitObj
+      value: 
+      objectReference: {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d89fdc2c57a19b4cafb62620a4bebd0, type: 3}
 --- !u!1001 &2114286432

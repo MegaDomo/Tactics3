@@ -7,19 +7,6 @@ public class Unit : MonoBehaviour
     public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
     public enum BehaviorType { Attacker, Killer }
 
-    [Header("Scriptable Object References")]
-    public GameMaster gameMaster;
-    public PlayerTurn playerTurn;
-    public EnemyAI enemyAI;
-
-    [Header("Attributes")]
-    public UnitType unitType;
-    public AnimatorOverrideController overrideController;
-
-    [Header("If Enemy Attributes")]
-    public BehaviorType behaviorType;
-    [HideInInspector] public Behavior behavior;
-
     [Header("Debugging")]
     public Unit tauntedTarget;
 
@@ -39,8 +26,18 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Action<int, int> healthChangeEvent;
     [HideInInspector] public Action movementEvent;
 
-    private UnitObj unitObj;
+    [HideInInspector] public UnitObj unitObj;
+    [HideInInspector] public UnitType unitType;
+    [HideInInspector] public BehaviorType behaviorType;
+    [HideInInspector] public Behavior behavior;
+
+    private GameMaster gameMaster;
+    private PlayerTurn playerTurn;
+    private EnemyAI enemyAI;
+
     private Grid<Node> map;
+
+    private AnimatorOverrideController overrideController;
 
     public void Setup(UnitObj unitObj)
     {

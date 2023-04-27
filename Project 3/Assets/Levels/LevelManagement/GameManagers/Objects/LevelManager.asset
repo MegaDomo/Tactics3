@@ -18,44 +18,57 @@ MonoBehaviour:
     preCombatDialogue:
       dialogues:
       - charactersLeft:
-        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        - {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
         charactersRight:
-        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
-        whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
-        sentence: I'm Going Alone
+        - {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+        sentence: You Filthy Goblin, Give me back my Friend!
       - charactersLeft:
-        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        - {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
         charactersRight:
-        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
-        whoseTalking: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
-        sentence: Of Course you are, And I'm coming With you
+        - {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        sentence: Friend? You left "Friend" for dead back at River!
       - charactersLeft:
-        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        - {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
         charactersRight:
-        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
-        whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
-        sentence: Sam! You can't Swim!
+        - {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+        sentence: Shut up!
+      - charactersLeft:
+        - {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+        sentence: Listen, I'm not in the mood to clean my daggers today, now hand
+          over your human captive.
+      - charactersLeft:
+        - {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        sentence: And What? Let Mork and Clan go Hungry tonight?
+      - charactersLeft:
+        - {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+        charactersRight:
+        - {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+        sentence: Ugh, I don't have time for this.
     isTherePostDialogue: 1
     postCombatDialogue:
       dialogues:
       - charactersLeft:
-        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        - {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
         charactersRight:
-        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
-        whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
-        sentence: Gee Willackers, That was Close!
+        - {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
+        sentence: You had your Chance.
       - charactersLeft:
-        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
+        - {fileID: 11400000, guid: 05bbe8a6aa7b5d446a48466f136f06fe, type: 2}
         charactersRight:
-        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
-        whoseTalking: {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
-        sentence: Fiddle Sticks, They almost had you Frodo
-      - charactersLeft:
-        - {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
-        charactersRight:
-        - {fileID: 11400000, guid: a6aa0c8ee4aaa484ca4df1b134cff8b9, type: 2}
-        whoseTalking: {fileID: 11400000, guid: 1908d342b492bc941b36393d29f3a3e0, type: 2}
-        sentence: PO-TA-TOES
+        - {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        whoseTalking: {fileID: 11400000, guid: 486c21285e369f043b103b3617b1c026, type: 2}
+        sentence: (Coughs up blood) We... we're just... hungry...
     map: {fileID: 560290703722878767, guid: 5d89fdc2c57a19b4cafb62620a4bebd0, type: 3}
   - name: Jungle Level
     isTherePreDialogue: 0

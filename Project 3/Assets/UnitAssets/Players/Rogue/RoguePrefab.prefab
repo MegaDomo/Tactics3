@@ -1694,9 +1694,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8769162474166777818}
   - component: {fileID: 8769162474166777823}
+  - component: {fileID: -1221628744600495719}
   - component: {fileID: 1929201187517981881}
   m_Layer: 12
-  m_Name: PlayerUnit
+  m_Name: RoguePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1734,6 +1735,53 @@ CapsuleCollider:
   m_Height: 13.28
   m_Direction: 1
   m_Center: {x: 0, y: 5, z: 0}
+--- !u!114 &-1221628744600495719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769162474166777809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69362486e02202a4a9d1942af53fd1be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
+  enemyAI: {fileID: 11400000, guid: 42adc56d6527de94eb3328c98308f31c, type: 2}
+  unitType: 0
+  overrideController: {fileID: 0}
+  behaviorType: 0
+  behavior: {fileID: 0}
+  tauntedTarget: {fileID: 0}
+  stats:
+    isAggressive: 0
+    maxHealth: 10
+    curHealth: 10
+    movement: 0
+    speed: 12
+    vision: 0
+    attack: 0
+    spAttack: 0
+    defense: 0
+    spDefense: 0
+    accuracy: 0
+    avoidance: 0
+    critChance: 0
+    critDamage: 0
+    inflictionChance: 0
+    inflictionResist: 0
+    aggro: 0
+    aggroRange: 5
+    moved: 0
+    pathingSpeed: 10
+  unitMovement: {fileID: 0}
+  target: {fileID: 0}
+  equippedWeapon: {fileID: 0}
+  weapons: []
+  abilities: []
+  items: []
 --- !u!114 &1929201187517981881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1754,7 +1802,6 @@ MonoBehaviour:
   vfx: {fileID: 6338569600576153574}
   anim: {fileID: 2380982989208113978}
   offset: {x: 0, y: 0, z: 0}
-  unit: {fileID: 0}
 --- !u!1 &9199684486421295616
 GameObject:
   m_ObjectHideFlags: 0

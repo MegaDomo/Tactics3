@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc02873bf65420d49aa8d89399bf4972, type: 3}
+  m_Name: Goblin
+  m_EditorClassIdentifier: 
+  gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
+  enemyAI: {fileID: 11400000, guid: 42adc56d6527de94eb3328c98308f31c, type: 2}
+  characterName: Goblin Stabber
+  portrait: {fileID: 21300000, guid: f5427932dcf5a0b4a8d0ee3f93903e16, type: 3}
+  fullBody: {fileID: 21300000, guid: f5427932dcf5a0b4a8d0ee3f93903e16, type: 3}
+  expressionSheet:
+  - expressionName: 
+    sprite: {fileID: 0}
+  unitType: 1
+  prefab: {fileID: 8393388155084712061, guid: 244ae204b993e9d4d84b20ed47c66d07, type: 3}
+  overrideController: {fileID: 0}
+  stats:
+    isAggressive: 0
+    maxHealth: 10
+    curHealth: 10
+    movement: 0
+    speed: 5
+    vision: 0
+    attack: 0
+    spAttack: 0
+    defense: 0
+    spDefense: 0
+    accuracy: 0
+    avoidance: 0
+    critChance: 0
+    critDamage: 0
+    inflictionChance: 0
+    inflictionResist: 0
+    aggro: 0
+    aggroRange: 5
+    moved: 0
+    pathingSpeed: 10
+  behaviorType: 0
+  behavior: {fileID: 0}
+  tauntedTarget: {fileID: 0}
+  equippedWeapon: {fileID: 0}
+  weapons: []
+  abilities: []
+  items: []
