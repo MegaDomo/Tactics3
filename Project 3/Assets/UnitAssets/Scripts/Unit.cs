@@ -32,6 +32,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Behavior behavior;
 
     private GameMaster gameMaster;
+    private BattleSystem battleSystem;
     private PlayerTurn playerTurn;
     private EnemyAI enemyAI;
 
@@ -39,11 +40,12 @@ public class Unit : MonoBehaviour
 
     private AnimatorOverrideController overrideController;
 
-    public void Setup(UnitObj unitObj)
+    public void Setup(Grid<Node> map, UnitObj unitObj)
     {
         this.unitObj = unitObj;
 
         gameMaster = unitObj.gameMaster;
+        battleSystem = unitObj.battleSystem;
         playerTurn = unitObj.playerTurn;
         enemyAI = unitObj.enemyAI;
 
@@ -59,7 +61,7 @@ public class Unit : MonoBehaviour
         abilities = unitObj.abilities;
         items = unitObj.items;
 
-        map = unitObj.GetMap();
+        this.map = map;
 
         unitMovement = GetComponent<UnitMovement>();
         unitMovement.Setup(this);
@@ -190,7 +192,7 @@ public class Unit : MonoBehaviour
 
     public void SetAsEnemy()
     {
-        UnitBehavior unitBehavior = new UnitBehavior(this, gameMaster.GetMap(), behaviorType);
+        UnitBehavior unitBehavior = new UnitBehavior(battleSystem, this, gameMaster.GetMap(), behaviorType);
         behavior = unitBehavior.GetBehavior();
         behavior.self = this;
     }

@@ -25,7 +25,6 @@ public class NodeClicker : MonoBehaviour
     {
         if (CombatState.state != BattleState.PLAYERTURN && player.actionState != ActionState.ChooseNode)
             return;
-
         // TODO : incorporate clicking on enemies to quickly hit enemies
         /*RaycastHit unitHit = GetClickData(LayerMask.GetMask("Enemy"));
         if (unitHit.transform != null)
@@ -47,7 +46,7 @@ public class NodeClicker : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            selectedTile.HideTile();
+            if (selectedTile != null) selectedTile.HideTile();
             player.ClearNode();
             HideSelector();
         }

@@ -161,7 +161,6 @@ public class WeaponSetHandler
         Node destination = Pathfinding.GetClosestPassibleNode(map, self.node, neighbors);
         List<Node> path = Pathfinding.GetClosestPath(map, self.node, destination, self);
         set.SetDestination(path[path.Count - 1]);
-        Debug.Log(path.Count);
 
         return set;
     }

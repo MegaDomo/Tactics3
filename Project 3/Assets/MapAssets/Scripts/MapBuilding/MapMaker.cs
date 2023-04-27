@@ -73,9 +73,9 @@ public class MapMaker : ScriptableObject
             }
             GetMap();
         }
-
+        
         // When Finishes, Performs Handoff
-        mapMadeEvent.Invoke(map, units);
+        mapMadeEvent?.Invoke(map, units);
     }
 
     #region Get Map
@@ -195,6 +195,8 @@ public class MapMaker : ScriptableObject
     {
         List<Unit> unitsToPlace = InstantiateUnits(unitsToSpawn);
         PlaceUnits(spawnPoints, unitsToPlace);
+
+        units = unitsToPlace;
     }
 
     private List<Unit> InstantiateUnits(List<UnitObj> unitsToSpawn)
@@ -206,11 +208,11 @@ public class MapMaker : ScriptableObject
 
             GameObject clone = Instantiate(nextUnitObj.prefab);
             Unit unit = clone.GetComponent<Unit>();
-            unit.Setup(nextUnitObj);
+            unit.Setup(map, nextUnitObj);
 
             if (unit.unitType == Unit.UnitType.Enemy)
                 unit.SetAsEnemy();
-
+            
             unitsToPlace.Add(unit);
         }
         return unitsToPlace;
@@ -219,10 +221,7 @@ public class MapMaker : ScriptableObject
     private void PlaceUnits(List<Node> spawnPoints, List<Unit> unitsToPlace)
     {
         for (int i = 0; i < spawnPoints.Count; i++)
-        {
             gameMaster.Place(unitsToPlace[i], spawnPoints[i]);
-            Utils.CreateWorldText(map.GetWorldPosition(spawnPoints[i]), "Spawning Here", 30, TextAnchor.MiddleCenter);
-        }
     }
     #endregion
 

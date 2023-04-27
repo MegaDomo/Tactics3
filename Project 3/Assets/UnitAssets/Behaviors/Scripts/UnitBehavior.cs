@@ -3,18 +3,18 @@ public class UnitBehavior
     private Unit unit;
     private Behavior behavior;
 
-    public UnitBehavior(Unit unit, Grid<Node> map, Unit.BehaviorType behaviorType)
+    public UnitBehavior(BattleSystem battleSystem, Unit unit, Grid<Node> map, Unit.BehaviorType behaviorType)
     {
         this.unit = unit;
 
-        SetBehavior(map, behaviorType);
+        SetBehavior(battleSystem, map, behaviorType);
         behavior.self = unit;
     }
 
-    private void SetBehavior(Grid<Node> map, Unit.BehaviorType behaviorType)
+    private void SetBehavior(BattleSystem battleSystem, Grid<Node> map, Unit.BehaviorType behaviorType)
     {
         if (behaviorType == Unit.BehaviorType.Attacker)
-            behavior = new Attacker(map, unit);
+            behavior = new Attacker(battleSystem, map, unit);
 
         if (behaviorType == Unit.BehaviorType.Killer)
             behavior = new Killer();

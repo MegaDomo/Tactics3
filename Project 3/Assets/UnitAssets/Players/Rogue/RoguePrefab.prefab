@@ -1698,7 +1698,7 @@ GameObject:
   - component: {fileID: 1929201187517981881}
   m_Layer: 12
   m_Name: RoguePrefab
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1747,13 +1747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69362486e02202a4a9d1942af53fd1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
-  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
-  enemyAI: {fileID: 11400000, guid: 42adc56d6527de94eb3328c98308f31c, type: 2}
-  unitType: 0
-  overrideController: {fileID: 0}
-  behaviorType: 0
-  behavior: {fileID: 0}
   tauntedTarget: {fileID: 0}
   stats:
     isAggressive: 0
@@ -1782,6 +1775,10 @@ MonoBehaviour:
   weapons: []
   abilities: []
   items: []
+  unitObj: {fileID: 0}
+  unitType: 0
+  behaviorType: 0
+  behavior: {fileID: 0}
 --- !u!114 &1929201187517981881
 MonoBehaviour:
   m_ObjectHideFlags: 0

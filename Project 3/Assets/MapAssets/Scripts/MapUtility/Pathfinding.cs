@@ -281,7 +281,6 @@ public static class Pathfinding
                 break;
             nodeCost++;
         }
-        Debug.Log(nodeCost);
         return nodeCost;
     }
     #endregion

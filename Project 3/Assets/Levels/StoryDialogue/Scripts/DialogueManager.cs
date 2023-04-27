@@ -38,6 +38,11 @@ public class DialogueManager : MonoBehaviour
         gameMaster.startDialogueEvent -= StartDialogue;
     }
 
+    private void Start()
+    {
+        ResetDialogue();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F5) && !isTalking && dialogueState == DialogueState.InDialogue)

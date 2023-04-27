@@ -7,6 +7,7 @@ public class UnitObj : ScriptableObject
 {
     [Header("Scriptable Object References")]
     public GameMaster gameMaster;
+    public BattleSystem battleSystem;
     public PlayerTurn playerTurn;
     public EnemyAI enemyAI;
 

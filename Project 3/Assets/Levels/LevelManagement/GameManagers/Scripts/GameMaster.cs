@@ -14,6 +14,7 @@ public class GameMaster : ScriptableObject
     public BattleSystem battleSystem;
 
     [Header("Level Editor: Settings of Next Run")]
+    public bool skipDialogue;
     public bool makeRandomMap;
     public bool spawnUnits;
     public bool haveCombat;
@@ -43,13 +44,16 @@ public class GameMaster : ScriptableObject
         makeMapEvent.Invoke(startingPoint, makeRandomMap);
 
         Level level = levelManager.GetLevel(levelToLoad);
-        if (level.isTherePreDialogue)
-            startDialogueEvent.Invoke(level.preCombatDialogue);
+        if (level.isTherePreDialogue && !skipDialogue)
+            startDialogueEvent?.Invoke(level.preCombatDialogue);
+        else
+            StartCobmat();
     }
 
     #region Events & Subscribers
     private void MapEventSubscriber(Grid<Node> map, List<Unit> units)
     {
+        
         this.units = units;
         this.map = map;
     }

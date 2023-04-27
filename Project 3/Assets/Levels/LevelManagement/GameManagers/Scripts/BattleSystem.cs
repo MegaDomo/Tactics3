@@ -78,11 +78,11 @@ public class BattleSystem : ScriptableObject
         {
             case Unit.UnitType.Player:
                 CombatState.MakeStatePlayerTurn();
-                playerTurnEvent.Invoke(next);
+                playerTurnEvent?.Invoke(next);
                 break;
             case Unit.UnitType.Enemy:
                 CombatState.MakeStateEnemyTurn();
-                enemyTurnEvent.Invoke(next);
+                enemyTurnEvent?.Invoke(next);
                 break;
             default:
                 break;
@@ -98,11 +98,13 @@ public class BattleSystem : ScriptableObject
     #region Utility
     public void SetPlayersAndEnemies(List<Unit> units)
     {
+        players = new List<Unit>();
+        enemies = new List<Unit>();
         foreach (Unit unit in units)
         {
             if (unit.unitType == Unit.UnitType.Player)
                 players.Add(unit);
-            if (unit.unitType == Unit.UnitType.Player)
+            if (unit.unitType == Unit.UnitType.Enemy)
                 enemies.Add(unit);
         }
     }
