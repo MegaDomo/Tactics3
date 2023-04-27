@@ -4,9 +4,9 @@ using UnityEngine;
 public class CharacterDialogue
 {
     [Header("Characters")]
-    public Character[] charactersLeft;
-    public Character[] charactersRight;
-    public Character whoseTalking;
+    public UnitObj[] charactersLeft;
+    public UnitObj[] charactersRight;
+    public UnitObj whoseTalking;
 
     [Header("Details")]
     [TextArea(3, 10)] public string sentence;

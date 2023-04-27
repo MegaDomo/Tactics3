@@ -34,7 +34,6 @@ public class UnitMovement : MonoBehaviour
     public void Setup(Unit unit)
     {
         this.unit = unit;
-        unit.unitMovement = this;
         offset = transform.position - ground.position;
     }
 

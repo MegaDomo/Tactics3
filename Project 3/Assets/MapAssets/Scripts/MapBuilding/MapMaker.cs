@@ -172,7 +172,7 @@ public class MapMaker : ScriptableObject
     private void GetSpawnPoints()
     {
         List<Node> spawnPoints = new List<Node>();
-        List<Unit> unitsToSpawn = new List<Unit>();
+        List<UnitObj> unitsToSpawn = new List<UnitObj>();
         GameObject[] spawnPointsObj = GameObject.FindGameObjectsWithTag("SpawnPoint");
         
         for (int i = 0; i < spawnPointsObj.Length; i++)
@@ -183,9 +183,7 @@ public class MapMaker : ScriptableObject
             map.GetXZ(position, out int x, out int z);
             Node node = map.GetGridObject(x, z);
             spawnPoints.Add(node);
-            unitsToSpawn.Add(spb.unit);
-
-            
+            unitsToSpawn.Add(spb.unitObj);
 
             Destroy(spb.gameObject);
         }
@@ -193,36 +191,38 @@ public class MapMaker : ScriptableObject
         SpawnUnits(spawnPoints, unitsToSpawn);
     }
 
-    public void SpawnUnits(List<Node> spawnPoints, List<Unit> unitsToSpawn)
+    public void SpawnUnits(List<Node> spawnPoints, List<UnitObj> unitsToSpawn)
     {
-        InstantiateUnits(unitsToSpawn);
-        PlaceUnits(spawnPoints, unitsToSpawn);
+        List<Unit> unitsToPlace = InstantiateUnits(unitsToSpawn);
+        PlaceUnits(spawnPoints, unitsToPlace);
     }
 
-    private void InstantiateUnits(List<Unit> unitsToSpawn)
+    private List<Unit> InstantiateUnits(List<UnitObj> unitsToSpawn)
     {
+        List<Unit> unitsToPlace = new List<Unit>();
         for (int i = 0; i < unitsToSpawn.Count; i++)
         {
-            Unit nextUnit = unitsToSpawn[i];
+            UnitObj nextUnitObj = unitsToSpawn[i];
 
-            GameObject clone = Instantiate(nextUnit.prefab);
-            UnitMovement movementComponent = clone.GetComponent<UnitMovement>();
-            nextUnit.Setup(map, movementComponent);
+            GameObject clone = Instantiate(nextUnitObj.prefab);
+            Unit unit = clone.GetComponent<Unit>();
+            unit.Setup(nextUnitObj);
 
-            if (nextUnit.unitType == Unit.UnitType.Enemy)
-                nextUnit.SetAsEnemy();
+            if (unit.unitType == Unit.UnitType.Enemy)
+                unit.SetAsEnemy();
+
+            unitsToPlace.Add(unit);
         }
+        return unitsToPlace;
     }
 
-    private void PlaceUnits(List<Node> spawnPoints, List<Unit> unitsToSpawn)
+    private void PlaceUnits(List<Node> spawnPoints, List<Unit> unitsToPlace)
     {
-        
         for (int i = 0; i < spawnPoints.Count; i++)
         {
-            gameMaster.Place(unitsToSpawn[i], spawnPoints[i]);
+            gameMaster.Place(unitsToPlace[i], spawnPoints[i]);
             Utils.CreateWorldText(map.GetWorldPosition(spawnPoints[i]), "Spawning Here", 30, TextAnchor.MiddleCenter);
         }
-            
     }
     #endregion
 

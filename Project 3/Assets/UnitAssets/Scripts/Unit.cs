@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewUnit", menuName = "Units/Unit")]
-public class Unit : ScriptableObject
+public class Unit : MonoBehaviour
 {
     public enum UnitType { Player, Enemy, Neutral, Ally, Civilian }
     public enum BehaviorType { Attacker, Killer }
@@ -15,8 +14,6 @@ public class Unit : ScriptableObject
 
     [Header("Attributes")]
     public UnitType unitType;
-    public Character character;
-    public GameObject prefab;
     public AnimatorOverrideController overrideController;
 
     [Header("If Enemy Attributes")]
@@ -42,13 +39,33 @@ public class Unit : ScriptableObject
     [HideInInspector] public Action<int, int> healthChangeEvent;
     [HideInInspector] public Action movementEvent;
 
+    private UnitObj unitObj;
     private Grid<Node> map;
 
-    public void Setup(Grid<Node> map, UnitMovement unitMovement)
+    public void Setup(UnitObj unitObj)
     {
-        this.map = map;
-        this.unitMovement = unitMovement;
-        this.unitMovement.Setup(this);
+        this.unitObj = unitObj;
+
+        gameMaster = unitObj.gameMaster;
+        playerTurn = unitObj.playerTurn;
+        enemyAI = unitObj.enemyAI;
+
+        unitType = unitObj.unitType;
+        overrideController = unitObj.overrideController;
+
+        behaviorType = unitObj.behaviorType;
+        behavior = unitObj.behavior;
+
+        stats = unitObj.stats;
+
+        weapons = unitObj.weapons;
+        abilities = unitObj.abilities;
+        items = unitObj.items;
+
+        map = unitObj.GetMap();
+
+        unitMovement = GetComponent<UnitMovement>();
+        unitMovement.Setup(this);
     }
 
     #region Turn Methods
