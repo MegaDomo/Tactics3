@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -30,5 +28,32 @@ public class UnitStats
     public int aggro;
     public int aggroRange = 5;
     public int moved = 0;
-    public int pathingSpeed = 50;    
+    public int pathingSpeed = 50;
+    
+    public UnitStats(UnitStats stats)
+    {
+        isAggressive = stats.isAggressive;
+
+        maxHealth = stats.maxHealth;
+        curHealth = stats.curHealth;
+        movement = stats.movement;
+
+        vision = stats.vision;
+        speed = stats.speed;
+        attack = stats.attack;
+        spAttack = stats.spAttack;
+        defense = stats.defense;
+        spDefense = stats.spDefense;
+        accuracy = stats.accuracy;
+        avoidance = stats.avoidance;
+        critChance = stats.critChance;
+        critDamage = stats.critDamage;
+        inflictionChance = stats.inflictionChance;
+        inflictionResist = stats.inflictionResist;
+
+        aggro = stats.aggro;
+        aggroRange = stats.aggroRange;
+        moved = stats.moved;
+        pathingSpeed = stats.pathingSpeed;
+    }
 }

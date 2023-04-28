@@ -55,7 +55,7 @@ public class Unit : MonoBehaviour
         behaviorType = unitObj.behaviorType;
         behavior = unitObj.behavior;
 
-        stats = unitObj.stats;
+        stats = new UnitStats(unitObj.stats);
 
         weapons = unitObj.weapons;
         abilities = unitObj.abilities;
@@ -109,14 +109,14 @@ public class Unit : MonoBehaviour
     public void DecreaseHealth(int amount)
     {
         stats.curHealth -= amount;
-        healthChangeEvent.Invoke(stats.curHealth, stats.maxHealth);
+        healthChangeEvent?.Invoke(stats.curHealth, stats.maxHealth);
     }
 
     public void SetHealth(int amount)
     {
         stats.maxHealth = amount;
         stats.curHealth = stats.maxHealth;
-        healthChangeEvent.Invoke(stats.curHealth, stats.maxHealth);
+        healthChangeEvent?.Invoke(stats.curHealth, stats.maxHealth);
     }
 
     public int ForecastTakePhysicalDamage(int damage)

@@ -34,7 +34,7 @@ public class EnemyAI : ScriptableObject
 
     public void EndTurn()
     {
-        endTurnEvent.Invoke();
+        endTurnEvent?.Invoke();
     }
 
     #region Utility

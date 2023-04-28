@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class NodeClicker : MonoBehaviour
 {
     [Header("Scriptable Objects References")]
+    public GameMaster gameMaster;
     public PlayerTurn player;
 
     [Header("Unity References")]
@@ -55,6 +57,20 @@ public class NodeClicker : MonoBehaviour
     private void ClickedOnForecastTile(RaycastHit forecastHit)
     {
         ForecastTile newTile = forecastHit.transform.GetComponent<ForecastTile>();
+
+        Node item = newTile.node;
+        Unit selected = player.GetSelected();
+        Grid<Node> map = gameMaster.GetMap();
+
+        List<Node> routes = Pathfinding.GetAllRoutes(map, selected);
+        if (!routes.Contains(item))
+        {
+            Debug.Log("Out of Range");
+            return;
+            // Maybe turn something red
+        }
+
+
         if (newTile != selectedTile)
         {
             if (selectedTile == null)
@@ -64,6 +80,12 @@ public class NodeClicker : MonoBehaviour
             selectedTile = newTile;
             selectedTile.SelectedThisTile();
 
+            Node node = selectedTile.GetNode();
+            player.ChooseNode(node);
+            MoveSelector(node);
+        }
+        else
+        {
             Node node = selectedTile.GetNode();
             player.ChooseNode(node);
             MoveSelector(node);

@@ -736,6 +736,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5086838601555098538, guid: 570e4051251bbaa41a090d0150775e39, type: 3}
+      propertyPath: gameMaster
+      value: 
+      objectReference: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
     - target: {fileID: 5086838602056969544, guid: 570e4051251bbaa41a090d0150775e39, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
