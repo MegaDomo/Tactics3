@@ -199,7 +199,7 @@ public class Unit : MonoBehaviour
 
     public int MovementLeft()
     {
-        return unitMovement.MovementLeft();
+        return stats.movement;
     }
 
     public void SetIsMoving(bool value)

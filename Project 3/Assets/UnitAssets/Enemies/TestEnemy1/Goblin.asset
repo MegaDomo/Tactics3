@@ -22,16 +22,23 @@ MonoBehaviour:
   expressionSheet:
   - expressionName: 
     sprite: {fileID: 0}
+  - expressionName: 
+    sprite: {fileID: 0}
   unitType: 1
   prefab: {fileID: 8393388155084712061, guid: 244ae204b993e9d4d84b20ed47c66d07, type: 3}
   overrideController: {fileID: 0}
+  equippedWeapon: {fileID: 0}
+  weapons:
+  - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
+  abilities: []
+  items: []
   stats:
     isAggressive: 0
     maxHealth: 10
     curHealth: 10
-    movement: 0
-    speed: 5
+    movement: 5
     vision: 0
+    speed: 0
     attack: 0
     spAttack: 0
     defense: 0
@@ -45,11 +52,7 @@ MonoBehaviour:
     aggro: 0
     aggroRange: 5
     moved: 0
-    pathingSpeed: 10
+    pathingSpeed: 51
   behaviorType: 0
   behavior: {fileID: 0}
   tauntedTarget: {fileID: 0}
-  equippedWeapon: {fileID: 0}
-  weapons: []
-  abilities: []
-  items: []

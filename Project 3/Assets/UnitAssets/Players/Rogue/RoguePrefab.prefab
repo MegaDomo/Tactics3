@@ -915,7 +915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   enemyAI: {fileID: 11400000, guid: 42adc56d6527de94eb3328c98308f31c, type: 2}
-  parentUnitScript: {fileID: 0}
+  parentUnitScript: {fileID: -1221628744600495719}
 --- !u!1 &3755669806245959011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1753,8 +1753,8 @@ MonoBehaviour:
     maxHealth: 10
     curHealth: 10
     movement: 0
-    speed: 12
     vision: 0
+    speed: 12
     attack: 0
     spAttack: 0
     defense: 0

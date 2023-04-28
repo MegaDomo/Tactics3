@@ -33,6 +33,13 @@ public class BattleSystem : ScriptableObject
         enemyAI.endTurnEvent += GetNextInitiative;
     }
 
+    private void OnDisable()
+    {
+        gameMaster.startCombatEvent -= Setup;
+        playerTurn.endTurnEvent -= GetNextInitiative;
+        enemyAI.endTurnEvent -= GetNextInitiative;
+    }
+
     public void Setup(List<Unit> units)
     {
         this.units = units;

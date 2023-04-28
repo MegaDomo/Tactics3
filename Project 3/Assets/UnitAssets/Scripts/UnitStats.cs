@@ -12,9 +12,9 @@ public class UnitStats
     public int maxHealth;
     public int curHealth;
     public int movement;
-    public int speed;
-    public int vision;
 
+    public int vision;
+    public int speed;
     public int attack;
     public int spAttack;
     public int defense;
@@ -30,5 +30,5 @@ public class UnitStats
     public int aggro;
     public int aggroRange = 5;
     public int moved = 0;
-    public int pathingSpeed = 10;    
+    public int pathingSpeed = 50;    
 }

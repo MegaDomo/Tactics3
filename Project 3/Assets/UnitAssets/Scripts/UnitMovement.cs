@@ -32,6 +32,7 @@ public class UnitMovement : MonoBehaviour
     public void Setup(Unit unit)
     {
         this.unit = unit;
+        SetWeapon(unit.weapons[0]);
         offset = transform.position - ground.position;
     }
 
@@ -151,7 +152,7 @@ public class UnitMovement : MonoBehaviour
 
     public int MovementLeft()
     {
-        return unit.stats.movement - unit.stats.moved;
+        return unit.stats.movement;
     }
     #endregion
 
@@ -162,7 +163,7 @@ public class UnitMovement : MonoBehaviour
         if (unit.unitType == Unit.UnitType.Player)
             target = playerTurn.GetTarget();
         else
-            target = unit.target;
+            target = enemyAI.GetTarget();
 
         Vector3 dir = target.node.GetStandingPoint() - unit.node.GetStandingPoint();
         RotateUnit(dir);

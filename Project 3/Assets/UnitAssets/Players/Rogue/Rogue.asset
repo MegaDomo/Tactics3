@@ -23,13 +23,18 @@ MonoBehaviour:
   unitType: 0
   prefab: {fileID: 8769162474166777809, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
   overrideController: {fileID: 0}
+  equippedWeapon: {fileID: 0}
+  weapons:
+  - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
+  abilities: []
+  items: []
   stats:
     isAggressive: 0
     maxHealth: 10
     curHealth: 10
-    movement: 0
-    speed: 12
+    movement: 12
     vision: 0
+    speed: 0
     attack: 0
     spAttack: 0
     defense: 0
@@ -47,7 +52,3 @@ MonoBehaviour:
   behaviorType: 0
   behavior: {fileID: 0}
   tauntedTarget: {fileID: 0}
-  equippedWeapon: {fileID: 0}
-  weapons: []
-  abilities: []
-  items: []

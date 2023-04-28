@@ -35,6 +35,13 @@ public class GameMaster : ScriptableObject
         SceneManager.activeSceneChanged += LoadLevel;
     }
 
+    private void OnDisable()
+    {
+        mapMaker.mapMadeEvent -= MapEventSubscriber;
+        battleSystem.victoryEvent -= Victory;
+        SceneManager.activeSceneChanged -= LoadLevel;
+    }
+
     public void LoadLevel(Scene current, Scene next)
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
@@ -79,7 +86,6 @@ public class GameMaster : ScriptableObject
         Level level = levelManager.GetLevel(levelToLoad);
         if (level.isTherePostDialogue)
             startDialogueEvent.Invoke(level.postCombatDialogue);
-            
     }
     #endregion
 

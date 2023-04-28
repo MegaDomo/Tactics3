@@ -20,6 +20,11 @@ public class EnemyAI : ScriptableObject
         battleSystem.enemyTurnEvent += StartTurn;    
     }
 
+    private void OnDisable()
+    {
+        battleSystem.enemyTurnEvent -= StartTurn;
+    }
+
     public void StartTurn(Unit unit)
     {
         selected = unit;
@@ -45,6 +50,11 @@ public class EnemyAI : ScriptableObject
     public void SetSelected(Unit _selected)
     {
         selected = _selected;
+    }
+
+    public Unit GetTarget()
+    {
+        return selected.behavior.target;
     }
     #endregion
 }

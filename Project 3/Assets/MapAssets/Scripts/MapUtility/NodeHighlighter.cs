@@ -21,10 +21,20 @@ public class NodeHighlighter : MonoBehaviour
         playerTurn.selectedNodeEvent += Unhighlight;
     }
 
+    private void OnDisable()
+    {
+        battleSystem.playerTurnEvent -= Highlight;
+        playerTurn.deselectedNodeEvent -= Highlight;
+
+        playerTurn.endTurnEvent -= Unhighlight;
+        playerTurn.selectedNodeEvent -= Unhighlight;
+    }
+
     public void Highlight(Unit unit)
     {
         List<Node> routes = Pathfinding.GetAllRoutes(gameMaster.GetMap(), unit);
-        
+        fTiles = new List<ForecastTile>();
+
         foreach (Node node in routes)
         {
             ForecastTile tile = node.forecastTile;

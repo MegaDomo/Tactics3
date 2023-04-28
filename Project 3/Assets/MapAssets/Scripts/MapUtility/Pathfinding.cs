@@ -64,67 +64,6 @@ public static class Pathfinding
         path.Reverse();
         return path;
     }
-
-    public static List<Node> AStarWithStart(Grid<Node> grid, Node start, Node end)
-    {
-        List<Node> path = new List<Node>();
-        float stepSize = grid.GetCellSize() / 2;
-        // Starts the Queue
-        PriorityQueue<Node> frontier = new PriorityQueue<Node>();
-        Dictionary<Node, Node> came_from = new Dictionary<Node, Node>();
-        Dictionary<Node, int> cost_so_far = new Dictionary<Node, int>();
-        frontier.Enqueue(start, 0);
-        came_from.Add(start, null);
-        cost_so_far.Add(start, 0);
-
-        Node current;
-        // Performs the Search
-        while (frontier.Count != 0)
-        {
-            current = frontier.Dequeue();
-
-            // Early Exit : Are we there yet?
-            if (current == end)
-                break;
-
-            // Adds Adjacent Edges
-            foreach (Node next in GetPassibleNeighbors(grid, current))
-            {
-                if (Mathf.Abs(next.y - current.y) > stepSize)
-                    continue;
-
-                // Finds Cost of current path
-                int newCost = cost_so_far[current] + next.movementCost;
-                if (!cost_so_far.ContainsKey(next) || newCost < cost_so_far[next])
-                {
-                    cost_so_far[next] = newCost;
-                    int priority = newCost + GetDistance(grid, next, end);
-                    frontier.Enqueue(next, priority);
-                    came_from[next] = current;
-                }
-            }
-        }
-
-        // Defines the Path, following the Breadcrumbs
-        current = end;
-
-        // If no Path found
-        if (!came_from.ContainsKey(current))
-            return path;
-
-        while (current != start)
-        {
-            // Adds current node
-            path.Add(current);
-            // Updates current node with next in Breadcrumb trail
-            current = came_from[current];
-        }
-
-        path.Add(current);
-        path.Reverse();
-        path.RemoveAt(path.Count - 1);
-        return path;
-    }
     #endregion
 
     #region Grid/Path Methods
@@ -132,9 +71,9 @@ public static class Pathfinding
     #region Closest
     public static List<Node> GetClosestPath(Grid<Node> grid, Node start, Node end, Unit unit)
     {
-        List<Node> path = AStarWithStart(grid, start, end);
+        List<Node> path = AStar(grid, start, end);
         int nodeCost = GetNodeCostFromMovement(path, unit.MovementLeft());
-        path.RemoveRange(nodeCost + 1, path.Count - nodeCost - 1);
+        path.RemoveRange(nodeCost, path.Count - nodeCost);
         return path;
     }
 
@@ -241,32 +180,6 @@ public static class Pathfinding
         if (path.Count == 0)
             return -1;
         return GetPathCost(path);
-    }
-
-    public static int GetPathCostWithStart(Grid<Node> grid, Node start, Node end)
-    {
-        List<Node> path = AStarWithStart(grid, start, end);
-        if (path.Count == 0)
-            return -1;
-        return GetPathCost(path);
-    }
-
-    public static int GetPathCostWithoutStart(List<Node> path)
-    {
-        int pathCost = 0;
-        for (int i = 1; i < path.Count; i++)
-        {
-            pathCost += path[i].movementCost;
-        }
-        return pathCost;
-    }
-
-    public static int GetPathCostWithoutStart(Grid<Node> grid, Node start, Node end)
-    {
-        List<Node> path = AStar(grid, start, end);
-        if (path.Count == 0)
-            return -1;
-        return GetPathCostWithoutStart(path);
     }
 
     // Note : Used for Getting Closest Path

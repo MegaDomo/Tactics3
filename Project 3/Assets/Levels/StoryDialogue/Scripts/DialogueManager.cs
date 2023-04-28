@@ -40,7 +40,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        ResetDialogue();
+        UIElements.SetActive(false);
     }
 
     private void Update()

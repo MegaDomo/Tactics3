@@ -21,11 +21,15 @@ public class PlayerTurn : ScriptableObject
     private Unit selected;
     private Unit target;
     private Node destination;
-
+    
     private void OnEnable()
     {
         battleSystem.playerTurnEvent += StartTurn;
-        
+    }
+
+    private void OnDisable()
+    {
+        battleSystem.playerTurnEvent -= StartTurn;
     }
 
     #region ActionStateMethods

@@ -21,6 +21,10 @@ public class UnitObj : ScriptableObject
     public Unit.UnitType unitType;
     public GameObject prefab;
     public AnimatorOverrideController overrideController;
+    public Weapon equippedWeapon;
+    public List<Weapon> weapons;
+    public List<Ability> abilities;
+    public List<Item> items;
     public UnitStats stats;
 
     [Header("If Enemy Attributes")]
@@ -30,10 +34,6 @@ public class UnitObj : ScriptableObject
     [Header("Debugging")]
     public Unit tauntedTarget;
 
-    [HideInInspector] public Weapon equippedWeapon;
-    [HideInInspector] public List<Weapon> weapons;
-    [HideInInspector] public List<Ability> abilities;
-    [HideInInspector] public List<Item> items;
 
     private Grid<Node> map;
 

@@ -129,7 +129,7 @@ public class WeaponSetHandler
 
         foreach (Node node in nodes)
         {
-            int temp = Pathfinding.GetPathCostWithStart(map, self.node, node);
+            int temp = Pathfinding.GetPathCost(map, self.node, node);
             if (temp <= movement)
                 nodesInRange.Add(node);
         }
