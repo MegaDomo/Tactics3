@@ -18,5 +18,5 @@ MonoBehaviour:
   effectDuration: 0
   minRange: 1
   maxRange: 4
-  AoEMinRange: 0
-  AoEMaxRange: 0
+  aoeMinRange: 0
+  aoeMaxRange: 0
