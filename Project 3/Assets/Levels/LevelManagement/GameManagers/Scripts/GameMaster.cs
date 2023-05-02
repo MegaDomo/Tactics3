@@ -54,7 +54,7 @@ public class GameMaster : ScriptableObject
         if (level.isTherePreDialogue && !skipDialogue)
             startDialogueEvent?.Invoke(level.preCombatDialogue);
         else
-            StartCobmat();
+            StartCombat();
     }
 
     #region Events & Subscribers
@@ -76,7 +76,7 @@ public class GameMaster : ScriptableObject
         destination.unit = unit;
     }
 
-    public void StartCobmat()
+    public void StartCombat()
     {
         startCombatEvent?.Invoke(units);
     }

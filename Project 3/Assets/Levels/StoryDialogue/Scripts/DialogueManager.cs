@@ -49,7 +49,7 @@ public class DialogueManager : MonoBehaviour
         {
             ResetDialogue();
             
-            gameMaster.StartCobmat();
+            gameMaster.StartCombat();
         }
 
         if (Input.GetKeyDown(KeyCode.F5) && isTalking)
