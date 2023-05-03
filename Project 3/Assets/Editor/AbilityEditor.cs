@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(Unit)), CanEditMultipleObjects]
+[CustomEditor(typeof(Ability)), CanEditMultipleObjects]
 public class AbilityEditor : Editor
 {
     private Ability.TargetType type;
