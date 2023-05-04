@@ -43,6 +43,13 @@ public class NodeHighlighter : MonoBehaviour
         }
     }
 
+    public void Unhighlight(Unit unit)
+    {
+        foreach (ForecastTile tile in fTiles)
+            tile.HideTile();
+        fTiles = new List<ForecastTile>();
+    }
+
     public void Unhighlight()
     {
         foreach (ForecastTile tile in fTiles)

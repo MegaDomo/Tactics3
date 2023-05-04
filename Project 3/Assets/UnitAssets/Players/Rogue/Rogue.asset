@@ -27,7 +27,7 @@ MonoBehaviour:
   weapons:
   - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
   abilities:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 335786d665596224ba1c6acfc021c7f6, type: 2}
   items: []
   stats:
     isAggressive: 0

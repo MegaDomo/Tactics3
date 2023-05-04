@@ -7,7 +7,7 @@ public class AbilityEditor : Editor
     private Ability.TargetType type;
 
     public override void OnInspectorGUI()
-    {
+    {/*
         //Unit.UnitType prop = (Unit.UnitType)serializedObject.FindProperty("unitType");
 
         type = (Ability.TargetType)EditorGUILayout.EnumPopup("Display", type);
@@ -50,7 +50,7 @@ public class AbilityEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("maxRange"));
 
 
-        serializedObject.ApplyModifiedProperties();
+        serializedObject.ApplyModifiedProperties();*/
     }
 
     private void AreaStuff()

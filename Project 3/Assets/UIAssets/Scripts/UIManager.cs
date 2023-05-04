@@ -31,18 +31,18 @@ public class UIManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        playerTurn.deselectedNodeEvent += CloseAllPanels;
+        /*playerTurn.deselectedNodeEvent += CloseAllPanels;
         playerTurn.selectedNodeEvent += TurnOnHotBar;
 
-        battleSystem.playerTurnEvent += CloseAllPanels;
+        battleSystem.playerTurnEvent += CloseAllPanels;*/
     }
 
     private void UnsubscribeEvents()
     {
-        playerTurn.deselectedNodeEvent -= CloseAllPanels;
+        /*playerTurn.deselectedNodeEvent -= CloseAllPanels;
         playerTurn.selectedNodeEvent -= TurnOnHotBar;
 
-        battleSystem.playerTurnEvent -= CloseAllPanels;
+        battleSystem.playerTurnEvent -= CloseAllPanels;*/
     }
     #endregion
 

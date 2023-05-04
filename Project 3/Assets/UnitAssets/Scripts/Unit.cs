@@ -57,9 +57,17 @@ public class Unit : MonoBehaviour
 
         stats = new UnitStats(unitObj.stats);
 
-        weapons = unitObj.weapons;
-        abilities = unitObj.abilities;
-        items = unitObj.items;
+        weapons = new List<Weapon>();
+        foreach (Weapon weapon in unitObj.weapons)
+            weapons.Add(weapon);
+
+        abilities = new List<Ability>();
+        foreach (Ability ability in unitObj.abilities)
+            abilities.Add(ability);
+
+        items = new List<Item>();
+        foreach (Item item in unitObj.items)
+            items.Add(item);
 
         foreach (Weapon weapon in weapons)
             foreach (Ability ability in weapon.abilities)

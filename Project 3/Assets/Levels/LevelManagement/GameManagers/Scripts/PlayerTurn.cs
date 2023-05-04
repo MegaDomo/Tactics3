@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum ActionState { ChooseNode, ChoosingAction, CannotChoose }
+public enum ActionState { ChooseNode, ChoosingAction, ChoosingTarget, CannotChoose }
 
 [CreateAssetMenu(fileName = "NewPlayerTurnManager", menuName = "Managers/Player Turn Manager")]
 public class PlayerTurn : ScriptableObject
@@ -15,12 +15,14 @@ public class PlayerTurn : ScriptableObject
     public Action endTurnEvent;
 
     // Node Events
-    public Action selectedNodeEvent;
+    public Action<Unit> selectedNodeEvent;
     public Action<Unit> deselectedNodeEvent;
 
     private Unit selected;
     private Unit target;
     private Node destination;
+    private Node targetDestination;
+    private Ability chosenAbility;
     
     private void OnEnable()
     {
@@ -51,7 +53,7 @@ public class PlayerTurn : ScriptableObject
     {
         destination = node;
         actionState = ActionState.ChoosingAction;
-        selectedNodeEvent?.Invoke();
+        selectedNodeEvent?.Invoke(selected);
     }
 
     public void ClearNode()
@@ -66,7 +68,11 @@ public class PlayerTurn : ScriptableObject
         this.target = target;
         actionState = ActionState.ChoosingAction;
     }
-    
+
+    public void ChooseTargetNode(Node node)
+    {
+        targetDestination = node;
+    }
     #endregion
 
     #region Player Functions
@@ -94,6 +100,21 @@ public class PlayerTurn : ScriptableObject
 
         selected.SetIsAttacking(true);
         selected.Move(destination);
+    }
+
+    public void ChooseAbility(Ability ability)
+    {
+        chosenAbility = ability;
+        actionState = ActionState.ChoosingTarget;
+    }
+
+    public void UseAbility(Ability ability)
+    {
+        if (ability.targetType == Ability.TargetType.DirectTargeting)
+            ability.DirectTargeting(selected);
+
+        if (ability.targetType == Ability.TargetType.AreaTargeting)
+            ability.AreaTargeting(selected);
     }
     #endregion
 
@@ -139,6 +160,16 @@ public class PlayerTurn : ScriptableObject
     public void SetDestination(Node node)
     {
         destination = node;
+    }
+
+    public Ability GetChosenAbility()
+    {
+        return chosenAbility;
+    }
+
+    public void SetChosenAbility(Ability ability)
+    {
+        chosenAbility = ability;
     }
     #endregion
 }

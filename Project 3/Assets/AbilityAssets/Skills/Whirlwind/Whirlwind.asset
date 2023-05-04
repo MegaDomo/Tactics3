@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba420f49e87830a47a169a7f81b70fd1, type: 3}
-  m_Name: SwordStrike
+  m_Script: {fileID: 11500000, guid: c9a111dba4de9304b9910bb9d5199314, type: 3}
+  m_Name: Whirlwind
   m_EditorClassIdentifier: 
-  targetType: 0
+  targetType: 1
   damageType: 0
-  power: 3
+  power: 2
   effectDuration: 0
-  minRange: 1
-  maxRange: 1
-  aoeMinRange: 0
-  aoeMaxRange: 0
-  iconSprite: {fileID: 21300000, guid: 310126b477f205b4283269be9bd7d21d, type: 3}
+  minRange: 0
+  maxRange: 0
+  aoeMinRange: 1
+  aoeMaxRange: 1
+  iconSprite: {fileID: 21300000, guid: f20e7cc66dd4d494b969c331753687f5, type: 3}

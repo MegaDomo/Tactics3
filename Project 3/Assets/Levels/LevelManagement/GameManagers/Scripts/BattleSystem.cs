@@ -133,5 +133,10 @@ public class BattleSystem : ScriptableObject
     {
         return players;
     }
+
+    public List<Unit> GetEnemies()
+    {
+        return enemies;
+    }
     #endregion
 }

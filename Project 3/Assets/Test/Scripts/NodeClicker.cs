@@ -6,7 +6,7 @@ public class NodeClicker : MonoBehaviour
 {
     [Header("Scriptable Objects References")]
     public GameMaster gameMaster;
-    public PlayerTurn player;
+    public PlayerTurn playerTurn;
 
     [Header("Unity References")]
     public Transform nodeSelector;
@@ -14,10 +14,11 @@ public class NodeClicker : MonoBehaviour
     private ForecastTile selectedTile;
     private ForecastTile previousTile;
 
+    #region Update - Checks
     void Update()
     {
         CheckForDeselection();
-        if (player.actionState == ActionState.ChoosingAction)
+        if (playerTurn.actionState == ActionState.ChoosingAction)
             return;
         //HighlightNode();
         CheckForNodeSelection();
@@ -25,32 +26,34 @@ public class NodeClicker : MonoBehaviour
     
     private void CheckForNodeSelection()
     {
-        if (CombatState.state != BattleState.PLAYERTURN && player.actionState != ActionState.ChooseNode)
-            return;
-        // TODO : incorporate clicking on enemies to quickly hit enemies
-        /*RaycastHit unitHit = GetClickData(LayerMask.GetMask("Enemy"));
-        if (unitHit.transform != null)
-        {
-            ClickedOnUnit(unitHit);
-            return;
-        }*/
-        
-        RaycastHit forecastHit = GetClickData(LayerMask.GetMask("ForecastTile"));
-        if (forecastHit.transform != null)
-        {
-            ClickedOnForecastTile(forecastHit);
-            return;
-        }
+        // Selected Node to move to
+        if (CombatState.state == BattleState.PLAYERTURN && playerTurn.actionState == ActionState.ChooseNode)
+            ClickOnNode();
 
+        // After Selecting Action, Now Selecting Target
+        if (CombatState.state == BattleState.PLAYERTURN && playerTurn.actionState == ActionState.ChoosingTarget)
+            ClickOnTarget();
     }
+    #endregion
 
     private void CheckForDeselection()
     {
         if (Input.GetMouseButtonDown(1))
         {
             if (selectedTile != null) selectedTile.HideTile();
-            player.ClearNode();
+            playerTurn.ClearNode();
             HideSelector();
+        }
+    }
+
+    #region Choosing A Node
+    private void ClickOnNode()
+    {
+        RaycastHit forecastHit = GetClickData(LayerMask.GetMask("ForecastTile"));
+        if (forecastHit.transform != null)
+        {
+            ClickedOnForecastTile(forecastHit);
+            return;
         }
     }
 
@@ -59,7 +62,7 @@ public class NodeClicker : MonoBehaviour
         ForecastTile newTile = forecastHit.transform.GetComponent<ForecastTile>();
 
         Node item = newTile.node;
-        Unit selected = player.GetSelected();
+        Unit selected = playerTurn.GetSelected();
         Grid<Node> map = gameMaster.GetMap();
 
         List<Node> routes = Pathfinding.GetAllRoutes(map, selected);
@@ -81,23 +84,29 @@ public class NodeClicker : MonoBehaviour
             selectedTile.SelectedThisTile();
 
             Node node = selectedTile.GetNode();
-            player.ChooseNode(node);
+            playerTurn.ChooseNode(node);
             MoveSelector(node);
         }
         else
         {
             Node node = selectedTile.GetNode();
-            player.ChooseNode(node);
+            playerTurn.ChooseNode(node);
             MoveSelector(node);
         }
     }
+    #endregion
 
-    private void ClickedOnUnit(RaycastHit unitHit)
+    #region Choosing Target
+    private void ClickOnTarget()
     {
-
+        RaycastHit targetHit = GetClickData(LayerMask.GetMask("Ground"));
+        if (targetHit.transform != null)
+        {
+            
+            return;
+        }
     }
-
-
+    #endregion
 
     #region Utility
     private void MoveSelector(Node node)
