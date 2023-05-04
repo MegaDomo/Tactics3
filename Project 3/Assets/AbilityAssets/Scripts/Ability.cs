@@ -54,6 +54,16 @@ public class Ability : ScriptableObject
                 break;
         }
     }
+    
+    public virtual void DirectTargeting(List<Unit> units) { }
+
+    public virtual void AreaTargeting(List<Node> nodes) { }
+
+
+
+
+
+
 
     public virtual void DirectDamage(List<Unit> units) { }
 

@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 895c7c2dbfaddf5449fc3ae4e6eecdc2, type: 3}
-  m_Name: Sword1.0
+  m_Name: IronSword
   m_EditorClassIdentifier: 
   damage: 5
+  spDamage: 0
   range: 1
   minRange: 1
   charges: 0
   damageType: 0
+  abilities:
+  - {fileID: 11400000, guid: fbbbcfa4005507b4986287536af4c40e, type: 2}
   weaponType: SwordAttack
   animation: {fileID: 7400000, guid: 98e8b34f3646e85459d6df9b21752ddd, type: 2}
   prefab: {fileID: 7800691829840014551, guid: 2b08ce4679064974dbc6dd333878865e, type: 3}

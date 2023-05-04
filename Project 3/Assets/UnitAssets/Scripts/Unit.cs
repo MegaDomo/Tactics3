@@ -61,6 +61,10 @@ public class Unit : MonoBehaviour
         abilities = unitObj.abilities;
         items = unitObj.items;
 
+        foreach (Weapon weapon in weapons)
+            foreach (Ability ability in weapon.abilities)
+                abilities.Add(ability);
+
         this.map = map;
 
         unitMovement = GetComponent<UnitMovement>();

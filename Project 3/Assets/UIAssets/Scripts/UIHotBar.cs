@@ -7,6 +7,8 @@ public class UIHotBar : MonoBehaviour
     [Header("Scriptable Object References")]
     public PlayerTurn playerTurn;
 
+
+
     #region Event Handler
     public void WeaponStrike()
     {
