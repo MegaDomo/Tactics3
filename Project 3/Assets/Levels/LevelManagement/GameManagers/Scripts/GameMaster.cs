@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 [CreateAssetMenu(fileName = "NewGameMaster", menuName = "Managers/GameMaster")]
 public class GameMaster : ScriptableObject
 {
+    public static Grid<Node> map;
+
     [Header("Scriptable Object References")]
     public LevelManager levelManager;
     public MapMaker mapMaker;
@@ -24,7 +26,7 @@ public class GameMaster : ScriptableObject
     public Action<List<Unit>> startCombatEvent;
     public Action<Dialogue> startDialogueEvent;
 
-    private Grid<Node> map;
+    //private Grid<Node> map;
     private List<Unit> units = new List<Unit>();
     private string levelToLoad;
 
@@ -58,10 +60,10 @@ public class GameMaster : ScriptableObject
     }
 
     #region Events & Subscribers
-    private void MapEventSubscriber(Grid<Node> map, List<Unit> units)
+    private void MapEventSubscriber(Grid<Node> newMap, List<Unit> units)
     {
         this.units = units;
-        this.map = map;
+        map = newMap;
     }
     #endregion
 
@@ -95,9 +97,9 @@ public class GameMaster : ScriptableObject
         return map;
     }
 
-    public void SetMap(Grid<Node> map)
+    public void SetMap(Grid<Node> newMap)
     {
-        this.map = map;
+        map = newMap;
     }
 
     public string GetLevelToLoad()

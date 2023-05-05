@@ -3849,7 +3849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
-  player: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
+  playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   nodeSelector: {fileID: 5086838601140161151}
 --- !u!1 &5086838601586439017
 GameObject:
@@ -4269,7 +4269,7 @@ GameObject:
   - component: {fileID: 5086838601644594435}
   - component: {fileID: 5086838601644594434}
   m_Layer: 5
-  m_Name: HotBar
+  m_Name: HotBarElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

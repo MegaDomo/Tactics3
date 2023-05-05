@@ -14,46 +14,66 @@ public class NodeHighlighter : MonoBehaviour
 
     private void OnEnable()
     {
-        battleSystem.playerTurnEvent += Highlight;
-        playerTurn.deselectedNodeEvent += Highlight;
+        battleSystem.playerTurnEvent += HighlightPossibleRoutes;
+        playerTurn.deselectedNodeEvent += HighlightPossibleRoutes;
 
-        playerTurn.endTurnEvent += Unhighlight;
-        playerTurn.selectedNodeEvent += Unhighlight;
+        playerTurn.ChoseAbility += HighlightAreaAbilityForecast;
+
+        playerTurn.endTurnEvent += HidePossibleRoutes;
+        playerTurn.selectedNodeEvent += HidePossibleRoutes;
     }
 
     private void OnDisable()
     {
-        battleSystem.playerTurnEvent -= Highlight;
-        playerTurn.deselectedNodeEvent -= Highlight;
+        battleSystem.playerTurnEvent -= HighlightPossibleRoutes;
+        playerTurn.deselectedNodeEvent -= HighlightPossibleRoutes;
 
-        playerTurn.endTurnEvent -= Unhighlight;
-        playerTurn.selectedNodeEvent -= Unhighlight;
+        playerTurn.ChoseAbility -= HighlightAreaAbilityForecast;
+
+        playerTurn.endTurnEvent -= HidePossibleRoutes;
+        playerTurn.selectedNodeEvent -= HidePossibleRoutes;
     }
 
-    public void Highlight(Unit unit)
+    #region Event Subscribers
+    public void HighlightPossibleRoutes(Unit unit)
     {
         List<Node> routes = Pathfinding.GetAllRoutes(gameMaster.GetMap(), unit);
-        fTiles = new List<ForecastTile>();
-
-        foreach (Node node in routes)
-        {
-            ForecastTile tile = node.forecastTile;
-            fTiles.Add(tile);
-            tile.TileInReach();
-        }
+        HidePossibleRoutes();
+        Highlight(routes, ForecastTile.ForecastState.WithinReach);
     }
 
-    public void Unhighlight(Unit unit)
+    public void HidePossibleRoutes(Unit unit)
     {
-        foreach (ForecastTile tile in fTiles)
-            tile.HideTile();
-        fTiles = new List<ForecastTile>();
+        HighlightAll(ForecastTile.ForecastState.Hidden);
     }
 
-    public void Unhighlight()
+    public void HidePossibleRoutes()
     {
-        foreach (ForecastTile tile in fTiles)
-            tile.HideTile();
-        fTiles = new List<ForecastTile>();
+        HighlightAll(ForecastTile.ForecastState.Hidden);
+    }
+
+    public void HighlightAreaAbilityForecast(Node node, Ability ability)
+    {
+        List<Node> nodes = ability.GetAreaTargeting(node);
+        Debug.Log(nodes.Count);
+        Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
+    }
+    #endregion
+
+    public void Highlight(List<Node> nodes, ForecastTile.ForecastState state)
+    {
+        Grid<Node> map = gameMaster.GetMap();
+
+        foreach (Node node in nodes)
+            node.forecastTile.SetState(state);
+    }
+
+    public void HighlightAll(ForecastTile.ForecastState state)
+    {
+        Grid<Node> map = gameMaster.GetMap();
+
+        for (int i = 0; i < map.GetWidth(); i++)
+            for (int j = 0; j < map.GetHeight(); j++)
+                map.GetGridObject(i, j).forecastTile.SetState(state);
     }
 }

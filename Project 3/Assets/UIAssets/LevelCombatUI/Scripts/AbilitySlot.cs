@@ -12,7 +12,7 @@ public class AbilitySlot : MonoBehaviour
 
     public void ActiveAbilityButton()
     {
-        playerTurn.UseAbility(ability);
+        playerTurn.ChooseAbility(ability);
     }
 
     public void SetAbilityImage(Ability ability)

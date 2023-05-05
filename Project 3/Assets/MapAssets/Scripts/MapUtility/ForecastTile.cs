@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ForecastTile : MonoBehaviour
 {
+    public enum ForecastState { Hidden, Selected, WithinReach, OutOfReach, AbilityForecast }
     [Header("Unity References")]
     [SerializeField] private MeshRenderer mesh;
 
@@ -11,13 +12,11 @@ public class ForecastTile : MonoBehaviour
     [SerializeField] private Color selected;
     [SerializeField] private Color withinReach;
     [SerializeField] private Color outOfReach;
+    [SerializeField] private Color ability;
 
-    [HideInInspector] public int x;
-    [HideInInspector] public int z;
     [HideInInspector] public Node node;
 
-    private bool isSelected;
-
+    private ForecastState forecastState;
     private Material mat;
     private PlayerTurn player;
     private Grid<Node> map;
@@ -28,59 +27,57 @@ public class ForecastTile : MonoBehaviour
         HideTile();
     }
 
-    public void Highlight()
-    {
-        // If players turn
-        if (CombatState.state != BattleState.PLAYERTURN && player.actionState != ActionState.ChooseNode)
-            return;
-
-        // Check if in Reach to determine green or red
-        if (!node.passable)
-        {
-            TileOutOfReach();
-            return;
-        }
-
-        // Can move to, Turn Green
-        Unit unit = player.GetSelected();
-        if (Pathfinding.CanMove(map, unit, unit.node, node))
-            TileInReach();
-        // Can't move to, Turn Red
-        else
-            TileOutOfReach();
-    }
-
-    public void SelectedThisTile()
-    {
-        isSelected = true;
-        TileSelected();
-    }
-
-    public void DeselectedThisTile()
-    {
-        isSelected = false;
-        HideTile();
-    }
-
     #region Color Methods
+    public void SetState(ForecastState state)
+    {
+        switch (state)
+        {
+            case ForecastState.Hidden:
+                HideTile();
+                break;
+            case ForecastState.Selected:
+                TileSelected();
+                break;
+            case ForecastState.WithinReach:
+                TileInReach();
+                break;
+            case ForecastState.OutOfReach:
+                TileOutOfReach();
+                break;
+            case ForecastState.AbilityForecast:
+                ForecastAbility();
+                break;
+        }
+    }
+
+    public void HideTile()
+    {
+        forecastState = ForecastState.Hidden;
+        mat.color = def;
+    }
+    
+    public void TileSelected()
+    {
+        forecastState = ForecastState.Selected;
+        mat.color = selected;
+    }
+
     public void TileInReach()
     {
+        forecastState = ForecastState.WithinReach;
         mat.color = withinReach;
     }
 
     public void TileOutOfReach()
     {
+        forecastState = ForecastState.OutOfReach;
         mat.color = outOfReach;
     }
 
-    public void TileSelected()
+    public void ForecastAbility()
     {
-        mat.color = selected;
-    }
-
-    public void HideTile()
-    {
-        mat.color = def;
+        forecastState = ForecastState.AbilityForecast;
+        mat.color = ability;
     }
     #endregion
 
@@ -93,6 +90,11 @@ public class ForecastTile : MonoBehaviour
     public void SetNode(Node node)
     {
         this.node = node;
+    }
+
+    public ForecastState GetState()
+    {
+        return forecastState;
     }
 
     public void SetMap(Grid<Node> map)

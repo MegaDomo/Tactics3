@@ -24,6 +24,7 @@ public class NodeClicker : MonoBehaviour
         CheckForNodeSelection();
     }
     
+    // In Update Method
     private void CheckForNodeSelection()
     {
         // Selected Node to move to
@@ -79,12 +80,13 @@ public class NodeClicker : MonoBehaviour
             if (selectedTile == null)
                 selectedTile = newTile;
 
-            selectedTile.DeselectedThisTile();
+            selectedTile.SetState(ForecastTile.ForecastState.Hidden);
             selectedTile = newTile;
-            selectedTile.SelectedThisTile();
-
+            
             Node node = selectedTile.GetNode();
             playerTurn.ChooseNode(node);
+
+            selectedTile.SetState(ForecastTile.ForecastState.Selected);
             MoveSelector(node);
         }
         else

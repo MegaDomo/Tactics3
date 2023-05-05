@@ -9,4 +9,10 @@ public class Whirlwind : Ability
     {
         Debug.Log("WhirlWind Area Targeting");
     }
+
+    public override List<Node> GetAreaTargeting(Node node)
+    {
+        Grid<Node> map = GameMaster.map;
+        return Pathfinding.GetHollowDiamond(map, node, aoeMaxRange, aoeMinRange);
+    }
 }

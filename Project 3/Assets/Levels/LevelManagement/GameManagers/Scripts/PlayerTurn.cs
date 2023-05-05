@@ -17,11 +17,12 @@ public class PlayerTurn : ScriptableObject
     // Node Events
     public Action<Unit> selectedNodeEvent;
     public Action<Unit> deselectedNodeEvent;
+    public Action<Node, Ability> ChoseAbility;
 
     private Unit selected;
     private Unit target;
     private Node destination;
-    private Node targetDestination;
+    private Node nodeTarget;
     private Ability chosenAbility;
     
     private void OnEnable()
@@ -38,7 +39,7 @@ public class PlayerTurn : ScriptableObject
     public void StartTurn(Unit unit)
     {
         actionState = ActionState.ChooseNode;
-        if (unit == null) Debug.Log("Unit");
+        if (unit == null) Debug.Log("No Player Unit is Selected");
         SetSelected(unit);
     }
 
@@ -71,7 +72,14 @@ public class PlayerTurn : ScriptableObject
 
     public void ChooseTargetNode(Node node)
     {
-        targetDestination = node;
+        nodeTarget = node;
+    }
+
+    public void ChooseAbility(Ability ability)
+    {
+        chosenAbility = ability;
+        actionState = ActionState.ChoosingTarget;
+        ChoseAbility?.Invoke(destination, chosenAbility);
     }
     #endregion
 
@@ -100,12 +108,6 @@ public class PlayerTurn : ScriptableObject
 
         selected.SetIsAttacking(true);
         selected.Move(destination);
-    }
-
-    public void ChooseAbility(Ability ability)
-    {
-        chosenAbility = ability;
-        actionState = ActionState.ChoosingTarget;
     }
 
     public void UseAbility(Ability ability)

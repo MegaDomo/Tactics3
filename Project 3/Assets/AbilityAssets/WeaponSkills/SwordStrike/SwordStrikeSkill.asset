@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba420f49e87830a47a169a7f81b70fd1, type: 3}
-  m_Name: SwordStrike
+  m_Name: SwordStrikeSkill
   m_EditorClassIdentifier: 
   targetType: 0
   damageType: 0

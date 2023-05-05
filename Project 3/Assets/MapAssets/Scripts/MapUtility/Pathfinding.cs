@@ -240,10 +240,10 @@ public static class Pathfinding
         return neighbors;
     }
 
-    public static List<Node> GetDiamond(Grid<Node> grid, Node target, int radius)
+    public static List<Node> GetDiamond(Grid<Node> grid, Node node, int radius)
     {
         List<Node> diamond = new List<Node>();
-        List<Vector2Int> coor = GetDiamondCoordinateList(target, radius, 0);
+        List<Vector2Int> coor = GetDiamondCoordinateList(node, radius, 0);
         foreach (Vector2Int vector in coor)
         {
             if (isSafe(grid, vector.x, vector.y))
@@ -252,10 +252,10 @@ public static class Pathfinding
         return diamond;
     }
 
-    public static List<Node> GetHollowDiamond(Grid<Node> grid, Node target, int radius, int minRadius)
+    public static List<Node> GetHollowDiamond(Grid<Node> grid, Node node, int radius, int minRadius)
     {
         List<Node> diamond = new List<Node>();
-        List<Vector2Int> coor = GetDiamondCoordinateList(target, radius, minRadius);
+        List<Vector2Int> coor = GetDiamondCoordinateList(node, radius, minRadius);
         foreach (Vector2Int vector in coor)
         {
             if (isSafe(grid, vector.x, vector.y))
@@ -284,9 +284,36 @@ public static class Pathfinding
         return coordinates;
     }
 
-    public static List<Node> GetSquare(Grid<Node> grid, int radius)
+    public static List<Node> GetSquare(Grid<Node> grid, Node origin, int radius)
     {
         return new List<Node>();
+    }
+
+    public static List<Node> GetHollowSquare(Grid<Node> grid, Node origin, int minRadius, int maxRadius)
+    {
+
+        return new List<Node>();
+    }
+
+    public static List<Vector2Int> GetSquareCoordinateList(Grid<Node> grid, Node origin, int maxRadius, int minRadius)
+    {
+        List<Vector2Int> coordinates = new List<Vector2Int>();
+        int xOrigin = origin.x;
+        int zOrigin = origin.z;
+        for (int x = -maxRadius + xOrigin; x <= maxRadius + xOrigin; x++)
+        {
+            for (int z = -maxRadius + zOrigin; z <= maxRadius + zOrigin; z++)
+            {
+                int xDif = xOrigin - x;
+                int zDif = zOrigin - z;
+
+                //int dis = Mathf.Abs(xDif) + Mathf.Abs(zDif);
+
+                if (xDif <= maxRadius && xDif >= minRadius && zDif <= maxRadius && zDif >= minRadius)
+                    coordinates.Add(new Vector2Int(x, z));
+            }
+        }
+        return coordinates;
     }
 
     public static List<Node> GetPlus(Grid<Node> grid, int radius)
