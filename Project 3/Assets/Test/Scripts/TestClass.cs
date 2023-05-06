@@ -12,6 +12,5 @@ public class TestClass : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F4))
             battleSystem.Victory();
-            
     }
 }
