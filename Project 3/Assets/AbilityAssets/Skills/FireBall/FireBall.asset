@@ -20,4 +20,4 @@ MonoBehaviour:
   maxRange: 0
   aoeMinRange: 1
   aoeMaxRange: 4
-  iconSprite: {fileID: 21300000, guid: f20e7cc66dd4d494b969c331753687f5, type: 3}
+  iconSprite: {fileID: 21300000, guid: ede116864eccb9a4187e7fa0eff7e777, type: 3}

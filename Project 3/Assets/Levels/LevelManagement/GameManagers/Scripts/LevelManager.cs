@@ -14,6 +14,11 @@ public class LevelManager : ScriptableObject
         SetLevels();
     }
 
+    private void OnDisable()
+    {
+        levelIndexes = new Dictionary<string, int>();
+    }
+
     public void LoadLevel(string levelName)
     {
         if (!levelIndexes.ContainsKey(levelName))

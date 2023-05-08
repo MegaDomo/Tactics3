@@ -10,6 +10,7 @@ public class NodeClicker : MonoBehaviour
 
     [Header("Unity References")]
     public Transform nodeSelector;
+    public NodeHighlighter highlighter;
 
     private ForecastTile selectedTile;
     private ForecastTile previousTile;
@@ -18,24 +19,9 @@ public class NodeClicker : MonoBehaviour
     void Update()
     {
         CheckForDeselection();
-        if (playerTurn.actionState == ActionState.ChoosingAction)
-            return;
-        //HighlightNode();
+        
         CheckForNodeSelection();
     }
-    
-    // In Update Method
-    private void CheckForNodeSelection()
-    {
-        // Selected Node to move to
-        if (CombatState.state == BattleState.PLAYERTURN && playerTurn.actionState == ActionState.ChooseNode)
-            ClickOnNode();
-
-        // After Selecting Action, Now Selecting Target
-        if (CombatState.state == BattleState.PLAYERTURN && playerTurn.actionState == ActionState.ChoosingTarget)
-            ClickOnTarget();
-    }
-    #endregion
 
     private void CheckForDeselection()
     {
@@ -43,22 +29,47 @@ public class NodeClicker : MonoBehaviour
         {
             if (selectedTile != null) selectedTile.HideTile();
             playerTurn.ClearNode();
+            playerTurn.ClearAbiliity();
             HideSelector();
         }
     }
 
+    // In Update Method
+    private void CheckForNodeSelection()
+    {
+        if (CombatState.state != BattleState.PLAYERTURN)
+            return;
+
+        // Selected Node to move to
+        if (playerTurn.actionState == ActionState.ChoosingAction)
+            ClickOnNode();
+
+        // After Selecting Action, Now Selecting Target
+        if (playerTurn.actionState == ActionState.ChoosingTarget)
+            ClickOnTarget();
+    }
+    #endregion
+
     #region Choosing A Node
     private void ClickOnNode()
     {
-        RaycastHit forecastHit = GetClickData(LayerMask.GetMask("ForecastTile"));
-        if (forecastHit.transform != null)
+        if (!playerTurn.HaveAbility())
         {
-            ClickedOnForecastTile(forecastHit);
-            return;
+            RaycastHit forecastHit = GetClickData(LayerMask.GetMask("ForecastTile"));
+            if (forecastHit.transform != null)
+            {
+                SetDestination(forecastHit);
+                return;
+            }
+        }
+
+        if (playerTurn.HaveAbility())
+        {
+
         }
     }
 
-    private void ClickedOnForecastTile(RaycastHit forecastHit)
+    private void SetDestination(RaycastHit forecastHit)
     {
         ForecastTile newTile = forecastHit.transform.GetComponent<ForecastTile>();
 
@@ -104,7 +115,7 @@ public class NodeClicker : MonoBehaviour
         RaycastHit targetHit = GetClickData(LayerMask.GetMask("Ground"));
         if (targetHit.transform != null)
         {
-            
+            Debug.Log("Hit Ground from Click on Target");
             return;
         }
     }

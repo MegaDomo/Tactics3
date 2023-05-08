@@ -14,24 +14,28 @@ public class UIHotBar : MonoBehaviour
 
     private void OnEnable()
     {
-        playerTurn.selectedNodeEvent += UpdateHotBar;
+        /*playerTurn.selectedNodeEvent += UpdateHotBar;
         playerTurn.deselectedNodeEvent += CloseHotBar;
 
-        battleSystem.playerTurnEvent += CloseHotBar;
+        battleSystem.playerTurnEvent += CloseHotBar;*/
+
+        battleSystem.playerTurnEvent += UpdateHotBar;
     }
 
     private void OnDisable()
     {
-        playerTurn.selectedNodeEvent -= UpdateHotBar;
+        /*playerTurn.selectedNodeEvent -= UpdateHotBar;
         playerTurn.deselectedNodeEvent -= CloseHotBar;
 
-        battleSystem.playerTurnEvent -= CloseHotBar;
+        battleSystem.playerTurnEvent -= CloseHotBar;*/
+
+        battleSystem.playerTurnEvent -= UpdateHotBar;
     }
 
     private void UpdateHotBar(Unit player)
     {
         hotBarElement.SetActive(true);
-
+        Debug.Log("Firing From Update Hotbar");
         int len = player.abilities.Count;
 
         for (int i = 0; i < len; i++)

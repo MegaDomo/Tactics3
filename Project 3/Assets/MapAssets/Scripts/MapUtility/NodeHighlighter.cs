@@ -10,14 +10,15 @@ public class NodeHighlighter : MonoBehaviour
     public BattleSystem battleSystem;
     public PlayerTurn playerTurn;
 
-    private List<ForecastTile> fTiles = new List<ForecastTile>();
+    [Header("Unity References")]
+    public NodeClicker clicker;
 
     private void OnEnable()
     {
         battleSystem.playerTurnEvent += HighlightPossibleRoutes;
         playerTurn.deselectedNodeEvent += HighlightPossibleRoutes;
 
-        playerTurn.ChoseAbility += HighlightAreaAbilityForecast;
+        playerTurn.choseAbilityEvent += HighlightAreaAbilityForecast;
 
         playerTurn.endTurnEvent += HidePossibleRoutes;
         playerTurn.selectedNodeEvent += HidePossibleRoutes;
@@ -28,7 +29,7 @@ public class NodeHighlighter : MonoBehaviour
         battleSystem.playerTurnEvent -= HighlightPossibleRoutes;
         playerTurn.deselectedNodeEvent -= HighlightPossibleRoutes;
 
-        playerTurn.ChoseAbility -= HighlightAreaAbilityForecast;
+        playerTurn.choseAbilityEvent -= HighlightAreaAbilityForecast;
 
         playerTurn.endTurnEvent -= HidePossibleRoutes;
         playerTurn.selectedNodeEvent -= HidePossibleRoutes;
@@ -55,7 +56,6 @@ public class NodeHighlighter : MonoBehaviour
     public void HighlightAreaAbilityForecast(Node node, Ability ability)
     {
         List<Node> nodes = ability.GetAreaTargeting(node);
-        Debug.Log(nodes.Count);
         Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
     }
     #endregion

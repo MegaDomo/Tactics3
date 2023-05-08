@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum ActionState { ChooseNode, ChoosingAction, ChoosingTarget, CannotChoose }
+public enum ActionState { ChoosingAction, ChoosingTarget, CannotChoose }
 
 [CreateAssetMenu(fileName = "NewPlayerTurnManager", menuName = "Managers/Player Turn Manager")]
 public class PlayerTurn : ScriptableObject
@@ -17,7 +17,8 @@ public class PlayerTurn : ScriptableObject
     // Node Events
     public Action<Unit> selectedNodeEvent;
     public Action<Unit> deselectedNodeEvent;
-    public Action<Node, Ability> ChoseAbility;
+    public Action<Node, Ability> choseAbilityEvent;
+    public Action clearAbilityEvent;
 
     private Unit selected;
     private Unit target;
@@ -38,9 +39,10 @@ public class PlayerTurn : ScriptableObject
     #region ActionStateMethods
     public void StartTurn(Unit unit)
     {
-        actionState = ActionState.ChooseNode;
+        actionState = ActionState.ChoosingAction;
         if (unit == null) Debug.Log("No Player Unit is Selected");
         SetSelected(unit);
+        destination = unit.node;
     }
 
     public void EndTurn()
@@ -53,33 +55,42 @@ public class PlayerTurn : ScriptableObject
     public void ChooseNode(Node node)
     {
         destination = node;
-        actionState = ActionState.ChoosingAction;
         selectedNodeEvent?.Invoke(selected);
     }
 
     public void ClearNode()
     {
         destination = null;
-        actionState = ActionState.ChooseNode;
         deselectedNodeEvent?.Invoke(selected);
-    }
-
-    public void ChooseTarget(Unit target)
-    {
-        this.target = target;
-        actionState = ActionState.ChoosingAction;
-    }
-
-    public void ChooseTargetNode(Node node)
-    {
-        nodeTarget = node;
     }
 
     public void ChooseAbility(Ability ability)
     {
         chosenAbility = ability;
         actionState = ActionState.ChoosingTarget;
-        ChoseAbility?.Invoke(destination, chosenAbility);
+        choseAbilityEvent?.Invoke(destination, chosenAbility);
+    }
+
+    public void ClearAbiliity()
+    {
+        chosenAbility = null;
+        actionState = ActionState.ChoosingAction;
+        clearAbilityEvent?.Invoke();
+    }
+
+    public bool HaveAbility()
+    {
+        return chosenAbility != null;
+    }
+
+    public void ChooseTarget(Unit target)
+    {
+        this.target = target;
+    }
+
+    public void ChooseTargetNode(Node node)
+    {
+        nodeTarget = node;
     }
     #endregion
 
