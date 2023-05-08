@@ -35,7 +35,6 @@ public class UIHotBar : MonoBehaviour
     private void UpdateHotBar(Unit player)
     {
         hotBarElement.SetActive(true);
-        Debug.Log("Firing From Update Hotbar");
         int len = player.abilities.Count;
 
         for (int i = 0; i < len; i++)

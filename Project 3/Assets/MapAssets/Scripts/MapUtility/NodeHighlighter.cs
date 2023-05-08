@@ -17,22 +17,25 @@ public class NodeHighlighter : MonoBehaviour
     {
         battleSystem.playerTurnEvent += HighlightPossibleRoutes;
         playerTurn.deselectedNodeEvent += HighlightPossibleRoutes;
+        playerTurn.selectedNodeEvent += HighlightPossibleRoutes;
 
         playerTurn.choseAbilityEvent += HighlightAreaAbilityForecast;
+        playerTurn.targetChosenEvent += HighlightAreaAbilityForecast;
 
+        playerTurn.choseAbilityEvent += HidePossibleRoutes;
         playerTurn.endTurnEvent += HidePossibleRoutes;
-        playerTurn.selectedNodeEvent += HidePossibleRoutes;
     }
 
     private void OnDisable()
     {
         battleSystem.playerTurnEvent -= HighlightPossibleRoutes;
         playerTurn.deselectedNodeEvent -= HighlightPossibleRoutes;
+        playerTurn.selectedNodeEvent -= HighlightPossibleRoutes;
 
         playerTurn.choseAbilityEvent -= HighlightAreaAbilityForecast;
+        playerTurn.choseAbilityEvent += HidePossibleRoutes;
 
         playerTurn.endTurnEvent -= HidePossibleRoutes;
-        playerTurn.selectedNodeEvent -= HidePossibleRoutes;
     }
 
     #region Event Subscribers
@@ -41,6 +44,11 @@ public class NodeHighlighter : MonoBehaviour
         List<Node> routes = Pathfinding.GetAllRoutes(gameMaster.GetMap(), unit);
         HidePossibleRoutes();
         Highlight(routes, ForecastTile.ForecastState.WithinReach);
+    }
+
+    public void HidePossibleRoutes(Node node, Ability ability)
+    {
+        HighlightAll(ForecastTile.ForecastState.Hidden);
     }
 
     public void HidePossibleRoutes(Unit unit)

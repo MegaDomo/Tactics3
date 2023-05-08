@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSwordStrike", menuName = "Abilities/SwordStrike")]
+[CreateAssetMenu(fileName = "NewSwordStrike", menuName = "Abilities/Weapon Skills/SwordStrike")]
 public class SwordStrike : Ability
 {
     public override void DirectTargeting(Unit player)

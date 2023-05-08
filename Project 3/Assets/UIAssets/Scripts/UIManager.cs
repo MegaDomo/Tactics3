@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        CloseAllPanels();
+        //CloseAllPanels();
     }
 
     #region Events

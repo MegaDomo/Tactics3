@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewAbility", menuName = "Abilities/Ability")]
 public class Ability : ScriptableObject
 {
-    public enum TargetType { DirectTargeting, AreaTargeting }
+    public enum TargetType { SingleTarget, StandingAoe, DirectedAoe }
 
     [Header("Attributes")]
     public TargetType targetType;

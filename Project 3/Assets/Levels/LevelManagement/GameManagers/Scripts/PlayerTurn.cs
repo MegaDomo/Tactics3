@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ActionState { ChoosingAction, ChoosingTarget, CannotChoose }
@@ -19,6 +20,8 @@ public class PlayerTurn : ScriptableObject
     public Action<Unit> deselectedNodeEvent;
     public Action<Node, Ability> choseAbilityEvent;
     public Action clearAbilityEvent;
+    public Action<Node, Ability> targetChosenEvent;
+    public Action clearTargetChosenEvent;
 
     private Unit selected;
     private Unit target;
@@ -60,7 +63,7 @@ public class PlayerTurn : ScriptableObject
 
     public void ClearNode()
     {
-        destination = null;
+        destination = selected.node;
         deselectedNodeEvent?.Invoke(selected);
     }
 
@@ -88,9 +91,20 @@ public class PlayerTurn : ScriptableObject
         this.target = target;
     }
 
+    public void CleartTarget()
+    {
+        target = null;
+    }
+
     public void ChooseTargetNode(Node node)
     {
         nodeTarget = node;
+        targetChosenEvent?.Invoke(nodeTarget, chosenAbility);
+    }
+
+    public void ClearTargetNode()
+    {
+        nodeTarget = null;
     }
     #endregion
 
@@ -123,10 +137,10 @@ public class PlayerTurn : ScriptableObject
 
     public void UseAbility(Ability ability)
     {
-        if (ability.targetType == Ability.TargetType.DirectTargeting)
+        if (ability.targetType == Ability.TargetType.SingleTarget)
             ability.DirectTargeting(selected);
 
-        if (ability.targetType == Ability.TargetType.AreaTargeting)
+        if (ability.targetType == Ability.TargetType.StandingAoe)
             ability.AreaTargeting(selected);
     }
     #endregion

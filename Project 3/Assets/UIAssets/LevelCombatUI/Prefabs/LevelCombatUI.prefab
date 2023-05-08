@@ -3814,7 +3814,7 @@ GameObject:
   - component: {fileID: 5086838601555098536}
   - component: {fileID: 5086838601555098538}
   m_Layer: 0
-  m_Name: PlayerInput
+  m_Name: NodeClicker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3851,6 +3851,7 @@ MonoBehaviour:
   gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
   playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   nodeSelector: {fileID: 5086838601140161151}
+  highlighter: {fileID: 5086838602118152142}
 --- !u!1 &5086838601586439017
 GameObject:
   m_ObjectHideFlags: 0
@@ -4970,7 +4971,7 @@ GameObject:
   - component: {fileID: 5086838602118152143}
   - component: {fileID: 5086838602118152142}
   m_Layer: 5
-  m_Name: NodeInteractionObject
+  m_Name: NodeHighlighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5012,6 +5013,7 @@ MonoBehaviour:
   gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
   battleSystem: {fileID: 11400000, guid: 228b50141dc903849a2a60d960609323, type: 2}
   playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
+  clicker: {fileID: 5086838601555098538}
 --- !u!1 &5086838602129476592
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d22ed3a3ca5ae1342899aec325f43bde, type: 3}
-  m_Name: FireBall
+  m_Script: {fileID: 11500000, guid: 41906013d7a039f43bec1b44c37d117b, type: 3}
+  m_Name: WaitSkill
   m_EditorClassIdentifier: 
-  targetType: 2
-  damageType: 1
-  power: 5
+  targetType: 0
+  damageType: 0
+  power: 0
   effectDuration: 0
   minRange: 0
   maxRange: 0
-  aoeMinRange: 1
-  aoeMaxRange: 4
-  iconSprite: {fileID: 21300000, guid: ede116864eccb9a4187e7fa0eff7e777, type: 3}
+  aoeMinRange: 0
+  aoeMaxRange: 0
+  iconSprite: {fileID: 21300000, guid: 217fa547ad3863c4fb0db61664c23f32, type: 3}
