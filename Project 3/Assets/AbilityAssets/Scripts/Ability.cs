@@ -20,6 +20,7 @@ public class Ability : ScriptableObject
 
     [Header("References")]
     public Sprite iconSprite;
+    public GameObject Effect;
 
     public virtual void DirectTargeting(Unit player) { }
 

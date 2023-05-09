@@ -26,7 +26,7 @@ public class UnitMovement : MonoBehaviour
 
     private void Update()
     {
-        MoveUnit();
+        MoveUnitUpdate();
     }
 
     public void Setup(Unit unit)
@@ -44,7 +44,7 @@ public class UnitMovement : MonoBehaviour
             enemyAI.EndTurn();
     }
 
-    #region Movement
+    #region Animation
     public void Move(Node destination)
     {
         List<Node> path = Pathfinding.AStar(unit.GetMap(), unit.node, destination);
@@ -55,7 +55,7 @@ public class UnitMovement : MonoBehaviour
         destination.OnUnitEnter(unit);
     }
 
-    public void Move(List<Node> path)
+    private void Move(List<Node> path)
     {
         if (path.Count == 0)
         {
@@ -93,7 +93,7 @@ public class UnitMovement : MonoBehaviour
     }
 
     // Update Method
-    public void MoveUnit()
+    private void MoveUnitUpdate()
     {
         if (!IsMoving())
             return;
@@ -116,6 +116,7 @@ public class UnitMovement : MonoBehaviour
         }
     }
 
+    #region Animation Utility
     private bool IsUnitWithinNode(Node targetNode)
     {
         float ux = transform.position.x;
@@ -154,6 +155,7 @@ public class UnitMovement : MonoBehaviour
     {
         return unit.stats.movement;
     }
+    #endregion
     #endregion
 
     #region Attack Methods

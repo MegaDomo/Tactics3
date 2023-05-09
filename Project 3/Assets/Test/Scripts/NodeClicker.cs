@@ -81,12 +81,16 @@ public class NodeClicker : MonoBehaviour
         if (playerAbility == null)
             return;
 
-        if (Input.GetMouseButtonDown(0) && playerAbility.targetType != Ability.TargetType.DirectedAoe)
+        if (playerAbility.targetType != Ability.TargetType.DirectedAoe)
         {
-            RaycastHit clickHit = GetClickData(LayerMask.GetMask("ForecastTile"));
-            SetTargetNode(clickHit);
-            HighlightAbility(targetNode, playerAbility);
-            ClickedOnTarget(clickHit);
+            HighlightAbility(playerDestination, playerAbility);
+            
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit clickHit = GetClickData(LayerMask.GetMask("ForecastTile"));
+                SetTargetNode(clickHit);
+                ClickedOnTarget(clickHit);
+            }
             return;
         }
 

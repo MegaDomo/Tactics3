@@ -21,3 +21,4 @@ MonoBehaviour:
   aoeMinRange: 1
   aoeMaxRange: 4
   iconSprite: {fileID: 21300000, guid: ede116864eccb9a4187e7fa0eff7e777, type: 3}
+  Effect: {fileID: 9121488784137285879, guid: ec20f9e2acd11174baf9db4dd1abdbff, type: 3}
