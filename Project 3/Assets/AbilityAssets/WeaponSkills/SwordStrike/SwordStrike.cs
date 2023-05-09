@@ -8,4 +8,9 @@ public class SwordStrike : Ability
     {
         Debug.Log("DirectTargeting from Sword Strike");
     }
+
+    public override List<Node> GetAreaTargeting(Node node)
+    {
+        return Pathfinding.GetHollowDiamond(GameMaster.map, node, maxRange, minRange);
+    }
 }

@@ -9,7 +9,9 @@ AnimatorOverrideController:
   m_Name: HumanOverrideController
   m_Controller: {fileID: 9100000, guid: b5838ff3c48935f4d9a92a5cc9454e12, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 5db24e300535a1a43a137fe002b3f2b9, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a472854eee1b06d41aac74dcdb243089, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 5db24e300535a1a43a137fe002b3f2b9, type: 2}
-  - m_OriginalClip: {fileID: 7400000, guid: 8f45647720b2ad44fa323baeedbe4472, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 8f45647720b2ad44fa323baeedbe4472, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2135152f5dc05a64db3577225e130cd8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5e2aa80e0b822b64ba208d5ab93ce829, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 74422339a40ba5d4a9e4d2854e83c56e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: da7c8c3e712dcd749b1956fb418b24e5, type: 2}

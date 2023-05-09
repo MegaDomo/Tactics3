@@ -109,12 +109,28 @@ public class NodeClicker : MonoBehaviour
     #region Ability Types
     private void StandingSingleTarget()
     {
+        HighlightAbility(playerDestination);
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit clickHit = GetClickData(LayerMask.GetMask("ForecastTile"));
+            SetTargetNode(clickHit);
+            ClickedOnTarget(clickHit);
+        }
     }
 
     private void DirectedSingleTarget()
     {
+        RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
+        if (hoverHit.transform == null)
+            return;
 
+        SetTargetNode(hoverHit);
+        HighlightAbility(targetNode);
+        if (Input.GetMouseButtonDown(0))
+        {
+            ClickedOnTarget(hoverHit);
+        }
     }
 
     private void StandingAoe()
@@ -243,6 +259,13 @@ public class NodeClicker : MonoBehaviour
     private void HighlightAbility(Node node, Ability ability)
     {
         List<Node> nodes = ability.GetAreaTargeting(node);
+        highlighter.Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
+    }
+
+    private void HighlightAbility(Node node)
+    {
+        List<Node> nodes = new List<Node>();
+        nodes.Add(node);
         highlighter.Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
     }
 

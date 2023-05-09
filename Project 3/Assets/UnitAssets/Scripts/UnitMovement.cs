@@ -181,7 +181,6 @@ public class UnitMovement : MonoBehaviour
 
     IEnumerator AttackAnimation()
     {
-        Unit target;
         Node targetNode;
         if (unit.unitType == Unit.UnitType.Player)
             targetNode = playerTurn.GetTargetNode();

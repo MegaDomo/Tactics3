@@ -10,32 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc02873bf65420d49aa8d89399bf4972, type: 3}
-  m_Name: Rogue
+  m_Name: TestMonster2
   m_EditorClassIdentifier: 
   gameMaster: {fileID: 11400000, guid: 960f2224e0d577942bcdfb8c903bbaef, type: 2}
   battleSystem: {fileID: 11400000, guid: 228b50141dc903849a2a60d960609323, type: 2}
   playerTurn: {fileID: 11400000, guid: 1fb11230f363fea489481a5f3ca27473, type: 2}
   enemyAI: {fileID: 11400000, guid: 42adc56d6527de94eb3328c98308f31c, type: 2}
-  characterName: Kain
-  portrait: {fileID: 21300000, guid: 4f02657701df8464589af9c1fa310166, type: 3}
-  fullBody: {fileID: 21300000, guid: 6b01265fc06dc6d479dee586be841dad, type: 3}
+  characterName: TestMonster2
+  portrait: {fileID: 21300000, guid: f5427932dcf5a0b4a8d0ee3f93903e16, type: 3}
+  fullBody: {fileID: 21300000, guid: f5427932dcf5a0b4a8d0ee3f93903e16, type: 3}
   expressionSheet: []
-  unitType: 0
-  prefab: {fileID: 8769162474166777809, guid: 44a72bbc579f5744b8a8db304c0d2373, type: 3}
-  overrideController: {fileID: 22100000, guid: c76ba62fc38dcd8449076129eba6edbd, type: 2}
+  unitType: 1
+  prefab: {fileID: 406502087889122113, guid: b6bc257c6dc85b94b923ee9dc79dd1bf, type: 3}
+  overrideController: {fileID: 22100000, guid: 8c38805abeb26724c810ab45ba68ca1b, type: 2}
   equippedWeapon: {fileID: 0}
   weapons:
   - {fileID: 11400000, guid: b2b0659f5e2736643a41bb070cd0f30e, type: 2}
-  - {fileID: 11400000, guid: 7f9b18305ce220441b6a2b9172a7948d, type: 2}
-  abilities:
-  - {fileID: 11400000, guid: 335786d665596224ba1c6acfc021c7f6, type: 2}
-  - {fileID: 11400000, guid: 3a2a11cd56e9ed245815955d747a2165, type: 2}
+  abilities: []
   items: []
   stats:
     isAggressive: 0
-    maxHealth: 10
-    curHealth: 10
-    movement: 12
+    maxHealth: 0
+    curHealth: 0
+    movement: 0
     vision: 0
     speed: 0
     attack: 0
@@ -49,9 +46,9 @@ MonoBehaviour:
     inflictionChance: 0
     inflictionResist: 0
     aggro: 0
-    aggroRange: 5
+    aggroRange: 0
     moved: 0
-    pathingSpeed: 50
+    pathingSpeed: 0
   behaviorType: 0
   behavior: {fileID: 0}
   tauntedTarget: {fileID: 0}
