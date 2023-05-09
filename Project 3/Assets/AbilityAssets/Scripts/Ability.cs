@@ -5,10 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewAbility", menuName = "Abilities/Ability")]
 public class Ability : ScriptableObject
 {
-    public enum TargetType { SingleTarget, StandingAoe, DirectedAoe }
+    public enum TargetType { StandingSingleTarget, DirectedSingleTarget, StandingAoe, DirectedAoe }
+
+    public enum AnimationType { BasicAttack, Squat }
 
     [Header("Attributes")]
     public TargetType targetType;
+    public AnimationType animationType;
     public Weapon.DamageType damageType;
     public int power;
     public int effectDuration;
@@ -21,6 +24,11 @@ public class Ability : ScriptableObject
     [Header("References")]
     public Sprite iconSprite;
     public GameObject Effect;
+
+    public string GetAnimationTypeString()
+    {
+        return animationType.ToString();
+    }
 
     public virtual void DirectTargeting(Unit player) { }
 

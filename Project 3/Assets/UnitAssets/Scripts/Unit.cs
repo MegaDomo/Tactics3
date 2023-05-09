@@ -100,6 +100,11 @@ public class Unit : MonoBehaviour
     {
         unitMovement.Move(destination);
     }
+
+    public void MoveAndUseAbility(Node destination, Ability ability)
+    {
+        unitMovement.MoveAndUseAbility(destination, ability);
+    }
     #endregion
 
     #region Damage Methods

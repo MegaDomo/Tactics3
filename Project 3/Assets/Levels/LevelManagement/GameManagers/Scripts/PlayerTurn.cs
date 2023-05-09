@@ -135,13 +135,11 @@ public class PlayerTurn : ScriptableObject
         selected.Move(destination);
     }
 
-    public void UseAbility(Ability ability)
+    public void UseAbility()
     {
-        if (ability.targetType == Ability.TargetType.SingleTarget)
-            ability.DirectTargeting(selected);
-
-        if (ability.targetType == Ability.TargetType.StandingAoe)
-            ability.AreaTargeting(selected);
+        if (CombatState.state != BattleState.PLAYERTURN)
+            return;
+        selected.MoveAndUseAbility(destination, chosenAbility);
     }
     #endregion
 
@@ -177,6 +175,11 @@ public class PlayerTurn : ScriptableObject
     public void SetTarget(Unit target)
     {
         this.target = target;
+    }
+
+    public Node GetTargetNode()
+    {
+        return nodeTarget;
     }
 
     public Node GetDestination()

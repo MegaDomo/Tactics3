@@ -53,7 +53,6 @@ public class NodeClicker : MonoBehaviour
         }
     }
 
-    // In Update Method
     private void CheckForNodeSelection()
     {
         if (CombatState.state != BattleState.PLAYERTURN)
@@ -81,31 +80,66 @@ public class NodeClicker : MonoBehaviour
         if (playerAbility == null)
             return;
 
-        if (playerAbility.targetType != Ability.TargetType.DirectedAoe)
+        if (playerAbility.targetType == Ability.TargetType.StandingSingleTarget)
         {
-            HighlightAbility(playerDestination, playerAbility);
-            
-            if (Input.GetMouseButtonDown(0))
-            {
-                RaycastHit clickHit = GetClickData(LayerMask.GetMask("ForecastTile"));
-                SetTargetNode(clickHit);
-                ClickedOnTarget(clickHit);
-            }
+            StandingSingleTarget();
+            return;
+        }
+
+        if (playerAbility.targetType == Ability.TargetType.DirectedSingleTarget)
+        {
+            DirectedSingleTarget();
+            return;
+        }
+
+        if (playerAbility.targetType == Ability.TargetType.StandingAoe)
+        {
+            StandingAoe();
             return;
         }
 
         if (playerAbility.targetType == Ability.TargetType.DirectedAoe)
         {
-            RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
-            if (hoverHit.transform == null)
-                return;
+            DirectedAoe();
+            return;
+        }
+    }
+    #endregion
 
-            SetTargetNode(hoverHit);
-            HighlightAbility(targetNode, playerAbility);
-            if (Input.GetMouseButtonDown(0))
-            {
-                ClickedOnTarget(hoverHit);
-            }
+    #region Ability Types
+    private void StandingSingleTarget()
+    {
+
+    }
+
+    private void DirectedSingleTarget()
+    {
+
+    }
+
+    private void StandingAoe()
+    {
+        HighlightAbility(playerDestination, playerAbility);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit clickHit = GetClickData(LayerMask.GetMask("ForecastTile"));
+            SetTargetNode(clickHit);
+            ClickedOnNode(clickHit);
+        }
+    }
+
+    private void DirectedAoe()
+    {
+        RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
+        if (hoverHit.transform == null)
+            return;
+
+        SetTargetNode(hoverHit);
+        HighlightAbility(targetNode, playerAbility);
+        if (Input.GetMouseButtonDown(0))
+        {
+            ClickedOnNode(hoverHit);
         }
     }
     #endregion
@@ -135,7 +169,6 @@ public class NodeClicker : MonoBehaviour
 
             selectedTile.SetState(ForecastTile.ForecastState.Hidden);
             selectedTile = newTile;
-
         }
         SelectTile();
     }
@@ -152,13 +185,24 @@ public class NodeClicker : MonoBehaviour
     {
         ForecastTile forecastTile = forecastHit.transform.GetComponent<ForecastTile>();
         Node node = forecastTile.node;
+
         if (node.unit == null)
         {
-            Debug.Log("No Unit on Targeted Node");
+            Debug.Log("No Unit on RaycastHit for SingleTarget Ability");
             return;
         }
 
         playerTurn.ChooseTargetNode(node);
+        playerTurn.UseAbility();
+    }
+
+    private void ClickedOnNode(RaycastHit forecastHit)
+    {
+        ForecastTile forecastTile = forecastHit.transform.GetComponent<ForecastTile>();
+        Node node = forecastTile.node;
+
+        playerTurn.ChooseTargetNode(node);
+        playerTurn.UseAbility();
     }
     #endregion
 

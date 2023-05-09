@@ -21,6 +21,9 @@ public class UnitMovement : MonoBehaviour
     private bool isMoving;
     private bool isAttacking;
     private GameObject weaponPrefab;
+
+    // Temp Variables
+    private Ability playerAbility;
     private Node nodeToMoveTo;
     private Queue<Node> path = new Queue<Node>();
 
@@ -49,13 +52,20 @@ public class UnitMovement : MonoBehaviour
     {
         List<Node> path = Pathfinding.AStar(unit.GetMap(), unit.node, destination);
 
-        Move(path);
+        MoveHelper(path);
 
         unit.node.OnUnitExit();
         destination.OnUnitEnter(unit);
     }
 
-    private void Move(List<Node> path)
+    public void MoveAndUseAbility(Node destination, Ability ability)
+    {
+        playerAbility = ability;
+        SetIsAttacking(true);
+        Move(destination);
+    }
+
+    private void MoveHelper(List<Node> path)
     {
         if (path.Count == 0)
         {
@@ -159,37 +169,36 @@ public class UnitMovement : MonoBehaviour
     #endregion
 
     #region Attack Methods
-    IEnumerator AttackAnimation()
-    {
-        Unit target;
-        if (unit.unitType == Unit.UnitType.Player)
-            target = playerTurn.GetTarget();
-        else
-            target = enemyAI.GetTarget();
-
-        Vector3 dir = target.node.GetStandingPoint() - unit.node.GetStandingPoint();
-        RotateUnit(dir);
-        BasicAttack();
-        yield return new WaitForSeconds(0.1f);
-        float length = anim.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(length);
-        SetIsAttacking(false);
-        EndTurn();
-    }
-
     private void CheckAttack()
     {
         if (IsAttacking())
         {
-            Attack();
+            StartCoroutine(AttackAnimation());
             return;
         }
         EndTurn();
     }
 
-    public void Attack()
+    IEnumerator AttackAnimation()
     {
-        StartCoroutine(AttackAnimation());
+        Unit target;
+        Node targetNode;
+        if (unit.unitType == Unit.UnitType.Player)
+            targetNode = playerTurn.GetTargetNode();
+        else
+            targetNode = enemyAI.GetTarget().node;
+
+        Vector3 dir = targetNode.GetStandingPoint() - unit.node.GetStandingPoint();
+        RotateUnit(dir);
+
+        anim.Play(playerAbility.GetAnimationTypeString());
+
+        yield return new WaitForSeconds(0.1f);
+        float length = anim.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(length);
+
+        SetIsAttacking(false);
+        EndTurn();
     }
 
     public void BasicAttack()
