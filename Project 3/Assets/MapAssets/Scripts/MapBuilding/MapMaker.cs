@@ -59,7 +59,7 @@ public class MapMaker : ScriptableObject
             
         if (!makeRandomMap)
         {
-            bool debug = true;
+            bool debug = false;
             if (debug)
             {
                 for (int x = 0; x < map.GetWidth(); x++)

@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: SwordStrikeSkill
   m_EditorClassIdentifier: 
   targetType: 0
+  animationType: 0
   damageType: 0
   power: 3
   effectDuration: 0
   minRange: 1
   maxRange: 1
   aoeMinRange: 0
-  aoeMaxRange: 0
+  aoeMaxRange: 1
   iconSprite: {fileID: 21300000, guid: 310126b477f205b4283269be9bd7d21d, type: 3}
+  Effect: {fileID: 0}

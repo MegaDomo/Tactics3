@@ -35,4 +35,6 @@ public class Ability : ScriptableObject
     public virtual void AreaTargeting(Unit player) { }
 
     public virtual List<Node> GetAreaTargeting(Node node) { return null; }
+
+    public virtual List<Node> GetAbilityRange(Node node) { return null; }
 }

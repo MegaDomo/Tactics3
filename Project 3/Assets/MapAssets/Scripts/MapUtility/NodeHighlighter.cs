@@ -19,8 +19,8 @@ public class NodeHighlighter : MonoBehaviour
         playerTurn.deselectedNodeEvent += HighlightPossibleRoutes;
         playerTurn.selectedNodeEvent += HighlightPossibleRoutes;
 
-        playerTurn.choseAbilityEvent += HighlightAreaAbilityForecast;
-        playerTurn.targetChosenEvent += HighlightAreaAbilityForecast;
+        playerTurn.choseAbilityEvent += HighlightAreaAbilityRangeForecast;
+        playerTurn.targetChosenEvent += HighlightAreaAbilityRangeForecast;
 
         playerTurn.choseAbilityEvent += HidePossibleRoutes;
         playerTurn.endTurnEvent += HidePossibleRoutes;
@@ -32,9 +32,10 @@ public class NodeHighlighter : MonoBehaviour
         playerTurn.deselectedNodeEvent -= HighlightPossibleRoutes;
         playerTurn.selectedNodeEvent -= HighlightPossibleRoutes;
 
-        playerTurn.choseAbilityEvent -= HighlightAreaAbilityForecast;
-        playerTurn.choseAbilityEvent += HidePossibleRoutes;
+        playerTurn.choseAbilityEvent -= HighlightAreaAbilityRangeForecast;
+        playerTurn.targetChosenEvent -= HighlightAreaAbilityRangeForecast;
 
+        playerTurn.choseAbilityEvent -= HidePossibleRoutes;
         playerTurn.endTurnEvent -= HidePossibleRoutes;
     }
 
@@ -61,17 +62,15 @@ public class NodeHighlighter : MonoBehaviour
         HighlightAll(ForecastTile.ForecastState.Hidden);
     }
 
-    public void HighlightAreaAbilityForecast(Node node, Ability ability)
+    public void HighlightAreaAbilityRangeForecast(Node node, Ability ability)
     {
-        List<Node> nodes = ability.GetAreaTargeting(node);
-        Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
+        List<Node> nodes = ability.GetAbilityRange(node);
+        Highlight(nodes, ForecastTile.ForecastState.AbilityRange);
     }
     #endregion
 
     public void Highlight(List<Node> nodes, ForecastTile.ForecastState state)
     {
-        Grid<Node> map = gameMaster.GetMap();
-
         foreach (Node node in nodes)
             node.forecastTile.SetState(state);
     }

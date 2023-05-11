@@ -19,9 +19,10 @@ public class PlayerTurn : ScriptableObject
     public Action<Unit> selectedNodeEvent;
     public Action<Unit> deselectedNodeEvent;
     public Action<Node, Ability> choseAbilityEvent;
-    public Action clearAbilityEvent;
     public Action<Node, Ability> targetChosenEvent;
+    public Action clearAbilityEvent;
     public Action clearTargetChosenEvent;
+    public Action damageEvent;
 
     private Unit selected;
     private Unit target;
@@ -140,6 +141,13 @@ public class PlayerTurn : ScriptableObject
         if (CombatState.state != BattleState.PLAYERTURN)
             return;
         selected.MoveAndUseAbility(destination, chosenAbility);
+    }
+    #endregion
+
+    #region Event Handlers
+    public void DamageCall()
+    {
+        damageEvent?.Invoke();
     }
     #endregion
 

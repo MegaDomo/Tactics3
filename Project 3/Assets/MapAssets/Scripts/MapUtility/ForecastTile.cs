@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ForecastTile : MonoBehaviour
 {
-    public enum ForecastState { Hidden, Selected, WithinReach, OutOfReach, AbilityForecast }
+    public enum ForecastState { Hidden, Selected, WithinReach, OutOfReach, AbilityForecast, AbilityRange }
     [Header("Unity References")]
     [SerializeField] private MeshRenderer mesh;
 
@@ -13,6 +13,7 @@ public class ForecastTile : MonoBehaviour
     [SerializeField] private Color withinReach;
     [SerializeField] private Color outOfReach;
     [SerializeField] private Color ability;
+    [SerializeField] private Color inAbilityRange;
 
     [HideInInspector] public Node node;
 
@@ -47,6 +48,9 @@ public class ForecastTile : MonoBehaviour
             case ForecastState.AbilityForecast:
                 ForecastAbility();
                 break;
+            case ForecastState.AbilityRange:
+                ForecastAbilityRange();
+                break;
         }
     }
 
@@ -78,6 +82,12 @@ public class ForecastTile : MonoBehaviour
     {
         forecastState = ForecastState.AbilityForecast;
         mat.color = ability;
+    }
+
+    public void ForecastAbilityRange()
+    {
+        forecastState = ForecastState.AbilityRange;
+        mat.color = inAbilityRange;
     }
     #endregion
 

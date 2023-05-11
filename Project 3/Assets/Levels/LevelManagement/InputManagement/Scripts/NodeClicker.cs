@@ -109,7 +109,7 @@ public class NodeClicker : MonoBehaviour
     #region Ability Types
     private void StandingSingleTarget()
     {
-        HighlightAbility(playerDestination);
+        //HighlightAbilityRange(playerDestination, playerAbility);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -121,6 +121,8 @@ public class NodeClicker : MonoBehaviour
 
     private void DirectedSingleTarget()
     {
+        //HighlightAbilityRange(playerDestination, playerAbility);
+
         RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
         if (hoverHit.transform == null)
             return;
@@ -135,18 +137,19 @@ public class NodeClicker : MonoBehaviour
 
     private void StandingAoe()
     {
-        HighlightAbility(playerDestination, playerAbility);
+        //HighlightAbility(playerDestination, playerAbility);
 
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit clickHit = GetClickData(LayerMask.GetMask("ForecastTile"));
-            SetTargetNode(clickHit);
-            ClickedOnNode(clickHit);
+            SetTargetNode(playerDestination);
+            ClickedOnNode(targetNode);
         }
     }
 
     private void DirectedAoe()
     {
+        //HighlightAbilityRange(playerDestination, playerAbility);
+
         RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
         if (hoverHit.transform == null)
             return;
@@ -155,7 +158,12 @@ public class NodeClicker : MonoBehaviour
         HighlightAbility(targetNode, playerAbility);
         if (Input.GetMouseButtonDown(0))
         {
-            ClickedOnNode(hoverHit);
+            if (!CheckInRange(targetNode))
+            {
+                Debug.Log("Not in Ability Range on Target/Node Selection");
+                return;
+            }
+            ClickedOnNode(targetNode);
         }
     }
     #endregion
@@ -208,17 +216,33 @@ public class NodeClicker : MonoBehaviour
             return;
         }
 
+        if (!CheckInRange(node))
+        {
+            Debug.Log("Not in Ability Range on Target/Node Selection");
+            return;
+        }
+
         playerTurn.ChooseTargetNode(node);
         playerTurn.UseAbility();
     }
 
-    private void ClickedOnNode(RaycastHit forecastHit)
+    private void ClickedOnNode(Node node)
     {
-        ForecastTile forecastTile = forecastHit.transform.GetComponent<ForecastTile>();
-        Node node = forecastTile.node;
-
         playerTurn.ChooseTargetNode(node);
         playerTurn.UseAbility();
+    }
+
+    private bool CheckInRange(Node node)
+    {
+        if (playerAbility == null)
+            return false;
+
+        int dis = Pathfinding.GetDistance(GameMaster.map, playerDestination, node);
+        
+        if (dis >= playerAbility.minRange && dis <= playerAbility.maxRange)
+            return true;
+        else
+            return false;
     }
     #endregion
 
@@ -256,6 +280,13 @@ public class NodeClicker : MonoBehaviour
         targetNode = node;
     }
 
+    private void SetTargetNode(Node node)
+    {
+        if (targetNode != node)
+            highlighter.HidePossibleRoutes();
+        targetNode = node;
+    }
+
     private void HighlightAbility(Node node, Ability ability)
     {
         List<Node> nodes = ability.GetAreaTargeting(node);
@@ -267,6 +298,12 @@ public class NodeClicker : MonoBehaviour
         List<Node> nodes = new List<Node>();
         nodes.Add(node);
         highlighter.Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
+    }
+
+    private void HighlightAbilityRange(Node node, Ability ability)
+    {
+        List<Node> nodes = ability.GetAbilityRange(node);
+        highlighter.Highlight(nodes, ForecastTile.ForecastState.AbilityRange);
     }
 
     // Input Methods Used in Update()
