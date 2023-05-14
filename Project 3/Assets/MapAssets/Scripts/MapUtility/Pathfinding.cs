@@ -295,10 +295,11 @@ public static class Pathfinding
         return new List<Node>();
     }
 
-    public static List<Node> GetTriangle(Grid<Node> grid, Node origin, int radius)
+    /*
+    public static List<Node> GetTriangle(Grid<Node> grid, Node origin, int height)
     {
         List<Node> triangle = new List<Node>();
-        List<Vector2Int> coor = GetTriangleCoordinateList(origin, radius);
+        List<Vector2Int> coor = GetTriangleCoordinateList(origin, height);
 
         foreach (Vector2Int vector in coor)
         {
@@ -309,21 +310,31 @@ public static class Pathfinding
         return triangle;
     }
 
-    public static List<Vector2Int> GetTriangleCoordinateList(Node origin, int radius)
+    public static List<Vector2Int> GetTriangleCoordinateList(Node origin, int height)
     {
         List<Vector2Int> coordinates = new List<Vector2Int>();
         int xOrigin = origin.x;
         int zOrigin = origin.z;
+        
 
-        for (int x = xOrigin; x <= radius + xOrigin; x++)
-        {
-
-        }
 
         return coordinates;
     }
+    */
 
-    public static List<Vector2Int> GetSquareCoordinateList(Grid<Node> grid, Node origin, int maxRadius, int minRadius)
+    public static List<Node> GetSquare(Grid<Node> grid, Node node, int radius, int minRadius)
+    {
+        List<Node> square = new List<Node>();
+        List<Vector2Int> coor = GetSquareCoordinateList(node, radius, minRadius);
+        foreach (Vector2Int vector in coor)
+        {
+            if (isSafe(grid, vector.x, vector.y))
+                square.Add(grid.GetGridObject(vector.x, vector.y));
+        }
+        return square;
+    }
+
+    public static List<Vector2Int> GetSquareCoordinateList(Node origin, int maxRadius, int minRadius)
     {
         List<Vector2Int> coordinates = new List<Vector2Int>();
         int xOrigin = origin.x;

@@ -103,6 +103,12 @@ public class NodeClicker : MonoBehaviour
             DirectedAoe();
             return;
         }
+
+        if (playerAbility.targetType == Ability.TargetType.DirectionalAOE)
+        {
+            DirectionalAOE();
+            return;
+        }
     }
     #endregion
 
@@ -174,6 +180,11 @@ public class NodeClicker : MonoBehaviour
             return;
 
         SetTargetNode(hoverHit);
+
+        Node direction = GetDirectionalNode();
+
+        Debug.Log("(" + direction.x + ", " + direction.z + ")");
+
         HighlightAbility(targetNode, playerAbility);
     }
     #endregion

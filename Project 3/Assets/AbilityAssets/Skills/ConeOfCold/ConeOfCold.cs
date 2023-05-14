@@ -12,12 +12,12 @@ public class ConeOfCold : Ability
 
     public override List<Node> GetAbilityRange(Node node)
     {
-        return Pathfinding.GetTriangle(GameMaster.map, node, maxRange);
+        return Pathfinding.GetSquare(GameMaster.map, node, maxRange);
     }
 
     public override List<Node> GetAreaTargeting(Node node)
     {
         Grid<Node> map = GameMaster.map;
-        return Pathfinding.GetTriangle(map, node, aoeMaxRange);
+        return Pathfinding.GetSquare(map, node, aoeMaxRange);
     }
 }
