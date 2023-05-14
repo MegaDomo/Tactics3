@@ -166,6 +166,16 @@ public class NodeClicker : MonoBehaviour
             ClickedOnNode(targetNode);
         }
     }
+
+    private void DirectionalAOE()
+    {
+        RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
+        if (hoverHit.transform == null)
+            return;
+
+        SetTargetNode(hoverHit);
+        HighlightAbility(targetNode, playerAbility);
+    }
     #endregion
 
     #region Selection Helper Methods
@@ -329,6 +339,42 @@ public class NodeClicker : MonoBehaviour
             Physics.Raycast(ray, out hit, 1000f, mask);
         }
         return hit;
+    }
+
+    private Node GetDirectionalNode()
+    {
+        Node adjNode = playerDestination;
+
+        Vector3 direction = Pathfinding.GetDirection(playerDestination, targetNode);
+
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
+        {
+            if (direction.x > 0)
+                adjNode.x += 1;
+            else
+                adjNode.x += -1;
+        }
+        else if (Mathf.Abs(direction.x) < Mathf.Abs(direction.z))
+        {
+            if (direction.z > 0)
+                adjNode.z += 1;
+            else
+                adjNode.z += -1;
+        }
+        else
+        {
+            if (direction.x > 0)
+                adjNode.x += 1;
+            else
+                adjNode.x += -1;
+
+            if (direction.z > 0)
+                adjNode.z += 1;
+            else
+                adjNode.z += -1;
+        }
+
+        return adjNode;
     }
     #endregion
 }

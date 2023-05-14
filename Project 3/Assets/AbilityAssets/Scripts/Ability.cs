@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewAbility", menuName = "Abilities/Ability")]
 public class Ability : ScriptableObject
 {
-    public enum TargetType { StandingSingleTarget, DirectedSingleTarget, StandingAoe, DirectedAoe }
+    public enum TargetType { StandingSingleTarget, DirectedSingleTarget, StandingAoe, DirectedAoe, DirectionalAOE }
 
     public enum AnimationType { BasicAttack, Squat }
 

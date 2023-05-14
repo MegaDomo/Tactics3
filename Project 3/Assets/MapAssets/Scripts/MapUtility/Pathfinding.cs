@@ -295,6 +295,34 @@ public static class Pathfinding
         return new List<Node>();
     }
 
+    public static List<Node> GetTriangle(Grid<Node> grid, Node origin, int radius)
+    {
+        List<Node> triangle = new List<Node>();
+        List<Vector2Int> coor = GetTriangleCoordinateList(origin, radius);
+
+        foreach (Vector2Int vector in coor)
+        {
+            if (isSafe(grid, vector.x, vector.y))
+                triangle.Add(grid.GetGridObject(vector.x, vector.y));
+        }
+
+        return triangle;
+    }
+
+    public static List<Vector2Int> GetTriangleCoordinateList(Node origin, int radius)
+    {
+        List<Vector2Int> coordinates = new List<Vector2Int>();
+        int xOrigin = origin.x;
+        int zOrigin = origin.z;
+
+        for (int x = xOrigin; x <= radius + xOrigin; x++)
+        {
+
+        }
+
+        return coordinates;
+    }
+
     public static List<Vector2Int> GetSquareCoordinateList(Grid<Node> grid, Node origin, int maxRadius, int minRadius)
     {
         List<Vector2Int> coordinates = new List<Vector2Int>();
@@ -426,6 +454,16 @@ public static class Pathfinding
 
         // Base Case : Out of Bounds
         return new Vector3(-1, 0, -1);
+    }
+
+    public static Vector3 GetDirection(Node start, Node end)
+    {
+        int xstart = end.x - start.x;
+        int zstart = end.z - start.z;
+
+        Vector3 dir = new Vector3(xstart, 0, zstart).normalized;
+
+        return dir;
     }
     #endregion
 }
