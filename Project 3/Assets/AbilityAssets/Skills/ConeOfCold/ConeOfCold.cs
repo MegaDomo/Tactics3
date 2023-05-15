@@ -15,9 +15,8 @@ public class ConeOfCold : Ability
         return Pathfinding.GetSquare(GameMaster.map, node, maxRange);
     }
 
-    public override List<Node> GetAreaTargeting(Node node)
+    public override List<Node> GetDirectionalAreaTargeting(Node node, Vector3 direction)
     {
-        Grid<Node> map = GameMaster.map;
-        return Pathfinding.GetSquare(map, node, aoeMaxRange);
+        return null; //Pathfinding.GetTriangle()
     }
 }

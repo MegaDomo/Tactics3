@@ -36,5 +36,7 @@ public class Ability : ScriptableObject
 
     public virtual List<Node> GetAreaTargeting(Node node) { return null; }
 
+    public virtual List<Node> GetDirectionalAreaTargeting(Node node, Vector3 direction) { return null; }
+
     public virtual List<Node> GetAbilityRange(Node node) { return null; }
 }

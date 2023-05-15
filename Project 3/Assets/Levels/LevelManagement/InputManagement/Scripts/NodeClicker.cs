@@ -183,8 +183,6 @@ public class NodeClicker : MonoBehaviour
 
         Node direction = GetDirectionalNode();
 
-        Debug.Log("(" + direction.x + ", " + direction.z + ")");
-
         HighlightAbility(targetNode, playerAbility);
     }
     #endregion
@@ -308,16 +306,22 @@ public class NodeClicker : MonoBehaviour
         targetNode = node;
     }
 
+    private void HighlightAbility(Node node)
+    {
+        List<Node> nodes = new List<Node>();
+        nodes.Add(node);
+        highlighter.Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
+    }
+
     private void HighlightAbility(Node node, Ability ability)
     {
         List<Node> nodes = ability.GetAreaTargeting(node);
         highlighter.Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
     }
 
-    private void HighlightAbility(Node node)
+    private void HighlightAbility(Node node, Ability ability, Vector3 direction)
     {
-        List<Node> nodes = new List<Node>();
-        nodes.Add(node);
+        List<Node> nodes = ability.GetAreaTargeting(node);
         highlighter.Highlight(nodes, ForecastTile.ForecastState.AbilityForecast);
     }
 
@@ -354,10 +358,13 @@ public class NodeClicker : MonoBehaviour
 
     private Node GetDirectionalNode()
     {
-        Node adjNode = playerDestination;
-
         Vector3 direction = Pathfinding.GetDirection(playerDestination, targetNode);
+        
+        int x = playerDestination.x + (int)direction.x;
+        int z = playerDestination.z + (int)direction.z;
 
+        return GameMaster.map.GetGridObject(x, z);
+        /*
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
         {
             if (direction.x > 0)
@@ -384,8 +391,8 @@ public class NodeClicker : MonoBehaviour
             else
                 adjNode.z += -1;
         }
+        */
 
-        return adjNode;
     }
     #endregion
 }

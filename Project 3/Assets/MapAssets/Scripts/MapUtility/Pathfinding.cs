@@ -295,11 +295,11 @@ public static class Pathfinding
         return new List<Node>();
     }
 
-    /*
-    public static List<Node> GetTriangle(Grid<Node> grid, Node origin, int height)
+    
+    public static List<Node> GetTriangle(Grid<Node> grid, Node origin, int height, Vector3 direction)
     {
         List<Node> triangle = new List<Node>();
-        List<Vector2Int> coor = GetTriangleCoordinateList(origin, height);
+        List<Vector2Int> coor = GetTriangleCoordinateList(origin, height, direction);
 
         foreach (Vector2Int vector in coor)
         {
@@ -310,17 +310,24 @@ public static class Pathfinding
         return triangle;
     }
 
-    public static List<Vector2Int> GetTriangleCoordinateList(Node origin, int height)
+    public static List<Vector2Int> GetTriangleCoordinateList(Node origin, int height, Vector3 direction)
     {
         List<Vector2Int> coordinates = new List<Vector2Int>();
         int xOrigin = origin.x;
         int zOrigin = origin.z;
-        
 
 
+        if (direction.x > 0)
+        {
+            for (int i = 1; i < height; i++)
+            {
+                xOrigin += i;
+                coordinates.Add(new Vector2Int(xOrigin, zOrigin));
+            }
+        }
         return coordinates;
     }
-    */
+    
 
     public static List<Node> GetSquare(Grid<Node> grid, Node node, int radius, int minRadius)
     {
@@ -469,12 +476,9 @@ public static class Pathfinding
 
     public static Vector3 GetDirection(Node start, Node end)
     {
-        int xstart = end.x - start.x;
-        int zstart = end.z - start.z;
-
-        Vector3 dir = new Vector3(xstart, 0, zstart).normalized;
-
-        return dir;
+        int x = end.x - start.x;
+        int z = end.z - start.z;
+        return new Vector3(x, 0, z).normalized;
     }
     #endregion
 }

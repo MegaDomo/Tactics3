@@ -30,7 +30,6 @@ MonoBehaviour:
   abilities:
   - {fileID: 11400000, guid: 335786d665596224ba1c6acfc021c7f6, type: 2}
   - {fileID: 11400000, guid: 3a2a11cd56e9ed245815955d747a2165, type: 2}
-  - {fileID: 11400000, guid: b85ce0a0dc2f7d34ea3b298a5df3f998, type: 2}
   items: []
   stats:
     isAggressive: 0
