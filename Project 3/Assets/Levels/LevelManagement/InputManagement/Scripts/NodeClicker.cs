@@ -58,13 +58,13 @@ public class NodeClicker : MonoBehaviour
         if (CombatState.state != BattleState.PLAYERTURN)
             return;
 
-        RaycastHit forecastHit = GetClickData(LayerMask.GetMask("ForecastTile"));
-        if (forecastHit.transform == null)
+        Node node = GetClickData(LayerMask.GetMask("ForecastTile"));
+        if (node == null)
             return;
 
         if (playerTurn.actionState == ActionState.ChoosingAction)
         {
-            ClickedOnDestination(forecastHit);
+            ClickedOnDestination(node);
             return;
         }
     }
@@ -80,15 +80,9 @@ public class NodeClicker : MonoBehaviour
         if (playerAbility == null)
             return;
 
-        if (playerAbility.targetType == Ability.TargetType.StandingSingleTarget)
+        if (playerAbility.targetType == Ability.TargetType.SingleTarget)
         {
-            StandingSingleTarget();
-            return;
-        }
-
-        if (playerAbility.targetType == Ability.TargetType.DirectedSingleTarget)
-        {
-            DirectedSingleTarget();
+            SingleTarget();
             return;
         }
 
@@ -106,38 +100,29 @@ public class NodeClicker : MonoBehaviour
 
         if (playerAbility.targetType == Ability.TargetType.DirectionalAOE)
         {
-            DirectionalAOE();
+            //DirectionalAOE();
             return;
         }
     }
     #endregion
 
     #region Ability Types
-    private void StandingSingleTarget()
+    private void SingleTarget()
     {
         HighlightAbilityRange(playerDestination, playerAbility);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit clickHit = GetClickData(LayerMask.GetMask("ForecastTile"));
-            SetTargetNode(clickHit);
-            ClickedOnTarget(clickHit);
-        }
-    }
-
-    private void DirectedSingleTarget()
-    {
-        HighlightAbilityRange(playerDestination, playerAbility);
-
-        RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
-        if (hoverHit.transform == null)
+        Node hoverNode = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
+        if (hoverNode == null)
             return;
 
-        SetTargetNode(hoverHit);
+        SetTargetNode(hoverNode);
         HighlightAbility(targetNode);
         if (Input.GetMouseButtonDown(0))
         {
-            ClickedOnTarget(hoverHit);
+            if (playerAbility.isUnitTarget)
+                ClickedOnTarget(targetNode);
+            else
+                ClickedOnNode(targetNode);
         }
     }
 
@@ -156,11 +141,11 @@ public class NodeClicker : MonoBehaviour
     {
         HighlightAbilityRange(playerDestination, playerAbility);
 
-        RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
-        if (hoverHit.transform == null)
+        Node hoverNode = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
+        if (hoverNode == null)
             return;
 
-        SetTargetNode(hoverHit);
+        SetTargetNode(hoverNode);
         HighlightAbility(targetNode, playerAbility);
         if (Input.GetMouseButtonDown(0))
         {
@@ -175,11 +160,12 @@ public class NodeClicker : MonoBehaviour
 
     private void DirectionalAOE()
     {
-        RaycastHit hoverHit = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
-        if (hoverHit.transform == null)
+        return;
+        Node hoverNode = GetMouseHoverData(LayerMask.GetMask("ForecastTile"));
+        if (hoverNode == null)
             return;
 
-        SetTargetNode(hoverHit);
+        SetTargetNode(hoverNode);
 
         Node direction = GetDirectionalNode();
 
@@ -188,16 +174,15 @@ public class NodeClicker : MonoBehaviour
     #endregion
 
     #region Selection Helper Methods
-    private void ClickedOnDestination(RaycastHit forecastHit)
+    private void ClickedOnDestination(Node node)
     {
-        ForecastTile newTile = forecastHit.transform.GetComponent<ForecastTile>();
+        ForecastTile newTile = node.forecastTile;
 
-        Node item = newTile.node;
         Unit selected = playerTurn.GetSelected();
         Grid<Node> map = gameMaster.GetMap();
 
         List<Node> routes = Pathfinding.GetAllRoutes(map, selected);
-        if (!routes.Contains(item))
+        if (!routes.Contains(node))
         {
             Debug.Log("Out of Range");
             return;
@@ -224,11 +209,8 @@ public class NodeClicker : MonoBehaviour
         MoveSelector(node);
     }
 
-    private void ClickedOnTarget(RaycastHit forecastHit)
+    private void ClickedOnTarget(Node node)
     {
-        ForecastTile forecastTile = forecastHit.transform.GetComponent<ForecastTile>();
-        Node node = forecastTile.node;
-
         if (node.unit == null)
         {
             Debug.Log("No Unit on RaycastHit for SingleTarget Ability");
@@ -332,7 +314,7 @@ public class NodeClicker : MonoBehaviour
     }
 
     // Input Methods Used in Update()
-    private RaycastHit GetClickData(LayerMask mask)
+    private Node GetClickData(LayerMask mask)
     {
         RaycastHit hit = new RaycastHit();
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -340,12 +322,17 @@ public class NodeClicker : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit, 1000f, mask);
             if (hit.transform == null)
+            {
                 Debug.Log("No Hit on Click");
+                return null;
+            }
         }
-        return hit;
+        if (hit.transform == null)
+            return null;
+        return hit.transform.GetComponent<ForecastTile>().GetNode();
     }
 
-    private RaycastHit GetMouseHoverData(LayerMask mask)
+    private Node GetMouseHoverData(LayerMask mask)
     {
         RaycastHit hit = new RaycastHit();
         if (!EventSystem.current.IsPointerOverGameObject())
@@ -353,7 +340,9 @@ public class NodeClicker : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit, 1000f, mask);
         }
-        return hit;
+        if (hit.transform == null)
+            return null;
+        return hit.transform.GetComponent<ForecastTile>().GetNode();
     }
 
     private Node GetDirectionalNode()

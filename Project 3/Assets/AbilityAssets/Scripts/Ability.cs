@@ -5,20 +5,24 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewAbility", menuName = "Abilities/Ability")]
 public class Ability : ScriptableObject
 {
-    public enum TargetType { StandingSingleTarget, DirectedSingleTarget, StandingAoe, DirectedAoe, DirectionalAOE }
+    public enum TargetType { SingleTarget, StandingAoe, DirectedAoe, DirectionalAOE }
 
     public enum AnimationType { BasicAttack, Squat }
 
-    [Header("Attributes")]
+    [Header("AttributesTypes")]
     public TargetType targetType;
     public AnimationType animationType;
     public Weapon.DamageType damageType;
+
+    [Header("Attributes")]
     public int power;
     public int effectDuration;
     public int minRange;
     public int maxRange;
     public int aoeMinRange;
     public int aoeMaxRange;
+    public bool isUnitTarget;
+
     // public Effect effect // Buffs/Debuffs
 
     [Header("References")]
