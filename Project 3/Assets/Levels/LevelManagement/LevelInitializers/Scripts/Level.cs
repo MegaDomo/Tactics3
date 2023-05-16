@@ -8,6 +8,11 @@ public class Level
     [Header("Attributes")]
     public string name;
 
+    [Header("Enemies")]
+    public List<UnitObj> section1Enemies;
+    public List<UnitObj> section2Enemies;
+    public List<UnitObj> section3Enemies;
+
     [Header("Dialogue")]
     public bool isTherePreDialogue;
     public Dialogue preCombatDialogue;
