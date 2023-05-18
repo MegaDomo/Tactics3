@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - name: LineLevel1
-    Units: []
+    section1Enemies: []
+    section2Enemies: []
+    section3Enemies: []
     isTherePreDialogue: 1
     preCombatDialogue:
       dialogues:
@@ -72,7 +74,9 @@ MonoBehaviour:
         sentence: (Coughs up blood) We... we're just... hungry...
     map: {fileID: 560290703722878767, guid: 5d89fdc2c57a19b4cafb62620a4bebd0, type: 3}
   - name: Jungle Level
-    Units: []
+    section1Enemies: []
+    section2Enemies: []
+    section3Enemies: []
     isTherePreDialogue: 0
     preCombatDialogue:
       dialogues: []
